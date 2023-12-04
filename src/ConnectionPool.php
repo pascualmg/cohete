@@ -22,23 +22,29 @@ class ConnectionPool
         $this->connections->attach($connection);
 
         $connection->on('data', function (string $data) use ($connection) {
-            /** @var ConnectionInterface $conn */
-            foreach ($this->connections as $conn) {
-                if ($conn !== $connection) {
-                    $conn->write($data);
-                }
-            }
+            $this->sendToAll($connection, $data);
         });
 
         $connection->on('close', function () use ($connection) {
-            /** @var ConnectionInterface $otherConnection */
-            foreach ($this->connections as $otherConnection) {
-                if($otherConnection !== $connection) {
-                    $otherConnection->write('la conexion con ' . $connection->getRemoteAddress() . 'se a perdud');
-                }
-            }
+            $this->sendToAll($connection, "desconectado " . $connection->getRemoteAddress());
+
             $this->connections->detach($connection);
         });
+    }
+
+    /**
+     * @param mixed $connectionToAvoid
+     * @param string $dataToSendAllExceptMe
+     * @return void
+     */
+    function sendToAll(ConnectionInterface $connectionToAvoid, string $dataToSendAllExceptMe): void
+    {
+        /** @var ConnectionInterface $conn */
+        foreach ($this->connections as $conn) {
+            if ($conn !== $connectionToAvoid) {
+                $conn->write($dataToSendAllExceptMe);
+            }
+        }
     }
 
 
