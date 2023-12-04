@@ -16,9 +16,8 @@ $ostream = new WritableResourceStream(STDOUT, $loop);
 Observable::fromPromise((new Connector($loop))->connect('0.0.0.0:11334'))
     ->subscribe(
         function (ConnectionInterface $connection) use ($istream, $ostream){
-            echo "conectao a " . $connection->getRemoteAddress();
-            $istream->pipe($connection);
-            $connection->pipe($ostream);
+            echo "conectao a " . $connection->getRemoteAddress() . PHP_EOL;
+            $istream->pipe($connection)->pipe($ostream);
         },
         function (\Throwable $throwable) {
             var_dump($throwable->getMessage());
