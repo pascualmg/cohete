@@ -15,18 +15,32 @@ class ConnectionPool
 
     public function add(ConnectionInterface $connection): void
     {
-        if($this->connections->contains($connection)) {
+        if ($this->connections->contains($connection)) {
             return;
         }
 
         $this->connections->attach($connection);
+        $this->setConnectionName($connection, '');
+
+
+        $this->sendToAll($connection, "Incoming connection from " . $connection->getRemoteAddress());
+
+        $connection->write("Welcome to the chat maikel , Tell me your name: ");
 
         $connection->on('data', function (string $data) use ($connection) {
-            $this->sendToAll($connection, $data);
+            if ('' === $this->getConnectionName($connection)) {
+                $this->setConnectionName($connection, trim($data));
+                $connection->write("Name setted to " . $this->getConnectionName($connection));
+            } else {
+                $this->sendToAll($connection, $data);
+            }
         });
 
         $connection->on('close', function () use ($connection) {
-            $this->sendToAll($connection, "desconectado " . $connection->getRemoteAddress());
+            $this->sendToAll(
+                $connection,
+                "desconectado " . $connection->getRemoteAddress()
+            );
 
             $this->connections->detach($connection);
         });
@@ -37,14 +51,28 @@ class ConnectionPool
      * @param string $dataToSendAllExceptMe
      * @return void
      */
-    function sendToAll(ConnectionInterface $connectionToAvoid, string $dataToSendAllExceptMe): void
+    private function sendToAll(ConnectionInterface $connectionToAvoid, string $dataToSendAllExceptMe): void
     {
         /** @var ConnectionInterface $conn */
         foreach ($this->connections as $conn) {
             if ($conn !== $connectionToAvoid) {
-                $conn->write($dataToSendAllExceptMe);
+                $conn->write(
+                    $this->getConnectionName($connectionToAvoid) . ": " .
+                    $dataToSendAllExceptMe
+                );
             }
         }
+    }
+
+    private function getConnectionName(ConnectionInterface $connection): string
+    {
+        return $this->connections[$connection];
+
+    }
+
+    private function setConnectionName(ConnectionInterface $connection, string $name): void
+    {
+        $this->connections->offsetSet($connection, $name);
     }
 
 
