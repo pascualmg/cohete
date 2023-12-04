@@ -1,5 +1,5 @@
 {
-    "name": "passh/rx",
+    "name": "passh/rxphp",
     "require": {
         "reactivex/rxphp": "^2.0",
         "react/event-loop": "^1.5",
