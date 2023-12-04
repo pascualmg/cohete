@@ -1,0 +1,51 @@
+{
+    "name": "reactivex/rxphp",
+    "description": "Reactive extensions for php.",
+    "keywords": ["reactive", "extensions", "rx"],
+    "homepage": "https://github.com/ReactiveX/RxPHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Alexander",
+            "email": "iam.asm89@gmail.com"
+        },
+        {
+            "name": "David Dan",
+            "email": "davidwdan@gmail.com"
+        },
+        {
+            "name": "Matt Bonneau",
+            "email": "matt@bonneau.net"
+        }
+    ],
+    "require": {
+        "php": ">=7.0.0",
+        "react/promise": "~2.2"
+    },
+    "require-dev": {
+        "satooshi/php-coveralls": "~1.0",
+        "phpunit/phpunit": "^8.5 || ^9",
+        "react/event-loop": "^1.0 || ^0.5 || ^0.4.2"
+    },
+    "suggest": {
+        "react/event-loop": "Used for scheduling async operations"
+    },
+    "autoload": {
+        "psr-4": { "Rx\\": "src" }
+    },
+    "autoload-dev": {
+        "files": [
+            "test/helper-functions.php"
+        ],
+        "psr-4": {
+            "CustomOperatorTest\\Rx\\Operator\\": "test/CustomOperatorTest",
+            "Rx\\": "test/Rx"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    }
+}

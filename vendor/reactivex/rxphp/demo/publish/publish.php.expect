@@ -1,0 +1,8 @@
+Side effect
+SourceC Next value: 0
+SourceD Next value: 0
+Side effect
+SourceC Next value: 1
+SourceD Next value: 1
+SourceC Complete!
+SourceD Complete!
