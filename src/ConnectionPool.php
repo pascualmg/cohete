@@ -30,6 +30,7 @@ class ConnectionPool
                 $name = trim($data);
                 $this->setConnectionName($connection, $name);
                 $connection->write(sprintf("your name is %s happy chat!", $name));
+                $this->sendToAll("%s is connected to the chat", $name);
             } else {
                 $this->sendToAll(
                     $connection,

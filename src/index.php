@@ -20,15 +20,15 @@ Scheduler::setDefaultFactory(
     }
 );
 $source = Observable::fromArray([2,3,4]);
-$onNext = function ($next) {
+$onNext = function ($next): void {
     echo $next;
 };
 
-$onError = function ($error) {
+$onError = function ($error): void {
     echo $error;
 };
 
-$onCompleted = function () {
+$onCompleted = function (): void {
     echo "completed";
 };
 

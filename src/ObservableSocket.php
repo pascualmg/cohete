@@ -28,8 +28,8 @@ class ObservableSocket
                     return;
                 }
 
-                $reactSocketServer->on('connection', static function (ConnectionInterface $connection) use ($observer, $reactSocketServer) {
-                    echo sprintf("Conexion Entrante...desde " . $connection->getRemoteAddress());
+                $reactSocketServer->on('connection', static function (ConnectionInterface $connection) use ($observer) {
+                    echo "Conexion Entrante...desde " . $connection->getRemoteAddress();
                     $connection->on('data', static function ($data) use ($observer, $connection) {
                        $observer->onNext([$data, $connection]);
                     });
