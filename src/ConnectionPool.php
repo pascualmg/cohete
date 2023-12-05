@@ -20,26 +20,35 @@ class ConnectionPool
         }
 
         $this->connections->attach($connection);
-        $this->setConnectionName($connection, '');
-
 
         $this->sendToAll($connection, "Incoming connection from " . $connection->getRemoteAddress());
 
         $connection->write("Welcome to the chat maikel , Tell me your name: ");
 
         $connection->on('data', function (string $data) use ($connection) {
-            if ('' === $this->getConnectionName($connection)) {
-                $this->setConnectionName($connection, trim($data));
-                $connection->write("Name setted to " . $this->getConnectionName($connection));
+            if (null === $this->getConnectionName($connection)) {
+                $name = trim($data);
+                $this->setConnectionName($connection, $name);
+                $connection->write(sprintf("your name is %s happy chat!", $name));
             } else {
-                $this->sendToAll($connection, $data);
+                $this->sendToAll(
+                    $connection,
+                    sprintf("%s: %s",
+                        $this->getConnectionName($connection),
+                        $data
+                    )
+                );
             }
         });
 
         $connection->on('close', function () use ($connection) {
             $this->sendToAll(
                 $connection,
-                "desconectado " . $connection->getRemoteAddress()
+                sprintf(
+                    "%s has left the chat from %s",
+                    $this->getConnectionName($connection),
+                    $connection->getRemoteAddress()
+                )
             );
 
             $this->connections->detach($connection);
@@ -57,16 +66,15 @@ class ConnectionPool
         foreach ($this->connections as $conn) {
             if ($conn !== $connectionToAvoid) {
                 $conn->write(
-                    $this->getConnectionName($connectionToAvoid) . ": " .
                     $dataToSendAllExceptMe
                 );
             }
         }
     }
 
-    private function getConnectionName(ConnectionInterface $connection): string
+    private function getConnectionName(ConnectionInterface $connection): ?string
     {
-        return $this->connections[$connection];
+        return $this->connections[$connection] ?? null;
 
     }
 
