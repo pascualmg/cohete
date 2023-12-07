@@ -1,6 +1,6 @@
 <?php
 
-namespace Passh\Rx;
+namespace Passh\Rx\chat;
 
 use Colors\Color;
 use React\Socket\ConnectionInterface;

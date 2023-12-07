@@ -1,5 +1,5 @@
 <?php
-require "../vendor/autoload.php";
+require "../../vendor/autoload.php";
 
 use React\EventLoop\Loop;
 use React\Socket\ConnectionInterface;
