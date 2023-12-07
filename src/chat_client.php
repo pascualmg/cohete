@@ -8,6 +8,9 @@ use React\Stream\ReadableResourceStream;
 use React\Stream\ThroughStream;
 use React\Stream\WritableResourceStream;
 use Rx\Observable;
+use Colors\Color;
+
+$color = new Color();
 
 $loop = Loop::get();
 
@@ -18,12 +21,18 @@ $addEOL = new ThroughStream(
         return $data . PHP_EOL;
     }
 );
+$addColor = new ThroughStream(
+    function (string $data) use ($color){
+        return $color($data)->green()->bold()->bg_black;
+    }
+);
+
 
 Observable::fromPromise((new Connector($loop))->connect('0.0.0.0:11334'))
     ->subscribe(
-        function (ConnectionInterface $connection) use ($istream, $ostream, $addEOL){
+        function (ConnectionInterface $connection) use ($istream, $ostream, $addEOL, $addColor){
             echo "conectao a " . $connection->getRemoteAddress() . PHP_EOL;
-            $istream->pipe($connection)->pipe($addEOL)->pipe($ostream);
+            $istream->pipe($connection)->pipe($addEOL)->pipe($addColor)->pipe($ostream);
         },
         function (\Throwable $throwable) {
             var_dump($throwable->getMessage());
