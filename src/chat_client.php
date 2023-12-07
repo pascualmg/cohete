@@ -32,7 +32,11 @@ Observable::fromPromise((new Connector($loop))->connect('0.0.0.0:11334'))
     ->subscribe(
         function (ConnectionInterface $connection) use ($istream, $ostream, $addEOL, $addColor){
             echo "conectao a " . $connection->getRemoteAddress() . PHP_EOL;
-            $istream->pipe($connection)->pipe($addEOL)->pipe($addColor)->pipe($ostream);
+            $istream
+                ->pipe($connection)
+                ->pipe($addEOL)
+                ->pipe($addColor)
+                ->pipe($ostream);
         },
         function (\Throwable $throwable) {
             var_dump($throwable->getMessage());

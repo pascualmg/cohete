@@ -2,6 +2,7 @@
 
 namespace Passh\Rx;
 
+use Colors\Color;
 use React\Socket\ConnectionInterface;
 
 class ConnectionPool
@@ -35,7 +36,7 @@ class ConnectionPool
                 $this->sendToAll(
                     $connection,
                     sprintf("%s: %s",
-                        $this->getConnectionName($connection),
+                        (new Color($this->getConnectionName($connection)))->red(),
                         $data
                     )
                 );
