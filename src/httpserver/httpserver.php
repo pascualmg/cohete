@@ -42,22 +42,19 @@ function handle(\Psr\Http\Message\ServerRequestInterface $request): Response
     return $jsonResponse(200, $allPosts);
 }
 
-$httpServer = new HttpServer(function (\Psr\Http\Message\ServerRequestInterface $request) use ($loop) {
-    return handle($request);
-});
-
 $port8000 = new SocketServer(
     '127.0.0.1:8000',
     [],
     $loop
 );
 
+$httpServer = new HttpServer(function (\Psr\Http\Message\ServerRequestInterface $request) use ($loop) {
+    return handle($request);
+});
+$httpServer->listen($port8000);
 
 $port8000->on('connection', function (\React\Socket\ConnectionInterface $connection) {
     $connection->on('data', 'var_dump');
 });
-
-$httpServer->listen($port8000);
-
 
 $loop->run();
