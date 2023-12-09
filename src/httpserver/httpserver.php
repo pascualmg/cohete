@@ -10,8 +10,12 @@ use React\Socket\SocketServer;
 
 $loop = Loop::get();
 
-$httpServer = new HttpServer(function (\Psr\Http\Message\ServerRequestInterface $request) use ($loop) {
-
+/**
+ * @param \Psr\Http\Message\ServerRequestInterface $request
+ * @return Response
+ */
+function handle(\Psr\Http\Message\ServerRequestInterface $request): Response
+{
     $jsonResponse = function ($code, $body) {
         return new Response(
             $code,
@@ -36,7 +40,10 @@ $httpServer = new HttpServer(function (\Psr\Http\Message\ServerRequestInterface 
 
 
     return $jsonResponse(200, $allPosts);
+}
 
+$httpServer = new HttpServer(function (\Psr\Http\Message\ServerRequestInterface $request) use ($loop) {
+    return handle($request);
 });
 
 $port8000 = new SocketServer(
