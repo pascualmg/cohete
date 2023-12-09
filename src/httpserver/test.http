@@ -1,0 +1,12 @@
+
+
+POST localhost:8000
+Content-Type: application/json
+
+{
+  "id": "123",
+  "fecha": "2023-01-01 12:00:00"
+}
+
+###
+
