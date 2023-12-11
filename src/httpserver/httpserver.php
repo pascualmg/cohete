@@ -3,6 +3,7 @@
 require '../../vendor/autoload.php';
 
 use Passh\Rx\httpserver\FilePostRepository;
+use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Loop;
 use React\Http\HttpServer;
 use React\Http\Message\Response;
@@ -10,11 +11,7 @@ use React\Socket\SocketServer;
 
 $loop = Loop::get();
 
-/**
- * @param \Psr\Http\Message\ServerRequestInterface $request
- * @return Response
- */
-function handle(\Psr\Http\Message\ServerRequestInterface $request): Response
+$manejeitor = function (ServerRequestInterface $request): Response
 {
     $jsonResponse = function ($code, $body) {
         return new Response(
@@ -39,17 +36,23 @@ function handle(\Psr\Http\Message\ServerRequestInterface $request): Response
     $allPosts = $postRepository->findAll();
 
 
-    return $jsonResponse(200, $allPosts);
-}
+    return $jsonResponse(
+        200,
+        $allPosts
+    );
+};
 
 $port8000 = new SocketServer(
     '127.0.0.1:8000',
     [],
     $loop
 );
+echo "server listening on " . $port8000->getAddress();
 
-$httpServer = new HttpServer(function (\Psr\Http\Message\ServerRequestInterface $request) use ($loop) {
-    return handle($request);
+$router = new \Passh\Rx\httpserver\Router();
+$router->addRoute('GET', 'foo', $manejeitor);
+$httpServer = new HttpServer(function (ServerRequestInterface $request) use ($router) {
+    return $router->handleRequest($request);
 });
 $httpServer->listen($port8000);
 
