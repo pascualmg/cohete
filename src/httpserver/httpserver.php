@@ -3,6 +3,7 @@
 require '../../vendor/autoload.php';
 
 use Passh\Rx\httpserver\FilePostRepository;
+use Passh\Rx\httpserver\JsonRouterLoader;
 use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Loop;
 use React\Http\HttpServer;
@@ -50,11 +51,43 @@ $port8000 = new SocketServer(
 echo "server listening on " . $port8000->getAddress();
 
 $router = new \Passh\Rx\httpserver\Router();
+
+$routerLoader = new JsonRouterLoader('routes.json');
+$routerLoader->loadinto($router);
+
 $router->addRoute('GET', 'foo', $manejeitor);
-$httpServer = new HttpServer(function (ServerRequestInterface $request) use ($router) {
-    return $router->handleRequest($request);
+$echoAndModifyPathMiddleware = function (ServerRequestInterface $request, callable $next) {
+    // Imprime la ruta actual
+    echo 'Ruta actual: ' . $request->getUri()->getPath() . PHP_EOL;
+
+    // Añade "/foo" al final de la ruta
+    $newPath = $request->getUri()->getPath() . '/foo';
+    $uri = $request->getUri()->withPath($newPath);
+    $request = $request->withUri($uri);
+
+    // Pasa la solicitud modificada al siguiente middleware
+    return $next($request);
+};
+$httpServer = new HttpServer(
+    $echoAndModifyPathMiddleware,
+    function (ServerRequestInterface $request) use ($router) {
+    try {
+        return $router->handleRequest($request);
+    } catch (\Throwable $exception) {
+        return new Response(
+            500,
+            ['Content-Type' => 'application/json'],
+            json_encode(['error' => $exception->getMessage()] )
+        );
+    }
 });
 $httpServer->listen($port8000);
+$httpServer->on(
+    'error',
+    function (Throwable $error) {
+        echo 'Error: ' . $error->getMessage() . PHP_EOL;
+    }
+);
 
 $port8000->on('connection', function (\React\Socket\ConnectionInterface $connection) {
     $connection->on('data', 'var_dump');

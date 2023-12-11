@@ -1,0 +1,22 @@
+[
+  {
+    "Method": "GET",
+    "Path": "/api/foo",
+    "Handler": "manejeitor"
+  },
+  {
+    "Method": "POST",
+    "Path": "/api/endpoint2",
+    "Handler": "className2::methodName2"
+  },
+  {
+    "Method": "PUT",
+    "Path": "/api/endpoint3",
+    "Handler": "className3::methodName3"
+  },
+  {
+    "Method": "DELETE",
+    "Path": "/api/endpoint4",
+    "Handler": "className4::methodName4"
+  }
+]

@@ -18,7 +18,7 @@ class Router
 
     public function addRoute(string $method, string $route, callable $handler): void
     {
-        $this->assertHandlerReturnsResponse($handler);
+//        $this->assertHandlerReturnsResponse($handler);
 
         $this->routes[strtoupper($method)][$route] = $handler;
     }
@@ -41,7 +41,7 @@ class Router
     public function handleRequest(ServerRequestInterface $request): ResponseInterface
     {
         $method = strtoupper($request->getMethod());
-        $route = ltrim($request->getUri()->getPath(), '/');
+        $route = $request->getUri()->getPath();
 
 
         if (isset($this->routes[$method][$route])) {
