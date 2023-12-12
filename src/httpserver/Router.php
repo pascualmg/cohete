@@ -23,6 +23,11 @@ class Router
         $this->routes[strtoupper($method)][$route] = $handler;
     }
 
+    public function loadFromJson(string $jsonRoutesFilePath): void
+    {
+        JsonRouterLoader::load($jsonRoutesFilePath, $this);
+    }
+
     private function assertHandlerReturnsResponse(callable $handler): void
     {
         $reflection = is_array($handler) && count($handler) === 2

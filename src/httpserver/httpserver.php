@@ -4,6 +4,7 @@ require '../../vendor/autoload.php';
 
 use Passh\Rx\httpserver\FilePostRepository;
 use Passh\Rx\httpserver\JsonRouterLoader;
+use Passh\Rx\httpserver\Router;
 use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Loop;
 use React\Http\HttpServer;
@@ -50,12 +51,11 @@ $port8000 = new SocketServer(
 );
 echo "server listening on " . $port8000->getAddress();
 
-$router = new \Passh\Rx\httpserver\Router();
+$router = new Router();
+$router->loadFromJson('routes.json');
 
-$routerLoader = new JsonRouterLoader('routes.json');
-$routerLoader->loadinto($router);
 
-$router->addRoute('GET', 'foo', $manejeitor);
+//$router->addRoute('GET', 'foo', $manejeitor);
 $echoAndModifyPathMiddleware = function (ServerRequestInterface $request, callable $next) {
     // Imprime la ruta actual
     echo 'Ruta actual: ' . $request->getUri()->getPath() . PHP_EOL;
@@ -69,7 +69,7 @@ $echoAndModifyPathMiddleware = function (ServerRequestInterface $request, callab
     return $next($request);
 };
 $httpServer = new HttpServer(
-    $echoAndModifyPathMiddleware,
+   // $echoAndModifyPathMiddleware,
     function (ServerRequestInterface $request) use ($router) {
     try {
         return $router->handleRequest($request);

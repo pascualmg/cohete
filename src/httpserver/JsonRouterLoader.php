@@ -4,61 +4,68 @@ namespace Passh\Rx\httpserver;
 
 class JsonRouterLoader
 {
-    private array $routes = [];
-
-    public function __construct(string $jsonRoutesFilePath)
+    private function __construct()
     {
-        $this->loadRoutesFromJson($jsonRoutesFilePath);
     }
 
-    public function loadInto(Router $router): void
+    public static function load(string $jsonRoutesFilePath, Router $router)
     {
-        foreach ($this->routes as $route) {
-            $callableHandler = $this->transformHandlerToCallable($route['Handler']);
+        foreach (self::parseRoutesFromJson($jsonRoutesFilePath) as $route) {
             $router->addRoute(
                 $route['Method'],
                 $route['Path'],
-                $callableHandler
+                self::transformHandlerToCallable($route['Handler'])
             );
         }
     }
 
-    private function loadRoutesFromJson(string $jsonRoutesFilePath): void
+
+    private static function parseRoutesFromJson(string $jsonRoutesFilePath): array
     {
         if (!file_exists($jsonRoutesFilePath)) {
             throw new \RuntimeException("File {$jsonRoutesFilePath} does not exist.");
         }
-
-        $jsonContent = file_get_contents($jsonRoutesFilePath);
-        $routes = json_decode($jsonContent, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new \RuntimeException('Error decoding JSON: ' . json_last_error_msg());
+        $routes =  json_decode(
+            file_get_contents($jsonRoutesFilePath),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
+        foreach ($routes as $route) {
+            self::assertFormat($route);
         }
-
-        $this->routes = $routes;
+        return $routes;
     }
 
-    private function transformHandlerToCallable(string $handler): callable
+    private static function transformHandlerToCallable(string $handler): callable
     {
-
-        if (is_callable($handler, true)) {
-            return function (...$args) use ($handler) {
-                return call_user_func_array($handler, $args);
-            };
-        }
-
         // Assuming the handler string is a static method call in the "Class::method" format
-        list($class, $method) = explode('::', $handler);
-        if (!class_exists($class) || !method_exists($class, $method)) {
-            throw new \RuntimeException('Handler class or method does not exist');
+        [$class, $method] = explode('::', $handler);
+
+        try {
+            $instance = new $class;
+        } catch (\Throwable $e) {
+            throw new \RuntimeException('Handler class does not exist or could not be instantiated', 0, $e);
         }
-        return [$class, $method];
+
+        if (!is_callable([$instance, $method])) {
+                throw new \RuntimeException('Handler method is not callable');
+        }
+
+        return [$instance, $method];//si si , esto es una callable xD
     }
 
-    /* to get all routes */
-    public function getRoutes(): array
+
+    public static function assertFormat(array $route): void
     {
-        return $this->routes;
+        if (!isset($route['Method'], $route['Path'], $route['Handler'])) {
+            throw new \RuntimeException("Invalid JSON route format");
+        }
+
+        // Handler should be in format "Namespace\Class::method"
+        if (!preg_match('/^(\\\?[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)+::[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$/',
+            $route['Handler'])) {
+            throw new \RuntimeException("Handler '{$route['Handler']}' format is not correct");
+        }
     }
 }
