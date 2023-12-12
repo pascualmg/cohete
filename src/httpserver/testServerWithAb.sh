@@ -9,7 +9,15 @@ route="$3"
 # Check that all arguments have been provided
 if [[ -z "$server" ]] || [[ -z "$port" ]] || [[ -z "$route" ]]; then
     echo "Usage: ./run-ab.sh <server> <port> <route>"
-    exit 1
+       read -p "Would you like to use the default values (localhost 8000 /)? [Y/n] " answer
+       if [[ $answer =~ ^[Yy]$ ]] || [[ -z $answer ]]; then
+           server="localhost"
+           port="8000"
+           route="/"
+       else
+         echo "NOOP"
+         exit 1
+       fi
 fi
 
 # Execute ab with the provided server, port and route values
