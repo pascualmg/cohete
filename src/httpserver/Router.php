@@ -4,6 +4,7 @@ namespace Passh\Rx\httpserver;
 
 
 use InvalidArgumentException;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
@@ -18,7 +19,7 @@ class Router
 
     public function addRoute(string $method, string $route, callable $handler): void
     {
-//        $this->assertHandlerReturnsResponse($handler);
+        $this->assertHandlerReturnsResponse($handler);
 
         $this->routes[strtoupper($method)][$route] = $handler;
     }
@@ -30,9 +31,7 @@ class Router
 
     private function assertHandlerReturnsResponse(callable $handler): void
     {
-        $reflection = is_array($handler) && count($handler) === 2
-            ? new ReflectionMethod(...$handler)
-            : new ReflectionFunction($handler);
+        $reflection = new ReflectionMethod(...$handler);
 
         $returnType = $reflection->getReturnType();
 
@@ -40,6 +39,20 @@ class Router
             !is_a($returnType->getName(), ResponseInterface::class, true)
         ) {
             throw new InvalidArgumentException('Handler must return an instance of ' . ResponseInterface::class);
+        }
+        $params = $reflection->getParameters();
+        if (empty($params) ||
+            !$params[0]->hasType() ||
+            !$params[0]->getType() instanceof ReflectionNamedType ||
+            !is_a($params[0]->getType()->getName(), RequestInterface::class, true)
+        ) {
+            $handlerFQDN = sprintf("%s::%s", $handler[0]::class, $reflection->getName());
+            throw new InvalidArgumentException(
+                sprintf("Handler %s must accept a parameter of type %s",
+                    $handlerFQDN,
+                    RequestInterface::class
+                )
+            );
         }
     }
 

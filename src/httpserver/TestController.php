@@ -10,10 +10,11 @@ class TestController
 {
     public function __invoke(RequestInterface $request) : ResponseInterface
     {
+
         return new Response(
             200,
             ['Content-Type' => 'application/json'],
-            json_encode(['paload' => 'guay'])
+            json_encode(['paload' => (new FilePostRepository())->findAll()])
         );
     }
 

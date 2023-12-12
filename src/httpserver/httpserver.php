@@ -3,7 +3,6 @@
 require '../../vendor/autoload.php';
 
 use Passh\Rx\httpserver\FilePostRepository;
-use Passh\Rx\httpserver\JsonRouterLoader;
 use Passh\Rx\httpserver\Router;
 use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Loop;
