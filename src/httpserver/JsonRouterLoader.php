@@ -43,13 +43,13 @@ class JsonRouterLoader
         [$class, $method] = explode('::', $handler);
 
         try {
-            $instance = new $class;
+            $instance = new $class();
         } catch (\Throwable $e) {
             throw new \RuntimeException('Handler class does not exist or could not be instantiated', 0, $e);
         }
 
         if (!is_callable([$instance, $method])) {
-                throw new \RuntimeException('Handler method is not callable');
+            throw new \RuntimeException('Handler method is not callable');
         }
 
         return [$instance, $method];//si si , esto es una callable xD
@@ -63,8 +63,10 @@ class JsonRouterLoader
         }
 
         // Handler should be in format "Namespace\Class::method"
-        if (!preg_match('/^(\\\?[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)+::[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$/',
-            $route['Handler'])) {
+        if (!preg_match(
+            '/^(\\\?[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)+::[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$/',
+            $route['Handler']
+        )) {
             throw new \RuntimeException("Handler '{$route['Handler']}' format is not correct");
         }
     }

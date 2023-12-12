@@ -17,5 +17,5 @@ class FilePostRepository implements PostRepository
             },
             $rawposts
         );
-   }
+    }
 }

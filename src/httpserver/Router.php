@@ -2,7 +2,6 @@
 
 namespace Passh\Rx\httpserver;
 
-
 use InvalidArgumentException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -48,7 +47,8 @@ class Router
         ) {
             $handlerFQDN = sprintf("%s::%s", $handler[0]::class, $reflection->getName());
             throw new InvalidArgumentException(
-                sprintf("Handler %s must accept a parameter of type %s",
+                sprintf(
+                    "Handler %s must accept a parameter of type %s",
                     $handlerFQDN,
                     RequestInterface::class
                 )

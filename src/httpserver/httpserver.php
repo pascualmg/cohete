@@ -12,8 +12,7 @@ use React\Socket\SocketServer;
 
 $loop = Loop::get();
 
-$manejeitor = function (ServerRequestInterface $request): Response
-{
+$manejeitor = function (ServerRequestInterface $request): Response {
     $jsonResponse = function ($code, $body) {
         return new Response(
             $code,
@@ -68,18 +67,19 @@ $echoAndModifyPathMiddleware = function (ServerRequestInterface $request, callab
     return $next($request);
 };
 $httpServer = new HttpServer(
-   // $echoAndModifyPathMiddleware,
+    // $echoAndModifyPathMiddleware,
     function (ServerRequestInterface $request) use ($router) {
-    try {
-        return $router->handleRequest($request);
-    } catch (\Throwable $exception) {
-        return new Response(
-            500,
-            ['Content-Type' => 'application/json'],
-            json_encode(['error' => $exception->getMessage()] )
-        );
+        try {
+            return $router->handleRequest($request);
+        } catch (\Throwable $exception) {
+            return new Response(
+                500,
+                ['Content-Type' => 'application/json'],
+                json_encode(['error' => $exception->getMessage()])
+            );
+        }
     }
-});
+);
 $httpServer->listen($port8000);
 $httpServer->on(
     'error',

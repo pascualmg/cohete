@@ -2,9 +2,7 @@
 
 namespace Passh\Rx\httpserver;
 
-
 interface PostRepository
 {
-
-    public function findAll() : array;
+    public function findAll(): array;
 }

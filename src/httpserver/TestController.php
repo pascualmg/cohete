@@ -8,7 +8,7 @@ use React\Http\Message\Response;
 
 class TestController
 {
-    public function __invoke(RequestInterface $request) : ResponseInterface
+    public function __invoke(RequestInterface $request): ResponseInterface
     {
 
         return new Response(

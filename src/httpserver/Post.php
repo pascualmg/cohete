@@ -8,8 +8,7 @@ class Post
         public int       $id,
         public string    $body,
         public \DateTimeInterface $creationDate
-    )
-    {
+    ) {
     }
 
 }

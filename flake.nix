@@ -35,6 +35,7 @@
             php.packages.psalm
             pkgs.phpunit
             self'.packages.satis
+            php.packages.php-cs-fixer
           ];
         };
 
