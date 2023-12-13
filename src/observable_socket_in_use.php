@@ -8,7 +8,7 @@ ObservableSocket::of("11334")
     //->map('strtoupper')
     ->subscribe(
         function (array $next) {
-            list($data, $connection) = $next;
+            [$data, $connection] = $next;
 
             exec($data, $output, $result_code);
 
