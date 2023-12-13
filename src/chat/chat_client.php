@@ -1,6 +1,8 @@
 <?php
+
 require "../../vendor/autoload.php";
 
+use Colors\Color;
 use React\EventLoop\Loop;
 use React\Socket\ConnectionInterface;
 use React\Socket\Connector;
@@ -8,7 +10,6 @@ use React\Stream\ReadableResourceStream;
 use React\Stream\ThroughStream;
 use React\Stream\WritableResourceStream;
 use Rx\Observable;
-use Colors\Color;
 
 $color = new Color();
 
@@ -22,7 +23,7 @@ $addEOL = new ThroughStream(
     }
 );
 $addColor = new ThroughStream(
-    function (string $data) use ($color){
+    function (string $data) use ($color) {
         return $color($data)->green()->bold()->bg_black;
     }
 );
@@ -30,7 +31,7 @@ $addColor = new ThroughStream(
 
 Observable::fromPromise((new Connector($loop))->connect('0.0.0.0:11334'))
     ->subscribe(
-        function (ConnectionInterface $connection) use ($istream, $ostream, $addEOL, $addColor){
+        function (ConnectionInterface $connection) use ($istream, $ostream, $addEOL, $addColor) {
             echo "conectao a " . $connection->getRemoteAddress() . PHP_EOL;
             $istream
                 ->pipe($connection)
@@ -38,8 +39,7 @@ Observable::fromPromise((new Connector($loop))->connect('0.0.0.0:11334'))
                 ->pipe($addColor)
                 ->pipe($ostream);
         },
-        function (\Throwable $throwable) {
+        function (Throwable $throwable) {
             var_dump($throwable->getMessage());
         }
     );
-

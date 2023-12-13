@@ -6,9 +6,9 @@ use React\EventLoop\Loop;
 use React\Socket\ConnectionInterface;
 use React\Socket\SocketServer;
 use Rx\Disposable\CallbackDisposable;
-use Rx\DisposableInterface;
 use Rx\Observable;
 use Rx\ObserverInterface;
+use Throwable;
 
 class ObservableSocket
 {
@@ -21,7 +21,7 @@ class ObservableSocket
                 $reactSocketServer = null;
                 try {
                     $reactSocketServer = new SocketServer($uri, [], Loop::get());
-                } catch (\Throwable $throwable) {
+                } catch (Throwable $throwable) {
                     $observer->onError($throwable);
                 }
                 if (null === $reactSocketServer) {
@@ -31,7 +31,7 @@ class ObservableSocket
                 $reactSocketServer->on('connection', static function (ConnectionInterface $connection) use ($observer) {
                     echo "Conexion Entrante...desde " . $connection->getRemoteAddress();
                     $connection->on('data', static function ($data) use ($observer, $connection) {
-                       $observer->onNext([$data, $connection]);
+                        $observer->onNext([$data, $connection]);
                     });
 
                     $connection->on('error', function ($error) use ($observer) {
@@ -46,9 +46,7 @@ class ObservableSocket
                         $connection->close();
                     });
                 });
-
             }
-
         );
     }
 

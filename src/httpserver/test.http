@@ -1,6 +1,4 @@
-
-
-POST localhost:8000
+POST localhost:8000/foo
 Content-Type: application/json
 
 {

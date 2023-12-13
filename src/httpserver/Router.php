@@ -7,7 +7,6 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
-use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionNamedType;
 use RuntimeException;
@@ -21,11 +20,6 @@ class Router
         $this->assertHandlerReturnsResponse($handler);
 
         $this->routes[strtoupper($method)][$route] = $handler;
-    }
-
-    public function loadFromJson(string $jsonRoutesFilePath): void
-    {
-        JsonRouterLoader::load($jsonRoutesFilePath, $this);
     }
 
     private function assertHandlerReturnsResponse(callable $handler): void
@@ -54,6 +48,11 @@ class Router
                 )
             );
         }
+    }
+
+    public function loadFromJson(string $jsonRoutesFilePath): void
+    {
+        JsonRouterLoader::load($jsonRoutesFilePath, $this);
     }
 
     public function handleRequest(ServerRequestInterface $request): ResponseInterface

@@ -4,7 +4,6 @@ require "../vendor/autoload.php";
 
 use Passh\Rx\ObservableSocket;
 
-
 ObservableSocket::of("11334")
     //->map('strtoupper')
     ->subscribe(
@@ -18,7 +17,7 @@ ObservableSocket::of("11334")
             );
 
             foreach ($output as $line) {
-               $connection->write($line . PHP_EOL);
+                $connection->write($line . PHP_EOL);
             }
         },
         static function (Throwable $throwable) {
@@ -27,11 +26,10 @@ ObservableSocket::of("11334")
             }
 
             if ($throwable::class === 'InvalidArgumentException') {
-                echo "algun argumento es invalido" ;
+                echo "algun argumento es invalido";
             }
         },
-        static  function () {
+        static function () {
             echo "fin serafin";
         }
     );
-

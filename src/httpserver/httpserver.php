@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Loop;
 use React\Http\HttpServer;
 use React\Http\Message\Response;
+use React\Socket\ConnectionInterface;
 use React\Socket\SocketServer;
 
 $loop = Loop::get();
@@ -71,7 +72,7 @@ $httpServer = new HttpServer(
     function (ServerRequestInterface $request) use ($router) {
         try {
             return $router->handleRequest($request);
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             return new Response(
                 500,
                 ['Content-Type' => 'application/json'],
@@ -88,7 +89,7 @@ $httpServer->on(
     }
 );
 
-$port8000->on('connection', function (\React\Socket\ConnectionInterface $connection) {
+$port8000->on('connection', function (ConnectionInterface $connection) {
     $connection->on('data', 'var_dump');
 });
 

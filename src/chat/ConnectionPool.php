@@ -4,14 +4,15 @@ namespace Passh\Rx\chat;
 
 use Colors\Color;
 use React\Socket\ConnectionInterface;
+use SplObjectStorage;
 
 class ConnectionPool
 {
-    protected \SplObjectStorage $connections;
+    protected SplObjectStorage $connections;
 
     public function __construct()
     {
-        $this->connections = new \SplObjectStorage();
+        $this->connections = new SplObjectStorage();
     }
 
     public function add(ConnectionInterface $connection): void
@@ -35,7 +36,8 @@ class ConnectionPool
             } else {
                 $this->sendToAll(
                     $connection,
-                    sprintf("%s: %s",
+                    sprintf(
+                        "%s: %s",
                         (new Color($this->getConnectionName($connection)))->red(),
                         $data
                     )
@@ -77,7 +79,6 @@ class ConnectionPool
     private function getConnectionName(ConnectionInterface $connection): ?string
     {
         return $this->connections[$connection] ?? null;
-
     }
 
     private function setConnectionName(ConnectionInterface $connection, string $name): void

@@ -2,6 +2,8 @@
 
 namespace Passh\Rx\httpserver;
 
+use DateTimeImmutable;
+
 class FilePostRepository implements PostRepository
 {
     public function findAll(): array
@@ -12,7 +14,7 @@ class FilePostRepository implements PostRepository
                 return new Post(
                     $rawPost['id'],
                     $rawPost['body'],
-                    new \DateTimeImmutable($rawPost['creation_date']),
+                    new DateTimeImmutable($rawPost['creation_date']),
                 );
             },
             $rawposts

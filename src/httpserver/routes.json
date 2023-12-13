@@ -3,5 +3,10 @@
     "Method": "GET",
     "Path": "/foo",
     "Handler": "Passh\\Rx\\httpserver\\TestController::__invoke"
+  },
+  {
+    "Method": "POST",
+    "Path": "/foo",
+    "Handler": "Passh\\Rx\\httpserver\\TestController::__invoke"
   }
 ]
