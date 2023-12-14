@@ -4,4 +4,7 @@ run:
 watch:
 	./src/scripts/watch.sh
 
-.PHONY: run watch
+install-nix: #if you dont have yet :)
+	curl -L https://nixos.org/nix/install | sh -s -- --daemon
+
+.PHONY: run watch install-nix
