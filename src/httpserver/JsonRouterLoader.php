@@ -67,7 +67,7 @@ class JsonRouterLoader
         }
 
         if (!is_callable([$instance, $method])) {
-            throw new RuntimeException('Handler method is not callable');
+            throw new RuntimeException(sprintf("your routing json file is pointing to non callable %s::%s\n", $instance::class, $method));
         }
 
         return [$instance, $method];//si si , esto es una callable xD

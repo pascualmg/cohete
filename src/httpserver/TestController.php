@@ -4,12 +4,16 @@ namespace Passh\Rx\httpserver;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use React\Http\Message\Response;
 
-class TestController
+class TestController implements RequestHandlerInterface
 {
-    public function __invoke(RequestInterface $request): ResponseInterface
+    public function handle(RequestInterface $request): ResponseInterface
     {
+        if($request->getMethod() === 'GET') {
+            return new Response();
+        }
         [$id, $fecha] = array_values(
             json_decode($request->getBody()->getContents(), true, 2, JSON_THROW_ON_ERROR)
         );
@@ -20,5 +24,4 @@ class TestController
             json_encode(['paload' => (new FilePostRepository())->findAll()], JSON_THROW_ON_ERROR)
         );
     }
-
 }

@@ -2,11 +2,11 @@
   {
     "Method": "GET",
     "Path": "/foo",
-    "Handler": "Passh\\Rx\\httpserver\\TestController::__invoke"
+    "Handler": "Passh\\Rx\\httpserver\\TestController::handle"
   },
   {
     "Method": "POST",
     "Path": "/foo",
-    "Handler": "Passh\\Rx\\httpserver\\TestController::__invoke"
+    "Handler": "Passh\\Rx\\httpserver\\TestController::handle"
   }
 ]
