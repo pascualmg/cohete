@@ -48,7 +48,7 @@ class JsonRouterLoader
 
         // Handler should be in format "Namespace\Class::method"
         if (!preg_match(
-            '/^(\\\?[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)+::[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$/',
+            '/^(\\\?[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*)+::[a-zA-Z_\x80-\xff][a-zA-Z0-9_\x80-\xff]*$/i',
             $route['Handler']
         )) {
             throw new RuntimeException("Handler '{$route['Handler']}' format is not correct");

@@ -14,7 +14,7 @@ use Throwable;
 
 class ReactHttpServer
 {
-    public static function init(LoopInterface $loop): void
+    public static function init(LoopInterface $loop, ?string $jsonRoutesPath): void
     {
         $port8000 = new SocketServer(
             '127.0.0.1:8000',
@@ -24,7 +24,9 @@ class ReactHttpServer
 
 
         $router = new Router();
-        $router->loadFromJson("./routes.json");
+        if(null !== $jsonRoutesPath) {
+            $router->loadFromJson($jsonRoutesPath);
+        }
 
         $clientIPMiddleware = new PSR15Middleware(
             (new ClientIp())

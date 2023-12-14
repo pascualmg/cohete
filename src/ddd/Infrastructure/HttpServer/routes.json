@@ -2,11 +2,11 @@
   {
     "Method": "GET",
     "Path": "/foo",
-    "Handler": "namespace Pascualmg\\Rx\\ddd\\Infrastructure\\HttpServer\\TestController::handle"
+    "Handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\TestController::handle"
   },
   {
     "Method": "POST",
     "Path": "/foo",
-    "Handler": "namespace Pascualmg\\Rx\\ddd\\Infrastructure\\HttpServer\\TestController::handle"
+    "Handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\TestController::handle"
   }
 ]

@@ -1,4 +1,7 @@
 run:
 	php "src/bootstrap.php"
 
-.PHONY: all test run clean help
+watch:
+	./src/scripts/watch.sh
+
+.PHONY: run watch
