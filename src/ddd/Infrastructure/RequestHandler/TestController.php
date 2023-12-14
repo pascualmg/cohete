@@ -3,14 +3,14 @@
 namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
 
 use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\FilePostRepository;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use React\Http\Message\Response;
 
 class TestController implements RequestHandlerInterface
 {
-    public function handle(RequestInterface $request): ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         if($request->getMethod() === 'GET') {
             return new Response(
