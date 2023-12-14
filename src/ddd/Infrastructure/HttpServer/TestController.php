@@ -1,7 +1,8 @@
 <?php
 
-namespace Passh\Rx\httpserver;
+namespace Pascualmg\Rx\ddd\Infrastructure\HttpServer;
 
+use Pascualmg\Rx\ddd\Infrastructure\HttpServer\PostRepository\FilePostRepository;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;

@@ -1,5 +1,5 @@
 {
-    "name": "passh/rxphp",
+    "name": "pascualmg/rxphp",
     "require": {
         "reactivex/rxphp": "^2.0",
         "react/event-loop": "^1.5",
@@ -9,12 +9,13 @@
         "middlewares/client-ip": "^2.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^10.4",
+      "roave/security-advisories": "dev-latest" ,
+      "phpunit/phpunit": "^10.4",
         "ext-xdebug": "*"
     },
     "autoload": {
         "psr-4": {
-            "Passh\\Rx\\": "src/"
+            "Pascualmg\\Rx\\": "src/"
         }
     },
     "authors": [

@@ -1,6 +1,6 @@
 <?php
 
-namespace Passh\Rx\httpserver;
+namespace Pascualmg\Rx\ddd\Domain\Entity;
 
 use DateTimeInterface;
 

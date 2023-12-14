@@ -1,8 +1,9 @@
 <?php
 
-namespace Passh\Rx\httpserver;
+namespace Pascualmg\Rx\ddd\Infrastructure\Repository\Post;
 
 use DateTimeImmutable;
+use Pascualmg\Rx\ddd\Infrastructure\HttpServer\PostRepository;
 
 class FilePostRepository implements PostRepository
 {

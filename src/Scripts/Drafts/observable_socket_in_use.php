@@ -2,7 +2,7 @@
 
 require "../vendor/autoload.php";
 
-use Passh\Rx\Drafts\ObservableSocket;
+use Pascualmg\Rx\Drafts\ObservableSocket;
 
 ObservableSocket::of("11334")
     //->map('strtoupper')
