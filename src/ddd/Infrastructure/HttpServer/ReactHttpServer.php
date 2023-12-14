@@ -16,13 +16,11 @@ class ReactHttpServer
 {
     public static function init(LoopInterface $loop): void
     {
-
         $port8000 = new SocketServer(
             '127.0.0.1:8000',
             [],
             $loop
         );
-        echo "server listening on " . $port8000->getAddress();
 
 
         $router = new Router();
@@ -57,7 +55,10 @@ class ReactHttpServer
                 }
             }
         );
+
         $httpServer->listen($port8000);
+        echo "server listening on " . $port8000->getAddress();
+
         $httpServer->on(
             'error',
             function (Throwable $error) {
@@ -68,6 +69,5 @@ class ReactHttpServer
         $port8000->on('connection', function (ConnectionInterface $connection) {
             $connection->on('data', 'var_dump');
         });
-
     }
 }

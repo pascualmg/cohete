@@ -3,7 +3,7 @@
 namespace Pascualmg\Rx\ddd\Infrastructure\Repository\Post;
 
 use DateTimeImmutable;
-use Pascualmg\Rx\ddd\Infrastructure\HttpServer\PostRepository;
+use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
 
 class FilePostRepository implements PostRepository
 {

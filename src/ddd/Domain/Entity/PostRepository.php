@@ -1,6 +1,6 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Infrastructure\HttpServer;
+namespace Pascualmg\Rx\ddd\Domain\Entity;
 
 interface PostRepository
 {
