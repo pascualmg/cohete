@@ -12,7 +12,11 @@ class TestController implements RequestHandlerInterface
     public function handle(RequestInterface $request): ResponseInterface
     {
         if($request->getMethod() === 'GET') {
-            return new Response();
+            return new Response(
+                200,
+                ['Content-Type' => 'application/json'],
+                json_encode(['client_ip' => $request->getAttribute('client-ip')], JSON_THROW_ON_ERROR)
+            );
         }
         [$id, $fecha] = array_values(
             json_decode($request->getBody()->getContents(), true, 2, JSON_THROW_ON_ERROR)

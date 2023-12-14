@@ -5,7 +5,8 @@
         "react/event-loop": "^1.5",
         "react/http": "^1.9",
         "kevinlebrun/colors.php": "^1.0",
-        "for/http-middleware-psr15-adapter": "^2.0"
+        "for/http-middleware-psr15-adapter": "^2.0",
+        "middlewares/client-ip": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^10.4",

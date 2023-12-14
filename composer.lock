@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b8f5b83a1849a45f93423e019fa65993",
+    "content-hash": "b3da43bc0946d9857cebf66f920caeff",
     "packages": [
         {
             "name": "evenement/evenement",
@@ -210,6 +210,59 @@
                 "source": "https://github.com/kevinlebrun/colors.php/tree/master"
             },
             "time": "2018-05-30T08:34:23+00:00"
+        },
+        {
+            "name": "middlewares/client-ip",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/middlewares/client-ip.git",
+                "reference": "466c38388a5efa65f5da4d897adfeb09a4fb44cd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/middlewares/client-ip/zipball/466c38388a5efa65f5da4d897adfeb09a4fb44cd",
+                "reference": "466c38388a5efa65f5da4d897adfeb09a4fb44cd",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0",
+                "psr/http-server-middleware": "^1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.0",
+                "laminas/laminas-diactoros": "^2.2",
+                "middlewares/utils": "^3.1",
+                "oscarotero/php-cs-fixer-config": "^1.0",
+                "phpstan/phpstan": "^0.12",
+                "phpunit/phpunit": "^8|^9",
+                "squizlabs/php_codesniffer": "^3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Middlewares\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Middleware to detect the client ip and save it as a request attribute",
+            "homepage": "https://github.com/middlewares/client-ip",
+            "keywords": [
+                "IP",
+                "http",
+                "middleware",
+                "psr-15",
+                "psr-7",
+                "server"
+            ],
+            "support": {
+                "issues": "https://github.com/middlewares/client-ip/issues",
+                "source": "https://github.com/middlewares/client-ip/tree/v2.0.1"
+            },
+            "time": "2020-12-02T00:05:31+00:00"
         },
         {
             "name": "psr/http-message",

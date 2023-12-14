@@ -1,7 +1,8 @@
 <?php
 
-require '../../vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 
+use Middlewares\ClientIp;
 use Passh\Rx\httpserver\Router;
 use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Loop;
@@ -9,6 +10,7 @@ use React\Http\HttpServer;
 use React\Http\Message\Response;
 use React\Socket\ConnectionInterface;
 use React\Socket\SocketServer;
+use FriendsOfReact\Http\Middleware\Psr15Adapter\PSR15Middleware;
 
 $loop = Loop::get();
 
@@ -22,19 +24,23 @@ echo "server listening on " . $port8000->getAddress();
 $router = new Router();
 $router->loadFromJson('routes.json');
 
+$clientIPMiddleware = new PSR15Middleware(
+    (new ClientIp())
+);
 
 function toJson(Throwable $exception): string
 {
-        return json_encode([
-            'name' => $exception::class,
-            'message' => $exception->getMessage(),
-            'file' => $exception->getFile(),
-            'line' => $exception->getLine(),
-            'trace' => array_map('json_encode', $exception->getTrace())
-        ], JSON_THROW_ON_ERROR);
+    return json_encode([
+        'name' => $exception::class,
+        'message' => $exception->getMessage(),
+        'file' => $exception->getFile(),
+        'line' => $exception->getLine(),
+        'trace' => array_map('json_encode', $exception->getTrace())
+    ], JSON_THROW_ON_ERROR);
 }
 
 $httpServer = new HttpServer(
+    $clientIPMiddleware,
     function (ServerRequestInterface $request) use ($router) {
         try {
             return $router->handleRequest($request);
