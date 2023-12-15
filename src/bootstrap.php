@@ -9,7 +9,3 @@ ReactHttpServer::init(
     $loop,
     __DIR__ . '/ddd/Infrastructure/HttpServer/routes.json'
 );
-
-$repo = new \Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository();
-$repo->findAll();
-$loop->run();
