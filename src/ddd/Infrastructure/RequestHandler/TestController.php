@@ -8,7 +8,7 @@ use React\Http\Message\Response;
 use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
 
-class TestController
+class TestController implements Handler
 {
     public function handle(ServerRequestInterface $request): PromiseInterface
     {

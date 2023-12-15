@@ -8,5 +8,10 @@
     "Method": "POST",
     "Path": "/foo",
     "Handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\TestController::handle"
+  },
+  {
+    "Method": "GET",
+    "Path": "/echo",
+    "Handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\EchoController::handle"
   }
 ]

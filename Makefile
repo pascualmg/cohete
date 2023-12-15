@@ -10,4 +10,7 @@ install-nix: #if you dont have yet :)
 run-prod:
 	nix develop .#devShells.x86_64-linux.prodShell
 
-.PHONY: run watch install-nix run-prod
+fix:
+	php-cs-fixer fix ./src
+
+.PHONY: run watch install-nix run-prod fix

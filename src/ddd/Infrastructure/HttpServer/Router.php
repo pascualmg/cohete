@@ -3,8 +3,6 @@
 namespace Pascualmg\Rx\ddd\Infrastructure\HttpServer;
 
 use InvalidArgumentException;
-use PHPUnit\Framework\ProcessIsolationException;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
@@ -12,7 +10,7 @@ use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
 use ReflectionMethod;
 use ReflectionNamedType;
-use RuntimeException;
+use Rx\React\Promise;
 
 class Router
 {
@@ -31,35 +29,60 @@ class Router
 
         $returnType = $reflection->getReturnType();
 
-        if (!$returnType instanceof ReflectionNamedType ||
-            !is_a($returnType->getName(), PromiseInterface::class, true)
-        ) {
-            throw new InvalidArgumentException('Handler must return an instance of ' . PromiseInterface::class);
+        //this is for the handler tha implement the interface with two return types.
+        $isPromiseOrResponse = false;
+        if ($returnType instanceof \ReflectionUnionType) {
+            $returnedTypes = $returnType->getTypes();
+            $nameOfTheTypes = array_map(static fn (ReflectionNamedType $type) => $type->getName(), $returnedTypes);
+            $isPromiseOrResponse = array_reduce(
+                $nameOfTheTypes,
+                static fn ($acc, $curr) => ($acc ||
+                        is_a($curr, PromiseInterface::class, true)) ||
+                    is_a($curr, ResponseInterface::class, true),
+                false
+            );
         }
+        if (!$isPromiseOrResponse
+            && (!$returnType instanceof ReflectionNamedType
+                || (!is_a($returnType->getName(), PromiseInterface::class, true)
+                    && !is_a($returnType->getName(), ResponseInterface::class, true)))) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Handler must return an instance of %s or %s, but this handler returns %s",
+                    PromiseInterface::class,
+                    ResponseInterface::class,
+                    $returnType->getName()
+                )
+            );
+        }
+
+
         $params = $reflection->getParameters();
         if (empty($params) ||
             !$params[0]->hasType() ||
             !$params[0]->getType() instanceof ReflectionNamedType ||
-            !is_a($params[0]->getType()->getName(), RequestInterface::class, true)
+            !is_a($params[0]->getType()->getName(), ServerRequestInterface::class, true)
         ) {
             $handlerFQDN = sprintf("%s::%s", $handler[0]::class, $reflection->getName());
             throw new InvalidArgumentException(
                 sprintf(
                     "Handler %s must accept a parameter of type %s",
                     $handlerFQDN,
-                    RequestInterface::class
+                    ServerRequestInterface::class
                 )
             );
         }
     }
 
-    public function loadFromJson(string $jsonRoutesFilePath): void
-    {
+    public function loadFromJson(
+        string $jsonRoutesFilePath
+    ): void {
         JsonRouterLoader::load($jsonRoutesFilePath, $this);
     }
 
-    public function handleRequest(ServerRequestInterface $request): PromiseInterface
-    {
+    public function handleRequest(
+        ServerRequestInterface $request
+    ): PromiseInterface {
         $deferred = new Deferred();
 
         $method = strtoupper($request->getMethod());
@@ -70,9 +93,8 @@ class Router
             $handler = $this->routes[$method][$route];
             $response = $handler($request);
             if (!$response instanceof PromiseInterface) {
-                $deferred->reject(
-                    new RuntimeException('Handler must return an instance of PromiseInterface.')
-                );
+                $wrappedResponse = Promise::resolved($response);
+                $deferred->resolve($wrappedResponse);
             }
             $deferred->resolve($response);
         }
