@@ -92,10 +92,12 @@ class Router
         if (isset($this->routes[$method][$route])) {
             $handler = $this->routes[$method][$route];
             $response = $handler($request);
+
             if (!$response instanceof PromiseInterface) {
                 $wrappedResponse = Promise::resolved($response);
                 $deferred->resolve($wrappedResponse);
             }
+
             $deferred->resolve($response);
         }
 
