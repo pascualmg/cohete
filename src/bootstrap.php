@@ -9,3 +9,5 @@ ReactHttpServer::init(
     $loop,
     __DIR__ . '/ddd/Infrastructure/HttpServer/routes.json'
 );
+
+$loop->run();
