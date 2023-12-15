@@ -3,10 +3,13 @@
 namespace Pascualmg\Rx\ddd\Infrastructure\HttpServer;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\ProcessIsolationException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
+use React\Promise\Deferred;
+use React\Promise\PromiseInterface;
 use ReflectionMethod;
 use ReflectionNamedType;
 use RuntimeException;
@@ -29,9 +32,9 @@ class Router
         $returnType = $reflection->getReturnType();
 
         if (!$returnType instanceof ReflectionNamedType ||
-            !is_a($returnType->getName(), ResponseInterface::class, true)
+            !is_a($returnType->getName(), PromiseInterface::class, true)
         ) {
-            throw new InvalidArgumentException('Handler must return an instance of ' . ResponseInterface::class);
+            throw new InvalidArgumentException('Handler must return an instance of ' . PromiseInterface::class);
         }
         $params = $reflection->getParameters();
         if (empty($params) ||
@@ -55,8 +58,10 @@ class Router
         JsonRouterLoader::load($jsonRoutesFilePath, $this);
     }
 
-    public function handleRequest(ServerRequestInterface $request): ResponseInterface
+    public function handleRequest(ServerRequestInterface $request): PromiseInterface
     {
+        $deferred = new Deferred();
+
         $method = strtoupper($request->getMethod());
         $route = $request->getUri()->getPath();
 
@@ -64,12 +69,17 @@ class Router
         if (isset($this->routes[$method][$route])) {
             $handler = $this->routes[$method][$route];
             $response = $handler($request);
-            if (!$response instanceof ResponseInterface) {
-                throw new RuntimeException('Handler must return an instance of ResponseInterface.');
+            if (!$response instanceof PromiseInterface) {
+                $deferred->reject(
+                    new RuntimeException('Handler must return an instance of PromiseInterface.')
+                );
             }
-            return $response;
+            $deferred->resolve($response);
         }
 
-        return new Response(404, ['Content-Type' => 'text/plain'], 'Route not found');
+        $deferred->resolve(
+            new Response(404, ['Content-Type' => 'text/plain'], 'Route not found')
+        );
+        return $deferred->promise();
     }
 }

@@ -4,6 +4,7 @@ namespace Pascualmg\Rx\ddd\Infrastructure\HttpServer;
 
 use FriendsOfReact\Http\Middleware\Psr15Adapter\PSR15Middleware;
 use Middlewares\ClientIp;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;
@@ -47,10 +48,22 @@ class ReactHttpServer
             $clientIPMiddleware,
             function (ServerRequestInterface $request) use ($router) {
                 try {
-                    return $router->handleRequest($request);
+                    return $router->handleRequest($request)
+                        ->then(function (ResponseInterface $response) {
+                            return $response;
+                        })
+                        ->catch(function (Throwable $exception) {
+                            return new Response(
+                                409,
+                                ['Content-Type' => 'application/json'],
+                                toJson($exception)
+                            );
+                        });
                 } catch (Throwable $exception) {
+                    // Capture only router configuration errors &
+                    // other exceptions not related to request handling
                     return new Response(
-                        409,
+                        500,
                         ['Content-Type' => 'application/json'],
                         toJson($exception)
                     );
