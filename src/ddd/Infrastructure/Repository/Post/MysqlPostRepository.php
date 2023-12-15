@@ -11,8 +11,6 @@ use React\Promise\PromiseInterface;
 
 class MysqlPostRepository implements PostRepository
 {
-
-
     private MysqlClient $mysqlClient;
 
     public function __construct()
@@ -31,13 +29,14 @@ class MysqlPostRepository implements PostRepository
                 echo count($command->resultRows) . ' row(s) in set' . PHP_EOL;
                 $defered->resolve(
                     array_map(
-                        fn ($resultRow) => new Post(
+                        static fn ($resultRow) => new Post(
                             $resultRow['id'],
                             $resultRow['title'] . $resultRow['content'],
-                           new \DateTimeImmutable($resultRow['created_at'])
+                            new \DateTimeImmutable($resultRow['created_at'])
                         ),
-                        $command->resultRows)
-                    );
+                        $command->resultRows
+                    )
+                );
             },
             function (\Throwable $error) {
                 echo 'Error: ' . $error->getMessage() . PHP_EOL;

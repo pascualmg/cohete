@@ -29,7 +29,7 @@ class FilePostRepository implements PostRepository
         );
         $deferred->resolve(
             array_map(
-                static fn(array $rawPost) => new Post(
+                static fn (array $rawPost) => new Post(
                     $rawPost['id'],
                     $rawPost['body'],
                     new DateTimeImmutable($rawPost['creation_date']),
