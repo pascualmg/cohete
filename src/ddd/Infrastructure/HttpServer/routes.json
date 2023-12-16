@@ -12,6 +12,6 @@
   {
     "Method": "GET",
     "Path": "/echo",
-    "Handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\EchoController::handle"
+    "Handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\EchoRequestHandler::handle"
   }
 ]

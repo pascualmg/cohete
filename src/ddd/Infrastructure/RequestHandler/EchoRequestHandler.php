@@ -4,12 +4,11 @@ namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use React\Promise\PromiseInterface;
 use RingCentral\Psr7\Response;
 
 class EchoRequestHandler implements Handler
 {
-    public function handle(ServerRequestInterface $request): ResponseInterface|PromiseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         return new Response(
             200,
