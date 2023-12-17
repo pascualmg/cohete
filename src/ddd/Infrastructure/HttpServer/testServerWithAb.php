@@ -3,7 +3,8 @@
 
 <?php
 
-function prompt($message) {
+function prompt($message)
+{
     echo "$message ";
     return trim(fgets(STDIN));
 }
