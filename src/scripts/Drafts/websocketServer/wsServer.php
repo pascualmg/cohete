@@ -6,27 +6,29 @@ error_reporting(E_ALL);
 require "../../../../vendor/autoload.php";
 
 use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
+use Ratchet\ConnectionInterface;
+use Ratchet\MessageComponentInterface;
 use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
 
-$messageComponent = new class () implements \Ratchet\MessageComponentInterface {
-    public function onOpen(\Ratchet\ConnectionInterface $conn)
+$messageComponent = new class () implements MessageComponentInterface {
+    public function onOpen(ConnectionInterface $conn)
     {
         var_dump('open');
     }
 
-    public function onClose(\Ratchet\ConnectionInterface $conn)
+    public function onClose(ConnectionInterface $conn)
     {
 
         var_dump('close');
     }
 
-    public function onError(\Ratchet\ConnectionInterface $conn, \Exception $e)
+    public function onError(ConnectionInterface $conn, \Exception $e)
     {
         var_dump($e);
     }
 
-    public function onMessage(\Ratchet\ConnectionInterface $from, $msg)
+    public function onMessage(ConnectionInterface $from, $msg)
     {
         (new MysqlPostRepository())->findAll()->then(
             function ($result) use ($from) {
