@@ -7,7 +7,8 @@
         "kevinlebrun/colors.php": "^1.0",
         "for/http-middleware-psr15-adapter": "^2.0",
         "middlewares/client-ip": "^2.0",
-        "react/mysql": "^0.7@dev"
+        "react/mysql": "^0.7@dev",
+        "cboden/ratchet": "^0.4.4"
     },
     "require-dev": {
       "roave/security-advisories": "dev-latest" ,
