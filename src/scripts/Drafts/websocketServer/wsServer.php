@@ -8,7 +8,6 @@ require "../../../../vendor/autoload.php";
 use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
 use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
-use React\Mysql\MysqlResult;
 
 $messageComponent = new class () implements \Ratchet\MessageComponentInterface {
     public function onOpen(\Ratchet\ConnectionInterface $conn)
