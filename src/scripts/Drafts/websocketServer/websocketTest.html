@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>websocket chat </title>
+    <style>
+        #messageInput {
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+<div id="chatbox"></div>
+<div id="userInputSection">
+    <label for="messageInput"></label><input id="messageInput" type="text" placeholder="Write a message">
+    <button id="sendButton">Send</button>
+</div>
+
+<script lang="javascript">
+    document.addEventListener('DOMContentLoaded', () => {
+        const chatbox = document.querySelector('#chatbox');
+        const messageInput = document.querySelector('#messageInput');
+        const sendButton = document.querySelector('#sendButton');
+
+        // Replace with your server's WebSocket URL
+        const websocket = new WebSocket('ws://localhost:8001');
+
+        websocket.onopen = () => {
+            console.log('WebSocket Client Connected');
+        };
+
+        websocket.onmessage = (message) => {
+            const div = document.createElement('div');
+            div.textContent = message.data;
+            chatbox.appendChild(div);
+        };
+
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message !== "") {
+                websocket.send(message);
+                messageInput.value = '';
+            }
+        });
+    });
+</script>
+</body>
+</html>
