@@ -24,8 +24,6 @@ class MysqlPostRepository implements PostRepository
 
         $this->mysqlClient->query('SELECT * FROM post')->then(
             function (MysqlResult $command) use ($defered) {
-                print_r($command->resultFields);
-                print_r($command->resultRows);
                 echo count($command->resultRows) . ' row(s) in set' . PHP_EOL;
                 $defered->resolve(
                     array_map(
