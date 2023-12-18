@@ -25,24 +25,13 @@ class ReactHttpServer
 
 
         $router = new Router();
-        if(null !== $jsonRoutesPath) {
+        if (null !== $jsonRoutesPath) {
             $router->loadFromJson($jsonRoutesPath);
         }
 
         $clientIPMiddleware = new PSR15Middleware(
             (new ClientIp())
         );
-
-        function toJson(Throwable $exception): string
-        {
-            return json_encode([
-                'name' => $exception::class,
-                'message' => $exception->getMessage(),
-                'file' => $exception->getFile(),
-                'line' => $exception->getLine(),
-                'trace' => array_map('json_encode', $exception->getTrace())
-            ], JSON_THROW_ON_ERROR);
-        }
 
         $httpServer = new HttpServer(
             $clientIPMiddleware,
@@ -62,6 +51,17 @@ class ReactHttpServer
                 } catch (Throwable $exception) {
                     // Capture only router configuration errors &
                     // other exceptions not related to request handling
+                    function toJson(Throwable $exception): string
+                    {
+                        return json_encode([
+                            'name' => $exception::class,
+                            'message' => $exception->getMessage(),
+                            'file' => $exception->getFile(),
+                            'line' => $exception->getLine(),
+                            'trace' => array_map('json_encode', $exception->getTrace())
+                        ], JSON_THROW_ON_ERROR);
+                    }
+
                     return new Response(
                         500,
                         ['Content-Type' => 'application/json'],
