@@ -13,5 +13,10 @@
     "Method": "GET",
     "Path": "/echo",
     "Handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\EchoRequestHandler::handle"
+  },
+  {
+    "Method": "GET",
+    "Path": "/websocket",
+    "Handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\HtmlRequestHandler::handle"
   }
 ]
