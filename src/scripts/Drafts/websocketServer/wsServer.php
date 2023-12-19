@@ -12,7 +12,7 @@ use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
 use React\EventLoop\Loop;
 
-$messageComponent = new class() implements MessageComponentInterface {
+$messageComponent = new class () implements MessageComponentInterface {
     public function onOpen(ConnectionInterface $conn): void
     {
         echo 'conexion entrante';

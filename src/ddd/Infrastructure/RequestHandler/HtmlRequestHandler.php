@@ -12,7 +12,6 @@ use React\Stream\ThroughStream;
 
 class HtmlRequestHandler implements Handler
 {
-
     public function handle(ServerRequestInterface $_): ResponseInterface|PromiseInterface
     {
         $foo = new ThroughStream('strtoupper');
