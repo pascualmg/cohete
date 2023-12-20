@@ -80,30 +80,5 @@ class Router
         JsonRouterLoader::load($jsonRoutesFilePath, $this);
     }
 
-    public function handleRequest(
-        ServerRequestInterface $request
-    ): PromiseInterface {
-        $deferred = new Deferred();
 
-        $method = strtoupper($request->getMethod());
-        $route = $request->getUri()->getPath();
-
-
-        if (isset($this->routes[$method][$route])) {
-            $handler = $this->routes[$method][$route];
-            $response = $handler($request);
-
-            if (!$response instanceof PromiseInterface) {
-                $wrappedResponse = Promise::resolved($response);
-                $deferred->resolve($wrappedResponse);
-            }
-
-            $deferred->resolve($response);
-        }
-
-        $deferred->resolve(
-            new Response(404, ['Content-Type' => 'text/plain'], 'Route not found')
-        );
-        return $deferred->promise();
-    }
 }

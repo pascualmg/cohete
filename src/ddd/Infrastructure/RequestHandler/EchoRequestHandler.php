@@ -2,17 +2,30 @@
 
 namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
 
+use Pascualmg\Rx\ddd\Domain\Bus\Bus;
 use Pascualmg\Rx\ddd\Domain\Bus\Event;
-use Pascualmg\Rx\ddd\Infrastructure\Bus\ReactEventBus;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use React\EventLoop\Loop;
 use RingCentral\Psr7\Response;
 
 class EchoRequestHandler implements Handler
 {
-    public function handle(ServerRequestInterface $request): ResponseInterface
+    private Bus $bus;
+
+    public function __construct(Bus $bus)
     {
+        $this->bus = $bus;
+
+    }
+
+    public function __invoke(ServerRequestInterface $request): ResponseInterface
+    {
+        $this->bus->dispatch(
+            new Event(
+                'foo',
+                ['some payload']
+            )
+        );
 
         return new Response(
             200,

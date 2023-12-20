@@ -10,7 +10,7 @@ use React\Promise\PromiseInterface;
 
 class TestController implements Handler
 {
-    public function handle(ServerRequestInterface $request): PromiseInterface
+    public function __invoke(ServerRequestInterface $request): PromiseInterface
     {
         $deferred = new Deferred();
 

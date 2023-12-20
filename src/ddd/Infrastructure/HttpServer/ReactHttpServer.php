@@ -2,20 +2,31 @@
 
 namespace Pascualmg\Rx\ddd\Infrastructure\HttpServer;
 
+use FastRoute\Dispatcher;
+use FastRoute\RouteCollector;
 use FriendsOfReact\Http\Middleware\Psr15Adapter\PSR15Middleware;
 use Middlewares\ClientIp;
+use Pascualmg\Rx\ddd\Infrastructure\RequestHandler\TestController;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;
 use React\Http\Message\Response;
+use React\Promise\Deferred;
+use React\Promise\PromiseInterface;
 use React\Socket\ConnectionInterface;
 use React\Socket\SocketServer;
 use Throwable;
 
+use function FastRoute\simpleDispatcher;
+
 class ReactHttpServer
 {
-    public static function init(LoopInterface $loop, ?string $jsonRoutesPath): void
+    public static function init(LoopInterface $loop, ContainerInterface $container): void
     {
         $port8000 = new SocketServer(
             '127.0.0.1:8000',
@@ -24,20 +35,25 @@ class ReactHttpServer
         );
 
 
-        $router = new Router();
-        if (null !== $jsonRoutesPath) {
-            $router->loadFromJson($jsonRoutesPath);
-        }
+        self::configureContainer($container, $loop);
 
         $clientIPMiddleware = new PSR15Middleware(
             (new ClientIp())
         );
 
+        $dispatcher = simpleDispatcher(function (RouteCollector $r) {
+            $r->addRoute('GET', '/foo', TestController::class);
+        });
+
         $httpServer = new HttpServer(
             $clientIPMiddleware,
-            function (ServerRequestInterface $request) use ($router) {
+            function (ServerRequestInterface $request) use ($container, $dispatcher) {
                 try {
-                    return $router->handleRequest($request)
+                    return self::AsyncHandleRequest(
+                        $request,
+                        $container,
+                        $dispatcher
+                    )
                         ->then(function (ResponseInterface $response) {
                             return $response;
                         })
@@ -45,27 +61,16 @@ class ReactHttpServer
                             return new Response(
                                 409,
                                 ['Content-Type' => 'application/json'],
-                                toJson($exception)
+                                self::toJson($exception)
                             );
                         });
                 } catch (Throwable $exception) {
                     // Capture only router configuration errors &
                     // other exceptions not related to request handling
-                    function toJson(Throwable $exception): string
-                    {
-                        return json_encode([
-                            'name' => $exception::class,
-                            'message' => $exception->getMessage(),
-                            'file' => $exception->getFile(),
-                            'line' => $exception->getLine(),
-                            'trace' => array_map('json_encode', $exception->getTrace())
-                        ], JSON_THROW_ON_ERROR);
-                    }
-
                     return new Response(
                         500,
                         ['Content-Type' => 'application/json'],
-                        toJson($exception)
+                        self::toJson($exception)
                     );
                 }
             }
@@ -84,5 +89,75 @@ class ReactHttpServer
         $port8000->on('connection', function (ConnectionInterface $connection) {
             $connection->on('data', 'var_dump');
         });
+    }
+
+    /**
+     * @throws \JsonException
+     */
+    private static function toJson(Throwable $exception): string
+    {
+        return json_encode([
+            'name' => $exception::class,
+            'message' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+            'trace' => array_map('json_encode', $exception->getTrace())
+        ], JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public static function AsyncHandleRequest(
+        ServerRequestInterface $request,
+        ContainerInterface $container,
+        Dispatcher $dispatcher
+    ): PromiseInterface {
+        $deferred = new Deferred();
+
+
+        $method = strtoupper($request->getMethod());
+        $uri = $request->getUri()->getPath();
+
+        //https://github.com/nikic/FastRoute
+        $routeInfo = $dispatcher->dispatch($method, $uri);
+
+        switch ($routeInfo[0]) {
+            case Dispatcher::NOT_FOUND:
+                // ... 404 Not Found
+                $deferred->resolve(
+                    new Response(404, ['Content-Type' => 'text/plain'], 'Route not found')
+                );
+                break;
+            case Dispatcher::METHOD_NOT_ALLOWED:
+                // ... 405 Method Not Allowed
+                $deferred->resolve(
+                    new Response(405, ['Content-Type' => 'text/plain'], 'Method not allowed')
+                );
+                break;
+            case Dispatcher::FOUND: // Route is found
+                $handlerName = $routeInfo[1]; // The handler
+                $handler = $container->get($handlerName);
+
+                $params = $routeInfo[2]; // Parameters from the route
+                $response = $handler($request);
+                // You might want to do something with the found handler and parameters.
+                // For now, I'll just resolve the promise using a new Response.
+
+
+                $deferred->resolve(
+                //if is promiseInterface ...
+                    $response
+                );
+                break;
+        }
+
+        return $deferred->promise();
+    }
+
+    private static function configureContainer(ContainerInterface $container, LoopInterface $loop): void
+    {
+        $container->set(LoopInterface::class, fn() => Loop::get());
     }
 }
