@@ -12,7 +12,7 @@ use React\Stream\ThroughStream;
 
 class HtmlRequestHandler implements Handler
 {
-    public function handle(ServerRequestInterface $_): ResponseInterface|PromiseInterface
+    public function __invoke(ServerRequestInterface $_): ResponseInterface|PromiseInterface
     {
         $foo = new ThroughStream('strtoupper');
 
@@ -23,7 +23,6 @@ class HtmlRequestHandler implements Handler
                 'rb'
             )
         );
-
 
         return new Response(
             StatusCodeInterface::STATUS_OK,

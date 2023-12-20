@@ -20,12 +20,12 @@ class MysqlPostRepository implements PostRepository
 
     public function findAll(): PromiseInterface
     {
-        $defered = new Deferred();
+        $deferred = new Deferred();
 
         $this->mysqlClient->query('SELECT * FROM post')->then(
-            function (MysqlResult $command) use ($defered) {
+            function (MysqlResult $command) use ($deferred) {
                 echo count($command->resultRows) . ' row(s) in set' . PHP_EOL;
-                $defered->resolve(
+                $deferred->resolve(
                     array_map(
                         static fn ($resultRow) => new Post(
                             $resultRow['id'],
@@ -40,6 +40,6 @@ class MysqlPostRepository implements PostRepository
                 echo 'Error: ' . $error->getMessage() . PHP_EOL;
             }
         );
-        return $defered->promise();
+        return $deferred->promise();
     }
 }

@@ -6,6 +6,10 @@ use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use FriendsOfReact\Http\Middleware\Psr15Adapter\PSR15Middleware;
 use Middlewares\ClientIp;
+use Pascualmg\Rx\ddd\Domain\Bus\Bus;
+use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
+use Pascualmg\Rx\ddd\Infrastructure\Bus\ReactEventBus;
+use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
 use Pascualmg\Rx\ddd\Infrastructure\RequestHandler\TestController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -44,6 +48,7 @@ class ReactHttpServer
         $dispatcher = simpleDispatcher(function (RouteCollector $r) {
             $r->addRoute('GET', '/foo', TestController::class);
         });
+
 
         $httpServer = new HttpServer(
             $clientIPMiddleware,
@@ -140,7 +145,7 @@ class ReactHttpServer
                 $handlerName = $routeInfo[1]; // The handler
                 $handler = $container->get($handlerName);
 
-                $params = $routeInfo[2]; // Parameters from the route
+                $params = $routeInfo[2]; // Parameters from the route (todo: ya veremos)
                 $response = $handler($request);
                 // You might want to do something with the found handler and parameters.
                 // For now, I'll just resolve the promise using a new Response.
@@ -159,5 +164,16 @@ class ReactHttpServer
     private static function configureContainer(ContainerInterface $container, LoopInterface $loop): void
     {
         $container->set(LoopInterface::class, fn() => Loop::get());
+
+        $container->set(
+            Bus::class,
+            fn ()  => new ReactEventBus(
+                $container->get(LoopInterface::class)
+            )
+        );
+
+        $container->set(PostRepository::class , MysqlPostRepository::class);
+
+
     }
 }
