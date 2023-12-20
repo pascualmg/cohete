@@ -21,6 +21,7 @@ use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;
 use React\Http\Message\Response;
 use React\Promise\Deferred;
+use React\Promise\Promise;
 use React\Promise\PromiseInterface;
 use React\Socket\ConnectionInterface;
 use React\Socket\SocketServer;
@@ -121,7 +122,6 @@ class ReactHttpServer
     ): PromiseInterface {
         $deferred = new Deferred();
 
-
         $method = strtoupper($request->getMethod());
         $uri = $request->getUri()->getPath();
 
@@ -137,23 +137,19 @@ class ReactHttpServer
                 break;
             case Dispatcher::METHOD_NOT_ALLOWED:
                 // ... 405 Method Not Allowed
+                $allowedMethods = json_encode($routeInfo[1], JSON_THROW_ON_ERROR);
                 $deferred->resolve(
-                    new Response(405, ['Content-Type' => 'text/plain'], 'Method not allowed')
+                    new Response(405, ['Content-Type' => 'text/plain'], "Method not allowed, use  $allowedMethods " )
                 );
                 break;
-            case Dispatcher::FOUND: // Route is found
-                $handlerName = $routeInfo[1]; // The handler
-                $handler = $container->get($handlerName);
+            case Dispatcher::FOUND:
+                [$_, $handlerName, $params] = $routeInfo;
 
-                $params = $routeInfo[2]; // Parameters from the route (todo: ya veremos)
-                $response = $handler($request);
-                // You might want to do something with the found handler and parameters.
-                // For now, I'll just resolve the promise using a new Response.
-
+                //core
+                $response = $container->get($handlerName)($request, ...$params);
 
                 $deferred->resolve(
-                //if is promiseInterface ...
-                    $response
+                    $response instanceof PromiseInterface ? $response : self::wrapWithPromise($response)
                 );
                 break;
         }
@@ -175,5 +171,12 @@ class ReactHttpServer
         $container->set(PostRepository::class , MysqlPostRepository::class);
 
 
+    }
+
+    private static function wrapWithPromise($response): PromiseInterface
+    {
+        return new Promise(function ($resolve, $_) use ($response) {
+            $resolve($response);
+        });
     }
 }
