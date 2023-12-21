@@ -3,7 +3,7 @@
 namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
 
 use Pascualmg\Rx\ddd\Domain\Bus\Bus;
-use Pascualmg\Rx\ddd\Infrastructure\Bus\ReactEventBus;
+use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
 use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
@@ -12,10 +12,10 @@ use React\Promise\PromiseInterface;
 
 class TestController implements Handler
 {
-    private ReactEventBus $bus;
+    private Bus $bus;
 
     //todo : que funcione con la interfaz Bus
-    public function __construct(ReactEventBus $bus)
+    public function __construct(Bus $bus, PostRepository $postRepository)
     {
         $this->bus = $bus;
     }
