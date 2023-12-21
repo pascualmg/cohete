@@ -152,16 +152,16 @@ class ReactHttpServer
 
     private static function configureContainer(ContainerInterface $container): void
     {
-        $container->set(LoopInterface::class, fn() => Loop::get());
+        $container->set(LoopInterface::class, fn () => Loop::get());
 
         $container->set(
             Bus::class,
-            fn() => new ReactEventBus(
+            fn () => new ReactEventBus(
                 $container->get(LoopInterface::class)
             )
         );
 
-        $container->set(PostRepository::class, fn() => new MysqlPostRepository());
+        $container->set(PostRepository::class, fn () => new MysqlPostRepository());
     }
 
     private static function wrapWithPromise($response): PromiseInterface
