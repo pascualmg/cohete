@@ -18,5 +18,10 @@
     "method": "GET",
     "path": "/websocket",
     "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\HtmlRequestHandler"
+  },
+  {
+    "method": "GET",
+    "path": "/health",
+    "handler": "\\Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\HealthRequestHandler"
   }
 ]

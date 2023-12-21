@@ -26,5 +26,24 @@ make nix-install
 nix develop 
 make run
 ```
+## Tip: Configuración Adicional de `direnv`
+Si deseas simplificar tu flujo de trabajo evitando la necesidad de ejecutar `nix develop` cada vez que ingresas al directorio del proyecto, puedes optar por la configuración adicional con `direnv`:
 
+1. Asegúrate de tener `direnv` instalado. Puedes confirmar esto ejecutando `direnv` en tu consola. Si el comando no se encuentra, necesitas instalar `direnv`.
+
+2. Configura tu shell para utilizar `direnv`. Si estás usando `bash`, puedes agregar la siguiente línea a tu archivo `.bashrc`. Si estás usando `zsh`, agrega la misma línea a tu archivo `.zshrc`.
+
+    ```bash
+    eval "$(direnv hook bash)"
+    # o
+    eval "$(direnv hook zsh)"
+    ```
+
+3. Reinicia tu consola para que los cambios en tu archivo de configuración de shell tengan efecto.
+
+4. Verifica que tu archivo `.envrc` está en el directorio correcto y tiene los valores correctos.
+
+5. Cuando entras a tu directorio (en este caso, el directorio `rxphp`), deberías ver un mensaje de `direnv` solicitándote permitir el uso del archivo `.envrc`. Usa el comando `direnv allow` para esto.
+
+Si después de seguir estos pasos, `direnv` aún no funciona como se esperaba, verifica los detalles de tu instalación y configuración.
 

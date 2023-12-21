@@ -10,10 +10,7 @@ use Pascualmg\Rx\ddd\Domain\Bus\Bus;
 use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
 use Pascualmg\Rx\ddd\Infrastructure\Bus\ReactEventBus;
 use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
-use Pascualmg\Rx\ddd\Infrastructure\RequestHandler\HealthRequestHandler;
-use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Loop;
@@ -31,17 +28,19 @@ use function FastRoute\simpleDispatcher;
 
 class ReactHttpServer
 {
-    public static function init(): void
-    {
+    public static function init(
+        string $jsonRoutesPath,
+        string $host = '0.0.0.0',
+        string $port = '8000',
+    ): void {
         $loop = Loop::get();
-        $container  = ContainerFactory::create();
+        $container = ContainerFactory::create();
 
         $port8000 = new SocketServer(
-            '127.0.0.1:8000',
+            sprintf("%s:%s", $host, $port),
             [],
             $loop
         );
-
 
 
         $clientIPMiddleware = new PSR15Middleware(
@@ -50,7 +49,7 @@ class ReactHttpServer
 
         self::configureContainer($container);
 
-        $dispatcher = self::loadRoutesFromJson();
+        $dispatcher = self::loadRoutesFromJson($jsonRoutesPath);
 
         $httpServer = new HttpServer(
             $clientIPMiddleware,
@@ -98,9 +97,6 @@ class ReactHttpServer
         });
     }
 
-    /**
-     * @throws \JsonException
-     */
     private static function toJson(Throwable $exception): string
     {
         return json_encode([
@@ -112,10 +108,6 @@ class ReactHttpServer
         ], JSON_THROW_ON_ERROR);
     }
 
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
     public static function AsyncHandleRequest(
         ServerRequestInterface $request,
         ContainerInterface $container,
@@ -144,10 +136,10 @@ class ReactHttpServer
                 );
                 break;
             case Dispatcher::FOUND:
-                [$_, $handlerName, $params] = $routeInfo;
+                [$_, $httpRequestHandlerName, $params] = $routeInfo;
 
-                //core
-                $response = $container->get($handlerName)($request, $params);
+                //THE CORE, with autowiring in the __construct and a bit of magic
+                $response = $container->get($httpRequestHandlerName)($request, $params);
 
                 $deferred->resolve(
                     $response instanceof PromiseInterface ? $response : self::wrapWithPromise($response)
@@ -160,18 +152,16 @@ class ReactHttpServer
 
     private static function configureContainer(ContainerInterface $container): void
     {
-        $container->set(LoopInterface::class, fn () => Loop::get());
+        $container->set(LoopInterface::class, fn() => Loop::get());
 
         $container->set(
             Bus::class,
-            fn () => new ReactEventBus(
+            fn() => new ReactEventBus(
                 $container->get(LoopInterface::class)
             )
         );
 
-        $container->set(PostRepository::class, fn () => new MysqlPostRepository());
-
-
+        $container->set(PostRepository::class, fn() => new MysqlPostRepository());
     }
 
     private static function wrapWithPromise($response): PromiseInterface
@@ -181,28 +171,61 @@ class ReactHttpServer
         });
     }
 
-    /**
-     * @return Dispatcher
-     * @throws \JsonException
-     */
-    public static function loadRoutesFromJson(): Dispatcher
+    public static function loadRoutesFromJson(string $path): Dispatcher
     {
-        return simpleDispatcher(function (RouteCollector $r) {
-            $r->addRoute('GET', '/health', HealthRequestHandler::class);
+        self::assertNotEmpty($path);
+
+        $routesFromJsonFile = self::parseJsonToArray($path);
+
+        return simpleDispatcher(
+            function (RouteCollector $r) use ($routesFromJsonFile) {
+                foreach ($routesFromJsonFile as $routeFromJsonFile) {
+                    $r->addRoute(
+                        $routeFromJsonFile['method'],
+                        $routeFromJsonFile['path'],
+                        $routeFromJsonFile['handler']
+                    );
+                }
+            }
+        );
+    }
+
+    /**
+     * @param string $path
+     * @return void
+     */
+    public static function assertNotEmpty(string $path): void
+    {
+        if (empty($path)) {
+            throw new \RuntimeException(
+                "The path of the json File to load the routes is empty, maybe you have no .env or this variable is undefined? "
+            );
+        }
+    }
+
+    /**
+     * @param string $path
+     * @return mixed
+     */
+    public static function parseJsonToArray(string $path): array
+    {
+        $file = file_get_contents($path);
+        try {
             $routesFromJsonFile = json_decode(
-                file_get_contents('/Users/passh/src/reactphp/rxphp/src/ddd/Infrastructure/HttpServer/routes.json'),
+                $file,
                 true,
                 512,
                 JSON_THROW_ON_ERROR
             );
-
-            foreach ($routesFromJsonFile as $routeFromJsonFile) {
-                $r->addRoute(
-                    $routeFromJsonFile['method'],
-                    $routeFromJsonFile['path'],
-                    $routeFromJsonFile['handler']
-                );
-            }
-        });
+        } catch (\JsonException $e) {
+            throw new \RuntimeException(
+                sprintf(
+                    "Invalid JSON format while loading routes from file %s \n Error: %s",
+                    $path,
+                    $e->getMessage()
+                )
+            );
+        }
+        return $routesFromJsonFile;
     }
 }

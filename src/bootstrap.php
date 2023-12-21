@@ -6,8 +6,14 @@ error_reporting(E_ALL);
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use Dotenv\Dotenv;
 use Pascualmg\Rx\ddd\Infrastructure\HttpServer\ReactHttpServer;
 
-ReactHttpServer::init();
+$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+ReactHttpServer::init(
+    $_ENV['ROUTES_CONFIG_PATH']
+);
 
 
