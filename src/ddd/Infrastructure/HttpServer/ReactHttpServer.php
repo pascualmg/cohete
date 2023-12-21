@@ -167,7 +167,9 @@ class ReactHttpServer
             )
         );
 
-        $container->set(PostRepository::class, MysqlPostRepository::class);
+        $container->set(PostRepository::class, fn() => new MysqlPostRepository());
+
+
     }
 
     private static function wrapWithPromise($response): PromiseInterface
@@ -186,7 +188,7 @@ class ReactHttpServer
         return simpleDispatcher(function (RouteCollector $r) {
             $r->addRoute('GET', '/health', HealthRequestHandler::class);
             $routesFromJsonFile = json_decode(
-                file_get_contents('/home/passh/src/php/rxphp/src/ddd/Infrastructure/HttpServer/routes.json'),
+                file_get_contents('/Users/passh/src/reactphp/rxphp/src/ddd/Infrastructure/HttpServer/routes.json'),
                 true,
                 512,
                 JSON_THROW_ON_ERROR

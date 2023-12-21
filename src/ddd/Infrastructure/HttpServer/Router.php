@@ -74,11 +74,5 @@ class Router
         }
     }
 
-    public function loadFromJson(
-        string $jsonRoutesFilePath
-    ): void {
-        JsonRouterLoader::load($jsonRoutesFilePath, $this);
-    }
-
 
 }

@@ -23,7 +23,7 @@ class ReactEventBus implements Bus
         $this->loop->futureTick(function () use ($event) {
             $this->emitter->emit(
                 $event->name,
-                $event->payload
+                [$event->payload]
             );
         });
     }

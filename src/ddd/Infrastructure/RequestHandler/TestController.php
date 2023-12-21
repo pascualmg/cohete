@@ -3,6 +3,7 @@
 namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
 
 use Pascualmg\Rx\ddd\Domain\Bus\Bus;
+use Pascualmg\Rx\ddd\Domain\Bus\Event;
 use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
 use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,11 +19,13 @@ class TestController implements Handler
     public function __construct(Bus $bus, PostRepository $postRepository)
     {
         $this->bus = $bus;
+
     }
 
     public function __invoke(ServerRequestInterface $request, ?array $routeParams): PromiseInterface
     {
         $deferred = new Deferred();
+        $this->bus->dispatch(new Event('fooEvent', "wee"));
 
         $deferred->resolve(
             (new MysqlPostRepository())->findAll()

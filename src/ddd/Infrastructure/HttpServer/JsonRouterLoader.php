@@ -11,7 +11,7 @@ class JsonRouterLoader
     {
     }
 
-    public static function load(string $jsonRoutesFilePath, Router $router)
+    public static function load(string $jsonRoutesFilePath, Router $router): void
     {
         foreach (self::parseRoutesFromJson($jsonRoutesFilePath) as $route) {
             $router->addRoute(
