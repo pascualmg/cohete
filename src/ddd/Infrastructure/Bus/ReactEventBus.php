@@ -3,10 +3,11 @@
 namespace Pascualmg\Rx\ddd\Infrastructure\Bus;
 
 use Evenement\EventEmitter;
+use Pascualmg\Rx\ddd\Domain\Bus\Bus;
 use Pascualmg\Rx\ddd\Domain\Bus\Event;
 use React\EventLoop\LoopInterface;
 
-class ReactEventBus
+class ReactEventBus implements Bus
 {
     private EventEmitter $emitter;
     private LoopInterface $loop;
