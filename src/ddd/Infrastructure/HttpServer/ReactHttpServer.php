@@ -11,7 +11,6 @@ use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
 use Pascualmg\Rx\ddd\Infrastructure\Bus\ReactEventBus;
 use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
 use Pascualmg\Rx\ddd\Infrastructure\RequestHandler\HealthRequestHandler;
-use Pascualmg\Rx\ddd\Infrastructure\RequestHandler\TestController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -32,8 +31,11 @@ use function FastRoute\simpleDispatcher;
 
 class ReactHttpServer
 {
-    public static function init(LoopInterface $loop, ContainerInterface $container): void
+    public static function init(): void
     {
+        $loop = Loop::get();
+        $container  = ContainerFactory::create();
+
         $port8000 = new SocketServer(
             '127.0.0.1:8000',
             [],
@@ -46,9 +48,9 @@ class ReactHttpServer
             (new ClientIp())
         );
 
-        self::configureContainer($container, $loop);
-        $dispatcher = self::loadRoutesFromJson();
+        self::configureContainer($container);
 
+        $dispatcher = self::loadRoutesFromJson();
 
         $httpServer = new HttpServer(
             $clientIPMiddleware,
@@ -156,7 +158,7 @@ class ReactHttpServer
         return $deferred->promise();
     }
 
-    private static function configureContainer(ContainerInterface $container, LoopInterface $loop): void
+    private static function configureContainer(ContainerInterface $container): void
     {
         $container->set(LoopInterface::class, fn () => Loop::get());
 
@@ -167,7 +169,7 @@ class ReactHttpServer
             )
         );
 
-        $container->set(PostRepository::class, fn() => new MysqlPostRepository());
+        $container->set(PostRepository::class, fn () => new MysqlPostRepository());
 
 
     }
