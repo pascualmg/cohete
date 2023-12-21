@@ -1,22 +1,22 @@
 [
   {
-    "Method": "GET",
-    "Path": "/foo",
-    "Handler": "TestController"
+    "method": "GET",
+    "path": "/posts",
+    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\TestController"
   },
   {
-    "Method": "POST",
-    "Path": "/foo",
-    "Handler": "TestController"
+    "method": "POST",
+    "path": "/test",
+    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\TestController"
   },
   {
-    "Method": "GET",
-    "Path": "/echo",
-    "Handler": "EchoRequestHandler"
+    "method": "GET",
+    "path": "/echo",
+    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\TestController"
   },
   {
-    "Method": "GET",
-    "Path": "/websocket",
-    "Handler": "HtmlRequestHandler"
+    "method": "GET",
+    "path": "/websocket",
+    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\HtmlRequestHandler"
   }
 ]

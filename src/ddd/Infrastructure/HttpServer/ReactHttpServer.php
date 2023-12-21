@@ -10,6 +10,7 @@ use Pascualmg\Rx\ddd\Domain\Bus\Bus;
 use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
 use Pascualmg\Rx\ddd\Infrastructure\Bus\ReactEventBus;
 use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
+use Pascualmg\Rx\ddd\Infrastructure\RequestHandler\HealthRequestHandler;
 use Pascualmg\Rx\ddd\Infrastructure\RequestHandler\TestController;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -40,15 +41,13 @@ class ReactHttpServer
         );
 
 
-        self::configureContainer($container, $loop);
 
         $clientIPMiddleware = new PSR15Middleware(
             (new ClientIp())
         );
 
-        $dispatcher = simpleDispatcher(function (RouteCollector $r) {
-            $r->addRoute('GET', '/foo', TestController::class);
-        });
+        self::configureContainer($container, $loop);
+        $dispatcher = self::loadRoutesFromJson();
 
 
         $httpServer = new HttpServer(
@@ -139,14 +138,14 @@ class ReactHttpServer
                 // ... 405 Method Not Allowed
                 $allowedMethods = json_encode($routeInfo[1], JSON_THROW_ON_ERROR);
                 $deferred->resolve(
-                    new Response(405, ['Content-Type' => 'text/plain'], "Method not allowed, use  $allowedMethods " )
+                    new Response(405, ['Content-Type' => 'text/plain'], "Method not allowed, use  $allowedMethods ")
                 );
                 break;
             case Dispatcher::FOUND:
                 [$_, $handlerName, $params] = $routeInfo;
 
                 //core
-                $response = $container->get($handlerName)($request, ...$params);
+                $response = $container->get($handlerName)($request, $params);
 
                 $deferred->resolve(
                     $response instanceof PromiseInterface ? $response : self::wrapWithPromise($response)
@@ -159,24 +158,47 @@ class ReactHttpServer
 
     private static function configureContainer(ContainerInterface $container, LoopInterface $loop): void
     {
-        $container->set(LoopInterface::class, fn() => Loop::get());
+        $container->set(LoopInterface::class, fn () => Loop::get());
 
         $container->set(
             Bus::class,
-            fn ()  => new ReactEventBus(
+            fn () => new ReactEventBus(
                 $container->get(LoopInterface::class)
             )
         );
 
-        $container->set(PostRepository::class , MysqlPostRepository::class);
-
-
+        $container->set(PostRepository::class, MysqlPostRepository::class);
     }
 
     private static function wrapWithPromise($response): PromiseInterface
     {
         return new Promise(function ($resolve, $_) use ($response) {
             $resolve($response);
+        });
+    }
+
+    /**
+     * @return Dispatcher
+     * @throws \JsonException
+     */
+    public static function loadRoutesFromJson(): Dispatcher
+    {
+        return simpleDispatcher(function (RouteCollector $r) {
+            $r->addRoute('GET', '/health', HealthRequestHandler::class);
+            $routesFromJsonFile = json_decode(
+                file_get_contents('/home/passh/src/php/rxphp/src/ddd/Infrastructure/HttpServer/routes.json'),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+
+            foreach ($routesFromJsonFile as $routeFromJsonFile) {
+                $r->addRoute(
+                    $routeFromJsonFile['method'],
+                    $routeFromJsonFile['path'],
+                    $routeFromJsonFile['handler']
+                );
+            }
         });
     }
 }
