@@ -7,7 +7,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
 use React\Promise\PromiseInterface;
 
-class HealthRequestHandler implements Handler
+class HealthRequestHttpRequestHandler implements HttpRequestHandler
 {
     public function __invoke(
         ServerRequestInterface $request,

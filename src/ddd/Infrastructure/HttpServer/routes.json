@@ -23,5 +23,10 @@
     "method": "GET",
     "path": "/health",
     "handler": "\\Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\HealthRequestHandler"
+  },
+  {
+    "method": "GET",
+    "path": "/post/{id:[0-9]+}",
+    "handler": "\\Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\FindPostByIdHttpRequestHandler"
   }
 ]

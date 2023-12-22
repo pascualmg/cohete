@@ -11,7 +11,7 @@ use React\Http\Message\Response;
 use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
 
-class TestController implements Handler
+class TestController implements HttpRequestHandler
 {
     private Bus $bus;
 

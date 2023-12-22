@@ -42,4 +42,26 @@ class MysqlPostRepository implements PostRepository
         );
         return $deferred->promise();
     }
+
+    public function findById(int $postId): PromiseInterface
+    {
+        $deferred = new Deferred();
+
+
+        $this->mysqlClient->query("SELECT * FROM post where post.id = ?", [$postId])->then(
+            function (MysqlResult $mysqlResult) use ($deferred) {
+                $rawPostData = $mysqlResult->resultRows[0] ?? null;
+                $deferred->resolve(
+                    new Post(
+                        $rawPostData['id'],
+                        $rawPostData['title'] . $rawPostData['content'],
+                        new \DateTimeImmutable($rawPostData['created_at'])
+                    )
+                );
+
+            }
+        );
+
+        return $deferred->promise();
+    }
 }

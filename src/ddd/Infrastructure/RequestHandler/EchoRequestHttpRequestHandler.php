@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RingCentral\Psr7\Response;
 
-class EchoRequestHandler implements Handler
+class EchoRequestHttpRequestHandler implements HttpRequestHandler
 {
     private Bus $bus;
 

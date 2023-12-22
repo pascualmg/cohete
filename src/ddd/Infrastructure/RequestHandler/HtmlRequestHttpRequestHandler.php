@@ -10,9 +10,9 @@ use React\Promise\PromiseInterface;
 use React\Stream\ReadableResourceStream;
 use React\Stream\ThroughStream;
 
-class HtmlRequestHandler implements Handler
+class HtmlRequestHttpRequestHandler implements HttpRequestHandler
 {
-    public function __invoke(ServerRequestInterface $_): ResponseInterface|PromiseInterface
+    public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface|PromiseInterface
     {
         $foo = new ThroughStream('strtoupper');
 
