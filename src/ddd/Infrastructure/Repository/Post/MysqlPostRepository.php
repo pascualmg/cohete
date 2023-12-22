@@ -43,7 +43,7 @@ class MysqlPostRepository implements PostRepository
         return $deferred->promise();
     }
 
-    public function findById(int $postId): PromiseInterface
+    public function findById(int $postId): PromiseInterface //of Post or Null
     {
         $deferred = new Deferred();
 
@@ -51,6 +51,9 @@ class MysqlPostRepository implements PostRepository
         $this->mysqlClient->query("SELECT * FROM post where post.id = ?", [$postId])->then(
             function (MysqlResult $mysqlResult) use ($deferred) {
                 $rawPostData = $mysqlResult->resultRows[0] ?? null;
+                if($rawPostData === null) {
+                    $deferred->resolve(null);
+                }
                 $deferred->resolve(
                     new Post(
                         $rawPostData['id'],
