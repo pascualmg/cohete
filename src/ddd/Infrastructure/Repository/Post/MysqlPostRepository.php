@@ -47,15 +47,12 @@ class MysqlPostRepository implements PostRepository
     {
         $deferred = new Deferred();
 
-
         $this->mysqlClient->query("SELECT * FROM post where post.id = ?", [$postId])->then(
             function (MysqlResult $mysqlResult) use ($deferred) {
                 $rawPostData = $mysqlResult->resultRows[0] ?? null;
-                if($rawPostData === null) {
-                    $deferred->resolve(null);
-                }
+
                 $deferred->resolve(
-                    new Post(
+                    $rawPostData === null ? null : new Post(
                         $rawPostData['id'],
                         $rawPostData['title'] . $rawPostData['content'],
                         new \DateTimeImmutable($rawPostData['created_at'])
