@@ -7,7 +7,7 @@ use React\Http\Message\Response;
 
 class ReactJsonResponse
 {
-    public static function create(int $code = 200, $payload = null) : ResponseInterface
+    public static function create(int $code = 200, $payload = null): ResponseInterface
     {
         return new Response(
             $code,
@@ -16,17 +16,17 @@ class ReactJsonResponse
         );
     }
 
-    public static function withPayload($payload) : ResponseInterface
+    public static function withPayload($payload): ResponseInterface
     {
         return self::create(200, $payload);
     }
 
-    public static function OK() : ResponseInterface
+    public static function OK(): ResponseInterface
     {
         return self::create(200, 'OK');
     }
 
-    public static function withError(\Throwable $e) : ResponseInterface
+    public static function withError(\Throwable $e): ResponseInterface
     {
         return self::create($e->getCode(), $e->getMessage());
     }

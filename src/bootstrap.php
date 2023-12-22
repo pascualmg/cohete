@@ -15,5 +15,3 @@ $dotenv->load();
 ReactHttpServer::init(
     $_ENV['ROUTES_CONFIG_PATH']
 );
-
-

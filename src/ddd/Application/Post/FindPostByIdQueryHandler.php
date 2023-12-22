@@ -7,7 +7,6 @@ use React\Promise\PromiseInterface;
 
 class FindPostByIdQueryHandler
 {
-
     private readonly PostRepository $postRepository;
 
     public function __construct(
@@ -16,7 +15,7 @@ class FindPostByIdQueryHandler
         $this->postRepository = $postRepository;
     }
 
-    public function __invoke(FindPostByIdQuery $findPostByIdQuery) : PromiseInterface
+    public function __invoke(FindPostByIdQuery $findPostByIdQuery): PromiseInterface
     {
         return $this->postRepository->findById($findPostByIdQuery->postId());
     }

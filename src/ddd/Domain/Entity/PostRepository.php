@@ -8,5 +8,5 @@ interface PostRepository
 {
     public function findAll(): PromiseInterface; //of an array of posts
 
-    public function findById(int $postId) : PromiseInterface; //of a post
+    public function findById(int $postId): PromiseInterface; //of a post
 }
