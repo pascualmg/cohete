@@ -16,6 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;
+use React\Http\Message\Request;
 use React\Http\Message\Response;
 use React\Promise\Deferred;
 use React\Promise\Promise;
@@ -46,6 +47,7 @@ class ReactHttpServer
         $clientIPMiddleware = new PSR15Middleware(
             (new ClientIp())
         );
+
 
         self::configureContainer($container);
 

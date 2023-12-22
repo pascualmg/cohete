@@ -7,7 +7,6 @@ use Pascualmg\Rx\ddd\Application\Post\FindPostByIdQueryHandler;
 use Pascualmg\Rx\ddd\Application\Post\ReactJsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
 
 class FindPostByIdHttpRequestHandler implements HttpRequestHandler
