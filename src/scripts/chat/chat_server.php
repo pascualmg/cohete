@@ -1,11 +1,11 @@
 <?php
 
-use Pascualmg\Rx\chat\ConnectionPool;
+use Pascualmg\Rx\scripts\chat\ConnectionPool;
 use React\EventLoop\Loop;
 use React\Socket\ConnectionInterface;
 use React\Socket\SocketServer;
 
-require "../../vendor/autoload.php";
+require "../../../vendor/autoload.php";
 
 
 $loop = Loop::get();

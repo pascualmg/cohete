@@ -1,6 +1,6 @@
 <?php
 
-require "../../vendor/autoload.php";
+require "../../../vendor/autoload.php";
 
 use Colors\Color;
 use React\EventLoop\Loop;
