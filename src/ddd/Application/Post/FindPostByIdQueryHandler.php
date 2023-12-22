@@ -3,6 +3,7 @@
 namespace Pascualmg\Rx\ddd\Application\Post;
 
 use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
+use React\Promise\PromiseInterface;
 
 class FindPostByIdQueryHandler
 {
@@ -15,7 +16,7 @@ class FindPostByIdQueryHandler
         $this->postRepository = $postRepository;
     }
 
-    public function __invoke(FindPostByIdQuery $findPostByIdQuery)
+    public function __invoke(FindPostByIdQuery $findPostByIdQuery) : PromiseInterface
     {
         return $this->postRepository->findById($findPostByIdQuery->postId());
     }

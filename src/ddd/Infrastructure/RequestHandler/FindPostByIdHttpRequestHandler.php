@@ -21,22 +21,16 @@ class FindPostByIdHttpRequestHandler implements HttpRequestHandler
 
     public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface|PromiseInterface
     {
-        $deferred = new Deferred();
 
-        ($this->handler)(
+        return ($this->handler)(
             new FindPostByIdQuery((int)$routeParams['id'])
         )->then(
-            onFulfilled: function ($result) use ($deferred) {
-                $deferred->resolve(
-                    ReactJsonResponse::withPayload($result)
-                );
+            onFulfilled: function ($result) {
+                return ReactJsonResponse::withPayload($result);
             },
-            onRejected: function (\Throwable $e) use ($deferred) {
-                $deferred->resolve(
-                    ReactJsonResponse::withError($e)
-                );
+            onRejected: function (\Throwable $e) {
+                return ReactJsonResponse::withError($e);
             }
         );
-        return $deferred->promise();
     }
 }
