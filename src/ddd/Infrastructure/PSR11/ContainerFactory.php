@@ -1,23 +1,22 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Infrastructure\HttpServer;
+namespace Pascualmg\Rx\ddd\Infrastructure\PSR11;
 
-use DI\Container;
 use DI\ContainerBuilder;
+use Psr\Container\ContainerInterface;
 
 class ContainerFactory
 {
-    //todo: maybe to use in a jsonloader
     public static function create(
         array $definitions = [],
-        bool $autowire = true,
+        bool $useAutowiring = true,
         bool $isProd = false,
         string $compilationPath = __DIR__ . '/var/cache',
         string $proxyDirectory = __DIR__ . '/var/tmp'
-    ): Container {
+    ): ContainerInterface {
         $builder = new ContainerBuilder();
 
-        $builder->useAutowiring($autowire);
+        $builder->useAutowiring($useAutowiring);
 
         // Habilita las optimizaciones en producción
         if ($isProd) {

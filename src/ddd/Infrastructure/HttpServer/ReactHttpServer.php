@@ -2,6 +2,7 @@
 
 namespace Pascualmg\Rx\ddd\Infrastructure\HttpServer;
 
+use DI\Create;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use FriendsOfReact\Http\Middleware\Psr15Adapter\PSR15Middleware;
@@ -9,6 +10,7 @@ use Middlewares\ClientIp;
 use Pascualmg\Rx\ddd\Domain\Bus\Bus;
 use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
 use Pascualmg\Rx\ddd\Infrastructure\Bus\ReactEventBus;
+use Pascualmg\Rx\ddd\Infrastructure\PSR11\ContainerFactory;
 use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -16,7 +18,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;
-use React\Http\Message\Request;
 use React\Http\Message\Response;
 use React\Promise\Deferred;
 use React\Promise\Promise;
