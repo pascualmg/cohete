@@ -1,4 +1,5 @@
 vendor
 .idea
-/.php-cs-fixer.cache
 .env
+/.php-cs-fixer.cache
+/src/ddd/Infrastructure/PSR11/var/cache/CompiledContainer.php
