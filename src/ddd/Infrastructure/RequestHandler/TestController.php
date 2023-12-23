@@ -20,12 +20,16 @@ class TestController implements HttpRequestHandler
     {
         $this->bus = $bus;
 
+        $this->bus->subscribe(
+            'foo',
+            static fn($data) => printf("ostia puta que funca $data")
+        );
     }
 
     public function __invoke(ServerRequestInterface $request, ?array $routeParams): PromiseInterface
     {
         $deferred = new Deferred();
-        $this->bus->dispatch(new Event('fooEvent', "wee"));
+        $this->bus->dispatch(new Event('foo', "wee!"));
 
         $deferred->resolve(
             (new MysqlPostRepository())->findAll()

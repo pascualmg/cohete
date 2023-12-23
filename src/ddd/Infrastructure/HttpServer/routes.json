@@ -11,8 +11,9 @@
   },
   {
     "method": "GET",
-    "path": "/echo",
-    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\TestController"
+    "path": "/echo"
+    t
+    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\EchoController"
   },
   {
     "method": "GET",

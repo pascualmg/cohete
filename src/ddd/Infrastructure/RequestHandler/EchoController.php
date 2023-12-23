@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use RingCentral\Psr7\Response;
 
-class EchoRequestHttpRequestHandler implements HttpRequestHandler
+class EchoController implements HttpRequestHandler
 {
     private Bus $bus;
 
@@ -18,7 +18,7 @@ class EchoRequestHttpRequestHandler implements HttpRequestHandler
 
     }
 
-    public function __invoke(ServerRequestInterface $request): ResponseInterface
+    public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface
     {
         $this->bus->dispatch(
             new Event(

@@ -12,7 +12,6 @@ use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 
 use function DI\autowire;
-use function DI\factory;
 
 class ContainerFactory
 {
@@ -33,14 +32,11 @@ class ContainerFactory
         }
 
         $definitions = [
-            LoopInterface::class => autowire(Loop::class),
-            Bus::class => factory(
-                function (ContainerInterface $c) {
-                    return new ReactEventBus(
-                        $c->get(LoopInterface::class)
-                    );
-                }
+            LoopInterface::class => static fn(ContainerInterface $_) => Loop::get(),
+            ReactEventBus::class => static fn(ContainerInterface $c) => new ReactEventBus(
+                $c->get(LoopInterface::class)
             ),
+            Bus::class => static fn(ContainerInterface $c) => $c->get(ReactEventBus::class),
             PostRepository::class => autowire(MysqlPostRepository::class),
         ];
 
