@@ -10,7 +10,7 @@ use React\Promise\PromiseInterface;
 use React\Stream\ReadableResourceStream;
 use React\Stream\ThroughStream;
 
-class HtmlRequestHttpRequestHandler implements HttpRequestHandler
+class HtmlController implements HttpRequestHandler
 {
     public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface|PromiseInterface
     {

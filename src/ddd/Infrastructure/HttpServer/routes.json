@@ -17,7 +17,7 @@
   {
     "method": "GET",
     "path": "/websocket",
-    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\HtmlRequestHandler"
+    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\HtmlController"
   },
   {
     "method": "GET",
