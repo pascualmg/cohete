@@ -7,16 +7,11 @@ use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use FriendsOfReact\Http\Middleware\Psr15Adapter\PSR15Middleware;
 use Middlewares\ClientIp;
-use Pascualmg\Rx\ddd\Domain\Bus\Bus;
-use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
-use Pascualmg\Rx\ddd\Infrastructure\Bus\ReactEventBus;
 use Pascualmg\Rx\ddd\Infrastructure\PSR11\ContainerFactory;
-use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Loop;
-use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;
 use React\Http\Message\Response;
 use React\Promise\Deferred;
@@ -36,7 +31,11 @@ class ReactHttpServer
         string $port = '8000',
     ): void {
         $loop = Loop::get();
-        $container = ContainerFactory::create();
+        $container = ContainerFactory::create(
+            true,
+            true,
+            true,
+        );
 
         $port8000 = new SocketServer(
             sprintf("%s:%s", $host, $port),
@@ -48,9 +47,6 @@ class ReactHttpServer
         $clientIPMiddleware = new PSR15Middleware(
             (new ClientIp())
         );
-
-
-        self::configureContainer($container);
 
         $dispatcher = self::loadRoutesFromJson($jsonRoutesPath);
 
@@ -153,19 +149,7 @@ class ReactHttpServer
         return $deferred->promise();
     }
 
-    private static function configureContainer(ContainerInterface $container): void
-    {
-        $container->set(LoopInterface::class, fn () => Loop::get());
 
-        $container->set(
-            Bus::class,
-            fn () => new ReactEventBus(
-                $container->get(LoopInterface::class)
-            )
-        );
-
-        $container->set(PostRepository::class, fn () => new MysqlPostRepository());
-    }
 
     private static function wrapWithPromise($response): PromiseInterface
     {
