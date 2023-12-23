@@ -9,7 +9,7 @@ require __DIR__ . '/../vendor/autoload.php';
 use Dotenv\Dotenv;
 use Pascualmg\Rx\ddd\Infrastructure\HttpServer\ReactHttpServer;
 
-$dotenv = Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 
 ReactHttpServer::init(
