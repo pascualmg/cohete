@@ -11,8 +11,7 @@
   },
   {
     "method": "GET",
-    "path": "/echo"
-    t
+    "path": "/echo",
     "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\EchoController"
   },
   {
