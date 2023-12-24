@@ -4,7 +4,7 @@ namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
 
 use Pascualmg\Rx\ddd\Application\Post\FindPostByIdQuery;
 use Pascualmg\Rx\ddd\Application\Post\FindPostByIdQueryHandler;
-use Pascualmg\Rx\ddd\Application\Post\ReactJsonResponse;
+use Pascualmg\Rx\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Promise\PromiseInterface;
@@ -25,10 +25,10 @@ class FindPostByIdHttpRequestHandler implements HttpRequestHandler
             new FindPostByIdQuery((int)$routeParams['id'])
         )->then(
             onFulfilled: function ($result) {
-                return ReactJsonResponse::withPayload($result);
+                return JsonResponse::withPayload($result);
             },
             onRejected: function (\Throwable $e) {
-                return ReactJsonResponse::withError($e);
+                return JsonResponse::withError($e);
             }
         );
     }

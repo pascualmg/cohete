@@ -2,7 +2,6 @@
 
 namespace Pascualmg\Rx\ddd\Infrastructure\HttpServer;
 
-use DI\Create;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use FriendsOfReact\Http\Middleware\Psr15Adapter\PSR15Middleware;
@@ -17,7 +16,6 @@ use React\Http\Message\Response;
 use React\Promise\Deferred;
 use React\Promise\Promise;
 use React\Promise\PromiseInterface;
-use React\Socket\ConnectionInterface;
 use React\Socket\SocketServer;
 use Throwable;
 
@@ -31,11 +29,7 @@ class ReactHttpServer
         string $port = '8000',
     ): void {
         $loop = Loop::get();
-        $container = ContainerFactory::create(
-            true,
-            true,
-            true,
-        );
+        $container = ContainerFactory::create();
 
         $port8000 = new SocketServer(
             sprintf("%s:%s", $host, $port),
@@ -91,9 +85,9 @@ class ReactHttpServer
             }
         );
 
-        $port8000->on('connection', function (ConnectionInterface $connection) {
-            $connection->on('data', 'var_dump');
-        });
+        //        $port8000->on('connection', function (ConnectionInterface $connection) {
+        //            $connection->on('data', 'var_dump');
+        //        });
     }
 
     private static function toJson(Throwable $exception): string

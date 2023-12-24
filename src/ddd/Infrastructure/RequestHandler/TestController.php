@@ -15,21 +15,15 @@ class TestController implements HttpRequestHandler
 {
     private Bus $bus;
 
-    //todo : que funcione con la interfaz Bus
     public function __construct(Bus $bus, PostRepository $postRepository)
     {
         $this->bus = $bus;
-
-        $this->bus->subscribe(
-            'foo',
-            static fn($data) => printf("ostia puta que funca $data")
-        );
     }
 
     public function __invoke(ServerRequestInterface $request, ?array $routeParams): PromiseInterface
     {
         $deferred = new Deferred();
-        $this->bus->dispatch(new Event('foo', "wee!"));
+
 
         $deferred->resolve(
             (new MysqlPostRepository())->findAll()
@@ -52,6 +46,13 @@ class TestController implements HttpRequestHandler
                 })
         );
 
+
+        $this->bus->dispatch(
+            new Event(
+                'foo',
+                "wee! desde testcontroller"
+            )
+        );
         return $deferred->promise();
     }
 }

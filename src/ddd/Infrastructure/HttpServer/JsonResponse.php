@@ -1,13 +1,15 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Application\Post;
+namespace Pascualmg\Rx\ddd\Infrastructure\HttpServer;
 
+use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use React\Http\Message\Response;
 
-class ReactJsonResponse
+class JsonResponse implements StatusCodeInterface
 {
-    public static function create(int $code = 200, $payload = null): ResponseInterface
+
+    public static function create(int $code = self::STATUS_OK, $payload = null): ResponseInterface
     {
         return new Response(
             $code,

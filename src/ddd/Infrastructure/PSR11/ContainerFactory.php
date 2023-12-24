@@ -16,8 +16,8 @@ use function DI\autowire;
 class ContainerFactory
 {
     public static function create(
-        bool $useAutowiring = true,
         bool $isProd = false,
+        bool $useAutowiring = true,
         string $compilationPath = __DIR__ . '/var/cache',
         string $proxyDirectory = __DIR__ . '/var/tmp'
     ): ContainerInterface {
@@ -32,7 +32,7 @@ class ContainerFactory
         }
 
         $definitions = [
-            LoopInterface::class => static fn(ContainerInterface $_) => Loop::get(),
+            LoopInterface::class => static fn() => Loop::get(),
             ReactEventBus::class => static fn(ContainerInterface $c) => new ReactEventBus(
                 $c->get(LoopInterface::class)
             ),
@@ -44,6 +44,13 @@ class ContainerFactory
             $builder->addDefinitions($definitions);
         }
 
-        return $builder->build();
+        $container = $builder->build();
+        $container->get(Bus::class)->subscribe(
+            'foo',
+            function ($data) {
+                var_dump($data);
+            }
+        );
+        return $container;
     }
 }
