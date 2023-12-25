@@ -2,17 +2,17 @@
 
 namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
 
-use Pascualmg\Rx\ddd\Domain\Bus\Bus;
 use Pascualmg\Rx\ddd\Domain\Bus\Message;
+use Pascualmg\Rx\ddd\Domain\Bus\MessageBus;
 use Pascualmg\Rx\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 class EchoController implements HttpRequestHandler
 {
-    private Bus $bus;
+    private MessageBus $bus;
 
-    public function __construct(Bus $bus)
+    public function __construct(MessageBus $bus)
     {
         $this->bus = $bus;
 

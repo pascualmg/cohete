@@ -2,19 +2,19 @@
 
 namespace Pascualmg\Rx\ddd\Application\Post;
 
-use Pascualmg\Rx\ddd\Domain\Bus\Bus;
 use Pascualmg\Rx\ddd\Domain\Bus\Message;
+use Pascualmg\Rx\ddd\Domain\Bus\MessageBus;
 use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
 use React\Promise\PromiseInterface;
 
 class FindPostByIdQueryHandler
 {
     private readonly PostRepository $postRepository;
-    private Bus $bus;
+    private MessageBus $bus;
 
     public function __construct(
         PostRepository $postRepository,
-        Bus $bus
+        MessageBus $bus
     ) {
         $this->postRepository = $postRepository;
         $this->bus = $bus;

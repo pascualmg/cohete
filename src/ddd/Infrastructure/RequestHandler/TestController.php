@@ -2,8 +2,8 @@
 
 namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
 
-use Pascualmg\Rx\ddd\Domain\Bus\Bus;
 use Pascualmg\Rx\ddd\Domain\Bus\Message;
+use Pascualmg\Rx\ddd\Domain\Bus\MessageBus;
 use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
 use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,9 +13,9 @@ use React\Promise\PromiseInterface;
 
 class TestController implements HttpRequestHandler
 {
-    private Bus $bus;
+    private MessageBus $bus;
 
-    public function __construct(Bus $bus, PostRepository $postRepository)
+    public function __construct(MessageBus $bus, PostRepository $postRepository)
     {
         $this->bus = $bus;
     }

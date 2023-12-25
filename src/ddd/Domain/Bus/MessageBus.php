@@ -2,7 +2,7 @@
 
 namespace Pascualmg\Rx\ddd\Domain\Bus;
 
-interface Bus
+interface MessageBus
 {
     public function dispatch(Message $message);
 

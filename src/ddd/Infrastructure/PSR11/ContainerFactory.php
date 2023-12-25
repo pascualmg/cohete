@@ -3,9 +3,9 @@
 namespace Pascualmg\Rx\ddd\Infrastructure\PSR11;
 
 use DI\ContainerBuilder;
-use Pascualmg\Rx\ddd\Domain\Bus\Bus;
+use Pascualmg\Rx\ddd\Domain\Bus\MessageBus;
 use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
-use Pascualmg\Rx\ddd\Infrastructure\Bus\ReactBus;
+use Pascualmg\Rx\ddd\Infrastructure\Bus\ReactMessageBus;
 use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
 use Psr\Container\ContainerInterface;
 use React\EventLoop\Loop;
@@ -31,22 +31,25 @@ class ContainerFactory
 
         $definitions = [
             LoopInterface::class => static fn() => Loop::get(),
-            ReactBus::class => static fn(ContainerInterface $c) => new ReactBus(
+            ReactMessageBus::class => static fn(ContainerInterface $c) => new ReactMessageBus(
                 $c->get(LoopInterface::class)
             ),
-            Bus::class => static fn(ContainerInterface $c) => $c->get(ReactBus::class),
+            MessageBus::class => static fn(ContainerInterface $c) => $c->get(ReactMessageBus::class),
             PostRepository::class => static fn(ContainerInterface $c) => $c->get(MysqlPostRepository::class),
-            'EventBus' => static fn(ContainerInterface $c) => new ReactBus($c->get(LoopInterface::class)),
-            'CommandBus' => static fn(ContainerInterface $c) => new ReactBus($c->get(LoopInterface::class)),
-            'QueryBus' => static fn(ContainerInterface $c) => new ReactBus($c->get(LoopInterface::class)),
+            'EventBus' => static fn(ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
+            'CommandBus' => static fn(ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
+            'QueryBus' => static fn(ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
         ];
 
         if (!empty($definitions)) {
             $builder->addDefinitions($definitions);
         }
 
-        $container = $builder->build();
-        $container->get(Bus::class)->subscribe(
+        try {
+            $container = $builder->build();
+        } catch (\Exception $e) {
+        }
+        $container->get(MessageBus::class)->subscribe(
             'foo',
             function ($data) {
                 var_dump($data);
