@@ -71,9 +71,22 @@ Esto es posible gracias a la naturaleza asíncrona y no bloqueante de ReactPHP, 
 como leer de una base de datos o hacer una solicitud HTTP a otra API) dentro de la función de manejo sin bloquear el
 hilo de ejecución principal de la aplicación. Estas operaciones de E/S devuelven una promesa.
 
-En resumen, esta característica de ReactPHP permite manejar eficientemente operaciones de E/S sin bloquear el hilo
-principal, permitiendo manejar múltiples peticiones simultáneamente y, por tanto, aumentando de manera significativa el
-rendimiento de la aplicación.
+Esta capacidad de manejar las peticiones de forma asíncrona es especialmente valiosa en situaciones donde hay
+operaciones de E/S con un potencial de latencia alta. Por ejemplo, un servidor que tenga que buscar datos en una base de
+datos remota para cada petición se beneficiaría enormemente de esta característica. En un modelo de ejecución
+sincrónico, el servidor debe esperar a que se complete la operación de la base de datos antes de poder procesar la
+siguiente petición. Sin embargo, con ReactPHP y su modelo asíncrono, el servidor puede procesar varias peticiones a la
+vez, mientras espera la respuesta de la base de datos. Mientras una petición está en espera, otras peticiones pueden ser
+procesadas y enviadas, utilizando de manera eficiente el tiempo de CPU y mejorando significativamente el rendimiento y
+la capacidad de respuesta del servidor.
+
+Además, debido a que ReactPHP es no bloqueante, incluso con un número grande de peticiones simultáneas, otras partes de
+tu aplicación o de tu sistema no se verán afectadas y podrán seguir funcionando con normalidad. Esto hace a ReactPHP una
+excelente opción para aplicaciones que necesiten mantener un alto nivel de rendimiento y eficiencia, incluso bajo una
+carga pesada de peticiones.
+
+En resumen, la capacidad de ReactPHP para manejar peticiones de manera asíncrona significa que puede proporcionar un
+servicio rápido y eficiente, incluso en situaciones donde un servidor síncrono se bloquearía o se ralentizaría.
 
 # Instalacion
 
