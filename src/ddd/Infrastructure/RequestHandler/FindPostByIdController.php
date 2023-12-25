@@ -9,7 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Promise\PromiseInterface;
 
-class FindPostByIdHttpRequestHandler implements HttpRequestHandler
+class FindPostByIdController implements HttpRequestHandler
 {
     private FindPostByIdQueryHandler $handler;
 

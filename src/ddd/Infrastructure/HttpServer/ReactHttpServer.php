@@ -144,7 +144,6 @@ class ReactHttpServer
     }
 
 
-
     private static function wrapWithPromise($response): PromiseInterface
     {
         return new Promise(function ($resolve, $_) use ($response) {

@@ -3,7 +3,7 @@
 namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
 
 use Pascualmg\Rx\ddd\Domain\Bus\Bus;
-use Pascualmg\Rx\ddd\Domain\Bus\Event;
+use Pascualmg\Rx\ddd\Domain\Bus\Message;
 use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
 use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
 use Psr\Http\Message\ServerRequestInterface;
@@ -48,7 +48,7 @@ class TestController implements HttpRequestHandler
 
 
         $this->bus->dispatch(
-            new Event(
+            new Message(
                 'foo',
                 "wee! desde testcontroller"
             )

@@ -4,10 +4,10 @@ namespace Pascualmg\Rx\ddd\Infrastructure\Bus;
 
 use Evenement\EventEmitter;
 use Pascualmg\Rx\ddd\Domain\Bus\Bus;
-use Pascualmg\Rx\ddd\Domain\Bus\Event;
+use Pascualmg\Rx\ddd\Domain\Bus\Message;
 use React\EventLoop\LoopInterface;
 
-class ReactEventBus implements Bus
+class ReactBus implements Bus
 {
     private EventEmitter $emitter;
     private LoopInterface $loop;
@@ -18,21 +18,21 @@ class ReactEventBus implements Bus
         $this->loop = $loop;
     }
 
-    public function dispatch(Event $event): void
+    public function dispatch(Message $message): void
     {
-        $this->loop->futureTick(function () use ($event) {
+        $this->loop->futureTick(function () use ($message) {
             $this->emitter->emit(
-                $event->name,
-                [$event->payload]
+                $message->name,
+                [$message->payload]
             );
         });
     }
 
-    public function subscribe(string $eventName, callable $listener): void
+    public function subscribe(string $messageName, callable $listener): void
     {
         //Aquí se emiten eventos asincrónicamente
         $this->emitter->on(
-            $eventName,
+            $messageName,
             function ($payload) use ($listener) {
                 $this->loop->futureTick(function () use ($listener, $payload) {
                     $listener($payload);

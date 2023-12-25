@@ -1,4 +1,4 @@
-POST localhost:8000/foo
+PUT localhost:8000/echo
 Content-Type: application/json
 
 {

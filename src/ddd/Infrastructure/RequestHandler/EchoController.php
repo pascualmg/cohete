@@ -3,10 +3,10 @@
 namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
 
 use Pascualmg\Rx\ddd\Domain\Bus\Bus;
-use Pascualmg\Rx\ddd\Domain\Bus\Event;
+use Pascualmg\Rx\ddd\Domain\Bus\Message;
+use Pascualmg\Rx\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use RingCentral\Psr7\Response;
 
 class EchoController implements HttpRequestHandler
 {
@@ -21,16 +21,12 @@ class EchoController implements HttpRequestHandler
     public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface
     {
         $this->bus->dispatch(
-            new Event(
+            new Message(
                 'foo',
                 ['some payload']
             )
         );
 
-        return new Response(
-            200,
-            ['Content-Type' => 'Application/Text'],
-            "echo from echoRequestHandler"
-        );
+        return JsonResponse::withPayload(serialize($request));
     }
 }

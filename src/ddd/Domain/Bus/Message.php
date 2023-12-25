@@ -2,7 +2,7 @@
 
 namespace Pascualmg\Rx\ddd\Domain\Bus;
 
-class Event
+class Message
 {
     public function __construct(
         public readonly string $name,

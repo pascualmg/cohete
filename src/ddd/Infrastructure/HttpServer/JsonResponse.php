@@ -8,6 +8,10 @@ use React\Http\Message\Response;
 
 class JsonResponse implements StatusCodeInterface
 {
+    private function __construct()
+    {
+        //factory
+    }
 
     public static function create(int $code = self::STATUS_OK, $payload = null): ResponseInterface
     {
