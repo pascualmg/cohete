@@ -159,6 +159,7 @@ class ReactHttpServer
 
         return simpleDispatcher(
             function (RouteCollector $r) use ($routesFromJsonFile) {
+                // "foo, bar baz " => ["FOO", "BAR", "BAZ"]
                 $toUpperWords = static fn(string $text): array => array_values(
                     array_filter(
                         preg_split("/[ ,]/", strtoupper($text)),
