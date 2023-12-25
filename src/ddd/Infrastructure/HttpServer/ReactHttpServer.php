@@ -160,9 +160,16 @@ class ReactHttpServer
 
         return simpleDispatcher(
             function (RouteCollector $r) use ($routesFromJsonFile) {
+                $toUpperWords = static fn(string $text): array => array_values(
+                    array_filter(
+                        preg_split("/[ ,]/", strtoupper($text)),
+                        'strlen'
+                    )
+                );
+
                 foreach ($routesFromJsonFile as $routeFromJsonFile) {
                     $r->addRoute(
-                        $routeFromJsonFile['method'],
+                        $toUpperWords($routeFromJsonFile['method']),
                         $routeFromJsonFile['path'],
                         $routeFromJsonFile['handler']
                     );

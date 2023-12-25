@@ -10,7 +10,7 @@
     "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\TestController"
   },
   {
-    "method": "GET",
+    "method": "GET,PUT post, patch",
     "path": "/echo",
     "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\EchoController"
   },
