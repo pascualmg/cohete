@@ -18,8 +18,64 @@ En cuanto a la estructura del proyecto, está diseñada para seguir la arquitect
 
 Las posibilidades con PHP son mayores de lo que se suele pensar. Este proyecto es una muestra de ello. Te invito a explorarlo, a aprender conmigo y a hacer tus propias contribuciones. ¡Hagamos juntos de este proyecto algo increíble!
 
+## Manejo asíncrono de las peticiones (the core)
 
-***Install***
+Al crear el servidor HTTP con ReactPHP, se le pasa una función de manejo de peticiones. Aquí está la función anónima que
+se pasa al servidor:
+
+```injectablephp
+        $httpServer = new HttpServer(
+            $clientIPMiddleware,
+            function (ServerRequestInterface $request) use ($container, $dispatcher) : PromiseInterface | ResponseInterface {
+                try {
+                    return self::AsyncHandleRequest(
+                        $request,
+                        $container,
+                        $dispatcher
+                    )
+                        ->then(function (ResponseInterface $response) {
+                            return $response;
+                        })
+                        ->catch(function (Throwable $exception) {
+                            return new Response(
+                                409,
+                                ['Content-Type' => 'application/json'],
+                                self::toJson($exception)
+                            );
+                        });
+                } catch (Throwable $exception) {
+                    // Capture only router configuration errors &
+                    // other exceptions not related to request handling
+                    return new Response(
+                        500,
+                        ['Content-Type' => 'application/json'],
+                        self::toJson($exception)
+                    );
+                }
+            }
+        );
+```
+
+En este caso, además de devolver una promesa que se resuelve con un `ResponseInterface` (la respuesta que ReactPHP
+enviará al cliente HTTP), la función de manejo también puede devolver un `ResponseInterface` directamente.
+
+Esto es útil para manejar los errores que se producen al configurar el enrutador y otras excepciones que no están
+relacionadas con el manejo de la petición. En este caso, se devuelve directamente una respuesta con un código de estado
+HTTP 500 que contiene el error en formato JSON.
+
+El hecho de que la función de manejo pueda devolver un `ResponseInterface` o una promesa que se resuelva con
+un `ResponseInterface` es un ejemplo del polimorfismo de las devoluciones en PHP. Esto proporciona una gran flexibilidad
+a la hora de manejar distintas situaciones en tu código.
+
+Esto es posible gracias a la naturaleza asíncrona y no bloqueante de ReactPHP, que permite realizar operaciones de E/S (
+como leer de una base de datos o hacer una solicitud HTTP a otra API) dentro de la función de manejo sin bloquear el
+hilo de ejecución principal de la aplicación. Estas operaciones de E/S devuelven una promesa.
+
+En resumen, esta característica de ReactPHP permite manejar eficientemente operaciones de E/S sin bloquear el hilo
+principal, permitiendo manejar múltiples peticiones simultáneamente y, por tanto, aumentando de manera significativa el
+rendimiento de la aplicación.
+
+# Instalacion
 
 ```bash
 make nix-install 

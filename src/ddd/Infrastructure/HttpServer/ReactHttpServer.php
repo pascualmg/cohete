@@ -46,7 +46,10 @@ class ReactHttpServer
 
         $httpServer = new HttpServer(
             $clientIPMiddleware,
-            function (ServerRequestInterface $request) use ($container, $dispatcher) {
+            function (ServerRequestInterface $request) use (
+                $container,
+                $dispatcher
+            ): PromiseInterface|ResponseInterface {
                 try {
                     return self::AsyncHandleRequest(
                         $request,
