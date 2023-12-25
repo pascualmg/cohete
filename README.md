@@ -56,20 +56,22 @@ se pasa al servidor:
         );
 ```
 
-En este caso, además de devolver una promesa que se resuelve con un `ResponseInterface` (la respuesta que ReactPHP
-enviará al cliente HTTP), la función de manejo también puede devolver un `ResponseInterface` directamente.
-
-Esto es útil para manejar los errores que se producen al configurar el enrutador y otras excepciones que no están
-relacionadas con el manejo de la petición. En este caso, se devuelve directamente una respuesta con un código de estado
-HTTP 500 que contiene el error en formato JSON.
-
-El hecho de que la función de manejo pueda devolver un `ResponseInterface` o una promesa que se resuelva con
-un `ResponseInterface` es un ejemplo del polimorfismo de las devoluciones en PHP. Esto proporciona una gran flexibilidad
-a la hora de manejar distintas situaciones en tu código.
+En la función de manejo de peticiones que se pasa al servidor HTTP de ReactPHP, la petición se procesa de manera
+asíncrona mediante la invocación de la función `AsyncHandleRequest`. Esta función procesa la petición y devuelve una
+promesa. Esta promesa se resolverá con un objeto implementando `ResponseInterface` y esa respuesta será la que ReactPHP
+enviará al cliente HTTP.
 
 Esto es posible gracias a la naturaleza asíncrona y no bloqueante de ReactPHP, que permite realizar operaciones de E/S (
 como leer de una base de datos o hacer una solicitud HTTP a otra API) dentro de la función de manejo sin bloquear el
-hilo de ejecución principal de la aplicación. Estas operaciones de E/S devuelven una promesa.
+hilo de ejecución principal de la aplicación. Estas operaciones de E/S son asíncronas y devuelven una promesa.
+
+Por lo tanto, al devolverse una promesa en las funciones de manejo, ReactPHP espera a que esta promesa se resuelva antes
+de enviar la respuesta al cliente HTTP. Esto permite realizar operaciones de E/S asíncronas y simplemente devolver una
+promesa que se resolverá con la respuesta cuando todas las operaciones de E/S hayan finalizado.
+
+En situaciones de error no relacionados con el manejo de la petición (como errores de configuración del enrutador), la
+función de manejo puede devolver directamente una respuesta con un código de estado HTTP 500 o similar, lo cual
+proporciona flexibilidad para manejar diversas situaciones de error a nivel del servidor.
 
 Esta capacidad de manejar las peticiones de forma asíncrona es especialmente valiosa en situaciones donde hay
 operaciones de E/S con un potencial de latencia alta. Por ejemplo, un servidor que tenga que buscar datos en una base de
@@ -87,7 +89,6 @@ carga pesada de peticiones.
 
 En resumen, la capacidad de ReactPHP para manejar peticiones de manera asíncrona significa que puede proporcionar un
 servicio rápido y eficiente, incluso en situaciones donde un servidor síncrono se bloquearía o se ralentizaría.
-
 # Instalacion
 
 ```bash
