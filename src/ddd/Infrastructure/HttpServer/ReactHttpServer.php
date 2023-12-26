@@ -52,20 +52,22 @@ class ReactHttpServer
             ): PromiseInterface|ResponseInterface {
                 try {
                     return self::AsyncHandleRequest(
-                        $request,
-                        $container,
-                        $dispatcher
-                    )
-                        ->then(function (ResponseInterface $response) {
+                        request: $request,
+                        container: $container,
+                        dispatcher: $dispatcher
+                    )->then(
+                        onFulfilled: function (ResponseInterface $response): ResponseInterface {
                             return $response;
-                        })
-                        ->catch(function (Throwable $exception) {
+                        }
+                    )->catch(
+                        onRejected: function (Throwable $exception): ResponseInterface {
                             return new Response(
                                 409,
                                 ['Content-Type' => 'application/json'],
                                 self::toJson($exception)
                             );
-                        });
+                        }
+                    );
                 } catch (Throwable $exception) {
                     // Capture only router configuration errors &
                     // other exceptions not related to request handling
@@ -163,7 +165,7 @@ class ReactHttpServer
         return simpleDispatcher(
             function (RouteCollector $r) use ($routesFromJsonFile) {
                 // "foo, bar baz " => ["FOO", "BAR", "BAZ"]
-                $toUpperWords = static fn(string $text): array => array_values(
+                $toUpperWords = static fn (string $text): array => array_values(
                     array_filter(
                         preg_split("/[ ,]/", strtoupper($text)),
                         'strlen'

@@ -117,3 +117,45 @@ Si deseas simplificar tu flujo de trabajo evitando la necesidad de ejecutar `nix
 
 Si después de seguir estos pasos, `direnv` aún no funciona como se esperaba, verifica los detalles de tu instalación y configuración.
 
+
+# PHP Asíncrono: Una Nueva Perspectiva
+
+PHP, conocido por su uso tradicional en desarrollo web síncrono, puede ser también muy potente en contextos asíncronos, permitiéndonos optimizar la eficiencia de nuestras aplicaciones. Cambiar nuestro "chip" para adoptar este enfoque puede parecer complejo, pero en realidad nos abre una puerta a nuevas y apasionantes posibilidades.
+
+## Cambiando el paradigma
+
+La programación asíncrona significa que podemos empezar tareas sin tener que esperar a que otras terminen, permitiendo a nuestro código avanzar sin quedar bloqueado. Este enfoque es particularmente útil para tareas que dependen de la entrada/salida (I/O), como las operaciones de red, lectura/escritura de archivos, interacciones con bases de datos, entre otras.
+
+Nuestro enfoque para explicar este cambio de paradigma será a través de dos casos de uso: `FindAllPostController` y `FindPostById`. Aunque los detalles específicos y el código serán añadidos posteriormente, lo importante a recordar es cómo aprovechamos esta asincronía en nuestra lógica de negocio.
+
+## Declarativo sobre Imperativo
+
+La clave del enfoque asíncrono es adoptar un estilo de programación más declarativo que imperativo. En lugar de decir cómo hacer algo con instrucciones detalladas, describimos qué queremos lograr y dejamos que el sistema decida cómo implementarlo. Esto es particularmente evidente en DDD (Domain-Driven Design), donde nuestro código refleja el dominio del negocio de forma más clara y abstracta.
+
+Nuestra estrategia será recibir una petición, iniciar la lógica de negocio correspondiente, y devolver una respuesta sin tener que esperar a que esta lógica termine completamente. Esto permite mantener la agilidad de nuestra aplicación, mejorando la experiencia de usuario al minimizar los tiempos de espera.
+
+Este cambio de "chip" puede ser desafiante, pero las recompensas en términos de eficiencia y rendimiento son enormes. Te invitamos a descubrir más a medida que profundizamos en estos casos de uso con PHP asíncrono.
+
+
+# Beneficios de utilizar este Microframework basado en ReactPHP
+
+Este microframework basado en ReactPHP ofrece muchas ventajas frente a frameworks más grandes y pesados como Symfony. Aunque Symfony tiene muchas características útiles, la simplicidad y la eficiencia de nuestro microframework los hacen especialmente atractivos para ciertas aplicaciones. Algunas de las ventajas incluyen:
+
+## Ligereza
+
+ReactPHP es extremadamente ligero en comparación con Symfony. Esto hace que nuestro microframework sea rápido de instalar y ejecutar, lo que permite un tiempo de arranque más corto y una latencia más baja. También es menos probable que consuma recursos del sistema, lo que puede ser un beneficio significativo en sistemas con recursos limitados.
+
+## Contenedor de dependencias con autowiring
+
+El contenedor de dependencias con autowiring significa que las dependencias se manejan automáticamente, lo que puede simplificar significativamente la administración de los objetos dependientes. Esto también puede dar lugar a un código más limpio y más fácil de mantener.
+
+## Configuración del router
+
+Una configuración excepcionalmente suave del enrutador permite una fácil definición de rutas, lo que aumenta la velocidad de desarrollo y contribuye a la claridad del código.
+
+## Bus asíncrono
+
+Con un bus asíncrono, las comunicaciones entre diferentes partes de la aplicación no bloquean la ejecución. Esto significa que la aplicación puede continuar trabajando en otras tareas mientras espera las comunicaciones del bus, lo que puede mejorar la eficiencia y rendimiento de la aplicación.
+
+Estos son solo algunos de los beneficios de utilizar este microframework basado en ReactPHP en lugar de una opción más grande y posiblemente más complicada como Symfony. Aunque Symfony sigue siendo una excelente opción para ciertos proyectos, para los que buscan simplicidad, eficiencia y un enfoque asíncrono, nuestro microframework es una alternativa excepcionalmente atractiva.
+
