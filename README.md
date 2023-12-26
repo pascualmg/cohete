@@ -137,25 +137,24 @@ Nuestra estrategia será recibir una petición, iniciar la lógica de negocio co
 Este cambio de "chip" puede ser desafiante, pero las recompensas en términos de eficiencia y rendimiento son enormes. Te invitamos a descubrir más a medida que profundizamos en estos casos de uso con PHP asíncrono.
 
 
-# Beneficios de utilizar este Microframework basado en ReactPHP
+#  Algunas 🔋 incluidas
 
-Este microframework basado en ReactPHP ofrece muchas ventajas frente a frameworks más grandes y pesados como Symfony. Aunque Symfony tiene muchas características útiles, la simplicidad y la eficiencia de nuestro microframework los hacen especialmente atractivos para ciertas aplicaciones. Algunas de las ventajas incluyen:
+Este framework  ofrece una serie de características robustas para los proyectos que buscan optimizar la eficiencia y rendimiento en tareas asíncronas con PHP.
 
-## Ligereza
+## Contenedor de Dependencias con Autowiring
 
-ReactPHP es extremadamente ligero en comparación con Symfony. Esto hace que nuestro microframework sea rápido de instalar y ejecutar, lo que permite un tiempo de arranque más corto y una latencia más baja. También es menos probable que consuma recursos del sistema, lo que puede ser un beneficio significativo en sistemas con recursos limitados.
+Implementado con PHP-DI, el contenedor de dependencias, facilita la gestión de las dependencias de la aplicación y contribuye a un diseño de código limpio y de fácil mantenimiento.
 
-## Contenedor de dependencias con autowiring
+## Enrutador
 
-El contenedor de dependencias con autowiring significa que las dependencias se manejan automáticamente, lo que puede simplificar significativamente la administración de los objetos dependientes. Esto también puede dar lugar a un código más limpio y más fácil de mantener.
+Con el uso de FastRoute como enrutador, el framework permite una definición y manejo claro de las rutas en el código, mejorando su legibilidad y acelerando el desarrollo.
 
-## Configuración del router
+## Bus Asíncrono
 
-Una configuración excepcionalmente suave del enrutador permite una fácil definición de rutas, lo que aumenta la velocidad de desarrollo y contribuye a la claridad del código.
+El bus asíncrono, basado en ReactPHP y Evenement, gestiona eficientemente la comunicación entre las diversas partes de la aplicación, mejorando su rendimiento.
 
-## Bus asíncrono
+Aunque estas características amplían la funcionalidad, permanecen completamente desacopladas del núcleo del framework, que sigue siendo una función simples que recibe una solicitud y devuelve una respuesta.
 
-Con un bus asíncrono, las comunicaciones entre diferentes partes de la aplicación no bloquean la ejecución. Esto significa que la aplicación puede continuar trabajando en otras tareas mientras espera las comunicaciones del bus, lo que puede mejorar la eficiencia y rendimiento de la aplicación.
+# Flexibilidad y Facilidad de Modificación
 
-Estos son solo algunos de los beneficios de utilizar este microframework basado en ReactPHP en lugar de una opción más grande y posiblemente más complicada como Symfony. Aunque Symfony sigue siendo una excelente opción para ciertos proyectos, para los que buscan simplicidad, eficiencia y un enfoque asíncrono, nuestro microframework es una alternativa excepcionalmente atractiva.
-
+Las funcionalidades presentadas, como la arquitectura DDD, son únicamente una propuesta inicial. El framework está diseñado con una arquitectura flexible que facilita la modificación, adición o eliminación de funcionalidades según sean necesarias. De esta manera, el framework se puede ajustar para satisfacer las necesidades específicas de cada proyecto.
