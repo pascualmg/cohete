@@ -30,15 +30,15 @@ class ContainerFactory
         }
 
         $definitions = [
-            LoopInterface::class => static fn() => Loop::get(),
-            ReactMessageBus::class => static fn(ContainerInterface $c) => new ReactMessageBus(
+            LoopInterface::class => static fn () => Loop::get(),
+            ReactMessageBus::class => static fn (ContainerInterface $c) => new ReactMessageBus(
                 $c->get(LoopInterface::class)
             ),
-            MessageBus::class => static fn(ContainerInterface $c) => $c->get(ReactMessageBus::class),
-            PostRepository::class => static fn(ContainerInterface $c) => $c->get(MysqlPostRepository::class),
-            'EventBus' => static fn(ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
-            'CommandBus' => static fn(ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
-            'QueryBus' => static fn(ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
+            MessageBus::class => static fn (ContainerInterface $c) => $c->get(ReactMessageBus::class),
+            PostRepository::class => static fn (ContainerInterface $c) => $c->get(MysqlPostRepository::class),
+            'EventBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
+            'CommandBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
+            'QueryBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
         ];
 
         if (!empty($definitions)) {

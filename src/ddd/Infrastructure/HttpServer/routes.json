@@ -1,8 +1,8 @@
 [
   {
     "method": "GET",
-    "path": "/posts",
-    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\TestController"
+    "path": "/post",
+    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\FindAllPostsController"
   },
   {
     "method": "POST",
@@ -22,11 +22,11 @@
   {
     "method": "GET",
     "path": "/health",
-    "handler": "\\Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\HealthRequestHandler"
+    "handler": "\\Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\HealthController"
   },
   {
     "method": "GET",
     "path": "/post/{id:[0-9]+}",
-    "handler": "\\Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\FindPostByIdHttpRequestHandler"
+    "handler": "\\Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\FindPostByIdController"
   }
 ]
