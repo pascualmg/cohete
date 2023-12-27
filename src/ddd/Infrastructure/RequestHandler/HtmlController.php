@@ -10,11 +10,11 @@ use React\Promise\PromiseInterface;
 use React\Stream\ReadableResourceStream;
 use React\Stream\ThroughStream;
 
-class HtmlController implements HttpRequestHandler
+class HtmlController implements HttpRequestHandler, StatusCodeInterface
 {
     public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface|PromiseInterface
     {
-        $foo = new ThroughStream('strtoupper');
+        $foo = new ThroughStream(static fn ($id) => $id);
 
         //en vez de usar un file_get_contents usamos un stream
         $html = new ReadableResourceStream(
@@ -25,7 +25,7 @@ class HtmlController implements HttpRequestHandler
         );
 
         return new Response(
-            StatusCodeInterface::STATUS_OK,
+            self::STATUS_OK,
             ['Content-Type' => 'text/html'],
             $html->pipe($foo)
         );
