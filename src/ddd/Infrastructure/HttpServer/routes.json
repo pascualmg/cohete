@@ -16,7 +16,7 @@
   },
   {
     "method": "GET",
-    "path": "/html",
+    "path": "/html[{params:.+}]",
     "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\HtmlController"
   },
   {
