@@ -1,11 +1,11 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
+namespace pascualmg\reactor\ddd\Infrastructure\RequestHandler;
 
-use Pascualmg\Rx\ddd\Domain\Bus\Message;
-use Pascualmg\Rx\ddd\Domain\Bus\MessageBus;
-use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
-use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
+use pascualmg\reactor\ddd\Domain\Bus\Message;
+use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
+use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
+use pascualmg\reactor\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
 use React\Promise\Deferred;

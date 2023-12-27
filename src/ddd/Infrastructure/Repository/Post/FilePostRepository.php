@@ -1,12 +1,12 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Infrastructure\Repository\Post;
+namespace pascualmg\reactor\ddd\Infrastructure\Repository\Post;
 
 use DateTimeImmutable;
 use Exception;
 use JsonException;
-use Pascualmg\Rx\ddd\Domain\Entity\Post;
-use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
+use pascualmg\reactor\ddd\Domain\Entity\Post;
+use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
 use React\Promise\Deferred;
 use React\Promise\Promise;
 use React\Promise\PromiseInterface;

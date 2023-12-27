@@ -2,22 +2,22 @@
   {
     "method": "GET",
     "path": "/post",
-    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\FindAllPostsController"
+    "handler": "pascualmg\\reactor\\ddd\\Infrastructure\\RequestHandler\\FindAllPostsController"
   },
   {
     "method": "POST",
     "path": "/test",
-    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\TestController"
+    "handler": "pascualmg\\reactor\\ddd\\Infrastructure\\RequestHandler\\TestController"
   },
   {
     "method": "GET,PUT post, patch",
     "path": "/echo",
-    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\EchoController"
+    "handler": "pascualmg\\reactor\\ddd\\Infrastructure\\RequestHandler\\EchoController"
   },
   {
     "method": "GET",
     "path": "/html[{params:.+}]",
-    "handler": "Pascualmg\\Rx\\ddd\\Infrastructure\\RequestHandler\\HtmlController"
+    "handler": "pascualmg\\reactor\\ddd\\Infrastructure\\RequestHandler\\HtmlController"
   },
   {
     "method": "GET",

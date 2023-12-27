@@ -1,6 +1,6 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Domain\Bus;
+namespace pascualmg\reactor\ddd\Domain\Bus;
 
 interface MessageBus
 {

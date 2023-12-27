@@ -1,9 +1,9 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Infrastructure\Repository\Post;
+namespace pascualmg\reactor\ddd\Infrastructure\Repository\Post;
 
-use Pascualmg\Rx\ddd\Domain\Entity\Post;
-use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
+use pascualmg\reactor\ddd\Domain\Entity\Post;
+use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
 use React\Mysql\MysqlClient;
 use React\Mysql\MysqlResult;
 use React\Promise\Deferred;

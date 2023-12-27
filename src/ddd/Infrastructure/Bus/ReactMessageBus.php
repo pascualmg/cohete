@@ -1,10 +1,10 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Infrastructure\Bus;
+namespace pascualmg\reactor\ddd\Infrastructure\Bus;
 
 use Evenement\EventEmitter;
-use Pascualmg\Rx\ddd\Domain\Bus\Message;
-use Pascualmg\Rx\ddd\Domain\Bus\MessageBus;
+use pascualmg\reactor\ddd\Domain\Bus\Message;
+use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
 use React\EventLoop\LoopInterface;
 
 class ReactMessageBus implements MessageBus

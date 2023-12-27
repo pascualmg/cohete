@@ -1,9 +1,9 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
+namespace pascualmg\reactor\ddd\Infrastructure\RequestHandler;
 
 use Fig\Http\Message\StatusCodeInterface;
-use Pascualmg\Rx\ddd\Infrastructure\HttpServer\JsonResponse;
+use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;

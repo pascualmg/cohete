@@ -1,6 +1,6 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Application\Post;
+namespace pascualmg\reactor\ddd\Application\Post;
 
 class FindAllPostsQuery
 {

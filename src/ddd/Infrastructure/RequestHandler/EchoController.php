@@ -1,10 +1,10 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
+namespace pascualmg\reactor\ddd\Infrastructure\RequestHandler;
 
-use Pascualmg\Rx\ddd\Domain\Bus\Message;
-use Pascualmg\Rx\ddd\Domain\Bus\MessageBus;
-use Pascualmg\Rx\ddd\Infrastructure\HttpServer\JsonResponse;
+use pascualmg\reactor\ddd\Domain\Bus\Message;
+use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
+use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 

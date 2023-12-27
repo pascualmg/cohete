@@ -1,6 +1,6 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Infrastructure\HttpServer;
+namespace pascualmg\reactor\ddd\Infrastructure\HttpServer;
 
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;

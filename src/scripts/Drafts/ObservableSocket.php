@@ -1,6 +1,6 @@
 <?php
 
-namespace Pascualmg\Rx\Drafts;
+namespace pascualmg\reactor\Drafts;
 
 use React\EventLoop\Loop;
 use React\Socket\ConnectionInterface;

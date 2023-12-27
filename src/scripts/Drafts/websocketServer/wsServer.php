@@ -5,7 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 require "../../../../vendor/autoload.php";
 
-use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
+use pascualmg\reactor\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use Ratchet\Server\IoServer;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
+namespace pascualmg\reactor\ddd\Infrastructure\RequestHandler;
 
-use Pascualmg\Rx\ddd\Application\Post\FindAllPosts;
-use Pascualmg\Rx\ddd\Application\Post\FindAllPostsQuery;
-use Pascualmg\Rx\ddd\Infrastructure\HttpServer\JsonResponse;
+use pascualmg\reactor\ddd\Application\Post\FindAllPosts;
+use pascualmg\reactor\ddd\Application\Post\FindAllPostsQuery;
+use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Promise\PromiseInterface;
 

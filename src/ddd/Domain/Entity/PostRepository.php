@@ -1,6 +1,6 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Domain\Entity;
+namespace pascualmg\reactor\ddd\Domain\Entity;
 
 use React\Promise\PromiseInterface;
 

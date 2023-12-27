@@ -1,12 +1,12 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Infrastructure\HttpServer;
+namespace pascualmg\reactor\ddd\Infrastructure\HttpServer;
 
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use FriendsOfReact\Http\Middleware\Psr15Adapter\PSR15Middleware;
 use Middlewares\ClientIp;
-use Pascualmg\Rx\ddd\Infrastructure\PSR11\ContainerFactory;
+use pascualmg\reactor\ddd\Infrastructure\PSR11\ContainerFactory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

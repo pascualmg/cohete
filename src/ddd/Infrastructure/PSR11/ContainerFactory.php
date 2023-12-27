@@ -1,12 +1,12 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Infrastructure\PSR11;
+namespace pascualmg\reactor\ddd\Infrastructure\PSR11;
 
 use DI\ContainerBuilder;
-use Pascualmg\Rx\ddd\Domain\Bus\MessageBus;
-use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
-use Pascualmg\Rx\ddd\Infrastructure\Bus\ReactMessageBus;
-use Pascualmg\Rx\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
+use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
+use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
+use pascualmg\reactor\ddd\Infrastructure\Bus\ReactMessageBus;
+use pascualmg\reactor\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
 use Psr\Container\ContainerInterface;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Application\Post;
+namespace pascualmg\reactor\ddd\Application\Post;
 
-use Pascualmg\Rx\ddd\Domain\Entity\PostRepository;
+use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
 use React\Promise\PromiseInterface;
 
 class FindPostByIdQueryHandler

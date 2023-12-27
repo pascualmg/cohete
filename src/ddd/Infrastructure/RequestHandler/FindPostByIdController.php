@@ -1,11 +1,11 @@
 <?php
 
-namespace Pascualmg\Rx\ddd\Infrastructure\RequestHandler;
+namespace pascualmg\reactor\ddd\Infrastructure\RequestHandler;
 
-use Pascualmg\Rx\ddd\Application\Post\FindPostByIdQuery;
-use Pascualmg\Rx\ddd\Application\Post\FindPostByIdQueryHandler;
-use Pascualmg\Rx\ddd\Domain\Entity\Post;
-use Pascualmg\Rx\ddd\Infrastructure\HttpServer\JsonResponse;
+use pascualmg\reactor\ddd\Application\Post\FindPostByIdQuery;
+use pascualmg\reactor\ddd\Application\Post\FindPostByIdQueryHandler;
+use pascualmg\reactor\ddd\Domain\Entity\Post;
+use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Promise\PromiseInterface;

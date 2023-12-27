@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 require __DIR__ . '/../vendor/autoload.php';
 
 use Dotenv\Dotenv;
-use Pascualmg\Rx\ddd\Infrastructure\HttpServer\ReactHttpServer;
+use pascualmg\reactor\ddd\Infrastructure\HttpServer\ReactHttpServer;
 
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
