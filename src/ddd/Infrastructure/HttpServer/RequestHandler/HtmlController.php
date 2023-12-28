@@ -4,6 +4,7 @@ namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
 
 use Fig\Http\Message\StatusCodeInterface;
 use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
@@ -13,19 +14,28 @@ use React\Stream\ThroughStream;
 
 class HtmlController implements HttpRequestHandler, StatusCodeInterface
 {
-    public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface|PromiseInterface
+    public function __construct(ContainerInterface $container)
+    {
+    }
+
+    public function __invoke(
+        ServerRequestInterface $request,
+        ?array $routeParams
+    ): ResponseInterface|PromiseInterface
     {
         //omg :) nice
         $foo = new ThroughStream(static fn($id) => $id);
 
-        $uri = __DIR__ . '/../HttpServer/html' . $routeParams['params'];
+        $uri = dirname(__DIR__,1) . '/html' . $routeParams['params'] ?? "";
 
-        if(!file_exists($uri)){
+        if(
+            !file_exists($uri) ||
+            is_dir($uri)
+        ){
            return JsonResponse::notFound($uri);
         }
         $html = new ReadableResourceStream(
             fopen(
-                //'/Users/passh/src/reactphp/rxphp/src/ddd/Infrastructure/HttpServer/html/websocketTest.html',
             $uri,
                 'rb'
             )

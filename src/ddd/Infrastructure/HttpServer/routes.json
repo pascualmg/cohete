@@ -22,11 +22,11 @@
   {
     "method": "GET",
     "path": "/health",
-    "handler": "\\Pascualmg\\Rx\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\HealthController"
+    "handler": "\\pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\HealthController"
   },
   {
     "method": "GET",
     "path": "/post/{id:[0-9]+}",
-    "handler": "\\Pascualmg\\Rx\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\FindPostByIdController"
+    "handler": "\\pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\FindPostByIdController"
   }
 ]
