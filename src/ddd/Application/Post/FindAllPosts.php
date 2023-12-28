@@ -3,6 +3,7 @@
 namespace pascualmg\reactor\ddd\Application\Post;
 
 use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
+use React\Promise\PromiseInterface;
 
 class FindAllPosts
 {
@@ -12,7 +13,7 @@ class FindAllPosts
     }
 
 
-    public function __invoke(FindAllPostsQuery $findAllPostsQuery)
+    public function __invoke(FindAllPostsQuery $findAllPostsQuery): PromiseInterface
     {
         return $this->postRepository->findAll();
     }
