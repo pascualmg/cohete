@@ -161,3 +161,146 @@ Aunque estas características amplían la funcionalidad, permanecen completament
 # Flexibilidad y Facilidad de Modificación
 
 Las funcionalidades presentadas, como la arquitectura DDD, son únicamente una propuesta inicial. El framework está diseñado con una arquitectura flexible que facilita la modificación, adición o eliminación de funcionalidades según sean necesarias. De esta manera, el framework se puede ajustar para satisfacer las necesidades específicas de cada proyecto.
+
+# Ejemplos de Mysql no bloqueante . 
+
+## Una consulta simple
+**tradicional**
+```injectablephp
+public function findById(int $postId): ?Post 
+{
+    $mysqli = new mysqli("localhost", "usuario", "contraseña", "base_de_datos");
+
+    $stmt = $mysqli->prepare("SELECT * FROM post WHERE post.id = ?");
+    $stmt->bind_param("i", $postId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $rawPostData = $result->fetch_assoc();
+
+    return $rawPostData === null ? null : new Post(
+        $rawPostData['id'],
+        $rawPostData['title'] . $rawPostData['content'],
+        new \DateTimeImmutable($rawPostData['created_at'])
+    );
+}
+```
+**asíncrono con Promises**
+```injectablephp
+    public function findById(int $postId): PromiseInterface //of Post or Null
+    {
+        $deferred = new Deferred();
+
+        $this->mysqlClient->query(
+            "SELECT * FROM post where post.id = ?",
+            [$postId]
+        )->then(function (MysqlResult $mysqlResult) use ($deferred) {
+            $rawPostData = $mysqlResult->resultRows[0] ?? null;
+
+            $deferred->resolve(
+                $rawPostData === null ? null : new Post(
+                    $rawPostData['id'],
+                    $rawPostData['title'] . $rawPostData['content'],
+                    new \DateTimeImmutable($rawPostData['created_at'])
+                )
+            );
+        });
+
+        return $deferred->promise();
+    }
+```
+
+## Ejemplo de transacción
+
+**tradicional**
+
+```injectablephp
+$mysqli = new mysqli("localhost", "usuario", "contraseña", "base_de_datos");
+
+$amount = 100; // Transferir $100 de la cuenta 1 a la cuenta 2
+try {
+    $mysqli->autocommit(FALSE);
+
+    $stmt = $mysqli->prepare('UPDATE account SET balance = balance - ? WHERE id = 1');
+    $stmt->bind_param("i", $amount);
+    $stmt->execute();
+    
+    $stmt = $mysqli->prepare('UPDATE account SET balance = balance + ? WHERE id = 2');
+    $stmt->bind_param("i", $amount);
+    $stmt->execute();
+
+    $mysqli->commit(); // Si todo fue exitoso, confirma la transacción
+} catch (\Exception $e) {
+    $mysqli->rollback(); // Si algo falló, revierte la transacción
+    throw $e; // Lanza la excepción para manejarla en el código externo
+};
+```
+
+**asíncrono con promises**
+
+```injectablephp
+use React\MySQL\ConnectionInterface;
+
+$connection = new ConnectionInterface;  // Asegúrate de tener una instancia de ConnectionInterface y reemplaza esto según tu configuración de conexión
+
+$connection->query('BEGIN')
+    ->then(function() use ($connection) {
+        $amount = 100;  // Suponemos que estamos transfiriendo $100 de la cuenta 1 a la cuenta 2
+
+        return $connection->query('UPDATE account SET balance = balance - ? WHERE id = 1', [$amount])
+            ->then(function() use ($connection, $amount) {
+                return $connection->query('UPDATE account SET balance = balance + ? WHERE id = 2', [$amount]);
+            });
+    })
+    ->then(function () use ($connection) {
+        return $connection->query('COMMIT');
+    })
+    ->catch(function (\Exception $e) use ($connection) {
+        $connection->query('ROLLBACK');
+        throw $e;
+    });
+```
+
+**con rxPHP!? :)**
+```injectablephp
+use React\MySQL\ConnectionInterface;
+use Rx\Observable;
+
+$connection = new ConnectionInterface; // Asegúrate de tener una instancia de ConnectionInterface y reemplaza esto según tu configuración de conexión
+
+// Iniciar la transacción
+$beginTransaction = Observable::fromPromise($connection->query('BEGIN'));
+
+// Enviar la consulta de debito
+$debitAccount = Observable::fromPromise(
+    $connection->query('UPDATE account SET balance = balance - ? WHERE id = 1', [$amount = 100]) // Transferir $100 de la cuenta 1 a la cuenta 2
+);
+
+// Enviar la consulta de credito
+$creditAccount = Observable::fromPromise(
+    $connection->query('UPDATE account SET balance = balance + ? WHERE id = 2', [$amount])
+);
+
+// Enviar el COMMIT si todo fue exitoso
+$commitTransaction = Observable::fromPromise($connection->query('COMMIT'));
+
+// Secuenciando las operaciones anteriores
+$transaction = $beginTransaction
+    ->concat($debitAccount)
+    ->concat($creditAccount)
+    ->concat($commitTransaction)
+    ->share();
+
+// Lidiando con los éxitos
+$transaction
+    ->subscribe(
+        function() { echo "Operación exitosa \n"; },
+        // En caso de error, hacer un rollback
+        function(\Exception $e) use ($connection) {
+            echo "Hubo un error, haciendo rollback \n";
+            $connection->query('ROLLBACK');
+            throw $e;
+        },
+        function() { echo "La transacción ha sido completada \n"; }
+    );
+```
+
