@@ -54,7 +54,7 @@ Las posibilidades con PHP son extensas. Reactor es un ejemplo de esto. Este proy
 Al crear el servidor HTTP con ReactPHP, se le pasa una función de manejo de peticiones. Aquí está la función anónima que
 se pasa al servidor:
 
-```injectablephp
+```php
         $httpServer = new HttpServer(
             $clientIPMiddleware,
             function (ServerRequestInterface $request) use ($container, $dispatcher) : PromiseInterface | ResponseInterface {
