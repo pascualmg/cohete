@@ -22,24 +22,20 @@ class MysqlPostRepository implements PostRepository
     {
         $deferred = new Deferred();
 
-        $this->mysqlClient->query('SELECT * FROM post')->then(
-            function (MysqlResult $command) use ($deferred) {
-                echo count($command->resultRows) . ' row(s) in set' . PHP_EOL;
-                $deferred->resolve(
-                    array_map(
-                        static fn ($resultRow) => new Post(
-                            $resultRow['id'],
-                            $resultRow['title'] . $resultRow['content'],
-                            new \DateTimeImmutable($resultRow['created_at'])
-                        ),
-                        $command->resultRows
-                    )
-                );
-            },
-            function (\Throwable $error) {
-                echo 'Error: ' . $error->getMessage() . PHP_EOL;
-            }
-        );
+        $this->mysqlClient->query('SELECT * FROM post')
+            ->then(
+                function (MysqlResult $command) use ($deferred) {
+                    $deferred->resolve(
+                        array_map(
+                            [self::class, 'hydrate'],
+                            $command->resultRows
+                        )
+                    );
+                },
+                function (\Throwable $error) {
+                    echo 'Error: ' . $error->getMessage() . PHP_EOL;
+                }
+            );
         return $deferred->promise();
     }
 
@@ -51,17 +47,33 @@ class MysqlPostRepository implements PostRepository
             "SELECT * FROM post where post.id = ?",
             [$postId]
         )->then(function (MysqlResult $mysqlResult) use ($deferred) {
-            $rawPostData = $mysqlResult->resultRows[0] ?? null;
-
             $deferred->resolve(
-                $rawPostData === null ? null : new Post(
-                    $rawPostData['id'],
-                    $rawPostData['title'] . $rawPostData['content'],
-                    new \DateTimeImmutable($rawPostData['created_at'])
+                self::hydrateOrNull(
+                    $mysqlResult->resultRows[0] ?? null
                 )
             );
         });
 
         return $deferred->promise();
+    }
+
+    private static function hydrateOrNull(?array $maybeResultRow): ?Post
+    {
+        if (null === $maybeResultRow) {
+            return null;
+        }
+        return self::hydrate($maybeResultRow);
+    }
+
+    private static function hydrate(array $rawPost): Post
+    {
+        return new Post(
+            $rawPost['id'],
+            $rawPost['title'],
+            $rawPost['content'],
+            "",
+            "",
+            new \DateTimeImmutable($rawPost['created_at'])
+        );
     }
 }
