@@ -13,4 +13,7 @@ run-prod:
 fix:
 	php-cs-fixer fix ./src
 
-.PHONY: run watch install-nix run-prod fix
+migrate:
+	./vendor/bin/phinx migrate
+
+.PHONY: run watch install-nix run-prod fix migrate

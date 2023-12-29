@@ -69,10 +69,10 @@ class MysqlPostRepository implements PostRepository
     {
         return new Post(
             $rawPost['id'],
-            $rawPost['title'],
-            $rawPost['content'],
-            "",
-            "",
+            $rawPost['headline'] ?? "",
+            $rawPost['articleBody'] ?? "",
+            $rawPost['image'] ?? "",
+            $rawPost['author'] ?? "",
             new \DateTimeImmutable($rawPost['created_at'])
         );
     }

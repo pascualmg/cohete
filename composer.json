@@ -12,7 +12,9 @@
         "php-di/php-di": "^7.0",
         "nikic/fast-route": "^1.3",
         "vlucas/phpdotenv": "^5.6",
-        "fig/http-message-util": "^1"
+        "fig/http-message-util": "^1",
+        "ext-pdo_mysql": "*"
+
     },
     "require-dev": {
       "roave/security-advisories": "dev-latest" ,
