@@ -3,14 +3,17 @@
 namespace pascualmg\reactor\ddd\Domain\Entity;
 
 use DateTimeInterface;
-use Stringable;
 
-class Post implements \JsonSerializable, Stringable
+class Post implements \JsonSerializable
 {
+    //properties from schema.org
     public function __construct(
         public int $id,
-        public string $body,
-        public DateTimeInterface $creationDate
+        public readonly string $headline,
+        public readonly string $articleBody,
+        public readonly string $image,
+        public readonly string $author,
+        public readonly DateTimeInterface $datePublished
     ) {
     }
 
@@ -18,14 +21,11 @@ class Post implements \JsonSerializable, Stringable
     {
         return [
             'id' => $this->id,
-            'body' => $this->body,
-            'creationDate' => $this->creationDate->format(DateTimeInterface::ATOM),
+            'headline' => $this->headline,
+            'articleBody' => $this->articleBody,
+            'image' => $this->image,
+            'author' => $this->author,
+            'datePublished' => $this->datePublished->format(DateTimeInterface::ATOM),
         ];
-    }
-
-    public function __toString()
-    {
-        $serialized = $this->jsonSerialize();
-        return json_encode($serialized);
     }
 }
