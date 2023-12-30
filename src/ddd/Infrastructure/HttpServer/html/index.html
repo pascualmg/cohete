@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/gh/mattboldt/typed.js@latest/lib/typed.min.js"></script>
+
+    <meta charset="UTF-8">
+    <title>Reactor</title>
+    <style>
+        body {
+            background: url(logo.png) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5); /* Color negro semitransparente */
+        }
+
+        #typed {
+            font-family: 'Courier New', monospace;
+            color: limegreen;
+            font-size: 2em;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+<div id="typed"></div>
+<script>
+    new Typed('#typed', {
+            strings: ["Te presento Reactor, un proyecto que he diseñado para hacer más sencillo el manejo de la programación asíncrona en PHP. Reactor está construido sobre ReactPHP y RxPHP, proporcionando una introducción a la programación reactiva para tus proyectos PHP. Más que una simple herramienta, Reactor es un marco de trabajo siguiendo el Domain-Driven Design (DDD), con su núcleo contenido en unos pocos archivos fáciles de encontrar y entender.\n" +
+            "Con Reactor, experimentarás una eficiencia y rendimiento , manejando los casos de uso de manera no bloqueante y permitiendo la realización simultánea de múltiples tareas.\n" +
+            "La instalación de Reactor es sencilla, todo lo que necesitas son los comandos make nix-install, nix develop, y make run.\n" +
+            "Pero Reactor es más que una herramienta o un marco de trabajo, reactor es un espacio para el aprendizaje. Reactor invita a los autodidactas, personas ansiosas de explorar, aprender y compartir sus propias ideas. Te invito a que explores Reactor, te sumerjas en su código, desafíes tus límites y compartas tus experiencias y descubrimientos.\n"
+            ],
+            typeSpeed: 100,
+            backSpeed: 0,
+            loop: true
+        }
+    )
+</script>
+
+
+</body>
+</html>

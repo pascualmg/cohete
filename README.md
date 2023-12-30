@@ -1,20 +1,24 @@
 # Reactor  
-Async RxPHP in a sleek API server
-
+Rx in a sleek API server
+![rxphp](logo.png)
 ## Descripción
+Reactor, es un proyecto que he diseñado para facilitar la programación asíncrona en PHP.
 
-Reactor es un proyecto que facilita el manejo asíncrono de casos de uso, aprovechando la potencia de la programación asíncrona en PHP. Este se lleva a cabo mediante un servidor personalizado desarrollado con ReactPHP, una biblioteca de código abierto utilizada para programación impulsada por eventos, con "promises" como su núcleo. Este concepto abre la posibilidad de utilizar observables y la fuerte librería RxPHP para programación reactiva.
+Este proyecto se construye sobre las sólidas bases de ReactPHP y RxPHP, ofreciéndote un camino hacia la programación reactiva en PHP. Reactor funciona como más que una simple herramienta; es un marco de trabajo estructurado en torno al Domain-Driven Design (DDD), con su núcleo contenido en unos pocos archivos sencillos de encontrar y entender.
+Con esas dos librerías de base se consigue un nuevo nivel de eficiencia y rendimiento.
+Podrás manejar casos de uso de manera no bloqueante y realizar múltiples tareas simultáneamente.
 
-El enfoque asíncrono proporciona una mejora significativa en el rendimiento al manejar casos de uso de manera no bloqueante, comparado con el enfoque de programación PHP sincrónico tradicional. La ejecución simultánea de múltiples tareas se traduce en una mejor eficiencia y rendimiento, permitiendo la creación de código altamente interactivo y fácil de entender.
+La instalación de Reactor es todo menos complicada, se utiliza como plantilla que ya funciona y se pueden seguir los ejemplos o hacer algo diferente.
 
-Reactor utiliza el servidor HTTP de ReactPHP, probado y reconocido en entornos de producción por su robustez. Compatible con cualquier middleware PSR-15 facilitando la creación de middlewares personalizados.
+Por supuesto, más que un framework, es un espacio para el aprendizaje y la exploración. Es una invitación a los autodidactas, a quienes aman descubrir, aprender y compartir sus ideas. Te invito a explorar Reactor, a sumergirte en su código, a desafiar tus propios límites y a compartir tus descubrimientos y experiencias.
+Si tienes interés por la programación reactiva y PHP, te invito a que lo pruebes
 
-Respecto a la estructura del proyecto, sigue la arquitectura Domain-Driven Design (DDD). No obstante, la estructura actual del proyecto sirve como ejemplo. El núcleo del proyecto reside en dos o tres archivos fácilmente localizables, garantizando su comprensibilidad y adaptabilidad.
 
 # Instalación
 
 ```bash
 make nix-install 
+
 nix develop 
 make run
 ```
@@ -158,6 +162,25 @@ El bus asíncrono, basado en ReactPHP y Evenement, gestiona eficientemente la co
 
 Aunque estas características amplían la funcionalidad, permanecen completamente desacopladas del núcleo del framework, que sigue siendo una función simples que recibe una solicitud y devuelve una respuesta.
 
+## Migraciones y fixtures
+
+Para manejar las migraciones y fixtures de la base de datos en este proyecto, se seleccionó [Phinx](https://phinx.org) debido a su versatilidad.
+
+Puedes ejecutar las migraciones utilizando el comando make:
+
+```bash
+make migrations
+```
+
+O puedes hacerlo directamente a través de Phinx con:
+
+```bash
+./bin/vendor/phinx
+```
+
+Además, este proyecto utiliza [Faker](https://github.com/fzaninotto/Faker) para generar fixtures. Faker es una biblioteca PHP que genera datos ficticios para rellenar nuestras bases de datos. Permite crear un conjunto de datos realistas, haciendo que nuestras pruebas sean más robustas.
+
+Recuerda actualizar tus migraciones y fixtures según sea necesario para reflejar cualquier cambio en la estructura de tus datos.
 # Flexibilidad y Facilidad de Modificación
 
 Las funcionalidades presentadas, como la arquitectura DDD, son únicamente una propuesta inicial. El framework está diseñado con una arquitectura flexible que facilita la modificación, adición o eliminación de funcionalidades según sean necesarias. De esta manera, el framework se puede ajustar para satisfacer las necesidades específicas de cada proyecto.

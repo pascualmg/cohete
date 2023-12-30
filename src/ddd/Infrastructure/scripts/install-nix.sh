@@ -13,4 +13,7 @@ then
 else
     echo "Nix no está instalado. Iniciando la instalación..."
   	curl -L https://nixos.org/nix/install | sh -s -- --daemon
+    echo "Instalación de Nix completada. Activando características experimentales..."
+    echo "experimental-features : nix-command flakes" >> ~/.config/nix/nix.conf
+    echo "Características experimentales activadas."
 fi

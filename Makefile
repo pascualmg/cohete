@@ -2,10 +2,10 @@ run:
 	php "src/bootstrap.php"
 
 watch:
-	./src/scripts/watch.sh
+	./src/ddd/Infrastructure/scripts/watch.sh
 
 install-nix: #if you dont have yet :)
-	./src/scripts/install-nix.sh
+	./src/ddd/Infrastructure/scripts/install-nix.sh
 
 run-prod:
 	nix develop .#devShells.x86_64-linux.prodShell
