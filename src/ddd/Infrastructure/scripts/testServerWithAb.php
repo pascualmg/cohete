@@ -17,12 +17,13 @@ $port = $GLOBALS['argv'][2] ?? null;
 $route = $GLOBALS['argv'][3] ?? null;
 
 if ($isInteractive || empty($server) || empty($port) || empty($route)) {
-    $server = prompt('Enter server') ?: 'localhost';
+    $server = prompt('Enter server') ?: '0.0.0.0';
     $port = prompt('Enter port') ?: '8000';
-    $route = prompt('Enter route') ?: '/';
+    $route = prompt('Enter route') ?: '/post';
 }
 
 // Execute ab with the provided server, port, and route values
 $command = "ab -n 100 -c 10 http://$server:$port$route";
+echo $command;
 exec($command);
 ?>

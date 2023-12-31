@@ -36,8 +36,9 @@ $messageComponent = new class () implements MessageComponentInterface {
             ->then(function (array $result) use ($from) {
                 $loop = Loop::get();
                 $sendPostsTimer = $loop->addPeriodicTimer(1, function () use ($from, $result) {
+                    /** @var \pascualmg\reactor\ddd\Domain\Entity\Post $post */
                     foreach ($result as $post) {
-                        $from->send((string)$post);
+                        $from->send(json_encode($post->headline));
                     }
                 });
                 $loop->addTimer(10, function () use ($sendPostsTimer, $loop) {

@@ -29,12 +29,25 @@
 
         render() {
             this.shadowRoot.innerHTML = `
-             <style> #messageInput { width: 400px; }
-              </style> <div id="chatbox"></div> <div id="userInputSection"> <label for="messageInput"></label><input id="messageInput" type="text" placeholder="Write a message"> <button id="sendButton">Send</button> </div> `;
+             <style>
+                #messageInput { width: 400px; }
+                #chat-box {
+                    color: greenyellow;
+
+                }
+
+              </style>
+              <div id="chat-box"></div>
+              <div id="userInputSection">
+
+              <label for="messageInput"></label>
+              <input id="messageInput" type="text" placeholder="Write a message">
+              <button id="sendButton">Send</button>
+              </div> `;
         }
 
         initWebSocket() {
-            const chatbox = this.shadowRoot.querySelector('#chatbox');
+            const chatbox = this.shadowRoot.querySelector('#chat-box');
             const messageInput = this.shadowRoot.querySelector('#messageInput');
             const sendButton = this.shadowRoot.querySelector('#sendButton'); // Replace with your server's WebSocket URL
             const websocket = new WebSocket('ws://localhost:8001');
