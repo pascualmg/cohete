@@ -34,8 +34,17 @@ class JsonResponse implements StatusCodeInterface
 
     public static function withError(\Throwable $e): ResponseInterface
     {
-        return self::create($e->getCode(), $e->getMessage());
+        $toArray = static fn(\Throwable $exception): array => [
+            'name' => $exception::class,
+            'message' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+            'trace' => array_map('json_encode', $exception->getTrace())
+        ];
+
+        return self::create($e->getCode(), $toArray($e));
     }
+
 
     public static function notFound(?string $resource = null): ResponseInterface
     {

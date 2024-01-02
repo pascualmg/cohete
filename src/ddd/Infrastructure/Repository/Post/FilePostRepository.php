@@ -10,33 +10,79 @@ use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
 use React\Promise\Deferred;
 use React\Promise\Promise;
 use React\Promise\PromiseInterface;
+use React\Stream\ReadableResourceStream;
 
 class FilePostRepository implements PostRepository
 {
-    /**
-     * @throws JsonException when gets the file and decode
-     * @throws Exception in datetime creation
-     */
+
     public function findAll(): PromiseInterface
     {
         $deferred = new Deferred();
 
-        $rawPosts = json_decode(
-            file_get_contents('/home/passh/src/php/rxphp/src/ddd/Infrastructure/Repository/Post/posts.json'),
-            true,
-            512,
-            JSON_THROW_ON_ERROR
-        );
-        $deferred->resolve(
-            array_map(
-                static fn (array $rawPost) => new Post(
-                    $rawPost['id'],
-                    $rawPost['body'],
-                    new DateTimeImmutable($rawPost['creation_date']),
-                ),
+        try{
+            $rawPosts = json_decode(
+                file_get_contents( dirname(__DIR__, 1).'/Post/posts.json'),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+        } catch (Exception $exception){
+            $deferred->reject($exception);
+            return $deferred->promise();
+        }
+
+       $deferred->resolve(
+           array_map(
+           [self::class,'hydrate'],
                 $rawPosts
+           )
+        );
+
+        return $deferred->promise();
+    }
+
+    public function findById(int $postId): PromiseInterface
+    {
+        $deferred = new Deferred();
+        $contents = '';
+
+        $file = new ReadableResourceStream(
+            fopen(
+                dirname(__DIR__) . '/Post/posts.json',
+                'rb'
             )
         );
+
+
+        $file->on('data', function ($data) use (&$contents) {
+            $contents .= $data;
+        });
+
+        $file->on('end', function () use ($postId, &$contents, $deferred) {
+            $posts = json_decode($contents, true);
+            foreach ($posts as $post) {
+                if ($post['id'] === $postId) {
+                    $deferred->resolve(self::hydrate($post));
+                }
+            }
+        });
+
+        $file->on('error', function ($error) use ($deferred) {
+            $deferred->reject(new Exception("Error reading file: {$error}"));
+        });
+
         return $deferred->promise();
+    }
+
+   private static function hydrate(array $post): Post
+    {
+        return new Post(
+            $post['id'],
+            $post['headline'],
+            $post['articleBody'],
+            $post['image'],
+            $post['author'],
+            new DateTimeImmutable($post['datePublished'])
+        );
     }
 }
