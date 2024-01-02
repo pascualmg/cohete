@@ -21,22 +21,21 @@ class HtmlController implements HttpRequestHandler, StatusCodeInterface
     public function __invoke(
         ServerRequestInterface $request,
         ?array $routeParams
-    ): ResponseInterface|PromiseInterface
-    {
+    ): ResponseInterface|PromiseInterface {
         //omg :) nice
-        $foo = new ThroughStream(static fn($id) => $id);
+        $foo = new ThroughStream(static fn ($id) => $id);
 
-        $uri = dirname(__DIR__,1) . '/html' . $routeParams['params'] ?? "";
+        $uri = dirname(__DIR__, 1) . '/html' . $routeParams['params'] ?? "";
 
         if(
             !file_exists($uri) ||
             is_dir($uri)
-        ){
-           return JsonResponse::notFound($uri);
+        ) {
+            return JsonResponse::notFound($uri);
         }
         $html = new ReadableResourceStream(
             fopen(
-            $uri,
+                $uri,
                 'rb'
             )
         );

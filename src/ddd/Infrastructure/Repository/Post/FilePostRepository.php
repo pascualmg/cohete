@@ -14,29 +14,28 @@ use React\Stream\ReadableResourceStream;
 
 class FilePostRepository implements PostRepository
 {
-
     public function findAll(): PromiseInterface
     {
         $deferred = new Deferred();
 
-        try{
+        try {
             $rawPosts = json_decode(
-                file_get_contents( dirname(__DIR__, 1).'/Post/posts.json'),
+                file_get_contents(dirname(__DIR__, 1).'/Post/posts.json'),
                 true,
                 512,
                 JSON_THROW_ON_ERROR
             );
-        } catch (Exception $exception){
+        } catch (Exception $exception) {
             $deferred->reject($exception);
             return $deferred->promise();
         }
 
        $deferred->resolve(
            array_map(
-           [self::class,'hydrate'],
-                $rawPosts
+               [self::class,'hydrate'],
+               $rawPosts
            )
-        );
+       );
 
         return $deferred->promise();
     }
@@ -63,7 +62,7 @@ class FilePostRepository implements PostRepository
             foreach ($posts as $post) {
                 if ($post['id'] === $postId) {
                     $deferred->resolve(self::hydrate($post));
-                   return;
+                    return;
                 }
             }
 
@@ -77,7 +76,7 @@ class FilePostRepository implements PostRepository
         return $deferred->promise();
     }
 
-   private static function hydrate(array $post): Post
+    private static function hydrate(array $post): Post
     {
         return new Post(
             $post['id'],

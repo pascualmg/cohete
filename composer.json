@@ -15,7 +15,8 @@
         "fig/http-message-util": "^1",
         "ext-pdo_mysql": "*",
         "robmorgan/phinx": "^0.15.5",
-        "fakerphp/faker": "^1.23"
+        "fakerphp/faker": "^1.23",
+        "react/promise-stream": "^1.7"
 
     },
     "require-dev": {

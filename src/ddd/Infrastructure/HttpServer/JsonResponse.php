@@ -34,7 +34,7 @@ class JsonResponse implements StatusCodeInterface
 
     public static function withError(\Throwable $e): ResponseInterface
     {
-        $toArray = static fn(\Throwable $exception): array => [
+        $toArray = static fn (\Throwable $exception): array => [
             'name' => $exception::class,
             'message' => $exception->getMessage(),
             'file' => $exception->getFile(),
