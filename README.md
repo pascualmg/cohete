@@ -144,6 +144,7 @@ Nuestra estrategia será recibir una petición, iniciar la lógica de negocio co
 Este cambio de "chip" puede ser desafiante, pero las recompensas en términos de eficiencia y rendimiento son enormes. Te invitamos a descubrir más a medida que profundizamos en estos casos de uso con PHP asíncrono.
 
 
+
 #  Algunas 🔋 incluidas
 
 Este framework  ofrece una serie de características robustas para los proyectos que buscan optimizar la eficiencia y rendimiento en tareas asíncronas con PHP.
@@ -327,3 +328,79 @@ $transaction
     );
 ```
 
+
+## Utilizando Observables con ReactPHP y RxPHP
+
+Este proyecto explora cómo manejar operaciones asíncronas y no bloqueantes utilizando ReactPHP y RxPHP. Este enfoque se activa al inicio de la aplicación estableciendo el Scheduler predeterminado de RxPHP a una instancia de `Rx\Scheduler\EventLoopScheduler` que usa el loop predeterminado de `react/event-loop`.
+
+\```php
+require_once 'vendor/autoload.php';
+
+$loop = React\EventLoop\Loop::get();
+
+$scheduler = new Rx\Scheduler\EventLoopScheduler($loop);
+
+Rx\Scheduler::setDefaultFactory(function() use ($scheduler) {
+return $scheduler;
+});
+\```
+
+Por supuesto es totalmente opcional :)
+
+### Un ejemplo ObservableFilePostRepository
+
+
+```php
+public function observableOfFile(): Observable
+{
+$loop = React\EventLoop\Loop::get();
+$filesystem = React\Filesystem\Filesystem::create($loop);
+$postFilePath = dirname(__DIR__).'/Post/posts.json';
+$file = $filesystem->file($postFilePath);
+$contents = $file->getContents();
+return Rx\Observable::fromPromise($contents);
+}
+```
+
+Esta función devuelve un `Observable` que emitirá el contenido del archivo cuando esté listo.
+
+Luego, podemos mapear el contenido del archivo JSON a un array de posts:
+
+```php
+->map(fn($file) => json_decode($file, true, 512, JSON_THROW_ON_ERROR))
+```
+
+Este código lanzará una excepción `JsonException` si la decodificación del JSON falla. Este error debe ser gestionado apropiadamente.
+
+Para procesar cada post, utilizamos `flatMap` para convertir el array de posts en una secuencia de posts individuales, luego mapeamos cada post a una entidad Post:
+
+```php
+->flatMap(fn($posts) => Rx\Observable::fromArray($posts))
+->map(fn($post) => self::hydrate($post))
+```
+
+Finalmente, convertimos nuestro `Observable` a una `PromiseInterface` para su uso con ReactPHP:
+
+```php
+->toArray()
+->toPromise();
+```
+
+Si la operación es exitosa, esta `PromiseInterface` se resolverá con un array de entjes como JavaScript con su modelo de manejo de eventos.
+
+Código completo del método `findAll`:
+
+```php
+public function findAll(): PromiseInterface
+{
+return $this->observableOfFile()
+->map(fn($file) => json_decode($file, true, 512, JSON_THROW_ON_ERROR))
+->flatMap(fn($posts) => Observable::fromArray($posts))
+->map(fn($post) => self::hydrate($post))
+->toArray()
+->toPromise();
+}
+```
+
+Como decía Kyle Simpson en 'You Don't Know JS'
+> "La familiaridad es la clave para la comprensión"
