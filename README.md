@@ -333,7 +333,7 @@ $transaction
 
 Este proyecto explora cómo manejar operaciones asíncronas y no bloqueantes utilizando ReactPHP y RxPHP. Este enfoque se activa al inicio de la aplicación estableciendo el Scheduler predeterminado de RxPHP a una instancia de `Rx\Scheduler\EventLoopScheduler` que usa el loop predeterminado de `react/event-loop`.
 
-\```php
+```php
 require_once 'vendor/autoload.php';
 
 $loop = React\EventLoop\Loop::get();
@@ -343,7 +343,7 @@ $scheduler = new Rx\Scheduler\EventLoopScheduler($loop);
 Rx\Scheduler::setDefaultFactory(function() use ($scheduler) {
 return $scheduler;
 });
-\```
+```
 
 Por supuesto es totalmente opcional :)
 
