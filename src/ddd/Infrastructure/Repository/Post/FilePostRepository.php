@@ -63,8 +63,11 @@ class FilePostRepository implements PostRepository
             foreach ($posts as $post) {
                 if ($post['id'] === $postId) {
                     $deferred->resolve(self::hydrate($post));
+                   return;
                 }
             }
+
+            $deferred->resolve(null);
         });
 
         $file->on('error', function ($error) use ($deferred) {
