@@ -11,6 +11,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Loop;
+use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;
 use React\Http\Message\Response;
 use React\Promise\Deferred;
@@ -24,11 +25,15 @@ use function FastRoute\simpleDispatcher;
 class ReactHttpServer
 {
     public static function init(
-        string $jsonRoutesPath,
-        string $host = '0.0.0.0',
-        string $port = '8000',
+        string $host,
+        string $port,
+        ?LoopInterface $loop = null
     ): void {
-        $loop = Loop::get();
+
+        if(null === $loop) {
+            $loop = Loop::get();
+        }
+
         $container = ContainerFactory::create();
 
         $port8000 = new SocketServer(
@@ -42,7 +47,9 @@ class ReactHttpServer
             (new ClientIp())
         );
 
-        $dispatcher = self::loadRoutesFromJson($jsonRoutesPath);
+        $dispatcher = Router::DispatcherFactoryFromJson(
+            $container->get('routes.path')
+        );
 
         $httpServer = new HttpServer(
             $clientIPMiddleware,
@@ -156,69 +163,6 @@ class ReactHttpServer
         });
     }
 
-    public static function loadRoutesFromJson(string $path): Dispatcher
-    {
-        self::assertNotEmpty($path);
 
-        $routesFromJsonFile = self::parseJsonToArray($path);
 
-        return simpleDispatcher(
-            function (RouteCollector $r) use ($routesFromJsonFile) {
-                // "foo, bar baz " => ["FOO", "BAR", "BAZ"]
-                $toUpperWords = static fn (string $text): array => array_values(
-                    array_filter(
-                        preg_split("/[ ,]/", strtoupper($text)),
-                        'strlen'
-                    )
-                );
-
-                foreach ($routesFromJsonFile as $routeFromJsonFile) {
-                    $r->addRoute(
-                        $toUpperWords($routeFromJsonFile['method']),
-                        $routeFromJsonFile['path'],
-                        $routeFromJsonFile['handler']
-                    );
-                }
-            }
-        );
-    }
-
-    /**
-     * @param string $path
-     * @return void
-     */
-    public static function assertNotEmpty(string $path): void
-    {
-        if (empty($path)) {
-            throw new \RuntimeException(
-                "The path of the json File to load the routes is empty, maybe you have no .env or this variable is undefined? "
-            );
-        }
-    }
-
-    /**
-     * @param string $path
-     * @return mixed
-     */
-    public static function parseJsonToArray(string $path): array
-    {
-        $file = file_get_contents($path);
-        try {
-            $routesFromJsonFile = json_decode(
-                $file,
-                true,
-                512,
-                JSON_THROW_ON_ERROR
-            );
-        } catch (\JsonException $e) {
-            throw new \RuntimeException(
-                sprintf(
-                    "Invalid JSON format while loading routes from file %s \n Error: %s",
-                    $path,
-                    $e->getMessage()
-                )
-            );
-        }
-        return $routesFromJsonFile;
-    }
 }

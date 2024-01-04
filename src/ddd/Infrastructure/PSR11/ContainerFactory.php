@@ -41,6 +41,7 @@ class ContainerFactory
             'EventBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
             'CommandBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
             'QueryBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
+            'routes.path' => static fn (ContainerInterface $_) => $_ENV['ROUTES_PATH'],
         ];
 
         if (!empty($definitions)) {

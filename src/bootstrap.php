@@ -12,20 +12,21 @@ use React\EventLoop\Loop;
 use Rx\Scheduler;
 use Rx\Scheduler\EventLoopScheduler;
 
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
 $loop = Loop::get();
-$scheduler = new EventLoopScheduler($loop);
-try {
-    Scheduler::setDefaultFactory(static fn () => $scheduler);
-} catch (Exception $e) {
-    echo "Error inicializando el sheduler de rx ";
-    var_dump($e);
-}
 
+//activamos calendarizador de rx
+$scheduler = new EventLoopScheduler($loop);
+Scheduler::setDefaultFactory(static fn () => $scheduler);
+
+//iniciamos el servidor web
 ReactHttpServer::init(
-    $_ENV['ROUTES_CONFIG_PATH']
+     '0.0.0.0',
+    '8000',
+    $loop
 );
+
 
 $loop->run();
