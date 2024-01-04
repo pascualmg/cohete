@@ -12,7 +12,7 @@ use Rx\Observable;
 
 class ObservableFilePostRepository implements PostRepository
 {
-    public function findAll(): PromiseInterface
+    public function findAll(): PromiseInterface //of Post[]
     {
         return self::observableFromFile()
             ->map(fn ($file) => json_decode($file, true, 512, JSON_THROW_ON_ERROR))
@@ -22,7 +22,7 @@ class ObservableFilePostRepository implements PostRepository
             ->toPromise();
     }
 
-    public function findById(int $postId): PromiseInterface
+    public function findById(int $postId): PromiseInterface //of ?Post
     {
         return self::observableFromFile()
             ->map(fn ($file) => json_decode($file, true, 512, JSON_THROW_ON_ERROR))
