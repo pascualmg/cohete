@@ -16,6 +16,7 @@ class PostSeeder extends AbstractSeed
      */
     public function run(): void
     {
+        //todo:meter esto en el readme
         $faker = Faker\Factory::create();
         $postFakeData = [];
 

@@ -15,40 +15,34 @@ use React\Promise\Promise;
 use React\Promise\PromiseInterface;
 use Throwable;
 
-/**
- * The Kernel class represents the core of the application and handles incoming HTTP requests.
- * It is responsible for processing the request and returning an appropriate response.
- */
 class Kernel
 {
-    public function __invoke(ServerRequestInterface $request): PromiseInterface|ResponseInterface
+    private ContainerInterface $container;
+    private Dispatcher $dispatcher;
+
+    public function __construct()
     {
-
-        $container = ContainerFactory::create();
-
-        $dispatcher = Router::fromJson(
-            $container->get('routes.path')
+        $this->container = ContainerFactory::create();
+        $this->dispatcher = Router::fromJson(
+            $this->container->get('routes.path')
         );
+    }
 
-        try {
-            return self::AsyncHandleRequest(
-                request: $request,
-                container: $container,
-                dispatcher: $dispatcher
-            )->then(
-                onFulfilled: function (ResponseInterface $response): ResponseInterface {
-                    return $response;
-                }
-            )->catch(
-                onRejected: function (Throwable $exception): ResponseInterface {
-                    return JsonResponse::withError($exception);
-                }
-            );
-        } catch (Throwable $exception) {
-            // Capture only router configuration errors &
-            // other exceptions not related to request handling
-            return JsonResponse::withError($exception);
-        }
+    public function __invoke(ServerRequestInterface $request): PromiseInterface //of a ResponseInterface
+    {
+        return self::AsyncHandleRequest(
+            request: $request,
+            container: $this->container,
+            dispatcher: $this->dispatcher
+        )->then(
+            onFulfilled: function (ResponseInterface $response): ResponseInterface {
+                return $response;
+            }
+        )->catch(
+            onRejected: function (Throwable $exception): ResponseInterface {
+                return JsonResponse::withError($exception);
+            }
+        );
     }
 
     public static function AsyncHandleRequest(

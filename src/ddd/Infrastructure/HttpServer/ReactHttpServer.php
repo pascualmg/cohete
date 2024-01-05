@@ -18,8 +18,7 @@ class ReactHttpServer
         string $port,
         ?LoopInterface $loop = null
     ): void {
-
-        if(null === $loop) {
+        if (null === $loop) {
             $loop = Loop::get();
         }
 

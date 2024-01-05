@@ -411,3 +411,30 @@ return $this->observableOfFile()
 
 Como decía Kyle Simpson en 'You Don't Know JS'
 > "La familiaridad es la clave para la comprensión"
+
+# Kernel
+La clase `Kernel` es la piedra angular de nuestra aplicación, encargada de manejar todas las solicitudes HTTP entrantes. Opera en un paradigma asíncrono, asegurando que se devuelva una `ResponseInterface`, pero siempre como una `PromiseInterface` para garantizar el principio no bloqueante.
+
+```php
+public function __invoke(ServerRequestInterface $request): PromiseInterface //of a ResponseInterface
+```
+La función `__invoke` actúa como nuestra función de entrada, se crea un contenedor de dependencias y un router. El método `AsyncHandleRequest` se utiliza para manejar la solicitud de manera asincrona. Si todo funciona correctamente, simplemente entregamos la respuesta. Sin embargo, si ocurre una excepción durante el manejo de la solicitud, esta se atrapa y se convierte en una respuesta JSON con detalles del error.
+
+Ahora, nos enfocamos en la línea 81, que es de vital importancia.
+
+```php
+$response = $container->get($httpRequestHandlerName)($request, $params);
+```
+Esta línea lleva a cabo una función crítica: utilizando el router, determina cuál handler es responsable de gestionar la solicitud HTTP para la ruta dada. El contenedor de dependencias PSR-11 se usa para obtener una instancia de este handler. Este handler es único, ya que se instanciará con todas las dependencias necesarias y recibirá la solicitud y los parámetros como argumentos.
+
+Este handler proporcionará un objeto `ResponseInterface`. Sin embargo, necesitamos asegurarnos de que todavía estamos funcionando asincrónicamente.
+
+```php
+$deferred->resolve(
+$response instanceof PromiseInterface ? $response : self::wrapWithPromise($response)
+);
+```
+Entonces, si el handler devuelve una `ResponseInterface` en lugar de una `PromiseInterface`, usamos `wrapWithPromise` para envolver la `ResponseInterface` en una `PromiseInterface`. Esto garantiza que siempre estamos devolviendo una promesa de una respuesta.
+
+Es este delicado equilibrio el que nos permite mantener la asincronía en todo nuestro Kernel, mientras aprovechamos una estructura de handler de solicitudes ordenada y predecible.
+
