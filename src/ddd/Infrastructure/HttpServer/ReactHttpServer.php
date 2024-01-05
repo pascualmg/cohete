@@ -5,6 +5,7 @@ namespace pascualmg\reactor\ddd\Infrastructure\HttpServer;
 use FastRoute\Dispatcher;
 use FriendsOfReact\Http\Middleware\Psr15Adapter\PSR15Middleware;
 use Middlewares\ClientIp;
+use pascualmg\reactor\ddd\Infrastructure\HttpServer\Kernel\Kernel;
 use pascualmg\reactor\ddd\Infrastructure\HttpServer\Router\Router;
 use pascualmg\reactor\ddd\Infrastructure\PSR11\ContainerFactory;
 use Psr\Container\ContainerInterface;
@@ -32,8 +33,6 @@ class ReactHttpServer
             $loop = Loop::get();
         }
 
-        $container = ContainerFactory::create();
-
         $port8000 = new SocketServer(
             sprintf("%s:%s", $host, $port),
             [],
@@ -45,44 +44,9 @@ class ReactHttpServer
             (new ClientIp())
         );
 
-        $dispatcher = Router::fromJson(
-            $container->get('routes.path')
-        );
-
         $httpServer = new HttpServer(
             $clientIPMiddleware,
-            function (ServerRequestInterface $request) use (
-                $container,
-                $dispatcher
-            ): PromiseInterface|ResponseInterface {
-                try {
-                    return self::AsyncHandleRequest(
-                        request: $request,
-                        container: $container,
-                        dispatcher: $dispatcher
-                    )->then(
-                        onFulfilled: function (ResponseInterface $response): ResponseInterface {
-                            return $response;
-                        }
-                    )->catch(
-                        onRejected: function (Throwable $exception): ResponseInterface {
-                            return new Response(
-                                409,
-                                ['Content-Type' => 'application/json'],
-                                self::toJson($exception)
-                            );
-                        }
-                    );
-                } catch (Throwable $exception) {
-                    // Capture only router configuration errors &
-                    // other exceptions not related to request handling
-                    return new Response(
-                        500,
-                        ['Content-Type' => 'application/json'],
-                        self::toJson($exception)
-                    );
-                }
-            }
+           new Kernel()
         );
 
         $httpServer->listen($port8000);
@@ -99,68 +63,4 @@ class ReactHttpServer
         //            $connection->on('data', 'var_dump');
         //        });
     }
-
-    private static function toJson(Throwable $exception): string
-    {
-        return json_encode([
-            'name' => $exception::class,
-            'message' => $exception->getMessage(),
-            'file' => $exception->getFile(),
-            'line' => $exception->getLine(),
-            'trace' => array_map('json_encode', $exception->getTrace())
-        ], JSON_THROW_ON_ERROR);
-    }
-
-    public static function AsyncHandleRequest(
-        ServerRequestInterface $request,
-        ContainerInterface $container,
-        Dispatcher $dispatcher
-    ): PromiseInterface {
-        $deferred = new Deferred();
-
-        $method = strtoupper($request->getMethod());
-        $uri = $request->getUri()->getPath();
-
-        //https://github.com/nikic/FastRoute
-        $routeInfo = $dispatcher->dispatch($method, $uri);
-
-        switch ($routeInfo[0]) {
-            case Dispatcher::NOT_FOUND:
-                // ... 404 Not Found
-                $deferred->resolve(
-                    new Response(404, ['Content-Type' => 'text/plain'], 'Route not found')
-                );
-                break;
-            case Dispatcher::METHOD_NOT_ALLOWED:
-                // ... 405 Method Not Allowed
-                $allowedMethods = json_encode($routeInfo[1], JSON_THROW_ON_ERROR);
-                $deferred->resolve(
-                    new Response(405, ['Content-Type' => 'text/plain'], "Method not allowed, use  $allowedMethods ")
-                );
-                break;
-            case Dispatcher::FOUND:
-                [$_, $httpRequestHandlerName, $params] = $routeInfo;
-
-                //THE CORE, with autowiring in the __construct and a bit of magic
-                $response = $container->get($httpRequestHandlerName)($request, $params);
-
-                $deferred->resolve(
-                    $response instanceof PromiseInterface ? $response : self::wrapWithPromise($response)
-                );
-                break;
-        }
-
-        return $deferred->promise();
-    }
-
-
-    private static function wrapWithPromise($response): PromiseInterface
-    {
-        return new Promise(function ($resolve, $_) use ($response) {
-            $resolve($response);
-        });
-    }
-
-
-
 }
