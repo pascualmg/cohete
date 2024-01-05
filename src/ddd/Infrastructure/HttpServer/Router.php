@@ -9,7 +9,7 @@ use function FastRoute\simpleDispatcher;
 
 class Router
 {
-    public static function DispatcherFactoryFromJson(string $path): Dispatcher
+    public static function fromJson(string $path): Dispatcher
     {
         self::assertNotEmpty($path);
 

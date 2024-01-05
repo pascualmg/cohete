@@ -47,7 +47,7 @@ class ReactHttpServer
             (new ClientIp())
         );
 
-        $dispatcher = Router::DispatcherFactoryFromJson(
+        $dispatcher = Router::fromJson(
             $container->get('routes.path')
         );
 
