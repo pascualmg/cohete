@@ -18,7 +18,6 @@ use Throwable;
 class Kernel
 {
     private ContainerInterface $container;
-    private Dispatcher $dispatcher;
 
     public function __construct()
     {
@@ -30,19 +29,28 @@ class Kernel
 
     public function __invoke(ServerRequestInterface $request): PromiseInterface //of a ResponseInterface
     {
-        return self::AsyncHandleRequest(
-            request: $request,
-            container: $this->container,
-            dispatcher: $this->dispatcher
-        )->then(
-            onFulfilled: function (ResponseInterface $response): ResponseInterface {
-                return $response;
-            }
-        )->catch(
-            onRejected: function (Throwable $exception): ResponseInterface {
-                return JsonResponse::withError($exception);
-            }
-        );
+        try {
+            return self::AsyncHandleRequest(
+                request: $request,
+                container: $this->container,
+                dispatcher: $this->dispatcher
+            )->then(
+                onFulfilled: function (ResponseInterface $response): ResponseInterface {
+                    return $response;
+                }
+            )->catch(
+                onRejected: function (Throwable $exception): ResponseInterface {
+                    return JsonResponse::withError($exception);
+                }
+            );
+        } catch (Throwable $exception) {
+            // Este Try-Catch es importante , ya que elimina el  mensaje 500 sin info del servidor cuando
+            // se produce una exception no controlada desde un repo , handler o cualquier otra clase interna.
+            // Estas son las excepciones que se lanzan directamente throw , y no por ejemplo las que se hacen con un
+            // $defered->reject(Throwable $e) , que son las que si son capturadas arriba.
+            //todo: controlarlo con el .env , si es 'prod' inactivo maybe
+            return self::wrapWithPromise(JsonResponse::withError($exception));
+        }
     }
 
     public static function AsyncHandleRequest(
