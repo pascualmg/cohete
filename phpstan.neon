@@ -1,0 +1,8 @@
+parameters:
+  level: max
+  paths:
+    - src
+  bootstrapFiles:
+    - vendor/autoload.php
+  checkMissingIterableValueType: false
+  editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'

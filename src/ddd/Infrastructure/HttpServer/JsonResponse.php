@@ -5,6 +5,7 @@ namespace pascualmg\reactor\ddd\Infrastructure\HttpServer;
 use Fig\Http\Message\StatusCodeInterface;
 use Psr\Http\Message\ResponseInterface;
 use React\Http\Message\Response;
+use Throwable;
 
 class JsonResponse implements StatusCodeInterface
 {
@@ -32,9 +33,9 @@ class JsonResponse implements StatusCodeInterface
         return self::create(200, 'OK');
     }
 
-    public static function withError(\Throwable $e): ResponseInterface
+    public static function withError(Throwable $e): ResponseInterface
     {
-        $toArray = static fn (\Throwable $exception): array => [
+        $toArray = static fn (Throwable $exception): array => [
             'name' => $exception::class,
             'message' => $exception->getMessage(),
             'file' => $exception->getFile(),

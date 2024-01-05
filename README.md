@@ -1,6 +1,12 @@
 # Reactor  
 Rx in a sleek API server
 ![rxphp](logo.png)
+
+## Powered by
+### 
+<img alt="reactphp" height="200" src="reactphp-logo.png" />
+
+
 ## Descripción
 Reactor, es un proyecto que he diseñado para facilitar la programación asíncrona en PHP.
 
@@ -147,14 +153,15 @@ Este cambio de "chip" puede ser desafiante, pero las recompensas en términos de
 
 #  Algunas 🔋 incluidas
 
-Este framework  ofrece una serie de características robustas para los proyectos que buscan optimizar la eficiencia y rendimiento en tareas asíncronas con PHP.
+Este framework ofrece una serie de características robustas para los proyectos que buscan optimizar la eficiencia y rendimiento en tareas asíncronas con PHP.
 
 ## Contenedor de Dependencias con Autowiring
+<img alt="phpstanlogo" height="100" src="phpdi7logo.png" />
 
 Implementado con PHP-DI, el contenedor de dependencias, facilita la gestión de las dependencias de la aplicación y contribuye a un diseño de código limpio y de fácil mantenimiento.
 
 ## Enrutador
-
+https://github.com/nikic/FastRoute
 Con el uso de FastRoute como enrutador, el framework permite una definición y manejo claro de las rutas en el código, mejorando su legibilidad y acelerando el desarrollo.
 
 ## Bus Asíncrono
