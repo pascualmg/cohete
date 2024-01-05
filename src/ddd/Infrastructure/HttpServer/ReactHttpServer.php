@@ -2,22 +2,12 @@
 
 namespace pascualmg\reactor\ddd\Infrastructure\HttpServer;
 
-use FastRoute\Dispatcher;
 use FriendsOfReact\Http\Middleware\Psr15Adapter\PSR15Middleware;
 use Middlewares\ClientIp;
 use pascualmg\reactor\ddd\Infrastructure\HttpServer\Kernel\Kernel;
-use pascualmg\reactor\ddd\Infrastructure\HttpServer\Router\Router;
-use pascualmg\reactor\ddd\Infrastructure\PSR11\ContainerFactory;
-use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;
-use React\Http\Message\Response;
-use React\Promise\Deferred;
-use React\Promise\Promise;
-use React\Promise\PromiseInterface;
 use React\Socket\SocketServer;
 use Throwable;
 
@@ -46,7 +36,7 @@ class ReactHttpServer
 
         $httpServer = new HttpServer(
             $clientIPMiddleware,
-           new Kernel()
+            new Kernel()
         );
 
         $httpServer->listen($port8000);
