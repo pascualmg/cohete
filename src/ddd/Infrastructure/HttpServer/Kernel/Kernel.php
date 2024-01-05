@@ -41,32 +41,14 @@ class Kernel
                 }
             )->catch(
                 onRejected: function (Throwable $exception): ResponseInterface {
-                    return new Response(
-                        409,
-                        ['Content-Type' => 'application/json'],
-                        self::toJson($exception)
-                    );
+                    return JsonResponse::withError($exception);
                 }
             );
         } catch (Throwable $exception) {
             // Capture only router configuration errors &
             // other exceptions not related to request handling
-            return new Response(
-                500,
-                ['Content-Type' => 'application/json'],
-                self::toJson($exception)
-            );
+            return JsonResponse::withError($exception);
         }
-    }
-    private static function toJson(Throwable $exception): string
-    {
-        return json_encode([
-            'name' => $exception::class,
-            'message' => $exception->getMessage(),
-            'file' => $exception->getFile(),
-            'line' => $exception->getLine(),
-            'trace' => array_map('json_encode', $exception->getTrace())
-        ], JSON_THROW_ON_ERROR);
     }
 
     public static function AsyncHandleRequest(

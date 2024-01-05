@@ -37,6 +37,7 @@ class JsonResponse implements StatusCodeInterface
     {
         $toArray = static fn (Throwable $exception): array => [
             'name' => $exception::class,
+            'code' => $exception->getCode(),
             'message' => $exception->getMessage(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
