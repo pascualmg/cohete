@@ -3,9 +3,9 @@
 namespace pascualmg\reactor\ddd\Infrastructure\HttpServer;
 
 use FastRoute\Dispatcher;
-use FastRoute\RouteCollector;
 use FriendsOfReact\Http\Middleware\Psr15Adapter\PSR15Middleware;
 use Middlewares\ClientIp;
+use pascualmg\reactor\ddd\Infrastructure\HttpServer\Router\Router;
 use pascualmg\reactor\ddd\Infrastructure\PSR11\ContainerFactory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -19,8 +19,6 @@ use React\Promise\Promise;
 use React\Promise\PromiseInterface;
 use React\Socket\SocketServer;
 use Throwable;
-
-use function FastRoute\simpleDispatcher;
 
 class ReactHttpServer
 {
