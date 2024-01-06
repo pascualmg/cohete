@@ -55,7 +55,7 @@ class Kernel
                 // Este Try-Catch es importante , ya que elimina el  mensaje 500 sin info del servidor cuando
                 // se produce una exception no controlada desde un repo , handler o cualquier otra clase interna.
                 // Estas son las excepciones que se lanzan directamente throw , y no por ejemplo las que se hacen con un
-                // $defered->reject(Throwable $e) , que son las que si son capturadas arriba.
+                // $deferred->reject(Throwable $e) , que son las que si son capturadas arriba.
                 //todo: controlarlo con el .env , si es 'prod' inactivo maybe
                 return self::wrapWithPromise(JsonResponse::withError($exception));
             }
