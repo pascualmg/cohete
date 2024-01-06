@@ -5,7 +5,7 @@ namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
 use pascualmg\reactor\ddd\Domain\Bus\Message;
 use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
 use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
-use pascualmg\reactor\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
+use pascualmg\reactor\ddd\Infrastructure\Repository\Post\AsyncMysqlPostRepository;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
 use React\Promise\Deferred;
@@ -26,7 +26,7 @@ class TestController implements HttpRequestHandler
 
 
         $deferred->resolve(
-            (new MysqlPostRepository())->findAll()
+            (new AsyncMysqlPostRepository())->findAll()
                 ->then(function (array $posts) use ($request) {
                     return new Response(
                         200,

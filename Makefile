@@ -16,4 +16,9 @@ fix:
 migrate:
 	./vendor/bin/phinx migrate
 
-.PHONY: run watch install-nix run-prod fix migrate
+fixtures:
+	./vendor/bin/phinx seed:run
+
+test_ab:
+	./src/ddd/Infrastructure/scripts/test_ab.php 'http://localhost:8000/post'
+.PHONY: run watch install-nix run-prod fix migrate fixtures test_ab

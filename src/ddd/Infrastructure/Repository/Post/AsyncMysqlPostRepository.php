@@ -9,7 +9,7 @@ use React\Mysql\MysqlResult;
 use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
 
-class MysqlPostRepository implements PostRepository
+class AsyncMysqlPostRepository implements PostRepository
 {
     private MysqlClient $mysqlClient;
 

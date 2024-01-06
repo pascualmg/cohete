@@ -1,8 +1,7 @@
 <?php
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
+ini_set('memory_limit', '256M');
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -14,7 +13,13 @@ use Rx\Scheduler\EventLoopScheduler;
 
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
+$isDevelopment = ($_ENV['APP_ENV'] ?? 'prod') === 'dev';
 
+if($isDevelopment) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+}
 
 $loop = Loop::get();
 
@@ -27,7 +32,7 @@ ReactHttpServer::init(
     '0.0.0.0',
     '8000',
     $loop,
-    ($_ENV['APP_ENV'] ?? 'prod') === 'dev',
+    $isDevelopment,
 );
 
 $loop->run();

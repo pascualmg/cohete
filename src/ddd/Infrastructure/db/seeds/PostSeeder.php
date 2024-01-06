@@ -20,7 +20,7 @@ class PostSeeder extends AbstractSeed
         $faker = Faker\Factory::create();
         $postFakeData = [];
 
-        for($i = 0; $i < 1000; $i++) {
+        for($i = 0; $i < 10000; $i++) {
             $postFakeData[] = [
                 'headline' => $faker->sentence(),
                 'articleBody' => $faker->paragraph(),

@@ -6,7 +6,7 @@ error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
 require dirname(__DIR__, 6) . '/vendor/autoload.php';
 
-use pascualmg\reactor\ddd\Infrastructure\Repository\Post\MysqlPostRepository;
+use pascualmg\reactor\ddd\Infrastructure\Repository\Post\AsyncMysqlPostRepository;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use Ratchet\Server\IoServer;
@@ -31,7 +31,7 @@ $messageComponent = new class () implements MessageComponentInterface {
 
     public function onMessage(ConnectionInterface $from, $msg): void
     {
-        (new MysqlPostRepository())
+        (new AsyncMysqlPostRepository())
             ->findAll()
             ->then(function (array $result) use ($from) {
                 $loop = Loop::get();
