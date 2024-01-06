@@ -8,19 +8,21 @@ use pascualmg\reactor\ddd\Infrastructure\HttpServer\Kernel\Kernel;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;
+use React\Socket\ConnectionInterface;
 use React\Socket\SocketServer;
-use Throwable;
 
 class ReactHttpServer
 {
     public static function init(
         string $host,
         string $port,
-        ?LoopInterface $loop = null
+        ?LoopInterface $loop = null,
+        bool $isDevelopment = false,
     ): void {
         if (null === $loop) {
             $loop = Loop::get();
         }
+
 
         $port8000 = new SocketServer(
             sprintf("%s:%s", $host, $port),
@@ -35,21 +37,21 @@ class ReactHttpServer
 
         $httpServer = new HttpServer(
             $clientIPMiddleware,
-            new Kernel()
+            new Kernel($isDevelopment)
         );
 
         $httpServer->listen($port8000);
         echo "server listening on " . $port8000->getAddress();
 
-        $httpServer->on(
-            'error',
-            function (Throwable $error) {
-                echo 'Error: ' . $error->getMessage() . PHP_EOL;
-            }
-        );
+        if ($isDevelopment) {
+            $httpServer->on(
+                'error',
+                'var_dump'
+            );
 
-        //        $port8000->on('connection', function (ConnectionInterface $connection) {
-        //            $connection->on('data', 'var_dump');
-        //        });
+            $port8000->on('connection', function (ConnectionInterface $connection) {
+                $connection->on('data', 'var_dump');
+            });
+        }
     }
 }

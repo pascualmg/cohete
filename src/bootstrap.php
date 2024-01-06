@@ -15,6 +15,7 @@ use Rx\Scheduler\EventLoopScheduler;
 $dotenv = Dotenv::createImmutable(dirname(__DIR__));
 $dotenv->load();
 
+
 $loop = Loop::get();
 
 //activamos calendarizador de rx
@@ -25,8 +26,8 @@ Scheduler::setDefaultFactory(static fn () => $scheduler);
 ReactHttpServer::init(
     '0.0.0.0',
     '8000',
-    $loop
+    $loop,
+    ($_ENV['APP_ENV'] ?? 'prod') === 'dev',
 );
-
 
 $loop->run();
