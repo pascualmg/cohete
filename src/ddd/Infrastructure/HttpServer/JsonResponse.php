@@ -16,18 +16,11 @@ class JsonResponse implements StatusCodeInterface
 
     public static function create(int $code = self::STATUS_OK, $payload = null): ResponseInterface
     {
-        if (is_array($payload)) {
-            $jsonPayload = '';
-            foreach ($payload as $item) {
-                $jsonPayload .= json_encode($item, JSON_THROW_ON_ERROR);
-            }
-        } else {
-            $jsonPayload = json_encode($payload, JSON_THROW_ON_ERROR);
-        }
+
         return new Response(
             $code,
             ['Content-type' => 'application/json'],
-            json_encode($jsonPayload, JSON_THROW_ON_ERROR)
+            json_encode($payload, JSON_THROW_ON_ERROR)
         );
     }
 
