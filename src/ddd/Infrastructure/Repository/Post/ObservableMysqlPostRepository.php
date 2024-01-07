@@ -24,8 +24,8 @@ class ObservableMysqlPostRepository implements PostRepository
         $promiseOfQuery = $this->mysqlClient->query('SELECT * FROM post');
 
         return Observable::fromPromise($promiseOfQuery)
-            ->flatMap(static fn(MysqlResult $mysqlResult) => Observable::fromArray($mysqlResult->resultRows))
-            ->map( static fn (array $rawpost) => self::hydrate($rawpost))
+            ->flatMap(static fn(MysqlResult $mysqlResult): Observable => Observable::fromArray($mysqlResult->resultRows))
+            ->map( static fn (array $postFromMysql): Post => self::hydrate($postFromMysql))
             ->toArray()
             ->toPromise();
     }
