@@ -37,7 +37,7 @@ class ReactHttpServer
 
         $httpServer = new HttpServer(
             $clientIPMiddleware,
-            new Kernel($isDevelopment)
+            new Kernel()
         );
 
         $httpServer->listen($port8000);
