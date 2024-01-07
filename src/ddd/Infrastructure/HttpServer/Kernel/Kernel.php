@@ -31,6 +31,7 @@ class Kernel
 
     public function __invoke(ServerRequestInterface $request): PromiseInterface //of a ResponseInterface
     {
+
         return self::AsyncHandleRequest(
             request: $request,
             container: $this->container,
@@ -80,7 +81,7 @@ class Kernel
                 try {
                     $response = $container->get($httpRequestHandlerName)($request, $params);
                 } catch (Throwable $throwable) {
-                    $deferred->reject( $throwable );
+                    $deferred->reject($throwable);
                     break;
                 }
 
