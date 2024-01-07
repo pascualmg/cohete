@@ -21,7 +21,9 @@ class ObservableMysqlPostRepository implements PostRepository
 
     public function findAll(): PromiseInterface
     {
-        return Observable::fromPromise( $this->mysqlClient->query('SELECT * FROM post') )
+        $promiseOfQuery = $this->mysqlClient->query('SELECT * FROM post');
+
+        return Observable::fromPromise($promiseOfQuery)
             ->flatMap(static fn(MysqlResult $mysqlResult) => Observable::fromArray($mysqlResult->resultRows))
             ->map( static fn (array $rawpost) => self::hydrate($rawpost))
             ->toArray()
@@ -30,20 +32,15 @@ class ObservableMysqlPostRepository implements PostRepository
 
     public function findById(int $postId): PromiseInterface //of Post or Null
     {
-        $deferred = new Deferred();
 
-        $this->mysqlClient->query(
+        $promiseOfQuery =  $this->mysqlClient->query(
             "SELECT * FROM post where post.id = ?",
             [$postId]
-        )->then(function (MysqlResult $mysqlResult) use ($deferred) {
-            $deferred->resolve(
-                self::hydrateOrNull(
-                    $mysqlResult->resultRows[0] ?? null
-                )
-            );
-        });
+        );
 
-        return $deferred->promise();
+        return Observable::fromPromise($promiseOfQuery)
+            ->map(fn (MysqlResult $mysqlResult) => self::hydrateOrNull($mysqlResult->resultRows[0] ??  null))
+            ->toPromise();
     }
 
     private static function hydrateOrNull(?array $maybeResultRow): ?Post
