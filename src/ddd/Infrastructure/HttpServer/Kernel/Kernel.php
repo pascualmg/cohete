@@ -19,61 +19,31 @@ class Kernel
 {
     private ContainerInterface $container;
     private Dispatcher $dispatcher;
-    private bool $isDevelopment;
 
-    public function __construct(bool $isDevelopment = false)
+    public function __construct()
     {
         //explicit no dependency injection.
         $this->container = ContainerFactory::create();
         $this->dispatcher = Router::fromJson(
             $this->container->get('routes.path')
         );
-        $this->isDevelopment = $isDevelopment;
     }
 
     public function __invoke(ServerRequestInterface $request): PromiseInterface //of a ResponseInterface
     {
-        //Este if se puede refactorizar wrapeando el fragmento principal en una func y quedaría mas "elegante"
-        //pero haría la lectura mas complicada
-        //todo: refactor this ?
-        if ($this->isDevelopment) {
-            try {
-                return self::AsyncHandleRequest(
-                    request: $request,
-                    container: $this->container,
-                    dispatcher: $this->dispatcher
-                )->then(
-                    onFulfilled: function (ResponseInterface $response): ResponseInterface {
-                        return $response;
-                    }
-                )->catch(
-                    onRejected: function (Throwable $exception): ResponseInterface {
-                        return JsonResponse::withError($exception);
-                    }
-                );
-            } catch (Throwable $exception) {
-                // Este Try-Catch es importante , ya que elimina el  mensaje 500 sin info del servidor cuando
-                // se produce una exception no controlada desde un repo , handler o cualquier otra clase interna.
-                // Estas son las excepciones que se lanzan directamente throw , y no por ejemplo las que se hacen con un
-                // $deferred->reject(Throwable $e) , que son las que si son capturadas arriba.
-                //todo: controlarlo con el .env , si es 'prod' inactivo maybe
-                return self::wrapWithPromise(JsonResponse::withError($exception));
+        return self::AsyncHandleRequest(
+            request: $request,
+            container: $this->container,
+            dispatcher: $this->dispatcher
+        )->then(
+            onFulfilled: function (ResponseInterface $response): ResponseInterface {
+                return $response;
             }
-        } else {
-            return self::AsyncHandleRequest(
-                request: $request,
-                container: $this->container,
-                dispatcher: $this->dispatcher
-            )->then(
-                onFulfilled: function (ResponseInterface $response): ResponseInterface {
-                    return $response;
-                }
-            )->catch(
-                onRejected: function (Throwable $exception): ResponseInterface {
-                    return JsonResponse::withError($exception);
-                }
-            );
-        }
+        )->catch(
+            onRejected: function (Throwable $exception): ResponseInterface {
+                return JsonResponse::withError($exception);
+            }
+        );
     }
 
     public static function AsyncHandleRequest(
@@ -107,7 +77,12 @@ class Kernel
                 [$_, $httpRequestHandlerName, $params] = $routeInfo;
 
                 //THE CORE, with autowiring in the __construct and a bit of magic
-                $response = $container->get($httpRequestHandlerName)($request, $params);
+                try {
+                    $response = $container->get($httpRequestHandlerName)($request, $params);
+                } catch (Throwable $throwable) {
+                    $deferred->reject( $throwable );
+                    break;
+                }
 
                 $deferred->resolve(
                     $response instanceof PromiseInterface ? $response : self::wrapWithPromise($response)
