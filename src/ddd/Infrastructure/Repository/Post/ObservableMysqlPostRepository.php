@@ -19,7 +19,7 @@ class ObservableMysqlPostRepository implements PostRepository
         $this->mysqlClient = new MysqlClient('root:rootpassword@localhost:3306/test');
     }
 
-    public function findAll(): PromiseInterface
+    public function findAll(): PromiseInterface //of an array of Posts
     {
         $promiseOfQuery = $this->mysqlClient->query('SELECT * FROM post');
 
