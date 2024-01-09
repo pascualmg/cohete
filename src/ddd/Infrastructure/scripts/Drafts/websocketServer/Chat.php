@@ -8,7 +8,7 @@ use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use React\EventLoop\Loop;
 
-class ChatMessageComponent implements MessageComponentInterface
+class Chat implements MessageComponentInterface
 {
 
     private ConnectionPool $connectionPool;
