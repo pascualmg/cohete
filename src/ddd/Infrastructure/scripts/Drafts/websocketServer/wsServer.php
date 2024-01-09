@@ -6,48 +6,11 @@ error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
 require dirname(__DIR__, 6) . '/vendor/autoload.php';
 
-use pascualmg\reactor\ddd\Infrastructure\Repository\Post\AsyncMysqlPostRepository;
-use Ratchet\ConnectionInterface;
-use Ratchet\MessageComponentInterface;
+use pascualmg\reactor\ddd\Infrastructure\scripts\Drafts\websocketServer\TestMessageComponent;
 use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
-use React\EventLoop\Loop;
 
-$messageComponent = new class () implements MessageComponentInterface {
-    public function onOpen(ConnectionInterface $conn): void
-    {
-        echo 'conexion entrante';
-        var_dump($conn);
-    }
-    public function onClose(ConnectionInterface $conn): void
-    {
-        var_dump('close');
-    }
-
-    public function onError(ConnectionInterface $conn, \Exception $e): void
-    {
-        var_dump($e);
-    }
-
-    public function onMessage(ConnectionInterface $from, $msg): void
-    {
-        (new AsyncMysqlPostRepository())
-            ->findAll()
-            ->then(function (array $result) use ($from) {
-                $loop = Loop::get();
-                $sendPostsTimer = $loop->addPeriodicTimer(1, function () use ($from, $result) {
-                    /** @var \pascualmg\reactor\ddd\Domain\Entity\Post $post */
-                    foreach ($result as $post) {
-                        $from->send(json_encode($post->headline));
-                    }
-                });
-                $loop->addTimer(10, function () use ($sendPostsTimer, $loop) {
-                    $loop->cancelTimer($sendPostsTimer);
-                });
-            });
-    }
-};
-$wsServer = new WsServer($messageComponent);
+$wsServer = new WsServer(new TestMessageComponent());
 $httpServer = new Ratchet\Http\HttpServer($wsServer);
 $ioServer = IoServer::factory(
     $httpServer,
