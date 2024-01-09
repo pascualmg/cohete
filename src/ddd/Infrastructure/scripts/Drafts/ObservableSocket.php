@@ -15,9 +15,10 @@ class ObservableSocket
     public static function of(string $port, string $host = '0.0.0.0'): Observable
     {
         $uri = "$host:$port";
+        echo "listening on $uri";
 
         return Observable::create(
-            function (ObserverInterface $observer) use ($uri) {
+            static function (ObserverInterface $observer) use ($uri) {
                 $reactSocketServer = null;
                 try {
                     $reactSocketServer = new SocketServer($uri, [], Loop::get());

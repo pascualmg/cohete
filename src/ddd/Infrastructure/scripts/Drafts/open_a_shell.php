@@ -13,11 +13,11 @@ $shell = new class implements ObserverInterface {
 
     public function onError (Throwable $error): void
     {
-        if ($error::class === 'RuntimeException') {
+        if ($error::class === RuntimeException::class) {
             echo "el host y puerto estan ya en uso";
         }
 
-        if ($error::class === 'InvalidArgumentException') {
+        if ($error::class === InvalidArgumentException::class) {
             echo "algun argumento es invalido";
         }
     }
