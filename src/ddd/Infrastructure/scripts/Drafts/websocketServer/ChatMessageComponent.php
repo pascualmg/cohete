@@ -8,17 +8,28 @@ use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use React\EventLoop\Loop;
 
-class TestMessageComponent implements MessageComponentInterface
+class ChatMessageComponent implements MessageComponentInterface
 {
+
+    private ConnectionPool $connectionPool;
+
+    public function __construct(
+    )
+    {
+        $this->connectionPool = new ConnectionPool();
+    }
+
+
+
     public function onOpen(ConnectionInterface $conn): void
     {
-        echo 'conexion entrante';
-        var_dump($conn);
+        $this->connectionPool->attach($conn);
+
     }
 
     public function onClose(ConnectionInterface $conn): void
     {
-        echo "close";
+        $this->connectionPool->dettach($conn);
         var_dump('close');
     }
 
