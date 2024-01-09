@@ -11,13 +11,16 @@ use pascualmg\reactor\ddd\Infrastructure\scripts\Drafts\websocketServer\TestMess
 use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
 
-$wsServer = new WsServer(new ChatMessageComponent());
+$wsServer = new WsServer(
+    new ChatMessageComponent()
+);
+
 $httpServer = new Ratchet\Http\HttpServer($wsServer);
+
 $ioServer = IoServer::factory(
     $httpServer,
     8001,
     '127.0.0.1'
 );
-
 
 $ioServer->run();
