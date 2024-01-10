@@ -10,11 +10,11 @@ use Ratchet\ConnectionInterface;
 class ConnectionPool
 {
 
-    private \SplObjectStorage $connectionsPool;
+    private \SplObjectStorage $objectStorage;
 
     public function __construct()
     {
-        $this->connectionsPool = new \SplObjectStorage();
+        $this->objectStorage = new \SplObjectStorage();
     }
 
     /**
@@ -23,7 +23,7 @@ class ConnectionPool
      */
     public function add(ConnectionInterface $conn): void
     {
-        $this->connectionsPool->attach(
+        $this->objectStorage->attach(
             $conn,
             Uuid::uuid4()
         );
@@ -31,7 +31,7 @@ class ConnectionPool
 
     public function remove(ConnectionInterface $conn): void
     {
-        $this->connectionsPool->detach($conn);
+        $this->objectStorage->detach($conn);
 
     }
 
@@ -46,7 +46,7 @@ class ConnectionPool
      */
     public function sendToAll(array $payload, ?ConnectionInterface $except = null): void
     {
-        foreach ($this->connectionsPool as $connection) {
+        foreach ($this->objectStorage as $connection) {
             if ($connection !== $except) {
                 $connection->send(json_encode($payload, JSON_THROW_ON_ERROR));
             }
@@ -55,10 +55,10 @@ class ConnectionPool
 
     public function findByUuid(string $searchedUuid): ?ConnectionInterface
     {
-        foreach ($this->connectionsPool as $connection) {
+        foreach ($this->objectStorage as $connection) {
             // Obtener la información asociada a la conexión (UUID)
             /** @var Uuid $uuid */
-            $uuid = $this->connectionsPool->getInfo();
+            $uuid = $this->objectStorage->getInfo();
 
 
             // Comprobar si el UUID coincide con la búsqueda
@@ -74,6 +74,6 @@ class ConnectionPool
 
     public function getUuid(ConnectionInterface $from) : UuidInterface
     {
-        return $this->connectionsPool[$from];
+        return $this->objectStorage[$from];
     }
 }
