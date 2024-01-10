@@ -46,27 +46,4 @@ class Chat implements MessageComponentInterface
             $from
         );
     }
-
-    /**
-     * @param ConnectionInterface $from
-     * @return void
-     */
-    public function getPosts(ConnectionInterface $from): void
-    {
-        (new AsyncMysqlPostRepository())
-            ->findAll()
-            ->then(function (array $result) use ($from) {
-                $loop = Loop::get();
-                $sendPostsTimer = $loop->addPeriodicTimer(1, function () use ($from, $result) {
-                    /** @var Post $post */
-                    foreach ($result as $post) {
-                        $from->send(json_encode($post->headline));
-                    }
-                });
-                $loop->addTimer(10, function () use ($sendPostsTimer, $loop) {
-                    $loop->cancelTimer($sendPostsTimer);
-                });
-            });
-    }
-
 }
