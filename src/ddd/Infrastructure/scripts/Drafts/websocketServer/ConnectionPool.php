@@ -9,7 +9,6 @@ use Ratchet\ConnectionInterface;
 
 class ConnectionPool
 {
-
     private \SplObjectStorage $objectStorage;
 
     public function __construct()
@@ -72,7 +71,7 @@ class ConnectionPool
         return null;
     }
 
-    public function getUuid(ConnectionInterface $from) : UuidInterface
+    public function getUuid(ConnectionInterface $from): UuidInterface
     {
         return $this->objectStorage[$from];
     }

@@ -5,13 +5,12 @@ require dirname(__DIR__, 5) . '/vendor/autoload.php';
 use pascualmg\reactor\ddd\Infrastructure\scripts\Drafts\ObservableSocket;
 use Rx\ObserverInterface;
 
-$shell = new class implements ObserverInterface {
-
-    public function onCompleted() : void
+$shell = new class () implements ObserverInterface {
+    public function onCompleted(): void
     {
     }
 
-    public function onError (Throwable $error): void
+    public function onError(Throwable $error): void
     {
         if ($error::class === RuntimeException::class) {
             echo "el host y puerto estan ya en uso";
@@ -23,7 +22,7 @@ $shell = new class implements ObserverInterface {
     }
 
 
-    public function onNext( $value): void
+    public function onNext($value): void
     {
         [$data, $connection] = $value;
 
@@ -44,5 +43,3 @@ ObservableSocket::of("11334")
     ->subscribe(
         $shell
     );
-
-

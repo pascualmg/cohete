@@ -2,15 +2,13 @@
 
 namespace pascualmg\reactor\ddd\Infrastructure\scripts\Drafts\websocketServer;
 
-use pascualmg\reactor\ddd\Domain\Entity\Post;
-use pascualmg\reactor\ddd\Infrastructure\Repository\Post\AsyncMysqlPostRepository;
+use pascualmg\reactor\ddd\Infrastructure\HelperFunctions\ExceptionTo;
+use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
-use React\EventLoop\Loop;
 
 class Chat implements MessageComponentInterface
 {
-
     private ConnectionPool $connectionPool;
 
     public function __construct()
@@ -31,7 +29,7 @@ class Chat implements MessageComponentInterface
 
     public function onError(ConnectionInterface $conn, \Exception $e): void
     {
-        var_dump($e);
+        var_dump(ExceptionTo::arrayWithShortTrace($e));
     }
 
     public function onMessage(ConnectionInterface $from, $msg): void
