@@ -13,24 +13,20 @@ class Chat implements MessageComponentInterface
 
     private ConnectionPool $connectionPool;
 
-    public function __construct(
-    )
+    public function __construct()
     {
         $this->connectionPool = new ConnectionPool();
     }
 
 
-
     public function onOpen(ConnectionInterface $conn): void
     {
-        $this->connectionPool->attach($conn);
-
+        $this->connectionPool->add($conn);
     }
 
     public function onClose(ConnectionInterface $conn): void
     {
-        $this->connectionPool->dettach($conn);
-        var_dump('close');
+        $this->connectionPool->remove($conn);
     }
 
     public function onError(ConnectionInterface $conn, \Exception $e): void
@@ -40,7 +36,15 @@ class Chat implements MessageComponentInterface
 
     public function onMessage(ConnectionInterface $from, $msg): void
     {
-        $this->getPosts($from);
+        $uuid = $this->connectionPool->getUuid($from);
+
+        $this->connectionPool->sendToAll(
+            [
+                'msg' => $msg,
+                'uuid' => $uuid
+            ],
+            $from
+        );
     }
 
     /**
