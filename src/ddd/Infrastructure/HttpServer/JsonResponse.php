@@ -3,6 +3,7 @@
 namespace pascualmg\reactor\ddd\Infrastructure\HttpServer;
 
 use Fig\Http\Message\StatusCodeInterface;
+use pascualmg\reactor\ddd\Infrastructure\HelperFunctions\ExceptionTo;
 use Psr\Http\Message\ResponseInterface;
 use React\Http\Message\Response;
 use Throwable;
@@ -16,7 +17,6 @@ class JsonResponse implements StatusCodeInterface
 
     public static function create(int $code = self::STATUS_OK, $payload = null): ResponseInterface
     {
-
         return new Response(
             $code,
             ['Content-type' => 'application/json'],
@@ -36,16 +36,7 @@ class JsonResponse implements StatusCodeInterface
 
     public static function withError(Throwable $e): ResponseInterface
     {
-        $toArray = static fn (Throwable $exception): array => [
-            'name' => $exception::class,
-            'code' => $exception->getCode(),
-            'message' => $exception->getMessage(),
-            'file' => $exception->getFile(),
-            'line' => $exception->getLine(),
-            'trace' => array_map('json_encode', $exception->getTrace())
-        ];
-
-        return self::create($e->getCode(), $toArray($e));
+        return self::create($e->getCode(), ExceptionTo::array($e));
     }
 
 
