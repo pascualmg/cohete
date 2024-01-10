@@ -3,7 +3,6 @@
 namespace pascualmg\reactor\ddd\Infrastructure\scripts\Drafts\websocketServer;
 
 use pascualmg\reactor\ddd\Infrastructure\HelperFunctions\ExceptionTo;
-use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 
