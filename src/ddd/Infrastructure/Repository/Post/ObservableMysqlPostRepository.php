@@ -6,7 +6,6 @@ use pascualmg\reactor\ddd\Domain\Entity\Post;
 use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
 use React\Mysql\MysqlClient;
 use React\Mysql\MysqlResult;
-use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
 use Rx\Observable;
 
