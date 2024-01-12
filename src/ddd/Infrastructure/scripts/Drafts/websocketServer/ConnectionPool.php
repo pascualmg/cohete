@@ -52,24 +52,7 @@ class ConnectionPool
         }
     }
 
-    public function findByUuid(string $searchedUuid): ?ConnectionInterface
-    {
-        foreach ($this->objectStorage as $connection) {
-            // Obtener la información asociada a la conexión (UUID)
-            /** @var Uuid $uuid */
-            $uuid = $this->objectStorage->getInfo();
 
-
-            // Comprobar si el UUID coincide con la búsqueda
-            if ($uuid === $searchedUuid) {
-                // Si hay coincidencia, retorna la conexión
-                return $connection;
-            }
-        }
-
-        // Si no se encuentra ninguna coincidencia, retorna null
-        return null;
-    }
 
     public function getUuid(ConnectionInterface $from): UuidInterface
     {
