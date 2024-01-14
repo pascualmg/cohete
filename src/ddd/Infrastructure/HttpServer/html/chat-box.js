@@ -12,9 +12,20 @@ class ChatBoxComponent extends HTMLElement {
             this.getAttribute("group") || 'general',
         );
 
+        //después del render vamos a tener disponibles estos elementos
+        //se sacan aquí para evitar hacer selectores dentro de las
+        //funciones subsecuentes
+        this.elements = {
+            'chatContainer': this.shadowRoot.querySelector('#chat-container'),
+            'chatBox': this.shadowRoot.querySelector('#chat-box'),
+            'userInputSection': this.shadowRoot.querySelector('#userInputSection'),
+            'messageInput': this.shadowRoot.querySelector('#messageInput'),
+        };
+
+
         this.initWebSocket(
             this.getAttribute("host") || '0.0.0.0',
-            this.getAttribute("port") || '8001'
+            this.getAttribute("port") || '8001',
         );
 
     }
@@ -25,14 +36,14 @@ class ChatBoxComponent extends HTMLElement {
     #chat-container {
         position: fixed;    
         bottom: 0;
-        height: 50vh;
-        width: 100%;
+        height: 100vh;
+        width: 97%;
         display: flex;
         flex-direction: column;
         padding: 5px;
         background-color: #073642;
         color: #93a1a1;
-        border-radius: 5px;
+        border-radius: 10px;
         border: 1px solid #586e75;
     }
 
@@ -48,20 +59,21 @@ class ChatBoxComponent extends HTMLElement {
         margin: 2px 0; /* Añade un pequeño margen vertical entre los mensajes */
         background-color: #073642;
         color: #93a1a1;
+        font-size: xxx-large;
     }
 
     #userInputSection {
-        margin-top: 10px;
+        margin-top: 100px;
     }
 
     #messageInput {
-        width: 100%;
+        width: 98%;
         padding: 5px;
         border-radius: 5px;
         border: none;
         background-color: #002b36;
         color: #839496;
-        font-size: larger;
+        font-size: xxx-large;
     }
 </style>
 <div id="chat-container">
@@ -76,38 +88,52 @@ class ChatBoxComponent extends HTMLElement {
     </div>
 </div>
     `;
+
     }
 
     initWebSocket(host, port) {
         const websocket = new WebSocket(`ws://${host}:${port}`);
 
-        websocket.onerror = (error) => {
-            console.log('WebSocket error: ', error);
-        };
+        websocket.onerror = console.error
+
         websocket.onopen = () => {
             console.log('WebSocket Client Connected');
         };
 
         websocket.onmessage = (message) => {
-            const chatBoxElement = this.shadowRoot.querySelector('#chat-box');
             console.log(message);
             const payload = JSON.parse(message.data)
             console.log(payload);
             const div = document.createElement('div');
             div.textContent = payload.msg || ""
-            chatBoxElement.appendChild(div);
-            chatBoxElement.scrollTop = chatBoxElement.scrollHeight
+            this.elements.chatBox.appendChild(div);
+            this.elements.chatBox.scrollTop = this.elements.chatBox.scrollHeight
         };
 
-        const messageInput = this.shadowRoot.querySelector('#messageInput');
-        messageInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter' && this.value.trim() !== '') {
-                const message = messageInput.value.trim();
+        this.elements.messageInput.addEventListener(
+            'keypress',
+            (keyPressed) => {
+                const message = this.elements.messageInput.value.trim()
 
-                websocket.send(message)
-                messageInput.value = '';
-            }
-        })
+                if (keyPressed.key !== 'Enter' || message === '') {
+                    return;
+                }
+
+                try {
+                    //envía mensaje
+                    websocket.send(message)
+                    this.elements.messageInput.value = '';
+
+                    //hace copy para que el usuario
+                    const divWithMessage = document.createElement('div')
+                    divWithMessage.textContent = message
+                    this.elements.chatBox.appendChild(
+                        divWithMessage
+                    )
+                } catch (e) {
+                    console.error(e)
+                }
+            })
     }
 }
 
