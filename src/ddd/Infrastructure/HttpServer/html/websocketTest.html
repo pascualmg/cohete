@@ -14,10 +14,15 @@
     </style>
 </head>
 <body>
-<script lang="javascript" src="chat-box.js"></script>
-<div style="flex: auto">
-    <chat-box></chat-box>
-</div>
+<script src="chat-box.js"></script>
+<script>
+    chat = document.createElement("chat-box")
+    chat.setAttribute("foo", 'bar')
+
+    document
+        .querySelector("body")
+        .appendChild(chat)
+</script>
 
 
 </body>

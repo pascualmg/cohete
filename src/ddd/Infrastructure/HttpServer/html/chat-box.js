@@ -1,15 +1,20 @@
 class ChatBoxComponent extends HTMLElement {
+    foo;
     constructor() {
         super();
-        this.attachShadow({mode: 'open'});
+       this.attachShadow({mode: 'open'});
     }
 
     connectedCallback() {
-        this.render();
+
+        this.render(
+            this.getAttribute("foo")
+        );
         this.initWebSocket();
+
     }
 
-    render() {
+    render(name) {
         this.shadowRoot.innerHTML = `
 <style>
     #chat-container {
@@ -30,14 +35,16 @@ class ChatBoxComponent extends HTMLElement {
         overflow-y: auto;
         flex-grow: 1;
     }
-#chat-box div {
-    border: 1px solid #586e75;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 2px 0; /* Añade un pequeño margen vertical entre los mensajes */
-    background-color: #073642;
-    color: #93a1a1;
-}
+
+    #chat-box div {
+        border: 1px solid #586e75;
+        border-radius: 10px;
+        padding: 10px;
+        margin: 2px 0; /* Añade un pequeño margen vertical entre los mensajes */
+        background-color: #073642;
+        color: #93a1a1;
+    }
+
     #userInputSection {
         margin-top: 10px;
     }
@@ -52,19 +59,23 @@ class ChatBoxComponent extends HTMLElement {
         font-size: larger;
     }
 </style>
-    <div id="chat-container">
-        <div id="chat-box"></div>
-        <div id="userInputSection">
-            <input id="messageInput" type="text" placeholder="Write a message">
-        </div>
+<div id="chat-container">
+    <div id="chat-box"></div>
+    <div id="userInputSection">
+        <label for="messageInput"></label>
+        <input 
+         id="messageInput" 
+         type="text" 
+         placeholder="Write a message ${name} "
+        >
     </div>
+</div>
     `;
     }
 
     initWebSocket() {
         const chatbox = this.shadowRoot.querySelector('#chat-box');
         const messageInput = this.shadowRoot.querySelector('#messageInput');
-        const sendButton = this.shadowRoot.querySelector('#sendButton');
         const websocket = new WebSocket('ws://192.168.2.119:8001');
 
         websocket.onopen = () => {
