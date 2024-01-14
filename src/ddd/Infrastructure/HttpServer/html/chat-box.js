@@ -1,24 +1,29 @@
 class ChatBoxComponent extends HTMLElement {
     foo;
+
     constructor() {
         super();
-       this.attachShadow({mode: 'open'});
+        this.attachShadow({mode: 'open'});
     }
 
     connectedCallback() {
 
         this.render(
-            this.getAttribute("foo")
+            this.getAttribute("group") || 'general',
         );
-        this.initWebSocket();
+
+        this.initWebSocket(
+            this.getAttribute("host") || '0.0.0.0',
+            this.getAttribute("port") || '8001'
+        );
 
     }
 
-    render(name) {
+    render(group) {
         this.shadowRoot.innerHTML = `
 <style>
     #chat-container {
-        position: fixed;
+        position: fixed;    
         bottom: 0;
         height: 50vh;
         width: 100%;
@@ -66,32 +71,35 @@ class ChatBoxComponent extends HTMLElement {
         <input 
          id="messageInput" 
          type="text" 
-         placeholder="Write a message ${name} "
+         placeholder="Write a message ${group} "
         >
     </div>
 </div>
     `;
     }
 
-    initWebSocket() {
-        const chatbox = this.shadowRoot.querySelector('#chat-box');
-        const messageInput = this.shadowRoot.querySelector('#messageInput');
-        const websocket = new WebSocket('ws://192.168.2.119:8001');
+    initWebSocket(host, port) {
+        const websocket = new WebSocket(`ws://${host}:${port}`);
 
+        websocket.onerror = (error) => {
+            console.log('WebSocket error: ', error);
+        };
         websocket.onopen = () => {
             console.log('WebSocket Client Connected');
         };
 
         websocket.onmessage = (message) => {
+            const chatBoxElement = this.shadowRoot.querySelector('#chat-box');
             console.log(message);
             const payload = JSON.parse(message.data)
             console.log(payload);
             const div = document.createElement('div');
             div.textContent = payload.msg || ""
-            chatbox.appendChild(div);
-            chatbox.scrollTop = chatbox.scrollHeight
+            chatBoxElement.appendChild(div);
+            chatBoxElement.scrollTop = chatBoxElement.scrollHeight
         };
 
+        const messageInput = this.shadowRoot.querySelector('#messageInput');
         messageInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter' && this.value.trim() !== '') {
                 const message = messageInput.value.trim();

@@ -17,13 +17,19 @@
 <script src="chat-box.js"></script>
 <script>
     chat = document.createElement("chat-box")
-    chat.setAttribute("foo", 'bar')
-
+    chat.setAttribute("group", 'tbl001')
+    chat.setAttribute("host", '0.0.0.0')
+    chat.setAttribute("port", '8001')
     document
         .querySelector("body")
         .appendChild(chat)
 </script>
 
+<chat-box
+    host="0.0.0.0"
+    port="8001"
+    group="tbl001"
+></chat-box>
 
 </body>
 </html>
