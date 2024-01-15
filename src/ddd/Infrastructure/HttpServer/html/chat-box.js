@@ -1,5 +1,5 @@
 class ChatBoxComponent extends HTMLElement {
-    foo;
+    websocket = null
 
     constructor() {
         super();
@@ -24,10 +24,16 @@ class ChatBoxComponent extends HTMLElement {
         };
 
 
-        this.initWebSocket(
+        this.websocket = this.initWebSocket(
             this.getAttribute("host") || '0.0.0.0',
             this.getAttribute("port") || '8001',
         );
+
+        setInterval(() => {
+            const connectionOpen = this.websocket && this.websocket.readyState === WebSocket.OPEN;
+            this.connectedButton(connectionOpen);
+            console.log('wee', connectionOpen)
+        }, 1000);
 
     }
 
@@ -103,7 +109,6 @@ class ChatBoxComponent extends HTMLElement {
     }
 
     connectedButton(b) {
-        this.elements.connectedButton.textContent = b? "conectado"  : "desconectado"
         this.elements.connectedButton.style.backgroundColor = b? "green" : "red"
     }
     initWebSocket(host, port) {
@@ -155,6 +160,7 @@ class ChatBoxComponent extends HTMLElement {
                     console.error(e)
                 }
             })
+        return websocket;
     }
 }
 
