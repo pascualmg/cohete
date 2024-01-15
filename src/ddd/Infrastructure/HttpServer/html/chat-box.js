@@ -20,6 +20,7 @@ class ChatBoxComponent extends HTMLElement {
             'chatBox': this.shadowRoot.querySelector('#chat-box'),
             'userInputSection': this.shadowRoot.querySelector('#userInputSection'),
             'messageInput': this.shadowRoot.querySelector('#messageInput'),
+            'connectedButton' : this.shadowRoot.querySelector('#connectedButton')
         };
 
 
@@ -36,7 +37,7 @@ class ChatBoxComponent extends HTMLElement {
     #chat-container {
         position: fixed;    
         bottom: 0;
-        height: 100vh;
+        height: 66vh;
         width: 97%;
         display: flex;
         flex-direction: column;
@@ -75,9 +76,19 @@ class ChatBoxComponent extends HTMLElement {
         color: #839496;
         font-size: xxx-large;
     }
+    #connectedButton {
+        background: grey;
+            position: absolute;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    
+    }
 </style>
 <div id="chat-container">
     <div id="chat-box"></div>
+    <button id="connectedButton" disabled></button>
     <div id="userInputSection">
         <label for="messageInput"></label>
         <input 
@@ -91,13 +102,23 @@ class ChatBoxComponent extends HTMLElement {
 
     }
 
+    connectedButton(b) {
+        this.elements.connectedButton.textContent = b? "conectado"  : "desconectado"
+        this.elements.connectedButton.style.backgroundColor = b? "green" : "red"
+    }
     initWebSocket(host, port) {
         const websocket = new WebSocket(`ws://${host}:${port}`);
 
-        websocket.onerror = console.error
+        websocket.onerror = (error)  => {
+            console.error(error)
+            this.connectedButton(false)
+        }
+
+
 
         websocket.onopen = () => {
             console.log('WebSocket Client Connected');
+            this.connectedButton(true)
         };
 
         websocket.onmessage = (message) => {
