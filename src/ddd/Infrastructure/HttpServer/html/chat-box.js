@@ -1,42 +1,88 @@
 class ChatBoxComponent extends HTMLElement {
-    websocket = null
 
     constructor() {
         super();
         this.attachShadow({mode: 'open'});
+        this.webSocket = null
     }
 
     connectedCallback() {
+        const host = this.getAttribute("host") || '0.0.0.0'
+        const port = this.getAttribute("port") || '8001'
+        const uri = `ws://${host}:${port}`
+        const group = this.getAttribute("group") || 'general'
 
-        this.render(
-            this.getAttribute("group") || 'general',
-        );
-
-        //después del render vamos a tener disponibles estos elementos
-        //se sacan aquí para evitar hacer selectores dentro de las
-        //funciones subsecuentes
+        this.render(group);
         this.elements = {
             'chatContainer': this.shadowRoot.querySelector('#chat-container'),
             'chatBox': this.shadowRoot.querySelector('#chat-box'),
             'userInputSection': this.shadowRoot.querySelector('#userInputSection'),
             'messageInput': this.shadowRoot.querySelector('#messageInput'),
-            'connectedButton' : this.shadowRoot.querySelector('#connectedButton')
+            'connectedButton': this.shadowRoot.querySelector('#connectedButton')
         };
 
+        this.IncomingMessageFromWebSocket$(uri)
+            .subscribe(this.renderIncomingMessageHOC(this.elements.chatBox))
 
-        this.websocket = this.initWebSocket(
-            this.getAttribute("host") || '0.0.0.0',
-            this.getAttribute("port") || '8001',
-        );
-
-        setInterval(() => {
-            const connectionOpen = this.websocket && this.websocket.readyState === WebSocket.OPEN;
-            this.connectedButton(connectionOpen);
-            console.log('wee', connectionOpen)
-        }, 1000);
-
+        this.userInput$().pipe(rxjs.operators.tap(console.log))
+            .subscribe(this.sendMessageToChatHOC(this.webSocket))
     }
 
+    renderIncomingMessageHOC(chatBox) {
+        return (messageEvent) => {
+            const {
+                msg = "",
+                uuid = ""
+            } = JSON.parse(messageEvent.data);
+
+            const div = document.createElement('div');
+            div.textContent = msg || "";
+            chatBox.appendChild(div);
+            chatBox.scrollTop = this.elements.chatBox.scrollHeight;
+        }
+    }
+
+    sendMessageToChatHOC(webSocket) {
+        return (value) => {
+            try {
+                webSocket.send(value)
+                this.elements.messageInput.value = '';
+
+                const divWithMessage = document.createElement('div');
+                divWithMessage.textContent = value;
+                this.elements.chatBox.appendChild(
+                    divWithMessage
+                )
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    }
+
+    /**
+     * Returns an observable that emits an object whenever the Enter key is pressed on the message input field.
+     * The emitted object contains the trimmed value of the input field and the key that triggered the event.
+     * Only emits when the value is not empty.
+     *
+     * @return {Observable} An observable that emits an object when the Enter key is pressed on the message input field.
+     */
+    userInput$() {
+        return rxjs.fromEvent(this.elements.messageInput, 'keypress')
+            .pipe(
+                rxjs.operators.map(event => ({
+                    value: this.elements.messageInput.value.trim(),
+                    key: event.key
+                })),
+                rxjs.operators.filter(({value, key}) => key === 'Enter' && value !== ''),
+                rxjs.operators.map(({value, _}) => value)
+            );
+    }
+
+    /**
+     * Renders the chat interface with the given group name.
+     *
+     * @param {string} group - The name of the chat group.
+     */
     render(group) {
         this.shadowRoot.innerHTML = `
 <style>
@@ -108,59 +154,63 @@ class ChatBoxComponent extends HTMLElement {
 
     }
 
-    connectedButton(b) {
-        this.elements.connectedButton.style.backgroundColor = b? "green" : "red"
+    /**
+     * Sets the background color of the connected button element.
+     *
+     * @param {boolean} boolean - The boolean value to determine the background color of the connected button.
+     *                            True sets the color to green, while false sets it to red.
+     *
+     * @return {void}
+     */
+    connectedButton(boolean) {
+        this.elements.connectedButton.style.backgroundColor = boolean ? "green" : "red"
     }
-    initWebSocket(host, port) {
-        const websocket = new WebSocket(`ws://${host}:${port}`);
 
-        websocket.onerror = (error)  => {
-            console.error(error)
-            this.connectedButton(false)
-        }
+    /**
+     * Creates and returns an Observable that receives incoming messages from a WebSocket.
+     *
+     * @param {string} url - The URL of the WebSocket server.
+     * @returns {Observable} - An Observable that emits incoming messages from the WebSocket.
+     */
+    IncomingMessageFromWebSocket$(url) {
+        return new rxjs.Observable(subscriber => {
+            /** lo crea y lo deja disponible en la class
+             *  para poder usarlo enviando los mensajes.
+             */
+            this.webSocket = new WebSocket(url);
 
+            this.webSocket.onopen = () => {
+                console.log('WebSocket Client Connected');
+                this.connectedButton(true);
+            }
 
+            this.webSocket.onmessage = event => {
+                console.log(event)
+                subscriber.next(event)
+            };
 
-        websocket.onopen = () => {
-            console.log('WebSocket Client Connected');
-            this.connectedButton(true)
-        };
+            this.webSocket.onerror = error => {
+                subscriber.error(error);
+            };
 
-        websocket.onmessage = (message) => {
-            console.log(message);
-            const payload = JSON.parse(message.data)
-            console.log(payload);
-            const div = document.createElement('div');
-            div.textContent = payload.msg || ""
-            this.elements.chatBox.appendChild(div);
-            this.elements.chatBox.scrollTop = this.elements.chatBox.scrollHeight
-        };
-
-        this.elements.messageInput.addEventListener(
-            'keypress',
-            (keyPressed) => {
-                const message = this.elements.messageInput.value.trim()
-
-                if (keyPressed.key !== 'Enter' || message === '') {
-                    return;
+            this.webSocket.onclose = event => {
+                if (!event.wasClean) {
+                    subscriber.error('WebSocket connection lost');
                 }
+            };
 
-                try {
-                    //envía mensaje
-                    websocket.send(message)
-                    this.elements.messageInput.value = '';
-
-                    //hace copy para que el usuario
-                    const divWithMessage = document.createElement('div')
-                    divWithMessage.textContent = message
-                    this.elements.chatBox.appendChild(
-                        divWithMessage
-                    )
-                } catch (e) {
-                    console.error(e)
-                }
-            })
-        return websocket;
+            return () => this.webSocket.close(1000, 'Closing connection normally');
+        }).pipe(
+            rxjs.operators.retryWhen((errors) => errors.pipe(
+                // Log the error to console
+                rxjs.operators.tap(val => console.error(`WebSocket connection failed with error: ${val}`)),
+                // Retry every 2 seconds, up to a maximum of 10 attempts
+                rxjs.operators.switchMap((error, index) =>
+                    (index < 10) ?
+                        rxjs.of(error).pipe(rxjs.delay(2000))
+                        : rxjs.throwError(error))
+            ))
+        );
     }
 }
 
