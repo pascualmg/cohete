@@ -22,13 +22,13 @@ class ChatBoxComponent extends HTMLElement {
         };
 
         this.IncomingMessageFromWebSocket$(uri)
-            .subscribe(this.renderIncomingMessageHOC(this.elements.chatBox))
+            .subscribe(this.renderIncomingMessage(this.elements.chatBox))
 
-        this.userInput$().pipe(rxjs.operators.tap(console.log))
-            .subscribe(this.sendMessageToChatHOC(this.webSocket))
+        this.userInput$()
+            .subscribe(this.sendMessageToChat(this.webSocket))
     }
 
-    renderIncomingMessageHOC(chatBox) {
+    renderIncomingMessage(chatBox) {
         return (messageEvent) => {
             const {
                 msg = "",
@@ -42,7 +42,7 @@ class ChatBoxComponent extends HTMLElement {
         }
     }
 
-    sendMessageToChatHOC(webSocket) {
+    sendMessageToChat(webSocket) {
         return (value) => {
             try {
                 webSocket.send(value)
