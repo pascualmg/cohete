@@ -21,17 +21,25 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/8.0.0-alpha.0/rxjs.umd.min.js"
         integrity="sha512-RU/+KBY2y4DY3tDNOpeUJbg+qDu+VhUg4adCSXsFRMNaTjZ8MhfxVl/vSv16QGnjck9TQO3QXKDDAVwbqBjFxA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-    const chat = () => {
-        const chat = new ChatBoxComponent()
-        chat.setAttribute("group", 'tbl001')
-        chat.setAttribute("host", '178.237.131.222')
-        chat.setAttribute("port", '8001')
-        return chat
-    }
+<!--<script>-->
+<!--    const chat = () => {-->
+<!--        const chat = new ChatBoxComponent()-->
+<!--        chat.setAttribute("group", 'tbl001')-->
+<!--        chat.setAttribute("host", '0.0.0.0')-->
+<!--        chat.setAttribute("port", '8001')-->
+<!--        return chat-->
+<!--    }-->
 
-    $("body").appendChild(chat())
-</script>
+<!--    $("body").appendChild(-->
+<!--        chat()-->
+<!--    )-->
+<!--</script>-->
+
+<chat-box
+        group="tbl001"
+        host="0.0.0.0"
+        port="8001"
+></chat-box>
 
 
 </body>
