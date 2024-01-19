@@ -1,0 +1,14 @@
+version: '3'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 'SAMEFORSAMECLUSTER'
+      RABBITMQ_DEFAULT_USER: 'rabbitmq'
+      RABBITMQ_DEFAULT_PASS: 'rabbitmq'
+      RABBITMQ_DEFAULT_VHOST: '/'
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq

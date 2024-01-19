@@ -17,7 +17,8 @@
         "robmorgan/phinx": "^0.15.5",
         "fakerphp/faker": "^1.23",
         "react/promise-stream": "^1.7",
-        "ramsey/uuid": "^4.7"
+        "ramsey/uuid": "^4.7",
+        "bunny/bunny": "^0.5.5"
 
     },
     "require-dev": {
