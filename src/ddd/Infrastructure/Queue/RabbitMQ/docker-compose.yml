@@ -2,6 +2,7 @@ version: '3'
 services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
+    container_name: reactor-rabbitmq
     environment:
       RABBITMQ_ERLANG_COOKIE: 'SAMEFORSAMECLUSTER'
       RABBITMQ_DEFAULT_USER: 'rabbitmq'
