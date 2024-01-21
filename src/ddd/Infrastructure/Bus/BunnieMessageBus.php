@@ -14,6 +14,7 @@ use Rx\Observable;
 class BunnieMessageBus implements MessageBus
 {
     private const QUEUE_NAME = 'queue_name';
+    private const EXCHANGE_NAME = 'exchange_name';
 
 
     public function __construct(
@@ -26,29 +27,26 @@ class BunnieMessageBus implements MessageBus
      */
     public function dispatch(BusMessage $message): void
     {
-
         function fp(PromiseInterface $promise): Observable
         {
             return Observable::fromPromise($promise);
         }
+
         $payload = json_encode($message, JSON_THROW_ON_ERROR);
 
-        $rabbitMqMessageSenderObservable = fp($this->client->connect())
-            ->flatMap(fn(Client $client): Observable => fp($client->channel())
-                ->map(fn(Channel $channel) => [$channel, $payload]))
-            ->flatMap(function (array $args): Observable {
-                [$channel,$payload] = $args;
-                return fp($channel->queueDeclare(self::QUEUE_NAME))
-                    ->filter( fn ($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame)
-                    ->map(function () use ($channel, $payload) {
-                        $channel->publish(
-                            $payload,
-                            [],
-                        );
-                        return 'enviado';
-                    });
-            })
-        ->repeat(1000);
+        $rabbitMqMessageSenderObservable = fp($this->client->connect()) // Connect
+        ->flatMap(fn(Client $client) => fp($client->channel())) // Get channel from client
+        ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME))
+            ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame)
+            ->flatMap(fn() => fp(
+                $channel->publish(
+                    $payload,
+                    [],
+                    self::EXCHANGE_NAME,
+                    'routing_key'
+                )
+            ))
+        );
 
         $rabbitMqMessageSenderObservable->subscribe(
             function ($msg) {
