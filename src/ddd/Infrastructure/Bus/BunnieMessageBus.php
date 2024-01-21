@@ -34,12 +34,12 @@ class BunnieMessageBus implements MessageBus
 
         $payload = json_encode($message, JSON_THROW_ON_ERROR);
 
-        $rabbitMqMessageSenderObservable = fp($this->client->connect()) // Connect
-        ->flatMap(fn(Client $client) => fp($client->channel())) // Get channel from client
-        ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME))
-            ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame)
+        $rabbitMqMessageSenderObservable = fp($this->client->connect()) //Conectamos
+        ->flatMap(fn(Client $client) => fp($client->channel())) //Obtenemos el canal del cliente
+        ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
+            ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
             ->flatMap(fn() => fp(
-                $channel->publish(
+                $channel->publish( //publicamos , esto devuelve un bool :)
                     $payload,
                     [],
                     self::EXCHANGE_NAME,
@@ -49,8 +49,8 @@ class BunnieMessageBus implements MessageBus
         );
 
         $rabbitMqMessageSenderObservable->subscribe(
-            function ($msg) {
-                var_dump($msg);
+            function (bool $isPublished) {
+                var_dump($isPublished);
             },
             function ($error) {
                 var_dump($error);
