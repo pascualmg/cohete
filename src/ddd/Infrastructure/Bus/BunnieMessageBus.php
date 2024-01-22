@@ -16,6 +16,8 @@ class BunnieMessageBus implements MessageBus
 {
     private const QUEUE_NAME = 'queue_name';
     private const EXCHANGE_NAME = 'exchange_name';
+    private Observable $clientObservable;
+    private Observable\RefCountObservable $channelObservable;
 
 
     public function __construct(
@@ -26,6 +28,12 @@ class BunnieMessageBus implements MessageBus
         {
             return Observable::fromPromise($promise);
         }
+
+        $this->clientObservable = fp($this->client->connect());
+
+        $this->channelObservable = $this->clientObservable
+            ->flatMap( fn (Client $client) => fp($client->channel()))
+            ->share();
     }
 
     /**
@@ -36,8 +44,7 @@ class BunnieMessageBus implements MessageBus
         $payload = json_encode($message, JSON_THROW_ON_ERROR);
 
 
-        $rabbitMqMessageSenderObservable = fp($this->client->connect()) //Conectamos
-        ->flatMap(fn(Client $client) => fp($client->channel())) //Obtenemos el canal del cliente
+        $senderObservable = $this->channelObservable
         ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
         ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
         ->flatMap(fn() => fp(
@@ -50,7 +57,7 @@ class BunnieMessageBus implements MessageBus
         ))
         );
 
-        $rabbitMqMessageSenderObservable->subscribe(
+        $senderObservable->subscribe(
             function (bool $isPublished) {
                 var_dump($isPublished);
             },
@@ -58,16 +65,16 @@ class BunnieMessageBus implements MessageBus
                 var_dump($error);
             },
             function () {
-                echo 'complete';
-
-                fp($this->client->disconnect())
-                    ->subscribe(
-                        function ($disconnectResult) {
-                            echo "desconectando.. 1 \n";
-
-                        },
-                        'var_dump'
-                    );
+                echo 'complete sender';
+//
+//                fp($this->client->disconnect())
+//                    ->subscribe(
+//                        function ($disconnectResult) {
+//                            echo "desconectando.. 1 \n";
+//
+//                        },
+//                        'var_dump'
+//                    );
             }
 
 
@@ -76,8 +83,7 @@ class BunnieMessageBus implements MessageBus
 
     public function listen(string $messageName, callable $listener): void
     {
-        $rabbitMqMessageSubscriberObservable = fp($this->client->connect()) //Conectamos
-        ->flatMap(fn(Client $client) => fp($client->channel())) //Obtenemos el canal del cliente
+        $this->channelObservable
         ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
         ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
         ->flatMap(

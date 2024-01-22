@@ -40,10 +40,10 @@ $bunnieMb->dispatch(
 $bunnieMb->dispatch(
     new Message('foo', ['bar'])
 );
-//$bunnieMb->listen('foo', function ($id) {
-//    echo 'hi';
-//    return $id;
-//});
+$bunnieMb->listen('foo', function ($id) {
+    echo 'hi';
+    return $id;
+});
 
 
 $loop->run();
