@@ -29,11 +29,12 @@ class BunnieMessageBus implements MessageBus
             return Observable::fromPromise($promise);
         }
 
-        $this->clientObservable = fp($this->client->connect());
-
-        $this->channelObservable = $this->clientObservable
-            ->flatMap( fn (Client $client) => fp($client->channel()))
-            ->share();
+        //esto hace , que el canal se comparta y no se produzca el error de que el canal ya
+        //esta abierto.
+        $this->channelObservable =
+            fp($this->client->connect())
+                ->flatMap(fn(Client $client) => fp($client->channel()))
+                ->share();
     }
 
     /**
@@ -45,17 +46,16 @@ class BunnieMessageBus implements MessageBus
 
 
         $senderObservable = $this->channelObservable
-        ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
-        ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
-        ->flatMap(fn() => fp(
-            $channel->publish( //publicamos , esto devuelve un bool :)
-                $payload,
-                [],
-                self::EXCHANGE_NAME,
-                'routing_key'
-            )
-        ))
-        );
+            ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
+            ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
+            ->flatMap(fn() => fp(
+                $channel->publish( //publicamos , esto devuelve un bool :)
+                    $payload,
+                    [],
+                    self::EXCHANGE_NAME,
+                    'routing_key'
+                )
+            )));
 
         $senderObservable->subscribe(
             function (bool $isPublished) {
@@ -66,15 +66,6 @@ class BunnieMessageBus implements MessageBus
             },
             function () {
                 echo 'complete sender';
-//
-//                fp($this->client->disconnect())
-//                    ->subscribe(
-//                        function ($disconnectResult) {
-//                            echo "desconectando.. 1 \n";
-//
-//                        },
-//                        'var_dump'
-//                    );
             }
 
 
@@ -84,30 +75,30 @@ class BunnieMessageBus implements MessageBus
     public function listen(string $messageName, callable $listener): void
     {
         $this->channelObservable
-        ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
-        ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
-        ->flatMap(
-            fn() => fp(
-            $channel->consume(
-                function (Message $message) use ($listener, $channel) {
-                    $listener(json_decode($message->content, true, 512, JSON_THROW_ON_ERROR));
-                    $channel->ack($message);
-                },
-                self::QUEUE_NAME
+            ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
+            ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
+            ->flatMap(
+                fn() => fp(
+                    $channel->consume(
+                        function (Message $message) use ($listener, $channel) {
+                            $listener(json_decode($message->content, true, 512, JSON_THROW_ON_ERROR));
+                            $channel->ack($message);
+                        },
+                        self::QUEUE_NAME
+                    )
+                )
             )
-        ))
-        )->subscribe(
-            function ($next) {
-                echo $next::class . PHP_EOL;
-            },
-            function ($error) {
-                var_dump($error);
-            },
-            function () {
-                echo 'complete';
-
-            }
-        );
+            )->subscribe(
+                function ($next) {
+                    echo $next::class . PHP_EOL;
+                },
+                function ($error) {
+                    var_dump($error);
+                },
+                function () {
+                    echo 'complete';
+                }
+            );
     }
 
     public function __destruct()
