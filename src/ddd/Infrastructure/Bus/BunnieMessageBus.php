@@ -30,7 +30,7 @@ class BunnieMessageBus implements MessageBus
 
         //esto hace , que el canal se comparta y no se produzca el error de que el canal ya
         //esta abierto.
-        $this->channelObservable =
+        $this->channelObservable = //todo: channelObservableWithDeclaredQueue...
             fp($this->client->connect())
                 ->flatMap(fn (Client $client) => fp($client->channel()))
                 ->share();
