@@ -9,7 +9,6 @@ use React\EventLoop\Loop;
 use Rx\Scheduler;
 use Rx\Scheduler\EventLoopScheduler;
 
-
 $loop = Loop::get();
 $client = new Client($loop, [
     'host' => '127.0.0.1', // host to connect to

@@ -10,7 +10,6 @@ use Bunny\Protocol\MethodQueueDeclareOkFrame;
 use React\EventLoop\Loop;
 use Rx\Observable;
 
-
 $client = new Client(Loop::get(), [
     'host' => '127.0.0.1', // host to connect to
     'port' => 5672, // port to connect to
@@ -44,7 +43,7 @@ $connectionObservable
         throw new \RuntimeException("algo se ha roto mientras se declaraba la cola o el exchange");
     })
     ->flatMap(
-        function ($channel ) {
+        function ($channel) {
             return Observable::fromPromise($channel->queueBind('queue_name', 'exchange_name', 'routing_key'));
         }
     )
@@ -58,6 +57,3 @@ $connectionObservable
             echo "Hubo un error al crear cola/exchange.\n";
         }
     );
-
-
-

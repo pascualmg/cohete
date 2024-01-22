@@ -11,7 +11,6 @@ use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
 use React\Promise\PromiseInterface;
 use Rx\Observable;
 
-
 class BunnieMessageBus implements MessageBus
 {
     private const QUEUE_NAME = 'queue_name';
@@ -33,7 +32,7 @@ class BunnieMessageBus implements MessageBus
         //esta abierto.
         $this->channelObservable =
             fp($this->client->connect())
-                ->flatMap(fn(Client $client) => fp($client->channel()))
+                ->flatMap(fn (Client $client) => fp($client->channel()))
                 ->share();
     }
 
@@ -46,9 +45,9 @@ class BunnieMessageBus implements MessageBus
 
 
         $senderObservable = $this->channelObservable
-            ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
-            ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
-            ->flatMap(fn() => fp(
+            ->flatMap(fn (Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
+            ->filter(fn ($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
+            ->flatMap(fn () => fp(
                 $channel->publish( //publicamos , esto devuelve un bool :)
                     $payload,
                     [],
@@ -67,18 +66,17 @@ class BunnieMessageBus implements MessageBus
             function () {
                 echo 'complete sender';
             }
-
-
         );
     }
 
     public function listen(string $messageName, callable $listener): void
     {
         $this->channelObservable
-            ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
-            ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
             ->flatMap(
-                fn() => fp(
+                fn (Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
+            ->filter(fn ($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
+            ->flatMap(
+                fn () => fp(
                     $channel->consume(
                         function (Message $message) use ($listener, $channel) {
                             $listener(json_decode($message->content, true, 512, JSON_THROW_ON_ERROR));
