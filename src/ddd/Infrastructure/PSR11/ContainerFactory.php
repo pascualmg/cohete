@@ -53,7 +53,7 @@ class ContainerFactory
             $container = $builder->build();
         } catch (\Exception $e) {
         }
-        $container->get(MessageBus::class)->subscribe(
+        $container->get(MessageBus::class)->listen(
             'foo',
             function ($data) {
                 var_dump($data);

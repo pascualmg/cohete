@@ -11,6 +11,7 @@ use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
 use React\Promise\PromiseInterface;
 use Rx\Observable;
 
+
 class BunnieMessageBus implements MessageBus
 {
     private const QUEUE_NAME = 'queue_name';
@@ -20,6 +21,11 @@ class BunnieMessageBus implements MessageBus
     public function __construct(
         private readonly Client $client
     ) {
+        //alias, se declara aquí para garantizar que esta como global para cualquier function de la clase
+        function fp(PromiseInterface $promise): Observable
+        {
+            return Observable::fromPromise($promise);
+        }
     }
 
     /**
@@ -27,25 +33,21 @@ class BunnieMessageBus implements MessageBus
      */
     public function dispatch(BusMessage $message): void
     {
-        function fp(PromiseInterface $promise): Observable
-        {
-            return Observable::fromPromise($promise);
-        }
-
         $payload = json_encode($message, JSON_THROW_ON_ERROR);
+
 
         $rabbitMqMessageSenderObservable = fp($this->client->connect()) //Conectamos
         ->flatMap(fn(Client $client) => fp($client->channel())) //Obtenemos el canal del cliente
         ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
-            ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
-            ->flatMap(fn() => fp(
-                $channel->publish( //publicamos , esto devuelve un bool :)
-                    $payload,
-                    [],
-                    self::EXCHANGE_NAME,
-                    'routing_key'
-                )
-            ))
+        ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
+        ->flatMap(fn() => fp(
+            $channel->publish( //publicamos , esto devuelve un bool :)
+                $payload,
+                [],
+                self::EXCHANGE_NAME,
+                'routing_key'
+            )
+        ))
         );
 
         $rabbitMqMessageSenderObservable->subscribe(
@@ -57,40 +59,49 @@ class BunnieMessageBus implements MessageBus
             },
             function () {
                 echo 'complete';
+
+                fp($this->client->disconnect())
+                    ->subscribe(
+                        function ($disconnectResult) {
+                            echo "desconectando.. 1 \n";
+
+                        },
+                        'var_dump'
+                    );
             }
 
 
         );
     }
 
-    public function subscribe(string $messageName, callable $listener): void
+    public function listen(string $messageName, callable $listener): void
     {
-        $connectObs = Observable::fromPromise($this->client->connect());
+        $rabbitMqMessageSubscriberObservable = fp($this->client->connect()) //Conectamos
+        ->flatMap(fn(Client $client) => fp($client->channel())) //Obtenemos el canal del cliente
+        ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
+        ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
+        ->flatMap(
+            fn() => fp(
+            $channel->consume(
+                function (Message $message) use ($listener, $channel) {
+                    $listener(json_decode($message->content, true, 512, JSON_THROW_ON_ERROR));
+                    $channel->ack($message);
+                },
+                self::QUEUE_NAME
+            )
+        ))
+        )->subscribe(
+            function ($next) {
+                echo $next::class . PHP_EOL;
+            },
+            function ($error) {
+                var_dump($error);
+            },
+            function () {
+                echo 'complete';
 
-        $queueName = self::QUEUE_NAME;
-
-        $connectObs->flatMap(function (Client $client) use ($queueName, $listener) {
-            return Observable::fromPromise($client->channel())
-                ->map(function (Channel $channel) use ($listener, $client, $queueName) {
-                    return [$client, $channel, $queueName, $listener];
-                });
-        })
-            ->flatMap(function (array $args) {
-                [$client, $channel, $queue, $listener] = $args;
-                return Observable::fromPromise($channel->queueDeclare($queue))
-                    ->map(function () use ($channel, $queue, $listener, $client) {
-                        $channel->consume(
-                            function (Message $message) use ($listener) {
-                                $listener(json_decode($message->content, true, 512, JSON_THROW_ON_ERROR));
-                            },
-                            $queue
-                        );
-                        return 'Subscribed';
-                    });
-            })
-            ->subscribe(function ($msg) {
-                echo $msg, PHP_EOL;
-            });
+            }
+        );
     }
 
     public function __destruct()

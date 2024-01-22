@@ -28,7 +28,7 @@ class ReactMessageBus implements MessageBus
         });
     }
 
-    public function subscribe(string $messageName, callable $listener): void
+    public function listen(string $messageName, callable $listener): void
     {
         //Aquí se emiten eventos asincrónicamente
         $this->emitter->on(

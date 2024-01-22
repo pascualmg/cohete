@@ -28,9 +28,22 @@ $bunnieMb = new  BunnieMessageBus(
 $scheduler = new EventLoopScheduler($loop);
 Scheduler::setDefaultFactory(static fn () => $scheduler);
 
+
 $bunnieMb->dispatch(
-   new Message('foo', ['bar'])
+    new Message('foo', ['bar'])
 );
+
+$bunnieMb->dispatch(
+    new Message('foo', ['bar'])
+);
+
+$bunnieMb->dispatch(
+    new Message('foo', ['bar'])
+);
+//$bunnieMb->listen('foo', function ($id) {
+//    echo 'hi';
+//    return $id;
+//});
 
 
 $loop->run();

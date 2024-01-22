@@ -6,6 +6,6 @@ interface MessageBus
 {
     public function dispatch(Message $message);
 
-    public function subscribe(string $messageName, callable $listener);
+    public function listen(string $messageName, callable $listener);
 
 }
