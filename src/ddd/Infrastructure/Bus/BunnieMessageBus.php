@@ -16,7 +16,7 @@ class BunnieMessageBus implements MessageBus
     private const QUEUE_NAME = 'queue_name';
     private const EXCHANGE_NAME = 'exchange_name';
     private Observable $clientObservable;
-    private Observable\RefCountObservable $channelObservable;
+    private Observable $channelObservable;
 
 
     public function __construct(
@@ -30,9 +30,12 @@ class BunnieMessageBus implements MessageBus
 
         //esto hace , que el canal se comparta y no se produzca el error de que el canal ya
         //esta abierto.
-        $this->channelObservable = //todo: channelObservableWithDeclaredQueue...
+        $this->channelObservable =
             fp($this->client->connect())
-                ->flatMap(fn (Client $client) => fp($client->channel()))
+                ->flatMap(fn(Client $client) => fp($client->channel()))
+                ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME))
+                    ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame)
+                )
                 ->share();
     }
 
@@ -45,16 +48,14 @@ class BunnieMessageBus implements MessageBus
 
 
         $senderObservable = $this->channelObservable
-            ->flatMap(fn (Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
-            ->filter(fn ($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
-            ->flatMap(fn () => fp(
+            ->flatMap(fn($channel) => fp(
                 $channel->publish( //publicamos , esto devuelve un bool :)
                     $payload,
                     [],
                     self::EXCHANGE_NAME,
                     'routing_key'
                 )
-            )));
+            ));
 
         $senderObservable->subscribe(
             function (bool $isPublished) {
@@ -73,10 +74,7 @@ class BunnieMessageBus implements MessageBus
     {
         $this->channelObservable
             ->flatMap(
-                fn (Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME)) //declaramos la cola
-            ->filter(fn ($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame) //solo si esta ok
-            ->flatMap(
-                fn () => fp(
+                fn($channel) => fp(
                     $channel->consume(
                         function (Message $message) use ($listener, $channel) {
                             $listener(json_decode($message->content, true, 512, JSON_THROW_ON_ERROR));
@@ -86,7 +84,7 @@ class BunnieMessageBus implements MessageBus
                     )
                 )
             )
-            )->subscribe(
+            ->subscribe(
                 function ($next) {
                     echo $next::class . PHP_EOL;
                 },
