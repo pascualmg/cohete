@@ -438,3 +438,14 @@ Entonces, si el handler devuelve una `ResponseInterface` en lugar de una `Promis
 
 Es este delicado equilibrio el que nos permite mantener la asincronía en todo nuestro Kernel, mientras aprovechamos una estructura de handler de solicitudes ordenada y predecible.
 
+## ¿Por qué estoy usando Web Components en este proyecto?
+
+Es importante señalar que este proyecto es en esencia un backend. El uso de tecnologías web en el mismo es en realidad bastante residual y principalmente está presente para mis propias pruebas. A pesar de ello, siempre he tenido la curiosidad de explorar nuevas tecnologías y en esta ocasión, encontré en los Web Components una oportunidad de aprendizaje muy interesante.
+
+Como desarrollador de backend, valoro especialmente las tecnologías que brindan una gran longevidad y estabilidad, características que encuentro en los Web Components. Los Web Components son un conjunto de características nativas del navegador que permiten definir tus propios componentes HTML personalizados.
+
+Estos componentes pueden encapsular su propia funcionalidad y estilos, lo más importante, son compatibles con cualquier framework de JavaScript, sea actual, futuro o simplemente sin la necesidad de ningún framework. Esta compatibilidad universal se debe al hecho de que los Web Components se conforman a estándares web duraderos.
+
+Los Web Components emplean tecnologías como Custom Elements para definir nuevos tipos de elementos HTML, Shadow DOM para aislar y encapsular los componentes y HTML Templates para la reutilización de código HTML. Al usar estas tecnologías, puedo estar seguro de que el código que escribo hoy seguirá siendo útil y relevante en el futuro, sin importar las tendencias de los frameworks.
+
+Así que, en resumen, estoy usando Web Components en este proyecto para garantizar que el código resultante sea resistente, reutilizable y a prueba de futuro. Si mañana desaparece un framework en particular, mi código seguiría funcionando perfectamente. Sin embargo, eso no significa que no reconozca la utilidad y las ventajas que ciertos frameworks pueden brindar. Simplemente es una manifestación de mi deseo de buscar soluciones robustas y duraderas mientras aprendo y crezco como desarrollador.
