@@ -85,7 +85,9 @@ class BunnieMessageBus implements MessageBus
                                 JSON_THROW_ON_ERROR
                             )['payload'];
 
+                            //core
                             $listener($payload($bunnieMessage));
+
                             $channel->ack($bunnieMessage);
                         },
                         self::QUEUE_NAME
