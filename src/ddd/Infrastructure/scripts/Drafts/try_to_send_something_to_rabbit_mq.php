@@ -28,17 +28,13 @@ $scheduler = new EventLoopScheduler($loop);
 Scheduler::setDefaultFactory(static fn () => $scheduler);
 
 
-$bunnieMb->dispatch(
-    new Message('foo', ['bar'])
-);
+for($i = 0;$i<101;++$i) {
+    $bunnieMb->dispatch(
+        new Message('foo', ['bar'])
+    );
+}
 
-$bunnieMb->dispatch(
-    new Message('foo', ['bar'])
-);
 
-$bunnieMb->dispatch(
-    new Message('foo', ['bar'])
-);
 $bunnieMb->listen('foo', function ($id) {
     echo 'hi';
     return $id;

@@ -8,6 +8,7 @@ use Bunny\Message;
 use Bunny\Protocol\MethodQueueDeclareOkFrame;
 use pascualmg\reactor\ddd\Domain\Bus\Message as BusMessage;
 use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
+use React\Promise\Promise;
 use React\Promise\PromiseInterface;
 use Rx\Observable;
 
@@ -35,6 +36,7 @@ class BunnieMessageBus implements MessageBus
                 ->flatMap(fn(Client $client) => fp($client->channel()))
                 ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME))
                     ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame)
+                    ->map(fn($okOrError) => $channel)
                 )
                 ->share();
     }
@@ -49,12 +51,12 @@ class BunnieMessageBus implements MessageBus
 
         $senderObservable = $this->channelObservable
             ->flatMap(fn($channel) => fp(
-                $channel->publish( //publicamos , esto devuelve un bool :)
+                $this->client->isConnected() ?$channel->publish( //publicamos , esto devuelve un bool :)
                     $payload,
                     [],
                     self::EXCHANGE_NAME,
                     'routing_key'
-                )
+                ): throw new \RuntimeException('conexion a rabbitMQ esta cerrada!')
             ));
 
         $senderObservable->subscribe(
@@ -86,6 +88,7 @@ class BunnieMessageBus implements MessageBus
             )
             ->subscribe(
                 function ($next) {
+                    echo 'next del listen ';
                     echo $next::class . PHP_EOL;
                 },
                 function ($error) {
