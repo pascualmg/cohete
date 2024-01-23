@@ -36,7 +36,7 @@ for($i = 0;$i<101;++$i) {
 
 
 $bunnieMb->listen('foo', function ($id) {
-    echo 'hi';
+    xdebug_var_dump( $id);
     return $id;
 });
 

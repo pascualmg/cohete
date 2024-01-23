@@ -4,11 +4,10 @@ namespace pascualmg\reactor\ddd\Infrastructure\Bus;
 
 use Bunny\Async\Client;
 use Bunny\Channel;
-use Bunny\Message;
+use Bunny\Message as BunnieMessage;
 use Bunny\Protocol\MethodQueueDeclareOkFrame;
-use pascualmg\reactor\ddd\Domain\Bus\Message as BusMessage;
+use pascualmg\reactor\ddd\Domain\Bus\Message;
 use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
-use React\Promise\Promise;
 use React\Promise\PromiseInterface;
 use Rx\Observable;
 
@@ -44,7 +43,7 @@ class BunnieMessageBus implements MessageBus
     /**
      * @throws \JsonException
      */
-    public function dispatch(BusMessage $message): void
+    public function dispatch(Message $message): void
     {
         $payload = json_encode($message, JSON_THROW_ON_ERROR);
 
@@ -78,9 +77,16 @@ class BunnieMessageBus implements MessageBus
             ->flatMap(
                 fn($channel) => fp(
                     $channel->consume(
-                        function (Message $message) use ($listener, $channel) {
-                            $listener(json_decode($message->content, true, 512, JSON_THROW_ON_ERROR));
-                            $channel->ack($message);
+                        function (BunnieMessage $bunnieMessage) use ($listener, $channel) {
+                            $payload = static fn(BunnieMessage $bunnieMessageToExtractPayload) => json_decode(
+                                $bunnieMessageToExtractPayload->content,
+                                true,
+                                512,
+                                JSON_THROW_ON_ERROR
+                            )['payload'];
+
+                            $listener($payload($bunnieMessage));
+                            $channel->ack($bunnieMessage);
                         },
                         self::QUEUE_NAME
                     )
