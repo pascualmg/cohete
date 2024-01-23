@@ -440,7 +440,7 @@ Es este delicado equilibrio el que nos permite mantener la asincronía en todo n
 
 ## ¿Por qué estoy usando Web Components en este proyecto?
 
-Es importante señalar que este proyecto es en esencia un backend. El uso de tecnologías web en el mismo es en realidad bastante residual y principalmente está presente para mis propias pruebas. A pesar de ello, siempre he tenido la curiosidad de explorar nuevas tecnologías y en esta ocasión, encontré en los Web Components una oportunidad de aprendizaje muy interesante.
+Es importante señalar que este proyecto es en esencia un backend. El uso de tecnologías web en el mismo es en realidad bastante concreto y principalmente está presente para mis propias pruebas. A pesar de ello, siempre he tenido la curiosidad de explorar nuevas tecnologías y en esta ocasión, encontré en los Web Components una oportunidad de aprendizaje muy interesante.
 
 Como desarrollador de backend, valoro especialmente las tecnologías que brindan una gran longevidad y estabilidad, características que encuentro en los Web Components. Los Web Components son un conjunto de características nativas del navegador que permiten definir tus propios componentes HTML personalizados.
 
