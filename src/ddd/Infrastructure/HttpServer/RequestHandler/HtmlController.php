@@ -3,6 +3,7 @@
 namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
 
 use Fig\Http\Message\StatusCodeInterface;
+use finfo;
 use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -25,25 +26,46 @@ class HtmlController implements HttpRequestHandler, StatusCodeInterface
         //omg :) nice
         $foo = new ThroughStream(static fn ($id) => $id);
 
-        $uri = dirname(__DIR__, 1) . '/html' . $routeParams['params'] ?? "";
+        $filename = dirname(__DIR__, 2) . '/webserver/html' . $routeParams['params'] ?? "";
 
         if(
-            !file_exists($uri) ||
-            is_dir($uri)
+            !file_exists($filename) ||
+            is_dir($filename)
         ) {
-            return JsonResponse::notFound($uri);
+            return JsonResponse::notFound($filename);
         }
         $html = new ReadableResourceStream(
             fopen(
-                $uri,
+                $filename,
                 'rb'
             )
         );
 
+
         return new Response(
             self::STATUS_OK,
-            ['Content-Type' => 'text/html'],
+            ['Content-Type' => $this->getMimeType($filename) ],
             $html->pipe($foo)
         );
+    }
+
+    /**
+     * Retrieves the MIME type of a given file.
+     *
+     * @param string $filename The name of the file to get the MIME type for.
+     * @return string The MIME type of the file.
+     */
+    public function getMimeType($filename): string
+    {
+        $mimeTypes = [
+            'js' => 'application/javascript',
+            'css' => 'text/css',
+            'html' => 'text/html',
+            'json' => 'application/json',
+        ];
+
+        $fileExtension = pathinfo($filename, PATHINFO_EXTENSION);
+
+        return $mimeTypes[$fileExtension] ?? (new finfo(FILEINFO_MIME_TYPE))->file($filename);
     }
 }
