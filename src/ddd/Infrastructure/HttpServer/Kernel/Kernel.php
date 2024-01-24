@@ -40,7 +40,7 @@ class Kernel
             onFulfilled: function (ResponseInterface $response): ResponseInterface {
                 return $response;
             }
-        )->catch(
+        )->otherwise( //como se ha tenido que bajar la version de la promise de react para poder meter
             onRejected: function (Throwable $exception): ResponseInterface {
                 return JsonResponse::withError($exception);
             }
