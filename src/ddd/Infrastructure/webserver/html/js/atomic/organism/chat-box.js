@@ -1,4 +1,4 @@
-class ChatBoxComponent extends HTMLElement {
+class ChatBox extends HTMLElement {
 
     constructor() {
         super();
@@ -216,5 +216,7 @@ class ChatBoxComponent extends HTMLElement {
 
 window
     .customElements
-    .define('chat-box', ChatBoxComponent)
+    .define('chat-box', ChatBox)
 ;
+
+export default ChatBox

@@ -18,8 +18,8 @@
         "fakerphp/faker": "^1.23",
         "react/promise-stream": "^1.7",
         "ramsey/uuid": "^4.7",
-        "bunny/bunny": "^0.5.5"
-
+        "bunny/bunny": "^0.5.5",
+        "ext-fileinfo": "*"
     },
     "require-dev": {
       "roave/security-advisories": "dev-latest" ,

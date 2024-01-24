@@ -21,4 +21,8 @@ fixtures:
 
 test_ab:
 	./src/ddd/Infrastructure/scripts/test_ab.php 'http://localhost:8000/post'
+
+rabbitmq:
+	docker-compose -f src/ddd/Infrastructure/Queue/RabbitMQ/docker-compose.yml up -d
+
 .PHONY: run watch install-nix run-prod fix migrate fixtures test_ab
