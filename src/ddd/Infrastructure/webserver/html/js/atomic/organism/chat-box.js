@@ -86,19 +86,20 @@ class ChatBox extends HTMLElement {
     render(group) {
         this.shadowRoot.innerHTML = `
 <style>
-    #chat-container {
-        position: fixed;    
-        bottom: 0;
-        height: 66vh;
-        width: 97%;
-        display: flex;
-        flex-direction: column;
-        padding: 5px;
-        background-color: #073642;
-        color: #93a1a1;
-        border-radius: 10px;
-        border: 1px solid #586e75;
-    }
+      #chat-container {
+                position: fixed;  
+                bottom: 1%;  /* Coloca la caja en la parte inferior */
+                right: 1%;  /* Coloca la caja en el lado derecho */
+                height: 500px;  /* Tamaño mayor, ajusta como prefieras */
+                width: 500px;  /* Tamaño mayor, ajusta como prefieras */
+                display: flex;
+                flex-direction: column;
+                padding: 5px;
+                background-color: #073642;
+                color: #93a1a1;
+                border-radius: 10px;
+                border: 1px solid #586e75;
+            }
 
     #chat-box {
         overflow-y: auto;
@@ -128,28 +129,60 @@ class ChatBox extends HTMLElement {
         color: #839496;
         font-size: xxx-large;
     }
-    #connectedButton {
-        background: grey;
-            position: absolute;
-    right: 20px;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    
+
+
+    #chat-box-bar {
+        display: flex;
+        justify-content: space-between;
+        background-color: #ccc;
+        padding: 10px;
     }
+
+    #connectedButton,
+    #btn-chat-close {
+        background: grey;
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: none;
+    }
+
+    #connectedButton {
+        left: 20px;
+    }
+
+    #btn-chat-close {
+        right: 20px;
+        font-size: 1.2em; /* Ajuste según sea necesario */
+        color: #fff; /* Ajuste según sea necesario */
+        text-align: center;
+        cursor: pointer;
+    }
+
+            #chat-box-bar {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+                height: 70px;  /* Modifica según la altura de tus botones */
+            }
+
 </style>
-<div id="chat-container">
-    <div id="chat-box"></div>
-    <button id="connectedButton" disabled></button>
-    <div id="userInputSection">
-        <label for="messageInput"></label>
-        <input 
-         id="messageInput" 
-         type="text" 
-         placeholder="Write a message ${group} "
-        >
-    </div>
-</div>
+            <div id="chat-container">
+                <div id="chat-box-bar">
+                    <button id="btn-chat-close">X</button>
+                    <button id="connectedButton" disabled></button>
+                </div>
+                <div id="chat-box"></div>
+                <div id="userInputSection">
+                    <label for="messageInput"></label>
+                    <input 
+                    id="messageInput" 
+                    type="text" 
+                    placeholder="Write a message ${group} "
+                    >
+                </div>
+            </div>
     `;
 
     }
