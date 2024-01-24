@@ -2,13 +2,18 @@ import TechnologiesList  from "../molecule/technologiesList.js";
 import ChatBox  from "./chat-box.js";
 
 class PortfolioElement extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
+
+    }
     connectedCallback() {
         const theme = this.getAttribute('theme') || 'dark';
         // language=HTML
-        this.innerHTML = `
+        this.shadowRoot.innerHTML = `
             <style>
                 /* Colores Solarized */
-                :root {
+                :host {
                     --solarized-dark0: #002b36;
                     --solarized-dark1: #073642;
                     --solarized-dark2: #586e75;
@@ -73,11 +78,13 @@ class PortfolioElement extends HTMLElement {
                     "         
                       >
             </technologies-list>
-            <chat-box
-                    group="tbl001"
-                    host="0.0.0.0"
-                    port="8001"
-            ></chat-box>
+                <chat-box
+                        group="tbl001"
+                        host="0.0.0.0"
+                        port="8001"
+                ></chat-box>
+            
+           
         `;
     }
 }
