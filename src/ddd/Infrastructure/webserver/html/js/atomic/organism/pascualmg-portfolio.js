@@ -75,16 +75,16 @@ class PortfolioElement extends HTMLElement {
                     https://symfony.com/logos/symfony_black_03.png,
                     https://chuidiang.org/images/f/f3/Logo_php.png,
                     https://seeklogo.com/images/G/github-logo-2E3852456C-seeklogo.com.png 
-                    "         
-                      >
+                    "
+            >
             </technologies-list>
-                <chat-box
-                        group="tbl001"
-                        host="0.0.0.0"
-                        port="8001"
-                ></chat-box>
-            
-           
+            <chat-box
+                    group="tbl001"
+                    host="0.0.0.0"
+                    port="8001"
+            ></chat-box>
+
+
         `;
     }
 }
