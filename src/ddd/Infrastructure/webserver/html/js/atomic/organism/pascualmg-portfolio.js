@@ -19,10 +19,17 @@ class PortfolioElement extends HTMLElement {
                 }
 
                 header {
-                    background-color: var(--bg2);
+                    background-color: var(--bg1);
                     padding: 10px;
                     color: var(--head1);
                     text-align: center;
+                }
+                
+                h2 {
+                color: var(--meta)
+                }
+                h3 {
+                    color: var(--meta)
                 }
 
                 section {
