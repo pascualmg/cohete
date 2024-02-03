@@ -11,44 +11,31 @@ class PortfolioElement extends HTMLElement {
         // language=HTML
         this.shadowRoot.innerHTML = `
             <style>
-                /* Colores Solarized */
-                :host {
-                    --solarized-dark0: #002b36;
-                    --solarized-dark1: #073642;
-                    --solarized-dark2: #586e75;
-                    --solarized-dark3: #657b83;
-                    --solarized-dark4: #839496;
-                    --solarized-light0: #fdf6e3;
-                    --solarized-light1: #eee8d5;
-                    --solarized-light2: #93a1a1;
-                    --solarized-light3: #839496;
-                    --solarized-light4: #657b83;
-                }
-
                 /* Estilos generales */
                 body {
-                    background-color: var(--solarized-${theme}0);
-                    color: var(--solarized-${theme === 'dark' ? 'light' : 'dark'}0);
+                    background-color: var(--bg1);
+                    color: var(--base);
                     font-family: Arial, sans-serif;
                 }
 
                 header {
-                    background-color: var(--solarized-${theme}1);
+                    background-color: var(--bg2);
                     padding: 10px;
-                    color: var(--solarized-${theme === 'dark' ? 'light' : 'dark'}0);
+                    color: var(--head1);
                     text-align: center;
                 }
 
                 section {
-                    background-color: var(--solarized-${theme === 'dark' ? 'light' : 'dark'}1);
-                    color: var(--solarized-${theme}1);
+                    background-color: var(--bg3);
+                    color: var(--head2);
                     margin: 10px;
                     padding: 10px;
                 }
             </style>
             <header>
-                <h1>Pascual Muñoz Galián</h1>
-                <h2>Desarrollador </h2>
+                <h1>PascualMG</h1>
+                <h2>PHP backend Software engineer</h2>
+                <h3>and GW-BASIC junior</h3>
             </header>
 
             <section>
