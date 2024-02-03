@@ -1,6 +1,5 @@
 import TechnologiesList  from "../molecule/technologiesList.js";
 import ChatBox  from "./chat-box.js";
-
 class PortfolioElement extends HTMLElement {
     constructor() {
         super();
