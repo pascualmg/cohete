@@ -1,0 +1,127 @@
+#+HTML_HEAD: <style>
+#+HTML_HEAD:   /* Estilo para todos los encabezados */
+#+HTML_HEAD:   h1, h2, h3, h4, h5, h6 {
+#+HTML_HEAD:     color: #4f97d7; /* Color del texto para los encabezados */
+#+HTML_HEAD:   }
+
+#+HTML_HEAD:   /* Estilo para los contenedores de los encabezados */
+#+HTML_HEAD:   .outline-2, .outline-3, .outline-4, .outline-text-2, .outline-text-3, .outline-text-4 {
+#+HTML_HEAD:     background-color: #293239; /* Ajusta el color del fondo según tu preferencia */
+#+HTML_HEAD:     padding: 10px;
+#+HTML_HEAD:     border-radius: 5px;
+#+HTML_HEAD:     margin-top: 20px;
+#+HTML_HEAD:     margin-bottom: 10px;
+#+HTML_HEAD:   }
+#+HTML_HEAD: </style>
+
+
+* El tema del tema
+Siempre he visto que era un verdadero quebradero de cabeza , el mantener un tema de colores para una web , en mi caso como no uso ningún framework web, sino que estoy usando custom web components he ideado una forma a mi entender bastante sencilla que para el problema que se prentende solucionar, creo que es suficiente.
+
+** El problema
+
+Al organizar el código siguiendo la metodología atomic
+
++ Organism
++ Molecule
++ Atom
+
+Siendo esta una organización gerárquica, se hace patente , que si cada uno de los componentes es responsable de su estilo, este tiene que ser coherente para todos ellos .
+
+** La solución
+
+Para conseguir esto , he pensado en  hacerlo también con un componente , un organismo concretamente. Estableciendo de forma global en **:root**  js las variables de color , siendo cada componente el que , si quiere haga uso de ella , permaneciendo el valor HEX del mismo agnóstico dentro del mismo componente.
+
+Si, quizá estés pensando , en que entonces todos los componentes , tienen que conocer el nombre de las variables del tema, eso es correcto pero solo si estos quieren usarlo. La ventaja es que aqui el framework es el propio navegador , el que se encargará de cambiar los colores automáticamente con solo cambiar el valor de la propiedad del componente del tema. Magia sí! pero blanca.
+
+** Ahora que sabemos como hacerlo , que colores usamos ?
+ creo que los mas chulos , los del tema de  [[https://github.com/nashamri/spacemacs-theme][spacemacs]] 😎 , concretamente el tema dark que es una delicia (dejadle una 🌟! se lo merece)  y por supuesto los que no pueden faltar , los solarized [[https://ethanschoonover.com/solarized/][solarized]].
+
+*** TODO IA al rescate
+Extraer el esquema de colores de una función en lisp es algo muy tedioso para un humano , aqui es donde un LLM nos puede sacar del apuro no sin antes pelearse un poco con el claro.
+
+#+BEGIN_SRC json
+{
+  "dark": {
+    "act1": "#222226",
+    "act2": "#5d4d7a",
+    "base": "#b2b2b2",
+    "base-dim": "#686868",
+    "bg1": "#292b2e",
+    "bg2": "#212026",
+    "bg3": "#100a14",
+    "bg4": "#0a0814",
+    "bg-alt": "#42444a",
+    "border": "#5d4d7a",
+    "cblk": "#cbc1d5",
+    "cblk-bg": "#2f2b33",
+    "cblk-ln": "#827591",
+    "cblk-ln-bg": "#373040",
+    "cursor": "#e3dedd",
+    "const": "#a45bad",
+    "comment": "#2aa1ae",
+    "comment-light": "#2aa1ae",
+    "comment-bg": "#292e34",
+    "comp": "#c56ec3",
+    "err": "#e0211d",
+    "func": "#bc6ec5",
+    "head1": "#4f97d7",
+    "head1-bg": "#293239",
+    "head2": "#2d9574",
+    "head2-bg": "#293235",
+    "head3": "#67b11d",
+    "head3-bg": "#293235",
+    "head4": "#b1951d",
+    "head4-bg": "#32322c",
+    "highlight": "#444155",
+    "highlight-dim": "#3b314d",
+    "keyword": "#4f97d7",
+    "lnum": "#44505c",
+    "mat": "#86dc2f",
+    "meta": "#9f8766",
+    "str": "#2d9574",
+    "suc": "#86dc2f",
+    "ttip": "#9a9aba",
+    "ttip-sl": "#5e5079",
+    "ttip-bg": "#34323e",
+    "type": "#ce537a",
+    "var": "#7590db",
+    "war": "#dc752f",
+    "aqua": "#2d9574",
+    "aqua-bg": "#293235",
+    "green": "#67b11d",
+    "green-bg": "#293235",
+    "green-bg-s": "#29422d",
+    "cyan": "#28def0",
+    "red": "#f2241f",
+    "red-bg": "#3c2a2c",
+    "red-bg-s": "#512e31",
+    "blue": "#4f97d7",
+    "blue-bg": "#293239",
+    "blue-bg-s": "#2d4252",
+    "magenta": "#a31db1",
+    "yellow": "#b1951d",
+    "yellow-bg": "#32322c"
+  }
+}
+#+END_SRC
+
+y ya solamente queda montarlo en el html
+
+#+BEGIN_SRC html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pascualmg Portfolio</title>
+    <script type="module" src="js/atomic/organism/pascualmg-portfolio.js"></script>
+    <script type="module" src="js/atomic/organism/themeSwitcher.js"></script>
+</head>
+<body>
+<theme-switcher></theme-switcher>
+<pascualmg-portfolio theme="light"></pascualmg-portfolio>
+</body>
+</html>
+#+END_SRC
+
+**** TODO quitar el attr theme al componente del portfolio
