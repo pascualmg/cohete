@@ -26,10 +26,10 @@ class PortfolioElement extends HTMLElement {
                 }
                 
                 h2 {
-                color: var(--meta)
+                color: var(--head2)
                 }
                 h3 {
-                    color: var(--meta)
+                    color: var(--head3)
                 }
 
                 section {
