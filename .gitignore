@@ -3,3 +3,4 @@ vendor
 .env
 /.php-cs-fixer.cache
 /src/ddd/Infrastructure/PSR11/var/cache/CompiledContainer.php
+/src/ddd/Infrastructure/Queue/RabbitMQ/data/
