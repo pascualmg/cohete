@@ -1,9 +1,9 @@
-class ThemeSwitcher extends HTMLElement {
-    /*
-        Extracted from https://github.com/nashamri/spacemacs-theme/blob/master/spacemacs-theme.el with AI assistant check
-        check the repo and give your start if you copy a line from here
+/**
+       Extracted from https://github.com/nashamri/spacemacs-theme/blob/master/spacemacs-theme.el with AI assistant check        the repo and give your start if you copy a line from here
+       https://github.com/nashamri/spacemacs-theme/tree/master?tab=readme-ov-file#override-themes-colors
 
-     */
+    */
+class ThemeSwitcher extends HTMLElement {
 
     colors = {
         dark: {
@@ -29,7 +29,7 @@ class ThemeSwitcher extends HTMLElement {
             'comp': '#c56ec3',
             'err': '#e0211d',
             'func': '#bc6ec5',
-            'head1': '#ce537a',
+            'head1': '#4f97d7',
             'head1-bg': '#293239',
             'head2': '#2d9574',
             'head2-bg': '#293235',
