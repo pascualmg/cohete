@@ -14,14 +14,14 @@ class ChatBox extends HTMLElement {
 
         this.render(group);
         this.elements = {
-            'chatContainer': this.shadowRoot.querySelector('#chat-container'),
-            'chatBox': this.shadowRoot.querySelector('#chat-box'),
-            'userInputSection': this.shadowRoot.querySelector('#userInputSection'),
-            'messageInput': this.shadowRoot.querySelector('#messageInput'),
-            'connectedButton': this.shadowRoot.querySelector('#connectedButton')
+            'chatContainer': this.shadowRoot.querySelector('.chat-container'),
+            'chatBox': this.shadowRoot.querySelector('.scrollable'),
+            'userInputSection': this.shadowRoot.querySelector('.user-input-section'),
+            'messageInput': this.shadowRoot.querySelector('.message-input'),
+            'connectedButton': this.shadowRoot.querySelector('.button-round.left')
         };
 
-        this.IncomingMessageFromWebSocket$(uri)
+        this.SocketMessage$(uri)
             .subscribe(this.renderIncomingMessage(this.elements.chatBox))
 
         this.userInput$()
@@ -86,61 +86,52 @@ class ChatBox extends HTMLElement {
     render(group) {
         this.shadowRoot.innerHTML = `
 <style>
-      #chat-container {
-                position: fixed;  
-                bottom: 1%;  /* Coloca la caja en la parte inferior */
-                right: 1%;  /* Coloca la caja en el lado derecho */
-                height: 500px;  /* Tamaño mayor, ajusta como prefieras */
-                width: 500px;  /* Tamaño mayor, ajusta como prefieras */
-                display: flex;
-                flex-direction: column;
-                padding: 5px;
-                background-color: #073642;
-                color: #93a1a1;
-                border-radius: 10px;
-                border: 1px solid #586e75;
-            }
+    .chat-container {
+        position: fixed;  
+        bottom: 1%;
+        right: 1%;
+        height: 500px;
+        width: 500px;
+        display: flex;
+        flex-direction: column;
+        padding: 5px;
+        background-color: var(--bg2);
+        color: var(--cblk);
+        border-radius: 10px;
+        border: 1px solid var(--border);
+    }
 
-    #chat-box {
+    .scrollable {
         overflow-y: auto;
         flex-grow: 1;
     }
 
-    #chat-box div {
-        border: 1px solid #586e75;
+    .rounded-div {
+        border: 1px solid var(--border);
         border-radius: 10px;
         padding: 10px;
-        margin: 2px 0; /* Añade un pequeño margen vertical entre los mensajes */
-        background-color: #073642;
-        color: #93a1a1;
-        font-size: xxx-large;
+        margin: 2px 0;
+        background-color: var(--bg2);
+        color: var(--cblk);
+        font-size: xx-large;
     }
 
-    #userInputSection {
+    .user-input-section {
         margin-top: 100px;
     }
 
-    #messageInput {
+    .message-input {
         width: 98%;
         padding: 5px;
         border-radius: 5px;
         border: none;
-        background-color: #002b36;
-        color: #839496;
+        background-color: var(--act1);
+        color: var(--cblk);
         font-size: xxx-large;
     }
 
-
-    #chat-box-bar {
-        display: flex;
-        justify-content: space-between;
-        background-color: #ccc;
-        padding: 10px;
-    }
-
-    #connectedButton,
-    #btn-chat-close {
-        background: grey;
+    .button-round {
+        background: var(--bg4);
         position: absolute;
         width: 50px;
         height: 50px;
@@ -148,41 +139,38 @@ class ChatBox extends HTMLElement {
         border: none;
     }
 
-    #connectedButton {
+    .button-round.left {
         left: 20px;
     }
 
-    #btn-chat-close {
+    .button-round.right {
         right: 20px;
-        font-size: 1.2em; /* Ajuste según sea necesario */
-        color: #fff; /* Ajuste según sea necesario */
+        font-size: 1.2em;
+        color: var(--bg1);
         text-align: center;
         cursor: pointer;
     }
+    
 
-            #chat-box-bar {
-                display: flex;
-                justify-content: space-between;
-                padding: 10px;
-                height: 70px;  /* Modifica según la altura de tus botones */
-            }
-
+    .chat-box-bar {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        height: 70px;
+    }
 </style>
-            <div id="chat-container">
-                <div id="chat-box-bar">
-                    <button id="btn-chat-close">X</button>
-                    <button id="connectedButton" disabled></button>
-                </div>
-                <div id="chat-box"></div>
-                <div id="userInputSection">
-                    <label for="messageInput"></label>
-                    <input 
-                    id="messageInput" 
-                    type="text" 
-                    placeholder="Write a message ${group} "
-                    >
-                </div>
-            </div>
+
+<div class="chat-container">
+    <div class="chat-box-bar">
+        <button class="button-round right">X</button>
+        <button class="button-round left" disabled></button>
+    </div>
+    <div class="scrollable rounded-div"></div>
+    <div class="user-input-section">
+        <label for="messageInput"></label>
+        <input class="message-input" type="text" placeholder="Write a message group "/>
+    </div>
+</div>
     `;
 
     }
@@ -205,7 +193,7 @@ class ChatBox extends HTMLElement {
      * @param {string} url - The URL of the WebSocket server.
      * @returns {Observable} - An Observable that emits incoming messages from the WebSocket.
      */
-    IncomingMessageFromWebSocket$(url) {
+    SocketMessage$(url) {
         return new rxjs.Observable(subscriber => {
             /** lo crea y lo deja disponible en la class
              *  para poder usarlo enviando los mensajes.
