@@ -25,4 +25,8 @@ test_ab:
 rabbitmq:
 	docker-compose -f src/ddd/Infrastructure/Queue/RabbitMQ/docker-compose.yml up -d
 
-.PHONY: run watch install-nix run-prod fix migrate fixtures test_ab
+mysql:
+	docker-compose -f src/ddd/Infrastructure/db/docker-compose.yml up -d
+
+
+.PHONY: run watch install-nix run-prod fix migrate fixtures test_ab mysql
