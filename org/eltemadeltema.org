@@ -118,7 +118,7 @@ y ya solamente queda montarlo en el html
     <script type="module" src="js/atomic/organism/themeSwitcher.js"></script>
 </head>
 <body>
-<theme-switcher></theme-switcher>
+<theme-switcher theme="spacemacs-dark"></theme-switcher>
 <pascualmg-portfolio theme="light"></pascualmg-portfolio>
 </body>
 </html>
