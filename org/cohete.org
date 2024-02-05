@@ -1,0 +1,16 @@
+* TODO Cosicas por hacer con el 🚀  [0/4]
+** TODO Poner en prod [0/1]
+*** TODO Decidir donde , si en sys4net o en amazon
+** TODO Escribir libro/documentación. [0/1]
++ por que en el front he decidido usar [[https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_custom_elements][custom components]] ?
+
+*** TODO extraer un buen or del README.md
+** TODO Preparar charla con org-mode  [0/1]
+*** Introduccion , hablar un poco de php sync y async
+** TODO Codigo [0/1]
+*** Front
+**** TODO Portfolio/demo
+**** TODO Proyecto pideme
+*** TODO Back
+**** TODO Cambiar el nombre a cohete.
+**** TODO Cambiar el logo por el unicode 🚀
