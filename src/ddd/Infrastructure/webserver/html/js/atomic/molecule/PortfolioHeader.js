@@ -6,69 +6,65 @@ class PortfolioHeader extends HTMLElement {
 
     connectedCallback() {
         this.shadowRoot.innerHTML = `
-            <style>
-                .portfolio-header {
-                    background-color: var(--bg1);
-                    color: var(--base);
-                }
+<style>
+   .portfolio-header {
+    color: var(--base);
+    background-image: url("https://raw.githubusercontent.com/pascualmg/cdn/main/header-background.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: var(--bg3);
+    width: 100vw; /* Ancho total de la vista */
+    height: auto; 
+} 
 
-                .header-background-image img {
-                    background-color: var(--bg3);
-                }
+    .header-content {
+        background-color: var(--aqua-bg);
+    }
+    .header-social-media {
+        background-color: var(--bg-alt);
+    }
+    .header-location {
+        color: var(--base-dim);
+    }
+    .header-photo img {
+        border-radius: 50%; 
+        object-fit: cover; 
+        width: 100px; 
+        height: 100px; 
+    }
+    .header-title {
+        color: var(--aqua); /* Color de los títulos */
+    }
+     .header-title-2 {
+        color: var(--head2); /* Color de los títulos */
+    }
+     .header-title-3 {
+        color: var(--head3); /* Color de los títulos */
+    }
+    
+    .centeredText {
+        text-align: center;
+    }
+    
+</style>
+<section class="portfolio-header">
+    <div class="header-content">
+        <div class="header-photo">
 
-                .header-content {
-                    background-color: var(--bg2);
-                }
-
-                .header-photo img {
-                    border-radius: 50%; /* Hace la imagen circular */
-                    object-fit: cover; /* Mantiene las proporciones de la imagen */
-                    width: 100px; /* Ancho de la imagen */
-                    height: 100px; /* Altura de la imagen */
-                }
-
-                .header-content h1 {
-                    color: var(--head1);
-                }
-
-                .header-content h2 {
-                    color: var(--head2);
-                }
-
-                .header-content h3 {
-                    color: var(--head3);
-                }
-
-                .header-social-media {
-                    background-color: var(--bg-alt);
-                }
-
-                .header-location {
-                    color: var(--base-dim);
-                }
-
-                /* ...otros estilos... */
-            </style>
-            <section class="portfolio-header">
-                <div class="header-background-image">
-                    <img src="your_background_image_url" alt="Background image">
-                </div>
-                <div class="header-content">
-                    <div class="header-photo">
-                        <img src="your_profile_picture_url" alt="Profile picture">
-                    </div>
-                    <h1>Your Name</h1>
-                    <h2>Your Professional Title</h2>
-                    <h3>Your Subtitle</h3>
-                </div>
-                <div class="header-social-media">
-                    <!-- Social media buttons/icons -->
-                </div>
-                <div class="header-location">
-                    <!-- Your location -->
-                </div>
-            </section>
-        `;
+            <img src="https://raw.githubusercontent.com/pascualmg/cdn/main/me.png" alt="Profile picture">
+        </div>
+        <h1 class="header-title centeredText">PascualMG</h1>
+        <h2 class="header-title-2 centeredText">PHP backend Software engineer</h2>
+        <h3 class="header-title-3 centeredText" >and GW-BASIC junior</h3>
+    </div>
+    <div class="header-social-media">
+        <!-- Social media buttons/icons -->
+    </div>
+    <div class="header-location">
+        <!-- Your location -->
+    </div>
+</section>
+`
     }
 }
 

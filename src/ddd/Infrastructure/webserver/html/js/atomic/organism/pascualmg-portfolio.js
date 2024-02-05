@@ -1,15 +1,17 @@
-import TechnologiesList  from "../molecule/technologiesList.js";
-import ChatBox  from "./chat-box.js";
-class PortfolioElement extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({mode: 'open'});
+import TechnologiesList from "../molecule/technologiesList.js";
+import ChatBox from "./chat-box.js";
+import PortFolioHeader from "../molecule/PortfolioHeader.js"
 
-    }
-    connectedCallback() {
-        const theme = this.getAttribute('theme') || 'dark';
-        // language=HTML
-        this.shadowRoot.innerHTML = `
+class PortfolioElement extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+
+  }
+  connectedCallback() {
+    const theme = this.getAttribute('theme') || 'dark';
+    // language=HTML
+    this.shadowRoot.innerHTML = `
             <style>
                 /* Estilos generales */
                 body {
@@ -24,7 +26,7 @@ class PortfolioElement extends HTMLElement {
                     color: var(--head1);
                     text-align: center;
                 }
-                
+
                 h2 {
                 color: var(--head2)
                 }
@@ -37,13 +39,11 @@ class PortfolioElement extends HTMLElement {
                     color: var(--head2);
                     margin: 10px;
                     padding: 10px;
+                    border-radius: 10px;
+                    border: 1px solid var(--border);
                 }
             </style>
-            <header>
-                <h1>PascualMG</h1>
-                <h2>PHP backend Software engineer</h2>
-                <h3>and GW-BASIC junior</h3>
-            </header>
+           <portfolio-header></portfolio-header>
 
             <section>
                 <h3>Sobre mí</h3>
@@ -67,11 +67,11 @@ class PortfolioElement extends HTMLElement {
                     https://raw.githubusercontent.com/reactphp/branding/main/reactphp-logo.svg,
                     https://symfony.com/logos/symfony_black_03.png,
                     https://chuidiang.org/images/f/f3/Logo_php.png,
-                    https://seeklogo.com/images/G/github-logo-2E3852456C-seeklogo.com.png 
+                    https://seeklogo.com/images/G/github-logo-2E3852456C-seeklogo.com.png
                     "
             >
             </technologies-list>
-            <chat-box
+            <chat-box hidden
                     group="tbl001"
                     host="0.0.0.0"
                     port="8001"
@@ -79,7 +79,7 @@ class PortfolioElement extends HTMLElement {
 
 
         `;
-    }
+  }
 }
 
 customElements.define('pascualmg-portfolio', PortfolioElement);
