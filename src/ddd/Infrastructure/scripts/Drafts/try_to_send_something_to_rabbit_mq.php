@@ -27,18 +27,20 @@ $bunnieMb = new  BunnieMessageBus(
 $scheduler = new EventLoopScheduler($loop);
 Scheduler::setDefaultFactory(static fn () => $scheduler);
 
-
-for($i = 0;$i<101;++$i) {
-    $bunnieMb->dispatch(
-        new Message('foo', ['bar'])
-    );
-}
-
-
 $bunnieMb->listen('foo', function ($id) {
     xdebug_var_dump( $id);
     return $id;
 });
+
+
+$message = new Message('foo', ['bar']);
+while(true){
+    $bunnieMb->dispatch(
+        $message
+    );
+}
+
+
 
 
 $loop->run();

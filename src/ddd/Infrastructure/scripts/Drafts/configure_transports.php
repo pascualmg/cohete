@@ -10,6 +10,8 @@ use Bunny\Protocol\MethodQueueDeclareOkFrame;
 use React\EventLoop\Loop;
 use Rx\Observable;
 
+use function React\Promise\all;
+
 $client = new Client(Loop::get(), [
     'host' => '127.0.0.1', // host to connect to
     'port' => 5672, // port to connect to
@@ -26,7 +28,7 @@ $connectionObservable
         return Observable::fromPromise($client->channel());
     })
     ->flatMap(function (Channel $channel) {
-        return Observable::fromPromise(\React\Promise\all([
+        return Observable::fromPromise(all([
             $channel->queueDeclare('queue_name'),
             $channel->exchangeDeclare('exchange_name', 'direct'),
         ]));

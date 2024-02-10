@@ -8,11 +8,9 @@ class PortfolioHeader extends HTMLElement {
         this.shadowRoot.innerHTML = `
 <style>
    .portfolio-header {
-    color: var(--base);
     background-image: url("https://raw.githubusercontent.com/pascualmg/cdn/main/header-background.png");
     background-size: cover;
     background-repeat: no-repeat;
-    background-color: var(--bg3);
     width: 100vw; /* Ancho total de la vista */
     height: auto; 
 } 
@@ -24,13 +22,13 @@ class PortfolioHeader extends HTMLElement {
         background-color: var(--bg-alt);
     }
     .header-location {
-        color: var(--base-dim);
+        color: var(--magenta);
     }
     .header-photo img {
         border-radius: 50%; 
         object-fit: cover; 
-        width: 100px; 
-        height: 100px; 
+        width: 200px; 
+        height: 200px; 
     }
     .header-title {
         color: var(--aqua); /* Color de los títulos */
@@ -50,7 +48,6 @@ class PortfolioHeader extends HTMLElement {
 <section class="portfolio-header">
     <div class="header-content">
         <div class="header-photo">
-
             <img src="https://raw.githubusercontent.com/pascualmg/cdn/main/me.png" alt="Profile picture">
         </div>
         <h1 class="header-title centeredText">PascualMG</h1>
@@ -59,12 +56,12 @@ class PortfolioHeader extends HTMLElement {
     </div>
     <div class="header-social-media">
         <!-- Social media buttons/icons -->
+atomos para los botones de las rss 
     </div>
     <div class="header-location">
-        <!-- Your location -->
+        <img src="https://cdn.wikimg.net/en/chronowiki/images/2/2d/EarthMan.gif" alt="earthbound"></>
     </div>
-</section>
-`
+</section>`
     }
 }
 
