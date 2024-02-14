@@ -9,6 +9,7 @@ use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;
 use React\Socket\ConnectionInterface;
+use React\Socket\SecureServer;
 use React\Socket\SocketServer;
 
 class ReactHttpServer
@@ -26,8 +27,12 @@ class ReactHttpServer
 
         $port8000 = new SocketServer(
             sprintf("%s:%s", $host, $port),
-            [],
-            $loop
+            //      [
+            //               'tls' => [
+            //                  'local_cert' => __DIR__ . '/localhost.pem'
+            //             ]
+            //        ],
+            //       $loop
         );
 
         //https://github.com/friends-of-reactphp/http-middleware-psr15-adapter
