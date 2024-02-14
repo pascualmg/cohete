@@ -81,6 +81,7 @@ atomos para los botones de las rss
 
 
 /**
+ * based  https://godotengine.org/ with LLM y me ha gustado mucho :)
  * Sets up a parallax effect for a given element with a background image.
  *
  * @param {HTMLElement} elem - The element to apply the parallax effect on.
@@ -98,6 +99,7 @@ function parallaxBackground(elem, backgroundImageURL, scrollSpeed, viewportWidth
     const parallaxTick = () => {
         if (window.innerWidth > viewportWidth) {
             parallaxImage.style.transform = `translateY(${window.scrollY * scrollSpeed}px)`;
+            parallaxImage.style.opacity = `${100.0 / window.scrollY}`;
         } else {
             parallaxImage.style.transform = 'none';
         }
