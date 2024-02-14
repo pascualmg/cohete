@@ -28,13 +28,13 @@ $scheduler = new EventLoopScheduler($loop);
 Scheduler::setDefaultFactory(static fn () => $scheduler);
 
 $bunnieMb->listen('foo', function ($id) {
-    xdebug_var_dump( $id);
+    xdebug_var_dump($id);
     return $id;
 });
 
 
 $message = new Message('foo', ['bar']);
-while(true){
+while(true) {
     $bunnieMb->dispatch(
         $message
     );

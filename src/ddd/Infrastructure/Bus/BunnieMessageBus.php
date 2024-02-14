@@ -32,10 +32,11 @@ class BunnieMessageBus implements MessageBus
         //esta abierto.
         $this->channelObservable =
             fp($this->client->connect())
-                ->flatMap(fn(Client $client) => fp($client->channel()))
-                ->flatMap(fn(Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME))
-                    ->filter(fn($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame)
-                    ->map(fn($okOrError) => $channel)
+                ->flatMap(fn (Client $client) => fp($client->channel()))
+                ->flatMap(
+                    fn (Channel $channel) => fp($channel->queueDeclare(self::QUEUE_NAME))
+                    ->filter(fn ($okOrError) => $okOrError instanceof MethodQueueDeclareOkFrame)
+                    ->map(fn ($okOrError) => $channel)
                 )
                 ->share();
     }
@@ -49,13 +50,13 @@ class BunnieMessageBus implements MessageBus
 
 
         $senderObservable = $this->channelObservable
-            ->flatMap(fn($channel) => fp(
-                $this->client->isConnected() ?$channel->publish( //publicamos , esto devuelve un bool :)
+            ->flatMap(fn ($channel) => fp(
+                $this->client->isConnected() ? $channel->publish( //publicamos , esto devuelve un bool :)
                     $payload,
                     [],
                     self::EXCHANGE_NAME,
                     'routing_key'
-                ): throw new \RuntimeException('conexion a rabbitMQ esta cerrada!')
+                ) : throw new \RuntimeException('conexion a rabbitMQ esta cerrada!')
             ));
 
         $senderObservable->subscribe(
@@ -75,10 +76,10 @@ class BunnieMessageBus implements MessageBus
     {
         $this->channelObservable
             ->flatMap(
-                fn($channel) => fp(
+                fn ($channel) => fp(
                     $channel->consume(
                         function (BunnieMessage $bunnieMessage) use ($listener, $channel) {
-                            $payload = static fn(BunnieMessage $bunnieMessageToExtractPayload) => json_decode(
+                            $payload = static fn (BunnieMessage $bunnieMessageToExtractPayload) => json_decode(
                                 $bunnieMessageToExtractPayload->content,
                                 true,
                                 512,
