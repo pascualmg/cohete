@@ -8,8 +8,6 @@ class PortfolioHeader extends HTMLElement {
         this.shadowRoot.innerHTML = `
 <style>
    .portfolio-header {
-
-    width: 95%; /* Ancho total de la vista */
      height: auto;
      background-repeat: round; 
      
@@ -72,7 +70,7 @@ atomos para los botones de las rss
         parallaxBackground(
             portfolioHeader,
             'https://raw.githubusercontent.com/pascualmg/cdn/main/header-background.png',
-            0.1,
+            0.2,
             480,
             "50% 50%"
         )
@@ -95,10 +93,9 @@ function parallaxBackground(elem, backgroundImageURL, scrollSpeed, viewportWidth
     parallaxImage.style.backgroundImage = `url(${backgroundImageURL})`;
     parallaxImage.style.backgroundPosition = backgroundPosition;
 
-    // Definición de parallaxTick
     const parallaxTick = () => {
         if (window.innerWidth > viewportWidth) {
-            parallaxImage.style.transform = `translateY(${window.scrollY * scrollSpeed}px)`;
+            parallaxImage.style.transform = `translateY(${window.scrollY * scrollSpeed * 10}px)`;
             parallaxImage.style.opacity = `${100.0 / window.scrollY}`;
         } else {
             parallaxImage.style.transform = 'none';
