@@ -8,15 +8,18 @@ class PortfolioHeader extends HTMLElement {
         this.shadowRoot.innerHTML = `
 <style>
    .portfolio-header {
-    background-image: url("https://raw.githubusercontent.com/pascualmg/cdn/main/header-background.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 100vw; /* Ancho total de la vista */
-    height: auto; 
-} 
 
-    .header-content {
-        background-color: var(--aqua-bg);
+    width: 95%; /* Ancho total de la vista */
+     height: auto;
+     background-repeat: round; 
+     
+     margin: 10px;
+     padding: 10px;
+     border-radius: 10px;
+     border: 1px solid var(--border);
+    } 
+   
+   .header-content {
     }
     .header-social-media {
         background-color: var(--bg-alt);
@@ -30,6 +33,9 @@ class PortfolioHeader extends HTMLElement {
         width: 200px; 
         height: 200px; 
     }
+   
+
+    
     .header-title {
         color: var(--aqua); /* Color de los títulos */
     }
@@ -62,8 +68,51 @@ atomos para los botones de las rss
         <img src="https://cdn.wikimg.net/en/chronowiki/images/2/2d/EarthMan.gif" alt="earthbound"></>
     </div>
 </section>`
+        const portfolioHeader = this.shadowRoot.querySelector('.portfolio-header');
+        parallaxBackground(
+            portfolioHeader,
+            'https://raw.githubusercontent.com/pascualmg/cdn/main/header-background.png',
+            0.1,
+            480,
+            "50% 50%"
+        )
     }
 }
+
+
+/**
+ * Sets up a parallax effect for a given element with a background image.
+ *
+ * @param {HTMLElement} elem - The element to apply the parallax effect on.
+ * @param {string} backgroundImageURL - The URL of the background image.
+ * @param {number} scrollSpeed - The speed of the parallax effect.
+ * @param {number} viewportWidth - The width of the viewport.
+ * @param {string} [backgroundPosition='50% 50%'] - The background position property.
+ */
+function parallaxBackground(elem, backgroundImageURL, scrollSpeed, viewportWidth, backgroundPosition = '50% 50%') {
+    const parallaxImage = elem;
+    parallaxImage.style.backgroundImage = `url(${backgroundImageURL})`;
+    parallaxImage.style.backgroundPosition = backgroundPosition;
+
+    // Definición de parallaxTick
+    const parallaxTick = () => {
+        if (window.innerWidth > viewportWidth) {
+            parallaxImage.style.transform = `translateY(${window.scrollY * scrollSpeed}px)`;
+        } else {
+            parallaxImage.style.transform = 'none';
+        }
+    }
+
+    // Event listeners para scroll y resize
+    window.addEventListener("scroll", () => {
+        window.requestAnimationFrame(parallaxTick)
+    });
+
+    window.addEventListener("resize", () => {
+        window.requestAnimationFrame(parallaxTick)
+    });
+}
+
 
 customElements.define('portfolio-header', PortfolioHeader);
 export default PortfolioHeader
