@@ -20,8 +20,7 @@ class FindAllPostsController implements HttpRequestHandler
         return ($this->findAllPosts)(
             new FindAllPostsQuery()
         )->then(
-            onFulfilled: static fn (array $posts) => JsonResponse::withPayload($posts)
-        )->catch(
+            onFulfilled: static fn (array $posts) => JsonResponse::withPayload($posts),
             onRejected: static fn (\Throwable $e) => JsonResponse::withError($e)
         );
     }
