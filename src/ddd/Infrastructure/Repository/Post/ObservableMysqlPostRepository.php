@@ -13,9 +13,9 @@ class ObservableMysqlPostRepository implements PostRepository
 {
     private MysqlClient $mysqlClient;
 
-    public function __construct()
+    public function __construct(MysqlClient $mysqlClient)
     {
-        $this->mysqlClient = new MysqlClient('root:rootpassword@localhost:3306/test');
+        $this->mysqlClient = $mysqlClient;
     }
 
     public function findAll(): PromiseInterface //of an array of Posts
