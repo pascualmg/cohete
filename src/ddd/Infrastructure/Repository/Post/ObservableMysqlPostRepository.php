@@ -20,12 +20,12 @@ class ObservableMysqlPostRepository implements PostRepository
 
     public function findAll(): PromiseInterface //of an array of Posts
     {
-        $promiseOfQuery = $this->mysqlClient->query('SELECT * FROM post');
+        $promiseOfQuery = $this->mysqlClient->query('SELECT * FROM post ');
 
         return Observable::fromPromise($promiseOfQuery)
-            ->flatMap(static fn (MysqlResult $mysqlResult): Observable => Observable::fromArray($mysqlResult->resultRows))
-            ->map(static fn (array $postFromMysql): Post => self::hydrate($postFromMysql))
-            ->toArray()
+            ->map(function (MysqlResult $mysqlResult) {
+               return array_map([self::class, 'hydrate'], $mysqlResult->resultRows ) ;
+            })
             ->toPromise();
     }
 
