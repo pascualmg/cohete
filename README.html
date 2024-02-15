@@ -1,0 +1,1056 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-02-15 Thu 19:19 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="passh" />
+<meta name="generator" content="Org Mode" />
+<style>
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#reactor">1. Reactor</a>
+<ul>
+<li><a href="#powered-by">1.1. Powered by</a>
+<ul>
+<li><a href="#section">1.1.1. </a></li>
+</ul>
+</li>
+<li><a href="#descripción">1.2. Descripción</a></li>
+</ul>
+</li>
+<li><a href="#instalación">2. Instalación</a>
+<ul>
+<li><a href="#tip-configuración-adicional-de-direnv">2.1. Tip: Configuración Adicional de <code>direnv</code></a></li>
+<li><a href="#características">2.2. Características</a></li>
+<li><a href="#manejo-asíncrono-de-las-peticiones-the-core">2.3. Manejo asíncrono de las peticiones (the core)</a></li>
+</ul>
+</li>
+<li><a href="#php-asíncrono-una-nueva-perspectiva">3. PHP Asíncrono: Una Nueva Perspectiva</a>
+<ul>
+<li><a href="#cambiando-el-paradigma">3.1. Cambiando el paradigma</a></li>
+<li><a href="#declarativo-sobre-imperativo">3.2. Declarativo sobre Imperativo</a></li>
+</ul>
+</li>
+<li><a href="#algunas-incluidas">4. Algunas 🔋 incluidas</a>
+<ul>
+<li><a href="#contenedor-de-dependencias-con-autowiring">4.1. Contenedor de Dependencias con Autowiring</a></li>
+<li><a href="#enrutador">4.2. Enrutador</a></li>
+<li><a href="#bus-asíncrono">4.3. Bus Asíncrono</a></li>
+<li><a href="#migraciones-y-fixtures">4.4. Migraciones y fixtures</a></li>
+</ul>
+</li>
+<li><a href="#ejemplos-de-mysql-no-bloqueante-.">5. Ejemplos de Mysql no bloqueante .</a>
+<ul>
+<li><a href="#una-consulta-simple">5.1. Una consulta simple</a></li>
+<li><a href="#ejemplo-de-transacción">5.2. Ejemplo de transacción</a></li>
+<li><a href="#utilizando-observables-con-reactphp-y-rxphp">5.3. Utilizando Observables con ReactPHP y RxPHP</a>
+<ul>
+<li><a href="#un-ejemplo-observablefilepostrepository">5.3.1. Un ejemplo ObservableFilePostRepository</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#kernel">6. Kernel</a>
+<ul>
+<li><a href="#por-qué-estoy-usando-web-components-en-este-proyecto">6.1. ¿Por qué estoy usando Web Components en este proyecto?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-reactor" class="outline-2">
+<h2 id="reactor"><span class="section-number-2">1.</span> Reactor</h2>
+<div class="outline-text-2" id="text-reactor">
+<p>
+Rx in a sleek API server <img src="logo.png" alt="logo.png" />
+</p>
+</div>
+<div id="outline-container-powered-by" class="outline-3">
+<h3 id="powered-by"><span class="section-number-3">1.1.</span> Powered by</h3>
+<div class="outline-text-3" id="text-powered-by">
+</div>
+<div id="outline-container-section" class="outline-4">
+<h4 id="section"><span class="section-number-4">1.1.1.</span> </h4>
+<div class="outline-text-4" id="text-section">
+</div>
+</div>
+</div>
+<div id="outline-container-descripción" class="outline-3">
+<h3 id="descripción"><span class="section-number-3">1.2.</span> Descripción</h3>
+<div class="outline-text-3" id="text-descripción">
+<p>
+Reactor, es un proyecto que he diseñado para facilitar la programación
+asíncrona en PHP.
+</p>
+
+<p>
+Este proyecto se construye sobre las sólidas bases de ReactPHP y RxPHP,
+ofreciéndote un camino hacia la programación reactiva en PHP. Reactor
+funciona como más que una simple herramienta; es un marco de trabajo
+estructurado en torno al Domain-Driven Design (DDD), con su núcleo
+contenido en unos pocos archivos sencillos de encontrar y entender. Con
+esas dos librerías de base se consigue un nuevo nivel de eficiencia y
+rendimiento. Podrás manejar casos de uso de manera no bloqueante y
+realizar múltiples tareas simultáneamente.
+</p>
+
+<p>
+La instalación de Reactor es todo menos complicada, se utiliza como
+plantilla que ya funciona y se pueden seguir los ejemplos o hacer algo
+diferente.
+</p>
+
+<p>
+Por supuesto, más que un framework, es un espacio para el aprendizaje y
+la exploración. Es una invitación a los autodidactas, a quienes aman
+descubrir, aprender y compartir sus ideas. Te invito a explorar Reactor,
+a sumergirte en su código, a desafiar tus propios límites y a compartir
+tus descubrimientos y experiencias. Si tienes interés por la
+programación reactiva y PHP, te invito a que lo pruebes
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-instalación" class="outline-2">
+<h2 id="instalación"><span class="section-number-2">2.</span> Instalación</h2>
+<div class="outline-text-2" id="text-instalación">
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ECBE7B;">make</span> nix-install 
+
+nix develop 
+<span style="color: #ECBE7B;">make</span> run
+</pre>
+</div>
+</div>
+<div id="outline-container-tip-configuración-adicional-de-direnv" class="outline-3">
+<h3 id="tip-configuración-adicional-de-direnv"><span class="section-number-3">2.1.</span> Tip: Configuración Adicional de <code>direnv</code></h3>
+<div class="outline-text-3" id="text-tip-configuración-adicional-de-direnv">
+<p>
+Si deseas simplificar tu flujo de trabajo evitando la necesidad de
+ejecutar <code>nix develop</code> cada vez que ingresas al directorio del proyecto,
+puedes optar por la configuración adicional con <code>direnv</code>:
+</p>
+
+<ol class="org-ol">
+<li>Asegúrate de tener <code>direnv</code> instalado. Puedes confirmar esto
+ejecutando <code>direnv</code> en tu consola. Si el comando no se encuentra,
+necesitas instalar <code>direnv</code>.</li>
+
+<li><p>
+Configura tu shell para utilizar <code>direnv</code>. Si estás usando <code>bash</code>,
+puedes agregar la siguiente línea a tu archivo <code>.bashrc</code>. Si estás
+usando <code>zsh</code>, agrega la misma línea a tu archivo <code>.zshrc</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">   <span style="color: #c678dd;">eval</span> <span style="color: #98be65;">"</span><span style="color: #51afef; font-weight: bold;">$(direnv hook bash)</span><span style="color: #98be65;">"</span>
+   <span style="color: #5B6268;"># </span><span style="color: #5B6268;">o</span>
+   <span style="color: #c678dd;">eval</span> <span style="color: #98be65;">"</span><span style="color: #51afef; font-weight: bold;">$(direnv hook zsh)</span><span style="color: #98be65;">"</span>
+</pre>
+</div></li>
+
+<li>Reinicia tu consola para que los cambios en tu archivo de
+configuración de shell tengan efecto.</li>
+
+<li>Verifica que tu archivo <code>.envrc</code> está en el directorio correcto y
+tiene los valores correctos.</li>
+
+<li>Cuando entras a tu directorio (en este caso, el directorio <code>rxphp</code>),
+deberías ver un mensaje de <code>direnv</code> solicitándote permitir el uso del
+archivo <code>.envrc</code>. Usa el comando <code>direnv allow</code> para esto.</li>
+</ol>
+
+<p>
+Si después de seguir estos pasos, <code>direnv</code> aún no funciona como se
+esperaba, verifica los detalles de tu instalación y configuración.
+</p>
+</div>
+</div>
+<div id="outline-container-características" class="outline-3">
+<h3 id="características"><span class="section-number-3">2.2.</span> Características</h3>
+<div class="outline-text-3" id="text-características">
+<ul class="org-ul">
+<li>Mejora la eficiencia y el rendimiento evitando bloquear el hilo
+principal con operaciones intensivas de E/S.</li>
+<li>Ofrece un control granular sobre la ejecución de las tareas.</li>
+<li>Extiende las capacidades de PHP más allá de las aplicaciones web
+síncronas tradicionales.</li>
+</ul>
+
+<p>
+Las posibilidades con PHP son extensas. Reactor es un ejemplo de esto.
+Este proyecto es un terreno abierto para el intercambio de ideas y el
+aprendizaje mutuo. Cualquier contribución para su mejora es bienvenida y
+se considera valiosa.
+</p>
+</div>
+</div>
+<div id="outline-container-manejo-asíncrono-de-las-peticiones-the-core" class="outline-3">
+<h3 id="manejo-asíncrono-de-las-peticiones-the-core"><span class="section-number-3">2.3.</span> Manejo asíncrono de las peticiones (the core)</h3>
+<div class="outline-text-3" id="text-manejo-asíncrono-de-las-peticiones-the-core">
+<p>
+Al crear el servidor HTTP con ReactPHP, se le pasa una función de manejo
+de peticiones. Aquí está la función anónima que se pasa al servidor:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-php">        $httpServer = new HttpServer(
+            $clientIPMiddleware,
+            function (ServerRequestInterface $request) use ($container, $dispatcher) : PromiseInterface | ResponseInterface {
+                try {
+                    return self::AsyncHandleRequest(
+                        $request,
+                        $container,
+                        $dispatcher
+                    )
+                        -&gt;then(function (ResponseInterface $response) {
+                            return $response;
+                        })
+                        -&gt;catch(function (Throwable $exception) {
+                            return new Response(
+                                409,
+                                ['Content-Type' =&gt; 'application/json'],
+                                self::toJson($exception)
+                            );
+                        });
+                } catch (Throwable $exception) {
+                    // Capture only router configuration errors &amp;
+                    // other exceptions not related to request handling
+                    return new Response(
+                        500,
+                        ['Content-Type' =&gt; 'application/json'],
+                        self::toJson($exception)
+                    );
+                }
+            }
+        );
+</pre>
+</div>
+
+<p>
+En la función de manejo de peticiones que se pasa al servidor HTTP de
+ReactPHP, la petición se procesa de manera asíncrona mediante la
+invocación de la función <code>AsyncHandleRequest</code>. Esta función procesa la
+petición y devuelve una promesa. Esta promesa se resolverá con un objeto
+implementando <code>ResponseInterface</code> y esa respuesta será la que ReactPHP
+enviará al cliente HTTP.
+</p>
+
+<p>
+Esto es posible gracias a la naturaleza asíncrona y no bloqueante de
+ReactPHP, que permite realizar operaciones de E/S ( como leer de una
+base de datos o hacer una solicitud HTTP a otra API) dentro de la
+función de manejo sin bloquear el hilo de ejecución principal de la
+aplicación. Estas operaciones de E/S son asíncronas y devuelven una
+promesa.
+</p>
+
+<p>
+Por lo tanto, al devolverse una promesa en las funciones de manejo,
+ReactPHP espera a que esta promesa se resuelva antes de enviar la
+respuesta al cliente HTTP. Esto permite realizar operaciones de E/S
+asíncronas y simplemente devolver una promesa que se resolverá con la
+respuesta cuando todas las operaciones de E/S hayan finalizado.
+</p>
+
+<p>
+En situaciones de error no relacionados con el manejo de la petición
+(como errores de configuración del enrutador), la función de manejo
+puede devolver directamente una respuesta con un código de estado HTTP
+500 o similar, lo cual proporciona flexibilidad para manejar diversas
+situaciones de error a nivel del servidor.
+</p>
+
+<p>
+Esta capacidad de manejar las peticiones de forma asíncrona es
+especialmente valiosa en situaciones donde hay operaciones de E/S con un
+potencial de latencia alta. Por ejemplo, un servidor que tenga que
+buscar datos en una base de datos remota para cada petición se
+beneficiaría enormemente de esta característica. En un modelo de
+ejecución sincrónico, el servidor debe esperar a que se complete la
+operación de la base de datos antes de poder procesar la siguiente
+petición. Sin embargo, con ReactPHP y su modelo asíncrono, el servidor
+puede procesar varias peticiones a la vez, mientras espera la respuesta
+de la base de datos. Mientras una petición está en espera, otras
+peticiones pueden ser procesadas y enviadas, utilizando de manera
+eficiente el tiempo de CPU y mejorando significativamente el rendimiento
+y la capacidad de respuesta del servidor.
+</p>
+
+<p>
+Además, debido a que ReactPHP es no bloqueante, incluso con un número
+grande de peticiones simultáneas, otras partes de tu aplicación o de tu
+sistema no se verán afectadas y podrán seguir funcionando con
+normalidad. Esto hace a ReactPHP una excelente opción para aplicaciones
+que necesiten mantener un alto nivel de rendimiento y eficiencia,
+incluso bajo una carga pesada de peticiones.
+</p>
+
+<p>
+En resumen, la capacidad de ReactPHP para manejar peticiones de manera
+asíncrona significa que puede proporcionar un servicio rápido y
+eficiente, incluso en situaciones donde un servidor síncrono se
+bloquearía o se ralentizaría.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-php-asíncrono-una-nueva-perspectiva" class="outline-2">
+<h2 id="php-asíncrono-una-nueva-perspectiva"><span class="section-number-2">3.</span> PHP Asíncrono: Una Nueva Perspectiva</h2>
+<div class="outline-text-2" id="text-php-asíncrono-una-nueva-perspectiva">
+<p>
+PHP, conocido por su uso tradicional en desarrollo web síncrono, puede
+ser también muy potente en contextos asíncronos, permitiéndonos
+optimizar la eficiencia de nuestras aplicaciones. Cambiar nuestro &ldquo;chip&rdquo;
+para adoptar este enfoque puede parecer complejo, pero en realidad nos
+abre una puerta a nuevas y apasionantes posibilidades.
+</p>
+</div>
+<div id="outline-container-cambiando-el-paradigma" class="outline-3">
+<h3 id="cambiando-el-paradigma"><span class="section-number-3">3.1.</span> Cambiando el paradigma</h3>
+<div class="outline-text-3" id="text-cambiando-el-paradigma">
+<p>
+La programación asíncrona significa que podemos empezar tareas sin tener
+que esperar a que otras terminen, permitiendo a nuestro código avanzar
+sin quedar bloqueado. Este enfoque es particularmente útil para tareas
+que dependen de la entrada/salida (I/O), como las operaciones de red,
+lectura/escritura de archivos, interacciones con bases de datos, entre
+otras.
+</p>
+
+<p>
+Nuestro enfoque para explicar este cambio de paradigma será a través de
+dos casos de uso: <code>FindAllPostController</code> y <code>FindPostById</code>. Aunque los
+detalles específicos y el código serán añadidos posteriormente, lo
+importante a recordar es cómo aprovechamos esta asincronía en nuestra
+lógica de negocio.
+</p>
+</div>
+</div>
+<div id="outline-container-declarativo-sobre-imperativo" class="outline-3">
+<h3 id="declarativo-sobre-imperativo"><span class="section-number-3">3.2.</span> Declarativo sobre Imperativo</h3>
+<div class="outline-text-3" id="text-declarativo-sobre-imperativo">
+<p>
+La clave del enfoque asíncrono es adoptar un estilo de programación más
+declarativo que imperativo. En lugar de decir cómo hacer algo con
+instrucciones detalladas, describimos qué queremos lograr y dejamos que
+el sistema decida cómo implementarlo. Esto es particularmente evidente
+en DDD (Domain-Driven Design), donde nuestro código refleja el dominio
+del negocio de forma más clara y abstracta.
+</p>
+
+<p>
+Nuestra estrategia será recibir una petición, iniciar la lógica de
+negocio correspondiente, y devolver una respuesta sin tener que esperar
+a que esta lógica termine completamente. Esto permite mantener la
+agilidad de nuestra aplicación, mejorando la experiencia de usuario al
+minimizar los tiempos de espera.
+</p>
+
+<p>
+Este cambio de &ldquo;chip&rdquo; puede ser desafiante, pero las recompensas en
+términos de eficiencia y rendimiento son enormes. Te invitamos a
+descubrir más a medida que profundizamos en estos casos de uso con PHP
+asíncrono.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-algunas-incluidas" class="outline-2">
+<h2 id="algunas-incluidas"><span class="section-number-2">4.</span> Algunas 🔋 incluidas</h2>
+<div class="outline-text-2" id="text-algunas-incluidas">
+<p>
+Este framework ofrece una serie de características robustas para los
+proyectos que buscan optimizar la eficiencia y rendimiento en tareas
+asíncronas con PHP.
+</p>
+</div>
+<div id="outline-container-contenedor-de-dependencias-con-autowiring" class="outline-3">
+<h3 id="contenedor-de-dependencias-con-autowiring"><span class="section-number-3">4.1.</span> Contenedor de Dependencias con Autowiring</h3>
+<div class="outline-text-3" id="text-contenedor-de-dependencias-con-autowiring">
+<p>
+Implementado con PHP-DI, el contenedor de dependencias, facilita la
+gestión de las dependencias de la aplicación y contribuye a un diseño de
+código limpio y de fácil mantenimiento.
+</p>
+</div>
+</div>
+<div id="outline-container-enrutador" class="outline-3">
+<h3 id="enrutador"><span class="section-number-3">4.2.</span> Enrutador</h3>
+<div class="outline-text-3" id="text-enrutador">
+<p>
+<a href="https://github.com/nikic/FastRoute">https://github.com/nikic/FastRoute</a> Con el uso de FastRoute como
+enrutador, el framework permite una definición y manejo claro de las
+rutas en el código, mejorando su legibilidad y acelerando el desarrollo.
+</p>
+</div>
+</div>
+<div id="outline-container-bus-asíncrono" class="outline-3">
+<h3 id="bus-asíncrono"><span class="section-number-3">4.3.</span> Bus Asíncrono</h3>
+<div class="outline-text-3" id="text-bus-asíncrono">
+<p>
+El bus asíncrono, basado en ReactPHP y Evenement, gestiona
+eficientemente la comunicación entre las diversas partes de la
+aplicación, mejorando su rendimiento.
+</p>
+
+<p>
+Aunque estas características amplían la funcionalidad, permanecen
+completamente desacopladas del núcleo del framework, que sigue siendo
+una función simples que recibe una solicitud y devuelve una respuesta.
+</p>
+</div>
+</div>
+<div id="outline-container-migraciones-y-fixtures" class="outline-3">
+<h3 id="migraciones-y-fixtures"><span class="section-number-3">4.4.</span> Migraciones y fixtures</h3>
+<div class="outline-text-3" id="text-migraciones-y-fixtures">
+<p>
+Para manejar las migraciones y fixtures de la base de datos en este
+proyecto, se seleccionó <a href="https://phinx.org">Phinx</a> debido a su
+versatilidad.
+</p>
+
+<p>
+Puedes ejecutar las migraciones utilizando el comando make:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #ECBE7B;">make</span> migrations
+</pre>
+</div>
+
+<p>
+O puedes hacerlo directamente a través de Phinx con:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">./bin/vendor/phinx
+</pre>
+</div>
+
+<p>
+Además, este proyecto utiliza
+<a href="https://github.com/fzaninotto/Faker">Faker</a> para generar fixtures.
+Faker es una biblioteca PHP que genera datos ficticios para rellenar
+nuestras bases de datos. Permite crear un conjunto de datos realistas,
+haciendo que nuestras pruebas sean más robustas.
+</p>
+
+<p>
+Recuerda actualizar tus migraciones y fixtures según sea necesario para
+reflejar cualquier cambio en la estructura de tus datos. # Flexibilidad
+y Facilidad de Modificación
+</p>
+
+<p>
+Las funcionalidades presentadas, como la arquitectura DDD, son
+únicamente una propuesta inicial. El framework está diseñado con una
+arquitectura flexible que facilita la modificación, adición o
+eliminación de funcionalidades según sean necesarias. De esta manera, el
+framework se puede ajustar para satisfacer las necesidades específicas
+de cada proyecto.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-ejemplos-de-mysql-no-bloqueante-." class="outline-2">
+<h2 id="ejemplos-de-mysql-no-bloqueante-."><span class="section-number-2">5.</span> Ejemplos de Mysql no bloqueante .</h2>
+<div class="outline-text-2" id="text-ejemplos-de-mysql-no-bloqueante-.">
+</div>
+<div id="outline-container-una-consulta-simple" class="outline-3">
+<h3 id="una-consulta-simple"><span class="section-number-3">5.1.</span> Una consulta simple</h3>
+<div class="outline-text-3" id="text-una-consulta-simple">
+<p>
+<b>tradicional</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-injectablephp">public function findById(int $postId): ?Post 
+{
+    $mysqli = new mysqli("localhost", "usuario", "contraseña", "base_de_datos");
+
+    $stmt = $mysqli-&gt;prepare("SELECT * FROM post WHERE post.id = ?");
+    $stmt-&gt;bind_param("i", $postId);
+    $stmt-&gt;execute();
+    $result = $stmt-&gt;get_result();
+    $rawPostData = $result-&gt;fetch_assoc();
+
+    return $rawPostData === null ? null : new Post(
+        $rawPostData['id'],
+        $rawPostData['title'] . $rawPostData['content'],
+        new \DateTimeImmutable($rawPostData['created_at'])
+    );
+}
+</pre>
+</div>
+
+<p>
+<b>asíncrono con Promises</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-injectablephp">    public function findById(int $postId): PromiseInterface //of Post or Null
+    {
+        $deferred = new Deferred();
+
+        $this-&gt;mysqlClient-&gt;query(
+            "SELECT * FROM post where post.id = ?",
+            [$postId]
+        )-&gt;then(function (MysqlResult $mysqlResult) use ($deferred) {
+            $rawPostData = $mysqlResult-&gt;resultRows[0] ?? null;
+
+            $deferred-&gt;resolve(
+                $rawPostData === null ? null : new Post(
+                    $rawPostData['id'],
+                    $rawPostData['title'] . $rawPostData['content'],
+                    new \DateTimeImmutable($rawPostData['created_at'])
+                )
+            );
+        });
+
+        return $deferred-&gt;promise();
+    }
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-ejemplo-de-transacción" class="outline-3">
+<h3 id="ejemplo-de-transacción"><span class="section-number-3">5.2.</span> Ejemplo de transacción</h3>
+<div class="outline-text-3" id="text-ejemplo-de-transacción">
+<p>
+<b>tradicional</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-injectablephp">$mysqli = new mysqli("localhost", "usuario", "contraseña", "base_de_datos");
+
+$amount = 100; // Transferir $100 de la cuenta 1 a la cuenta 2
+try {
+    $mysqli-&gt;autocommit(FALSE);
+
+    $stmt = $mysqli-&gt;prepare('UPDATE account SET balance = balance - ? WHERE id = 1');
+    $stmt-&gt;bind_param("i", $amount);
+    $stmt-&gt;execute();
+    
+    $stmt = $mysqli-&gt;prepare('UPDATE account SET balance = balance + ? WHERE id = 2');
+    $stmt-&gt;bind_param("i", $amount);
+    $stmt-&gt;execute();
+
+    $mysqli-&gt;commit(); // Si todo fue exitoso, confirma la transacción
+} catch (\Exception $e) {
+    $mysqli-&gt;rollback(); // Si algo falló, revierte la transacción
+    throw $e; // Lanza la excepción para manejarla en el código externo
+};
+</pre>
+</div>
+
+<p>
+<b>asíncrono con promises</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-injectablephp">use React\MySQL\ConnectionInterface;
+
+$connection = new ConnectionInterface;  // Asegúrate de tener una instancia de ConnectionInterface y reemplaza esto según tu configuración de conexión
+
+$connection-&gt;query('BEGIN')
+    -&gt;then(function() use ($connection) {
+        $amount = 100;  // Suponemos que estamos transfiriendo $100 de la cuenta 1 a la cuenta 2
+
+        return $connection-&gt;query('UPDATE account SET balance = balance - ? WHERE id = 1', [$amount])
+            -&gt;then(function() use ($connection, $amount) {
+                return $connection-&gt;query('UPDATE account SET balance = balance + ? WHERE id = 2', [$amount]);
+            });
+    })
+    -&gt;then(function () use ($connection) {
+        return $connection-&gt;query('COMMIT');
+    })
+    -&gt;catch(function (\Exception $e) use ($connection) {
+        $connection-&gt;query('ROLLBACK');
+        throw $e;
+    });
+</pre>
+</div>
+
+<p>
+<b>con rxPHP!? :)</b>
+</p>
+
+<div class="org-src-container">
+<pre class="src src-injectablephp">use React\MySQL\ConnectionInterface;
+use Rx\Observable;
+
+$connection = new ConnectionInterface; // Asegúrate de tener una instancia de ConnectionInterface y reemplaza esto según tu configuración de conexión
+
+// Iniciar la transacción
+$beginTransaction = Observable::fromPromise($connection-&gt;query('BEGIN'));
+
+// Enviar la consulta de debito
+$debitAccount = Observable::fromPromise(
+    $connection-&gt;query('UPDATE account SET balance = balance - ? WHERE id = 1', [$amount = 100]) // Transferir $100 de la cuenta 1 a la cuenta 2
+);
+
+// Enviar la consulta de credito
+$creditAccount = Observable::fromPromise(
+    $connection-&gt;query('UPDATE account SET balance = balance + ? WHERE id = 2', [$amount])
+);
+
+// Enviar el COMMIT si todo fue exitoso
+$commitTransaction = Observable::fromPromise($connection-&gt;query('COMMIT'));
+
+// Secuenciando las operaciones anteriores
+$transaction = $beginTransaction
+    -&gt;concat($debitAccount)
+    -&gt;concat($creditAccount)
+    -&gt;concat($commitTransaction)
+    -&gt;share();
+
+// Lidiando con los éxitos
+$transaction
+    -&gt;subscribe(
+        function() { echo "Operación exitosa \n"; },
+        // En caso de error, hacer un rollback
+        function(\Exception $e) use ($connection) {
+            echo "Hubo un error, haciendo rollback \n";
+            $connection-&gt;query('ROLLBACK');
+            throw $e;
+        },
+        function() { echo "La transacción ha sido completada \n"; }
+    );
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-utilizando-observables-con-reactphp-y-rxphp" class="outline-3">
+<h3 id="utilizando-observables-con-reactphp-y-rxphp"><span class="section-number-3">5.3.</span> Utilizando Observables con ReactPHP y RxPHP</h3>
+<div class="outline-text-3" id="text-utilizando-observables-con-reactphp-y-rxphp">
+<p>
+Este proyecto explora cómo manejar operaciones asíncronas y no
+bloqueantes utilizando ReactPHP y RxPHP. Este enfoque se activa al
+inicio de la aplicación estableciendo el Scheduler predeterminado de
+RxPHP a una instancia de <code>Rx\Scheduler\EventLoopScheduler</code> que usa el
+loop predeterminado de <code>react/event-loop</code>.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-php">require_once 'vendor/autoload.php';
+
+$loop = React\EventLoop\Loop::get();
+
+$scheduler = new Rx\Scheduler\EventLoopScheduler($loop);
+
+Rx\Scheduler::setDefaultFactory(function() use ($scheduler) {
+return $scheduler;
+});
+</pre>
+</div>
+
+<p>
+Por supuesto es totalmente opcional :)
+</p>
+</div>
+<div id="outline-container-un-ejemplo-observablefilepostrepository" class="outline-4">
+<h4 id="un-ejemplo-observablefilepostrepository"><span class="section-number-4">5.3.1.</span> Un ejemplo ObservableFilePostRepository</h4>
+<div class="outline-text-4" id="text-un-ejemplo-observablefilepostrepository">
+<div class="org-src-container">
+<pre class="src src-php">public function observableOfFile(): Observable
+{
+$loop = React\EventLoop\Loop::get();
+$filesystem = React\Filesystem\Filesystem::create($loop);
+$postFilePath = dirname(__DIR__).'/Post/posts.json';
+$file = $filesystem-&gt;file($postFilePath);
+$contents = $file-&gt;getContents();
+return Rx\Observable::fromPromise($contents);
+}
+</pre>
+</div>
+
+<p>
+Esta función devuelve un <code>Observable</code> que emitirá el contenido del
+archivo cuando esté listo.
+</p>
+
+<p>
+Luego, podemos mapear el contenido del archivo JSON a un array de posts:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-php">-&gt;map(fn($file) =&gt; json_decode($file, true, 512, JSON_THROW_ON_ERROR))
+</pre>
+</div>
+
+<p>
+Este código lanzará una excepción <code>JsonException</code> si la decodificación
+del JSON falla. Este error debe ser gestionado apropiadamente.
+</p>
+
+<p>
+Para procesar cada post, utilizamos <code>flatMap</code> para convertir el array de
+posts en una secuencia de posts individuales, luego mapeamos cada post a
+una entidad Post:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-php">-&gt;flatMap(fn($posts) =&gt; Rx\Observable::fromArray($posts))
+-&gt;map(fn($post) =&gt; self::hydrate($post))
+</pre>
+</div>
+
+<p>
+Finalmente, convertimos nuestro <code>Observable</code> a una <code>PromiseInterface</code>
+para su uso con ReactPHP:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-php">-&gt;toArray()
+-&gt;toPromise();
+</pre>
+</div>
+
+<p>
+Si la operación es exitosa, esta <code>PromiseInterface</code> se resolverá con un
+array de entjes como JavaScript con su modelo de manejo de eventos.
+</p>
+
+<p>
+Código completo del método <code>findAll</code>:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-php">public function findAll(): PromiseInterface
+{
+return $this-&gt;observableOfFile()
+-&gt;map(fn($file) =&gt; json_decode($file, true, 512, JSON_THROW_ON_ERROR))
+-&gt;flatMap(fn($posts) =&gt; Observable::fromArray($posts))
+-&gt;map(fn($post) =&gt; self::hydrate($post))
+-&gt;toArray()
+-&gt;toPromise();
+}
+</pre>
+</div>
+
+<p>
+Como decía Kyle Simpson en &rsquo;You Don&rsquo;t Know JS&rsquo; &gt; &ldquo;La familiaridad es la
+clave para la comprensión&rdquo;
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-kernel" class="outline-2">
+<h2 id="kernel"><span class="section-number-2">6.</span> Kernel</h2>
+<div class="outline-text-2" id="text-kernel">
+<p>
+La clase <code>Kernel</code> es la piedra angular de nuestra aplicación, encargada
+de manejar todas las solicitudes HTTP entrantes. Opera en un paradigma
+asíncrono, asegurando que se devuelva una <code>ResponseInterface</code>, pero
+siempre como una <code>PromiseInterface</code> para garantizar el principio no
+bloqueante.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-php">public function __invoke(ServerRequestInterface $request): PromiseInterface //of a ResponseInterface
+</pre>
+</div>
+
+<p>
+La función <code>__invoke</code> actúa como nuestra función de entrada, se crea un
+contenedor de dependencias y un router. El método <code>AsyncHandleRequest</code>
+se utiliza para manejar la solicitud de manera asincrona. Si todo
+funciona correctamente, simplemente entregamos la respuesta. Sin
+embargo, si ocurre una excepción durante el manejo de la solicitud, esta
+se atrapa y se convierte en una respuesta JSON con detalles del error.
+</p>
+
+<p>
+Ahora, nos enfocamos en la línea 81, que es de vital importancia.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-php">$response = $container-&gt;get($httpRequestHandlerName)($request, $params);
+</pre>
+</div>
+
+<p>
+Esta línea lleva a cabo una función crítica: utilizando el router,
+determina cuál handler es responsable de gestionar la solicitud HTTP
+para la ruta dada. El contenedor de dependencias PSR-11 se usa para
+obtener una instancia de este handler. Este handler es único, ya que se
+instanciará con todas las dependencias necesarias y recibirá la
+solicitud y los parámetros como argumentos.
+</p>
+
+<p>
+Este handler proporcionará un objeto <code>ResponseInterface</code>. Sin embargo,
+necesitamos asegurarnos de que todavía estamos funcionando
+asincrónicamente.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-php">$deferred-&gt;resolve(
+$response instanceof PromiseInterface ? $response : self::wrapWithPromise($response)
+);
+</pre>
+</div>
+
+<p>
+Entonces, si el handler devuelve una <code>ResponseInterface</code> en lugar de una
+<code>PromiseInterface</code>, usamos <code>wrapWithPromise</code> para envolver la
+<code>ResponseInterface</code> en una <code>PromiseInterface</code>. Esto garantiza que
+siempre estamos devolviendo una promesa de una respuesta.
+</p>
+
+<p>
+Es este delicado equilibrio el que nos permite mantener la asincronía en
+todo nuestro Kernel, mientras aprovechamos una estructura de handler de
+solicitudes ordenada y predecible.
+</p>
+</div>
+<div id="outline-container-por-qué-estoy-usando-web-components-en-este-proyecto" class="outline-3">
+<h3 id="por-qué-estoy-usando-web-components-en-este-proyecto"><span class="section-number-3">6.1.</span> ¿Por qué estoy usando Web Components en este proyecto?</h3>
+<div class="outline-text-3" id="text-por-qué-estoy-usando-web-components-en-este-proyecto">
+<p>
+Es importante señalar que este proyecto es en esencia un backend. El uso
+de tecnologías web en el mismo es en realidad bastante concreto y
+principalmente está presente para mis propias pruebas. A pesar de ello,
+siempre he tenido la curiosidad de explorar nuevas tecnologías y en esta
+ocasión, encontré en los Web Components una oportunidad de aprendizaje
+muy interesante.
+</p>
+
+<p>
+Como desarrollador de backend, valoro especialmente las tecnologías que
+brindan una gran longevidad y estabilidad, características que encuentro
+en los Web Components. Los Web Components son un conjunto de
+características nativas del navegador que permiten definir tus propios
+componentes HTML personalizados.
+</p>
+
+<p>
+Estos componentes pueden encapsular su propia funcionalidad y estilos,
+lo más importante, son compatibles con cualquier framework de
+JavaScript, sea actual, futuro o simplemente sin la necesidad de ningún
+framework. Esta compatibilidad universal se debe al hecho de que los Web
+Components se conforman a estándares web duraderos.
+</p>
+
+<p>
+Los Web Components emplean tecnologías como Custom Elements para definir
+nuevos tipos de elementos HTML, Shadow DOM para aislar y encapsular los
+componentes y HTML Templates para la reutilización de código HTML. Al
+usar estas tecnologías, puedo estar seguro de que el código que escribo
+hoy seguirá siendo útil y relevante en el futuro, sin importar las
+tendencias de los frameworks.
+</p>
+
+<p>
+Así que, en resumen, estoy usando Web Components en este proyecto para
+garantizar que el código resultante sea resistente, reutilizable y a
+prueba de futuro. Si mañana desaparece un framework en particular, mi
+código seguiría funcionando perfectamente. Sin embargo, eso no significa
+que no reconozca la utilidad y las ventajas que ciertos frameworks
+pueden brindar. Simplemente es una manifestación de mi deseo de buscar
+soluciones robustas y duraderas.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: passh</p>
+<p class="date">Created: 2024-02-15 Thu 19:19</p>
+</div>
+</body>
+</html>
