@@ -5,6 +5,7 @@ namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
 use pascualmg\reactor\ddd\Application\Post\FindAllPosts;
 use pascualmg\reactor\ddd\Application\Post\FindAllPostsQuery;
 use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Promise\PromiseInterface;
 
@@ -15,7 +16,7 @@ class FindAllPostsController implements HttpRequestHandler
     ) {
     }
 
-    public function __invoke(ServerRequestInterface $request, ?array $routeParams): PromiseInterface
+    public function __invoke(ServerRequestInterface $request, ?array $routeParams): PromiseInterface | ResponseInterface
     {
         return ($this->findAllPosts)(
             new FindAllPostsQuery()
