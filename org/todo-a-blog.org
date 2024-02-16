@@ -1,0 +1,63 @@
+* Introducción
+  Este documento es un boceto y checklist para la planificación y desarrollo de un posible blog. La estructura del blog que vamos a implementar está dividida en sus componentes básicos y en una lista de tareas para llevar a cabo su implementación de una manera organizada y eficiente.
+
+* Blog Structure
+  #+BEGIN_SRC
+  <blog-list>  // Vista general del blog
+    └── <blog-header>
+    └── <blog-post-preview>  // Repetible, cada uno es un resumen de un post
+         ├── <post-title>
+         ├── <post-author>
+         ├── <post-date>
+         └── <read-more-button>  // Botón para ver el post completo
+
+  <blog-detail>  // Vista detallada para un solo post
+    └── <blog-header>
+    └── <blog-post>
+    |     ├── <post-title>
+    |     ├── <post-author>
+    |     ├── <post-date>
+    |     └── <post-content>
+    └── <post-comments>
+          ├── <single-comment>  // Repetible, cada uno representa un comentario
+          |    ├── <comment-author>
+          |    ├── <comment-date>
+          |    └── <comment-content>
+          └── <new-comment-form>  // Un formulario para agregar nuevos comentarios
+  #+END_SRC
+
+* TODO List
+
+  - [ ] Crear componente <blog-list>
+    - [ ] Crear <blog-header>
+    - [ ] Crear <blog-post-preview>
+
+  - [ ] Crear componente <blog-detail>
+    - [ ] Crear <blog-header>
+    - [ ] Crear <blog-post>
+
+  - [ ] Crear componentes adicionales para <blog-post-preview>
+    - [ ] Crear <post-title>
+    - [ ] Crear <post-author>
+    - [ ] Crear <post-date>
+    - [ ] Crear <read-more-button>
+
+  - [ ] Crear componentes adicionales para <blog-post>
+    - [ ] Crear <post-title>
+    - [ ] Crear <post-author>
+    - [ ] Crear <post-date>
+    - [ ] Crear <post-content>
+
+  - [ ] Crear componente <post-comments>
+    - [ ] Crear <single-comment>
+    - [ ] Crear <new-comment-form>
+
+  - [ ] Implementar funcionalidad para los componentes
+    - [ ] Habilitar el botón 'leer más'
+    - [ ] Implementar la funcionalidad de comentarios
+
+  - [ ] Realizar pruebas
+    - [ ] Prueba unitaria para cada componente del blog
+    - [ ] Pruebas de integración
+
+  - [ ] Desplegar el blog
