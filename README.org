@@ -326,7 +326,7 @@ de cada proyecto.
 :END:
 *tradicional*
 
-#+begin_src injectablephp
+#+begin_src php
 public function findById(int $postId): ?Post 
 {
     $mysqli = new mysqli("localhost", "usuario", "contraseña", "base_de_datos");
@@ -347,7 +347,7 @@ public function findById(int $postId): ?Post
 
 *asíncrono con Promises*
 
-#+begin_src injectablephp
+#+begin_src php
     public function findById(int $postId): PromiseInterface //of Post or Null
     {
         $deferred = new Deferred();
@@ -377,7 +377,7 @@ public function findById(int $postId): ?Post
 :END:
 *tradicional*
 
-#+begin_src injectablephp
+#+begin_src php
 $mysqli = new mysqli("localhost", "usuario", "contraseña", "base_de_datos");
 
 $amount = 100; // Transferir $100 de la cuenta 1 a la cuenta 2
@@ -401,7 +401,7 @@ try {
 
 *asíncrono con promises*
 
-#+begin_src injectablephp
+#+begin_src php
 use React\MySQL\ConnectionInterface;
 
 $connection = new ConnectionInterface;  // Asegúrate de tener una instancia de ConnectionInterface y reemplaza esto según tu configuración de conexión
@@ -426,7 +426,7 @@ $connection->query('BEGIN')
 
 *con rxPHP!? :)*
 
-#+begin_src injectablephp
+#+begin_src php
 use React\MySQL\ConnectionInterface;
 use Rx\Observable;
 

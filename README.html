@@ -3,11 +3,11 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-02-15 Thu 19:19 -->
+<!-- 2024-02-16 vie 00:42 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>&lrm;</title>
-<meta name="author" content="passh" />
+<meta name="author" content="Pascual M.G." />
 <meta name="generator" content="Org Mode" />
 <style>
   #content { max-width: 60em; margin: auto; }
@@ -307,10 +307,10 @@ programación reactiva y PHP, te invito a que lo pruebes
 <h2 id="instalación"><span class="section-number-2">2.</span> Instalación</h2>
 <div class="outline-text-2" id="text-instalación">
 <div class="org-src-container">
-<pre class="src src-sh"><span style="color: #ECBE7B;">make</span> nix-install 
+<pre class="src src-sh"><span style="color: #ce537a; font-weight: bold;">make</span> nix-install 
 
 nix develop 
-<span style="color: #ECBE7B;">make</span> run
+<span style="color: #ce537a; font-weight: bold;">make</span> run
 </pre>
 </div>
 </div>
@@ -335,9 +335,9 @@ usando <code>zsh</code>, agrega la misma línea a tu archivo <code>.zshrc</code>
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh">   <span style="color: #c678dd;">eval</span> <span style="color: #98be65;">"</span><span style="color: #51afef; font-weight: bold;">$(direnv hook bash)</span><span style="color: #98be65;">"</span>
-   <span style="color: #5B6268;"># </span><span style="color: #5B6268;">o</span>
-   <span style="color: #c678dd;">eval</span> <span style="color: #98be65;">"</span><span style="color: #51afef; font-weight: bold;">$(direnv hook zsh)</span><span style="color: #98be65;">"</span>
+<pre class="src src-sh">   <span style="color: #4f97d7;">eval</span> <span style="color: #2d9574;">"</span><span style="color: #bc6ec5;">$(</span><span style="color: #bc6ec5;">direnv hook bash</span><span style="color: #bc6ec5;">)</span><span style="color: #2d9574;">"</span>
+   <span style="color: #2aa1ae; background-color: #292e34;"># </span><span style="color: #2aa1ae; background-color: #292e34;">o</span>
+   <span style="color: #4f97d7;">eval</span> <span style="color: #2d9574;">"</span><span style="color: #bc6ec5;">$(</span><span style="color: #bc6ec5;">direnv hook zsh</span><span style="color: #bc6ec5;">)</span><span style="color: #2d9574;">"</span>
 </pre>
 </div></li>
 
@@ -386,36 +386,36 @@ de peticiones. Aquí está la función anónima que se pasa al servidor:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-php">        $httpServer = new HttpServer(
-            $clientIPMiddleware,
-            function (ServerRequestInterface $request) use ($container, $dispatcher) : PromiseInterface | ResponseInterface {
-                try {
-                    return self::AsyncHandleRequest(
-                        $request,
-                        $container,
-                        $dispatcher
-                    )
-                        -&gt;then(function (ResponseInterface $response) {
-                            return $response;
-                        })
-                        -&gt;catch(function (Throwable $exception) {
-                            return new Response(
-                                409,
-                                ['Content-Type' =&gt; 'application/json'],
-                                self::toJson($exception)
-                            );
-                        });
-                } catch (Throwable $exception) {
-                    // Capture only router configuration errors &amp;
-                    // other exceptions not related to request handling
-                    return new Response(
-                        500,
-                        ['Content-Type' =&gt; 'application/json'],
-                        self::toJson($exception)
-                    );
-                }
-            }
-        );
+<pre class="src src-php">        $<span style="color: #7590db;">httpServer</span> = <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">HttpServer</span><span style="color: #4f97d7;">(</span>
+            $<span style="color: #7590db;">clientIPMiddleware</span>,
+            <span style="color: #4f97d7; font-weight: bold;">function</span> <span style="color: #bc6ec5;">(</span><span style="color: #ce537a; font-weight: bold;">ServerRequestInterface</span> $<span style="color: #7590db;">request</span><span style="color: #bc6ec5;">)</span> <span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">container</span>, $<span style="color: #7590db;">dispatcher</span><span style="color: #bc6ec5;">)</span> : <span style="color: #ce537a; font-weight: bold;">PromiseInterface</span> | ResponseInterface <span style="color: #bc6ec5;">{</span>
+                <span style="color: #4f97d7; font-weight: bold;">try</span> <span style="color: #2d9574;">{</span>
+                    <span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #4f97d7; font-weight: bold;">self</span>::AsyncHandleRequest<span style="color: #67b11d;">(</span>
+                        $<span style="color: #7590db;">request</span>,
+                        $<span style="color: #7590db;">container</span>,
+                        $<span style="color: #7590db;">dispatcher</span>
+                    <span style="color: #67b11d;">)</span>
+                        -&gt;then<span style="color: #67b11d;">(</span><span style="color: #4f97d7; font-weight: bold;">function</span> <span style="color: #4f97d7;">(</span><span style="color: #ce537a; font-weight: bold;">ResponseInterface</span> $<span style="color: #7590db;">response</span><span style="color: #4f97d7;">)</span> <span style="color: #4f97d7;">{</span>
+                            <span style="color: #4f97d7; font-weight: bold;">return</span> $<span style="color: #7590db;">response</span>;
+                        <span style="color: #4f97d7;">}</span><span style="color: #67b11d;">)</span>
+                        -&gt;catch<span style="color: #67b11d;">(</span><span style="color: #ce537a; font-weight: bold;">function</span> <span style="color: #4f97d7;">(</span><span style="color: #ce537a; font-weight: bold;">Throwable</span> $<span style="color: #7590db;">exception</span><span style="color: #4f97d7;">)</span> <span style="color: #4f97d7;">{</span>
+                            <span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">Response</span><span style="color: #bc6ec5;">(</span>
+                                <span style="color: #a45bad;">409</span>,
+                                <span style="color: #2d9574;">[</span><span style="color: #2d9574;">'Content-Type'</span> =&gt; <span style="color: #2d9574;">'application/json'</span><span style="color: #2d9574;">]</span>,
+                                <span style="color: #4f97d7; font-weight: bold;">self</span>::toJson<span style="color: #2d9574;">(</span>$<span style="color: #7590db;">exception</span><span style="color: #2d9574;">)</span>
+                            <span style="color: #bc6ec5;">)</span>;
+                        <span style="color: #4f97d7;">}</span><span style="color: #67b11d;">)</span>;
+                <span style="color: #2d9574;">}</span> <span style="color: #4f97d7; font-weight: bold;">catch</span> <span style="color: #2d9574;">(</span><span style="color: #ce537a; font-weight: bold;">Throwable</span> $<span style="color: #7590db;">exception</span><span style="color: #2d9574;">)</span> <span style="color: #2d9574;">{</span>
+                    <span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Capture only router configuration errors &amp;</span>
+                    <span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">other exceptions not related to request handling</span>
+                    <span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">Response</span><span style="color: #67b11d;">(</span>
+                        <span style="color: #a45bad;">500</span>,
+                        <span style="color: #4f97d7;">[</span><span style="color: #2d9574;">'Content-Type'</span> =&gt; <span style="color: #2d9574;">'application/json'</span><span style="color: #4f97d7;">]</span>,
+                        <span style="color: #4f97d7; font-weight: bold;">self</span>::toJson<span style="color: #4f97d7;">(</span>$<span style="color: #7590db;">exception</span><span style="color: #4f97d7;">)</span>
+                    <span style="color: #67b11d;">)</span>;
+                <span style="color: #2d9574;">}</span>
+            <span style="color: #bc6ec5;">}</span>
+        <span style="color: #4f97d7;">)</span>;
 </pre>
 </div>
 
@@ -607,7 +607,7 @@ Puedes ejecutar las migraciones utilizando el comando make:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-sh"><span style="color: #ECBE7B;">make</span> migrations
+<pre class="src src-sh"><span style="color: #ce537a; font-weight: bold;">make</span> migrations
 </pre>
 </div>
 
@@ -657,22 +657,22 @@ de cada proyecto.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-injectablephp">public function findById(int $postId): ?Post 
-{
-    $mysqli = new mysqli("localhost", "usuario", "contraseña", "base_de_datos");
+<pre class="src src-php"><span style="color: #4f97d7; font-weight: bold;">public</span> <span style="color: #4f97d7; font-weight: bold;">function</span> <span style="color: #bc6ec5; font-weight: bold;">findById</span><span style="color: #4f97d7;">(</span><span style="color: #ce537a; font-weight: bold;">int</span> $<span style="color: #7590db;">postId</span><span style="color: #4f97d7;">)</span>: <span style="color: #ce537a; font-weight: bold;">?Post</span> 
+<span style="color: #4f97d7;">{</span>
+    $<span style="color: #7590db;">mysqli</span> = <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">mysqli</span><span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">"localhost"</span>, <span style="color: #2d9574;">"usuario"</span>, <span style="color: #2d9574;">"contrase&#241;a"</span>, <span style="color: #2d9574;">"base_de_datos"</span><span style="color: #bc6ec5;">)</span>;
 
-    $stmt = $mysqli-&gt;prepare("SELECT * FROM post WHERE post.id = ?");
-    $stmt-&gt;bind_param("i", $postId);
-    $stmt-&gt;execute();
-    $result = $stmt-&gt;get_result();
-    $rawPostData = $result-&gt;fetch_assoc();
+    $<span style="color: #7590db;">stmt</span> = $<span style="color: #7590db;">mysqli</span>-&gt;prepare<span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">"SELECT * FROM post WHERE post.id = ?"</span><span style="color: #bc6ec5;">)</span>;
+    $<span style="color: #7590db;">stmt</span>-&gt;bind_param<span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">"i"</span>, $<span style="color: #7590db;">postId</span><span style="color: #bc6ec5;">)</span>;
+    $<span style="color: #7590db;">stmt</span>-&gt;execute<span style="color: #bc6ec5;">()</span>;
+    $<span style="color: #7590db;">result</span> = $<span style="color: #7590db;">stmt</span>-&gt;get_result<span style="color: #bc6ec5;">()</span>;
+    $<span style="color: #7590db;">rawPostData</span> = $<span style="color: #7590db;">result</span>-&gt;fetch_assoc<span style="color: #bc6ec5;">()</span>;
 
-    return $rawPostData === null ? null : new Post(
-        $rawPostData['id'],
-        $rawPostData['title'] . $rawPostData['content'],
-        new \DateTimeImmutable($rawPostData['created_at'])
-    );
-}
+    <span style="color: #4f97d7; font-weight: bold;">return</span> $<span style="color: #7590db;">rawPostData</span> === <span style="color: #a45bad;">null</span> ? <span style="color: #a45bad;">null</span> : <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">Post</span><span style="color: #bc6ec5;">(</span>
+        $<span style="color: #7590db;">rawPostData</span><span style="color: #2d9574;">[</span><span style="color: #2d9574;">'id'</span><span style="color: #2d9574;">]</span>,
+        $<span style="color: #7590db;">rawPostData</span><span style="color: #2d9574;">[</span><span style="color: #2d9574;">'title'</span><span style="color: #2d9574;">]</span> . $<span style="color: #7590db;">rawPostData</span><span style="color: #2d9574;">[</span><span style="color: #2d9574;">'content'</span><span style="color: #2d9574;">]</span>,
+        <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">\DateTimeImmutable</span><span style="color: #2d9574;">(</span>$<span style="color: #7590db;">rawPostData</span><span style="color: #67b11d;">[</span><span style="color: #2d9574;">'created_at'</span><span style="color: #67b11d;">]</span><span style="color: #2d9574;">)</span>
+    <span style="color: #bc6ec5;">)</span>;
+<span style="color: #4f97d7;">}</span>
 </pre>
 </div>
 
@@ -681,27 +681,27 @@ de cada proyecto.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-injectablephp">    public function findById(int $postId): PromiseInterface //of Post or Null
-    {
-        $deferred = new Deferred();
+<pre class="src src-php">    <span style="color: #4f97d7; font-weight: bold;">public</span> <span style="color: #4f97d7; font-weight: bold;">function</span> <span style="color: #bc6ec5; font-weight: bold;">findById</span><span style="color: #4f97d7;">(</span><span style="color: #ce537a; font-weight: bold;">int</span> $<span style="color: #7590db;">postId</span><span style="color: #4f97d7;">)</span>: <span style="color: #ce537a; font-weight: bold;">PromiseInterface</span> <span style="color: #2aa1ae; background-color: #292e34;">//</span><span style="color: #2aa1ae; background-color: #292e34;">of Post or Null</span>
+    <span style="color: #4f97d7;">{</span>
+        $<span style="color: #7590db;">deferred</span> = <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">Deferred</span><span style="color: #bc6ec5;">()</span>;
 
-        $this-&gt;mysqlClient-&gt;query(
-            "SELECT * FROM post where post.id = ?",
-            [$postId]
-        )-&gt;then(function (MysqlResult $mysqlResult) use ($deferred) {
-            $rawPostData = $mysqlResult-&gt;resultRows[0] ?? null;
+        <span style="color: #a45bad;">$</span><span style="color: #a45bad;">this</span>-&gt;<span style="color: #7590db;">mysqlClient</span>-&gt;query<span style="color: #bc6ec5;">(</span>
+            <span style="color: #2d9574;">"SELECT * FROM post where post.id = ?"</span>,
+            <span style="color: #2d9574;">[</span>$<span style="color: #7590db;">postId</span><span style="color: #2d9574;">]</span>
+        <span style="color: #bc6ec5;">)</span>-&gt;then<span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">function</span> <span style="color: #2d9574;">(</span><span style="color: #ce537a; font-weight: bold;">MysqlResult</span> $<span style="color: #7590db;">mysqlResult</span><span style="color: #2d9574;">)</span> <span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #2d9574;">(</span>$<span style="color: #7590db;">deferred</span><span style="color: #2d9574;">)</span> <span style="color: #2d9574;">{</span>
+            $<span style="color: #7590db;">rawPostData</span> = $<span style="color: #7590db;">mysqlResult</span>-&gt;<span style="color: #7590db;">resultRows</span><span style="color: #67b11d;">[</span><span style="color: #a45bad;">0</span><span style="color: #67b11d;">]</span> ?? <span style="color: #a45bad;">null</span>;
 
-            $deferred-&gt;resolve(
-                $rawPostData === null ? null : new Post(
-                    $rawPostData['id'],
-                    $rawPostData['title'] . $rawPostData['content'],
-                    new \DateTimeImmutable($rawPostData['created_at'])
-                )
-            );
-        });
+            $<span style="color: #7590db;">deferred</span>-&gt;resolve<span style="color: #67b11d;">(</span>
+                $<span style="color: #7590db;">rawPostData</span> === <span style="color: #a45bad;">null</span> ? <span style="color: #a45bad;">null</span> : <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">Post</span><span style="color: #4f97d7;">(</span>
+                    $<span style="color: #7590db;">rawPostData</span><span style="color: #bc6ec5;">[</span><span style="color: #2d9574;">'id'</span><span style="color: #bc6ec5;">]</span>,
+                    $<span style="color: #7590db;">rawPostData</span><span style="color: #bc6ec5;">[</span><span style="color: #2d9574;">'title'</span><span style="color: #bc6ec5;">]</span> . $<span style="color: #7590db;">rawPostData</span><span style="color: #bc6ec5;">[</span><span style="color: #2d9574;">'content'</span><span style="color: #bc6ec5;">]</span>,
+                    <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">\DateTimeImmutable</span><span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">rawPostData</span><span style="color: #2d9574;">[</span><span style="color: #2d9574;">'created_at'</span><span style="color: #2d9574;">]</span><span style="color: #bc6ec5;">)</span>
+                <span style="color: #4f97d7;">)</span>
+            <span style="color: #67b11d;">)</span>;
+        <span style="color: #2d9574;">}</span><span style="color: #bc6ec5;">)</span>;
 
-        return $deferred-&gt;promise();
-    }
+        <span style="color: #4f97d7; font-weight: bold;">return</span> $<span style="color: #7590db;">deferred</span>-&gt;promise<span style="color: #bc6ec5;">()</span>;
+    <span style="color: #4f97d7;">}</span>
 </pre>
 </div>
 </div>
@@ -714,25 +714,25 @@ de cada proyecto.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-injectablephp">$mysqli = new mysqli("localhost", "usuario", "contraseña", "base_de_datos");
+<pre class="src src-php">$<span style="color: #7590db;">mysqli</span> = <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">mysqli</span><span style="color: #4f97d7;">(</span><span style="color: #2d9574;">"localhost"</span>, <span style="color: #2d9574;">"usuario"</span>, <span style="color: #2d9574;">"contrase&#241;a"</span>, <span style="color: #2d9574;">"base_de_datos"</span><span style="color: #4f97d7;">)</span>;
 
-$amount = 100; // Transferir $100 de la cuenta 1 a la cuenta 2
-try {
-    $mysqli-&gt;autocommit(FALSE);
+$<span style="color: #7590db;">amount</span> = <span style="color: #a45bad;">100</span>; <span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Transferir $100 de la cuenta 1 a la cuenta 2</span>
+<span style="color: #4f97d7; font-weight: bold;">try</span> <span style="color: #4f97d7;">{</span>
+    $<span style="color: #7590db;">mysqli</span>-&gt;autocommit<span style="color: #bc6ec5;">(</span><span style="color: #a45bad;">FALSE</span><span style="color: #bc6ec5;">)</span>;
 
-    $stmt = $mysqli-&gt;prepare('UPDATE account SET balance = balance - ? WHERE id = 1');
-    $stmt-&gt;bind_param("i", $amount);
-    $stmt-&gt;execute();
+    $<span style="color: #7590db;">stmt</span> = $<span style="color: #7590db;">mysqli</span>-&gt;prepare<span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'UPDATE account SET balance = balance - ? WHERE id = 1'</span><span style="color: #bc6ec5;">)</span>;
+    $<span style="color: #7590db;">stmt</span>-&gt;bind_param<span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">"i"</span>, $<span style="color: #7590db;">amount</span><span style="color: #bc6ec5;">)</span>;
+    $<span style="color: #7590db;">stmt</span>-&gt;execute<span style="color: #bc6ec5;">()</span>;
     
-    $stmt = $mysqli-&gt;prepare('UPDATE account SET balance = balance + ? WHERE id = 2');
-    $stmt-&gt;bind_param("i", $amount);
-    $stmt-&gt;execute();
+    $<span style="color: #7590db;">stmt</span> = $<span style="color: #7590db;">mysqli</span>-&gt;prepare<span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'UPDATE account SET balance = balance + ? WHERE id = 2'</span><span style="color: #bc6ec5;">)</span>;
+    $<span style="color: #7590db;">stmt</span>-&gt;bind_param<span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">"i"</span>, $<span style="color: #7590db;">amount</span><span style="color: #bc6ec5;">)</span>;
+    $<span style="color: #7590db;">stmt</span>-&gt;execute<span style="color: #bc6ec5;">()</span>;
 
-    $mysqli-&gt;commit(); // Si todo fue exitoso, confirma la transacción
-} catch (\Exception $e) {
-    $mysqli-&gt;rollback(); // Si algo falló, revierte la transacción
-    throw $e; // Lanza la excepción para manejarla en el código externo
-};
+    $<span style="color: #7590db;">mysqli</span>-&gt;commit<span style="color: #bc6ec5;">()</span>; <span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Si todo fue exitoso, confirma la transacci&#243;n</span>
+<span style="color: #4f97d7;">}</span> <span style="color: #4f97d7; font-weight: bold;">catch</span> <span style="color: #4f97d7;">(</span><span style="color: #ce537a; font-weight: bold;">\Exception</span> $<span style="color: #7590db;">e</span><span style="color: #4f97d7;">)</span> <span style="color: #4f97d7;">{</span>
+    $<span style="color: #7590db;">mysqli</span>-&gt;rollback<span style="color: #bc6ec5;">()</span>; <span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Si algo fall&#243;, revierte la transacci&#243;n</span>
+    <span style="color: #4f97d7; font-weight: bold;">throw</span> $<span style="color: #7590db;">e</span>; <span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Lanza la excepci&#243;n para manejarla en el c&#243;digo externo</span>
+<span style="color: #4f97d7;">}</span>;
 </pre>
 </div>
 
@@ -741,26 +741,26 @@ try {
 </p>
 
 <div class="org-src-container">
-<pre class="src src-injectablephp">use React\MySQL\ConnectionInterface;
+<pre class="src src-php"><span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">React\MySQL\ConnectionInterface</span>;
 
-$connection = new ConnectionInterface;  // Asegúrate de tener una instancia de ConnectionInterface y reemplaza esto según tu configuración de conexión
+$<span style="color: #7590db;">connection</span> = <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">ConnectionInterface</span>;  <span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Aseg&#250;rate de tener una instancia de ConnectionInterface y reemplaza esto seg&#250;n tu configuraci&#243;n de conexi&#243;n</span>
 
-$connection-&gt;query('BEGIN')
-    -&gt;then(function() use ($connection) {
-        $amount = 100;  // Suponemos que estamos transfiriendo $100 de la cuenta 1 a la cuenta 2
+$<span style="color: #7590db;">connection</span>-&gt;query<span style="color: #4f97d7;">(</span><span style="color: #2d9574;">'BEGIN'</span><span style="color: #4f97d7;">)</span>
+    -&gt;then<span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">function</span><span style="color: #bc6ec5;">()</span> <span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">connection</span><span style="color: #bc6ec5;">)</span> <span style="color: #bc6ec5;">{</span>
+        $<span style="color: #7590db;">amount</span> = <span style="color: #a45bad;">100</span>;  <span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Suponemos que estamos transfiriendo $100 de la cuenta 1 a la cuenta 2</span>
 
-        return $connection-&gt;query('UPDATE account SET balance = balance - ? WHERE id = 1', [$amount])
-            -&gt;then(function() use ($connection, $amount) {
-                return $connection-&gt;query('UPDATE account SET balance = balance + ? WHERE id = 2', [$amount]);
-            });
-    })
-    -&gt;then(function () use ($connection) {
-        return $connection-&gt;query('COMMIT');
-    })
-    -&gt;catch(function (\Exception $e) use ($connection) {
-        $connection-&gt;query('ROLLBACK');
-        throw $e;
-    });
+        <span style="color: #4f97d7; font-weight: bold;">return</span> $<span style="color: #7590db;">connection</span>-&gt;query<span style="color: #2d9574;">(</span><span style="color: #2d9574;">'UPDATE account SET balance = balance - ? WHERE id = 1'</span>, <span style="color: #67b11d;">[</span>$<span style="color: #7590db;">amount</span><span style="color: #67b11d;">]</span><span style="color: #2d9574;">)</span>
+            -&gt;then<span style="color: #2d9574;">(</span><span style="color: #4f97d7; font-weight: bold;">function</span><span style="color: #67b11d;">()</span> <span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #67b11d;">(</span>$<span style="color: #7590db;">connection</span>, $<span style="color: #7590db;">amount</span><span style="color: #67b11d;">)</span> <span style="color: #67b11d;">{</span>
+                <span style="color: #4f97d7; font-weight: bold;">return</span> $<span style="color: #7590db;">connection</span>-&gt;query<span style="color: #4f97d7;">(</span><span style="color: #2d9574;">'UPDATE account SET balance = balance + ? WHERE id = 2'</span>, <span style="color: #bc6ec5;">[</span>$<span style="color: #7590db;">amount</span><span style="color: #bc6ec5;">]</span><span style="color: #4f97d7;">)</span>;
+            <span style="color: #67b11d;">}</span><span style="color: #2d9574;">)</span>;
+    <span style="color: #bc6ec5;">}</span><span style="color: #4f97d7;">)</span>
+    -&gt;then<span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">function</span> <span style="color: #bc6ec5;">()</span> <span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">connection</span><span style="color: #bc6ec5;">)</span> <span style="color: #bc6ec5;">{</span>
+        <span style="color: #4f97d7; font-weight: bold;">return</span> $<span style="color: #7590db;">connection</span>-&gt;query<span style="color: #2d9574;">(</span><span style="color: #2d9574;">'COMMIT'</span><span style="color: #2d9574;">)</span>;
+    <span style="color: #bc6ec5;">}</span><span style="color: #4f97d7;">)</span>
+    -&gt;catch<span style="color: #4f97d7;">(</span><span style="color: #ce537a; font-weight: bold;">function</span> <span style="color: #bc6ec5;">(</span><span style="color: #ce537a; font-weight: bold;">\Exception</span> $<span style="color: #7590db;">e</span><span style="color: #bc6ec5;">)</span> <span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">connection</span><span style="color: #bc6ec5;">)</span> <span style="color: #bc6ec5;">{</span>
+        $<span style="color: #7590db;">connection</span>-&gt;query<span style="color: #2d9574;">(</span><span style="color: #2d9574;">'ROLLBACK'</span><span style="color: #2d9574;">)</span>;
+        <span style="color: #4f97d7; font-weight: bold;">throw</span> $<span style="color: #7590db;">e</span>;
+    <span style="color: #bc6ec5;">}</span><span style="color: #4f97d7;">)</span>;
 </pre>
 </div>
 
@@ -769,46 +769,46 @@ $connection-&gt;query('BEGIN')
 </p>
 
 <div class="org-src-container">
-<pre class="src src-injectablephp">use React\MySQL\ConnectionInterface;
-use Rx\Observable;
+<pre class="src src-php"><span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">React\MySQL\ConnectionInterface</span>;
+<span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">Rx\Observable</span>;
 
-$connection = new ConnectionInterface; // Asegúrate de tener una instancia de ConnectionInterface y reemplaza esto según tu configuración de conexión
+$<span style="color: #7590db;">connection</span> = <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">ConnectionInterface</span>; <span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Aseg&#250;rate de tener una instancia de ConnectionInterface y reemplaza esto seg&#250;n tu configuraci&#243;n de conexi&#243;n</span>
 
-// Iniciar la transacción
-$beginTransaction = Observable::fromPromise($connection-&gt;query('BEGIN'));
+<span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Iniciar la transacci&#243;n</span>
+$<span style="color: #7590db;">beginTransaction</span> = <span style="color: #a45bad;">Observable</span>::fromPromise<span style="color: #4f97d7;">(</span>$<span style="color: #7590db;">connection</span>-&gt;query<span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'BEGIN'</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>;
 
-// Enviar la consulta de debito
-$debitAccount = Observable::fromPromise(
-    $connection-&gt;query('UPDATE account SET balance = balance - ? WHERE id = 1', [$amount = 100]) // Transferir $100 de la cuenta 1 a la cuenta 2
-);
+<span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Enviar la consulta de debito</span>
+$<span style="color: #7590db;">debitAccount</span> = <span style="color: #a45bad;">Observable</span>::fromPromise<span style="color: #4f97d7;">(</span>
+    $<span style="color: #7590db;">connection</span>-&gt;query<span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'UPDATE account SET balance = balance - ? WHERE id = 1'</span>, <span style="color: #2d9574;">[</span>$<span style="color: #7590db;">amount</span> = <span style="color: #a45bad;">100</span><span style="color: #2d9574;">]</span><span style="color: #bc6ec5;">)</span> <span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Transferir $100 de la cuenta 1 a la cuenta 2</span>
+<span style="color: #4f97d7;">)</span>;
 
-// Enviar la consulta de credito
-$creditAccount = Observable::fromPromise(
-    $connection-&gt;query('UPDATE account SET balance = balance + ? WHERE id = 2', [$amount])
-);
+<span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Enviar la consulta de credito</span>
+$<span style="color: #7590db;">creditAccount</span> = <span style="color: #a45bad;">Observable</span>::fromPromise<span style="color: #4f97d7;">(</span>
+    $<span style="color: #7590db;">connection</span>-&gt;query<span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'UPDATE account SET balance = balance + ? WHERE id = 2'</span>, <span style="color: #2d9574;">[</span>$<span style="color: #7590db;">amount</span><span style="color: #2d9574;">]</span><span style="color: #bc6ec5;">)</span>
+<span style="color: #4f97d7;">)</span>;
 
-// Enviar el COMMIT si todo fue exitoso
-$commitTransaction = Observable::fromPromise($connection-&gt;query('COMMIT'));
+<span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Enviar el COMMIT si todo fue exitoso</span>
+$<span style="color: #7590db;">commitTransaction</span> = <span style="color: #a45bad;">Observable</span>::fromPromise<span style="color: #4f97d7;">(</span>$<span style="color: #7590db;">connection</span>-&gt;query<span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">'COMMIT'</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>;
 
-// Secuenciando las operaciones anteriores
-$transaction = $beginTransaction
-    -&gt;concat($debitAccount)
-    -&gt;concat($creditAccount)
-    -&gt;concat($commitTransaction)
-    -&gt;share();
+<span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Secuenciando las operaciones anteriores</span>
+$<span style="color: #7590db;">transaction</span> = $<span style="color: #7590db;">beginTransaction</span>
+    -&gt;concat<span style="color: #4f97d7;">(</span>$<span style="color: #7590db;">debitAccount</span><span style="color: #4f97d7;">)</span>
+    -&gt;concat<span style="color: #4f97d7;">(</span>$<span style="color: #7590db;">creditAccount</span><span style="color: #4f97d7;">)</span>
+    -&gt;concat<span style="color: #4f97d7;">(</span>$<span style="color: #7590db;">commitTransaction</span><span style="color: #4f97d7;">)</span>
+    -&gt;share<span style="color: #4f97d7;">()</span>;
 
-// Lidiando con los éxitos
-$transaction
-    -&gt;subscribe(
-        function() { echo "Operación exitosa \n"; },
-        // En caso de error, hacer un rollback
-        function(\Exception $e) use ($connection) {
-            echo "Hubo un error, haciendo rollback \n";
-            $connection-&gt;query('ROLLBACK');
-            throw $e;
-        },
-        function() { echo "La transacción ha sido completada \n"; }
-    );
+<span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">Lidiando con los &#233;xitos</span>
+$<span style="color: #7590db;">transaction</span>
+    -&gt;subscribe<span style="color: #4f97d7;">(</span>
+        <span style="color: #4f97d7; font-weight: bold;">function</span><span style="color: #bc6ec5;">()</span> <span style="color: #bc6ec5;">{</span> <span style="color: #4f97d7; font-weight: bold;">echo</span> <span style="color: #2d9574;">"Operaci&#243;n exitosa \n"</span>; <span style="color: #bc6ec5;">}</span>,
+        <span style="color: #2aa1ae; background-color: #292e34;">// </span><span style="color: #2aa1ae; background-color: #292e34;">En caso de error, hacer un rollback</span>
+        <span style="color: #4f97d7; font-weight: bold;">function</span><span style="color: #bc6ec5;">(</span><span style="color: #ce537a; font-weight: bold;">\Exception</span> $<span style="color: #7590db;">e</span><span style="color: #bc6ec5;">)</span> <span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">connection</span><span style="color: #bc6ec5;">)</span> <span style="color: #bc6ec5;">{</span>
+            <span style="color: #4f97d7; font-weight: bold;">echo</span> <span style="color: #2d9574;">"Hubo un error, haciendo rollback \n"</span>;
+            $<span style="color: #7590db;">connection</span>-&gt;query<span style="color: #2d9574;">(</span><span style="color: #2d9574;">'ROLLBACK'</span><span style="color: #2d9574;">)</span>;
+            <span style="color: #4f97d7; font-weight: bold;">throw</span> $<span style="color: #7590db;">e</span>;
+        <span style="color: #bc6ec5;">}</span>,
+        <span style="color: #4f97d7; font-weight: bold;">function</span><span style="color: #bc6ec5;">()</span> <span style="color: #bc6ec5;">{</span> <span style="color: #4f97d7; font-weight: bold;">echo</span> <span style="color: #2d9574;">"La transacci&#243;n ha sido completada \n"</span>; <span style="color: #bc6ec5;">}</span>
+    <span style="color: #4f97d7;">)</span>;
 </pre>
 </div>
 </div>
@@ -825,15 +825,15 @@ loop predeterminado de <code>react/event-loop</code>.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-php">require_once 'vendor/autoload.php';
+<pre class="src src-php"><span style="color: #4f97d7; font-weight: bold;">require_once</span> <span style="color: #2d9574;">'vendor/autoload.php'</span>;
 
-$loop = React\EventLoop\Loop::get();
+$<span style="color: #7590db;">loop</span> = <span style="color: #a45bad;">React\EventLoop\Loop</span>::get<span style="color: #4f97d7;">()</span>;
 
-$scheduler = new Rx\Scheduler\EventLoopScheduler($loop);
+$<span style="color: #7590db;">scheduler</span> = <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">Rx\Scheduler\EventLoopScheduler</span><span style="color: #4f97d7;">(</span>$<span style="color: #7590db;">loop</span><span style="color: #4f97d7;">)</span>;
 
-Rx\Scheduler::setDefaultFactory(function() use ($scheduler) {
-return $scheduler;
-});
+<span style="color: #a45bad;">Rx\Scheduler</span>::setDefaultFactory<span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">function</span><span style="color: #bc6ec5;">()</span> <span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">scheduler</span><span style="color: #bc6ec5;">)</span> <span style="color: #bc6ec5;">{</span>
+<span style="color: #4f97d7; font-weight: bold;">return</span> $<span style="color: #7590db;">scheduler</span>;
+<span style="color: #bc6ec5;">}</span><span style="color: #4f97d7;">)</span>;
 </pre>
 </div>
 
@@ -845,15 +845,15 @@ Por supuesto es totalmente opcional :)
 <h4 id="un-ejemplo-observablefilepostrepository"><span class="section-number-4">5.3.1.</span> Un ejemplo ObservableFilePostRepository</h4>
 <div class="outline-text-4" id="text-un-ejemplo-observablefilepostrepository">
 <div class="org-src-container">
-<pre class="src src-php">public function observableOfFile(): Observable
-{
-$loop = React\EventLoop\Loop::get();
-$filesystem = React\Filesystem\Filesystem::create($loop);
-$postFilePath = dirname(__DIR__).'/Post/posts.json';
-$file = $filesystem-&gt;file($postFilePath);
-$contents = $file-&gt;getContents();
-return Rx\Observable::fromPromise($contents);
-}
+<pre class="src src-php"><span style="color: #4f97d7; font-weight: bold;">public</span> <span style="color: #4f97d7; font-weight: bold;">function</span> <span style="color: #bc6ec5; font-weight: bold;">observableOfFile</span><span style="color: #4f97d7;">()</span>: <span style="color: #ce537a; font-weight: bold;">Observable</span>
+<span style="color: #4f97d7;">{</span>
+$<span style="color: #7590db;">loop</span> = <span style="color: #a45bad;">React\EventLoop\Loop</span>::get<span style="color: #bc6ec5;">()</span>;
+$<span style="color: #7590db;">filesystem</span> = <span style="color: #a45bad;">React\Filesystem\Filesystem</span>::create<span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">loop</span><span style="color: #bc6ec5;">)</span>;
+$<span style="color: #7590db;">postFilePath</span> = dirname<span style="color: #bc6ec5;">(</span><span style="color: #4f97d7;">__DIR__</span><span style="color: #bc6ec5;">)</span>.<span style="color: #2d9574;">'/Post/posts.json'</span>;
+$<span style="color: #7590db;">file</span> = $<span style="color: #7590db;">filesystem</span>-&gt;file<span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">postFilePath</span><span style="color: #bc6ec5;">)</span>;
+$<span style="color: #7590db;">contents</span> = $<span style="color: #7590db;">file</span>-&gt;getContents<span style="color: #bc6ec5;">()</span>;
+<span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #a45bad;">Rx\Observable</span>::fromPromise<span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">contents</span><span style="color: #bc6ec5;">)</span>;
+<span style="color: #4f97d7;">}</span>
 </pre>
 </div>
 
@@ -867,7 +867,7 @@ Luego, podemos mapear el contenido del archivo JSON a un array de posts:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-php">-&gt;map(fn($file) =&gt; json_decode($file, true, 512, JSON_THROW_ON_ERROR))
+<pre class="src src-php">-&gt;map<span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">fn</span><span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">file</span><span style="color: #bc6ec5;">)</span> =&gt; json_decode<span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">file</span>, <span style="color: #a45bad;">true</span>, <span style="color: #a45bad;">512</span>, <span style="color: #a45bad;">JSON_THROW_ON_ERROR</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
 </pre>
 </div>
 
@@ -883,8 +883,8 @@ una entidad Post:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-php">-&gt;flatMap(fn($posts) =&gt; Rx\Observable::fromArray($posts))
--&gt;map(fn($post) =&gt; self::hydrate($post))
+<pre class="src src-php">-&gt;flatMap<span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">fn</span><span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">posts</span><span style="color: #bc6ec5;">)</span> =&gt; <span style="color: #a45bad;">Rx\Observable</span>::fromArray<span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">posts</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+-&gt;map<span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">fn</span><span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">post</span><span style="color: #bc6ec5;">)</span> =&gt; <span style="color: #4f97d7; font-weight: bold;">self</span>::hydrate<span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">post</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
 </pre>
 </div>
 
@@ -894,8 +894,8 @@ para su uso con ReactPHP:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-php">-&gt;toArray()
--&gt;toPromise();
+<pre class="src src-php">-&gt;toArray<span style="color: #4f97d7;">()</span>
+-&gt;toPromise<span style="color: #4f97d7;">()</span>;
 </pre>
 </div>
 
@@ -909,15 +909,15 @@ Código completo del método <code>findAll</code>:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-php">public function findAll(): PromiseInterface
-{
-return $this-&gt;observableOfFile()
--&gt;map(fn($file) =&gt; json_decode($file, true, 512, JSON_THROW_ON_ERROR))
--&gt;flatMap(fn($posts) =&gt; Observable::fromArray($posts))
--&gt;map(fn($post) =&gt; self::hydrate($post))
--&gt;toArray()
--&gt;toPromise();
-}
+<pre class="src src-php"><span style="color: #4f97d7; font-weight: bold;">public</span> <span style="color: #4f97d7; font-weight: bold;">function</span> <span style="color: #bc6ec5; font-weight: bold;">findAll</span><span style="color: #4f97d7;">()</span>: <span style="color: #ce537a; font-weight: bold;">PromiseInterface</span>
+<span style="color: #4f97d7;">{</span>
+<span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #a45bad;">$</span><span style="color: #a45bad;">this</span>-&gt;observableOfFile<span style="color: #bc6ec5;">()</span>
+-&gt;map<span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">fn</span><span style="color: #2d9574;">(</span>$<span style="color: #7590db;">file</span><span style="color: #2d9574;">)</span> =&gt; json_decode<span style="color: #2d9574;">(</span>$<span style="color: #7590db;">file</span>, <span style="color: #a45bad;">true</span>, <span style="color: #a45bad;">512</span>, <span style="color: #a45bad;">JSON_THROW_ON_ERROR</span><span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span>
+-&gt;flatMap<span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">fn</span><span style="color: #2d9574;">(</span>$<span style="color: #7590db;">posts</span><span style="color: #2d9574;">)</span> =&gt; <span style="color: #a45bad;">Observable</span>::fromArray<span style="color: #2d9574;">(</span>$<span style="color: #7590db;">posts</span><span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span>
+-&gt;map<span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">fn</span><span style="color: #2d9574;">(</span>$<span style="color: #7590db;">post</span><span style="color: #2d9574;">)</span> =&gt; <span style="color: #4f97d7; font-weight: bold;">self</span>::hydrate<span style="color: #2d9574;">(</span>$<span style="color: #7590db;">post</span><span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span>
+-&gt;toArray<span style="color: #bc6ec5;">()</span>
+-&gt;toPromise<span style="color: #bc6ec5;">()</span>;
+<span style="color: #4f97d7;">}</span>
 </pre>
 </div>
 
@@ -941,7 +941,7 @@ bloqueante.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-php">public function __invoke(ServerRequestInterface $request): PromiseInterface //of a ResponseInterface
+<pre class="src src-php"><span style="color: #4f97d7; font-weight: bold;">public</span> <span style="color: #4f97d7; font-weight: bold;">function</span> <span style="color: #bc6ec5; font-weight: bold;">__invoke</span><span style="color: #4f97d7;">(</span>ServerRequestInterface $<span style="color: #7590db;">request</span><span style="color: #4f97d7;">)</span>: <span style="color: #ce537a; font-weight: bold;">PromiseInterface</span> <span style="color: #2aa1ae; background-color: #292e34;">//</span><span style="color: #2aa1ae; background-color: #292e34;">of a ResponseInterface</span>
 </pre>
 </div>
 
@@ -959,7 +959,7 @@ Ahora, nos enfocamos en la línea 81, que es de vital importancia.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-php">$response = $container-&gt;get($httpRequestHandlerName)($request, $params);
+<pre class="src src-php">$<span style="color: #7590db;">response</span> = $<span style="color: #7590db;">container</span>-&gt;get<span style="color: #4f97d7;">(</span>$<span style="color: #7590db;">httpRequestHandlerName</span><span style="color: #4f97d7;">)(</span>$<span style="color: #7590db;">request</span>, $<span style="color: #7590db;">params</span><span style="color: #4f97d7;">)</span>;
 </pre>
 </div>
 
@@ -979,9 +979,9 @@ asincrónicamente.
 </p>
 
 <div class="org-src-container">
-<pre class="src src-php">$deferred-&gt;resolve(
-$response instanceof PromiseInterface ? $response : self::wrapWithPromise($response)
-);
+<pre class="src src-php">$<span style="color: #7590db;">deferred</span>-&gt;resolve<span style="color: #4f97d7;">(</span>
+$<span style="color: #7590db;">response</span> <span style="color: #4f97d7; font-weight: bold;">instanceof</span> <span style="color: #ce537a; font-weight: bold;">PromiseInterface</span> ? $<span style="color: #7590db;">response</span> : <span style="color: #4f97d7; font-weight: bold;">self</span>::wrapWithPromise<span style="color: #bc6ec5;">(</span>$<span style="color: #7590db;">response</span><span style="color: #bc6ec5;">)</span>
+<span style="color: #4f97d7;">)</span>;
 </pre>
 </div>
 
@@ -1049,8 +1049,8 @@ soluciones robustas y duraderas.
 </div>
 </div>
 <div id="postamble" class="status">
-<p class="author">Author: passh</p>
-<p class="date">Created: 2024-02-15 Thu 19:19</p>
+<p class="author">Author: Pascual M.G.</p>
+<p class="date">Created: 2024-02-16 vie 00:42</p>
 </div>
 </body>
 </html>
