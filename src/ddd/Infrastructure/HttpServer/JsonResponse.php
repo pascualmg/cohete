@@ -8,6 +8,15 @@ use Psr\Http\Message\ResponseInterface;
 use React\Http\Message\Response;
 use Throwable;
 
+/**
+ * Cuidado con esta clase , que esta muy bien cuando es
+ * para cosas sencillas , pero no hace uso de poder
+ * pasarle en el body en vez de una String , un StreamReadableResourceInterface
+ * que es donde se puede sacar partido a la capacidad de reactphp
+ *
+ * no se va a modificar para incluir funcionalidad al respecto , si
+ * se necesita lo ideal  es usar la response de React
+ */
 class JsonResponse implements StatusCodeInterface
 {
     private function __construct()
