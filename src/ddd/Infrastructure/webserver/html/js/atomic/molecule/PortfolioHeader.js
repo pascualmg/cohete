@@ -55,7 +55,7 @@ class PortfolioHeader extends HTMLElement {
             <img src="https://raw.githubusercontent.com/pascualmg/cdn/main/me.png" alt="Profile picture">
         </div>
         <h1 class="header-title centeredText">PascualMG</h1>
-        <h2 class="header-title-2 centeredText">PHP backend Software engineer</h2>
+        <h2 class="header-title-2 centeredText">PHP Developer</h2>
         <h3 class="header-title-3 centeredText" >and GW-BASIC junior</h3>
     </div>
     <div class="header-social-media">
