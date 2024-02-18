@@ -6,7 +6,6 @@ use Ramsey\Uuid\Uuid as RamseyUuid;
 
 class Uuid implements \Stringable
 {
-
     private function __construct(
         public readonly string $value
     ) {
