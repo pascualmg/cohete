@@ -39,8 +39,7 @@ class Kernel
         )->then(
             onFulfilled: function (ResponseInterface $response): ResponseInterface {
                 return $response;
-            }
-        )->otherwise( //como se ha tenido que bajar la version de la promise de react para poder meter
+            },
             onRejected: function (Throwable $exception): ResponseInterface {
                 return JsonResponse::withError($exception);
             }
