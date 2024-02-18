@@ -3,12 +3,13 @@
 namespace pascualmg\reactor\ddd\Domain\Entity;
 
 use DateTimeInterface;
+use pascualmg\reactor\ddd\Domain\ValueObject\Uuid;
 
 class Post implements \JsonSerializable
 {
     //properties from schema.org
     public function __construct(
-        public int $id,
+        public Uuid $id,
         public readonly string $headline,
         public readonly string $articleBody,
         public readonly string $image,
@@ -20,7 +21,7 @@ class Post implements \JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-            'id' => $this->id,
+            'id' => (string)$this->id,
             'headline' => $this->headline,
             'articleBody' => $this->articleBody,
             'image' => $this->image,
