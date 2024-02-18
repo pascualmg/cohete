@@ -22,6 +22,7 @@ class PostSeeder extends AbstractSeed
 
         for($i = 0; $i < 10000; $i++) {
             $postFakeData[] = [
+                'id' => $faker->uuid(),
                 'headline' => $faker->sentence(),
                 'articleBody' => $faker->paragraph(),
                 'author' => $faker->name(),
