@@ -45,7 +45,10 @@ class JsonResponse implements StatusCodeInterface
 
     public static function withError(Throwable $e): ResponseInterface
     {
-        return self::create($e->getCode(), ExceptionTo::array($e));
+        return self::create(
+            self::STATUS_IM_A_TEAPOT,
+            ExceptionTo::array($e)
+        );
     }
 
 
