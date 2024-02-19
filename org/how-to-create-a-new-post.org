@@ -1,0 +1,138 @@
+#+TITLE: How to create a post    .
+
+* Define your router file in your .env
+
+#+begin_src php
+ROUTES_PATH=/Users/passh/src/php/reactor/src/ddd/Infrastructure/HttpServer/Router/routes.json
+
+#+end_src
+
+* Arrancamos el cohete.
+- Entramos en el directorio del proyecto y ejecutamos
+  #+begin_src bash
+  nix develop
+  #+end_src
+
+  #+begin_quote
+  Hay que tener en cuenta que nix debe estar instalado en el sistema , y las experimental features nix-command y flakes deben estar activas .
+  #+end_quote
+
+  Una vez dentro  de esta consola dispondremos de la version de php indicada con xdebug , ya que por defecto se arranca con estos módulos en la shell de desarrollo.
+
+* Create a new entry for the new =Controller/HttpRequestHandler=
+
+#+begin_src php
+[
+  {
+    "method": "POST",
+    "path": "/post",
+    "handler": "\\pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\CreatePostController"
+  }
+]
+#+end_src php
+
+* Create the =Controller=
+
+
+Este seria el skel del que partir, no hace nada mas que responder con un 200 que no es poco 😅
+
+#+begin_src php
+<?php
+
+namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
+
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use React\Http\Message\Response;
+use React\Promise\PromiseInterface;
+
+class CreatePostController implements HttpRequestHandler
+{
+
+    public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface|PromiseInterface //of a response Interface
+    {
+        return new Response();
+    }
+}
+
+#+end_src
+
+** Una "larga y necesaria aclaración" antes de seguir.
+Antes de comenzar el refactor del skel del controlador , me gustaría decir algo al respecto desde el punto de vista de este MicroFramework.
+Esa firma es de las pocas cosas que hay "opinionadas" , pero es que precisamente  esto es lo que esta proporcionando este cohete . Esa parte
+está hecha y funciona , el kernel. el cual necesita un capitulo completo para el , pero corto.
+
+Todos los Condroladores , deben implementar =HttpRequestHandler= , no ha de verse como una restricción en absoluto, ya que reactPHP no impone aquí ninguna restricción se podria usar una lamda cualquiera, este tipado lo brinda el microFramework 🚀 , En este caso ese tipado es algo que nos brinda una clara visión de lo que puede o no hacer, y debe o no hacer , nuestro controlador.
+
+En esa firma es donde se define, ahora en php8 posibles valores de retorno, esto que podría a priori parecer un smellcode si estamos con el chip funcional en mente,  por que así a simple vista logicamente no es una función pura, pero si lo pensamos bien , sería la manera sintáctica de tener un tipo polimórfico.
+
+#+begin_quote
+El comentario al final , indica que hay un lack en el lenguaje de php para representar ese concepto, esto también nos va a pasar en sitios como los respositorios, donde , yo puedo devolver una promise , que se resolverá en un array de post , y como programador lo debo de saber y respetar .
+
+Lo importante es tenerlo claro , que si vas a devolver una promise, aka *deferred* o "en diferido ..." su _resolve_ *TIENE  QUE* devolver una =ResponseInterface= , este , es un punto clave a entender
+ya que es como nuestro kernel espera que sea .
+#+end_quote
+
+* Vamos a por ese Content
+
+Ahora que ya tenemos el controller devolviendo un 200 , es la hora de ver como obtenemos el payload que nos viene en la request , en este caso va a ser como un JSON , que contendrá los parámetros necesarios para crear nuestra entidad ( y registro en la DDBB )
+
+#+begin_src php
+<?php
+
+namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
+
+use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use React\Http\Message\Response;
+use React\Promise\PromiseInterface;
+
+class CreatePostController implements HttpRequestHandler
+{
+
+    public function __construct(
+   //     private readonly PostCreator $postCreator
+    )
+    {
+    }
+
+    public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface|PromiseInterface
+    {
+        $body = $request->getBody()->getContents();
+        try {
+            $payload = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            return JsonResponse::withError($e);
+        }
+
+        return new Response(
+            200,
+            ["Content-Type" => "application/json"],
+            json_encode($payload)
+        );
+    }
+}
+
+#+end_src
+
+ En la linea 96 ya tenemos la manera de obtener fácilmente el json que nos viene de la request , una vez la obtenemos por el momento simplemente la devolvemos tal cual nos llegue.
+
+#+begin_src bash :results output
+curl -X POST --location "http://localhost:8000/post" \
+    -H "Content-Type: application/json" \
+    -d '{
+          "foo": "bar"
+        }'
+
+#+end_src
+
+ #+RESULTS:
+ : {"foo":"bar"}
+
+ Como se puede observar está funcionando tal como se espera , esto de evaluar código en el .org es _magic_
+ Ahora vamos a por el siguiente paso, hacer funcionar la linea 95 , podríamos no complicarnos mucho y usar el repo, pero eso no sería nada ortodoxo y aunque tenga una mayor complejidad , seguiremos las buenas prácticas de DDD.
+
+
+
+* me gustaría un servicio de dominio
