@@ -1,0 +1,173 @@
+:root {
+    --act1: #222226;
+    --act2: #5d4d7a;
+    --base: #b2b2b2;
+    --base-dim: #686868;
+    --bg1: #292b2e;
+    --bg2: #212026;
+    --bg3: #100a14;
+    --bg4: #0a0814;
+    --bg-alt: #42444a;
+    --border: #5d4d7a;
+    --cblk: #cbc1d5;
+    --cblk-bg: #2f2b33;
+    --cblk-ln: #827591;
+    --cblk-ln-bg: #373040;
+    --cursor: #e3dedd;
+    --const: #a45bad;
+    --comment: #2aa1ae;
+    --comment-light: #2aa1ae;
+    --comment-bg: #292e34;
+    --comp: #c56ec3;
+    --err: #e0211d;
+    --func: #bc6ec5;
+    --head1: #4f97d7;
+    --head1-bg: #293239;
+    --head2: #2d9574;
+    --head2-bg: #293235;
+    --head3: #67b11d;
+    --head3-bg: #293235;
+    --head4: #b1951d;
+    --head4-bg: #32322c;
+    --highlight: #444155;
+    --highlight-dim: #3b314d;
+    --keyword: #4f97d7;
+    --lnum: #44505c;
+    --mat: #86dc2f;
+    --meta: #9f8766;
+    --str: #2d9574;
+    --suc: #86dc2f;
+    --ttip: #9a9aba;
+    --ttip-sl: #5e5079;
+    --ttip-bg: #34323e;
+    --type: #ce537a;
+    --var: #7590db;
+    --war: #dc752f;
+    --aqua: #2d9574;
+    --aqua-bg: #293235;
+    --green: #67b11d;
+    --green-bg: #293235;
+    --green-bg-s: #29422d;
+    --cyan: #28def0;
+    --red: #f2241f;
+    --red-bg: #3c2a2c;
+    --red-bg-s: #512e31;
+    --blue: #4f97d7;
+    --blue-bg: #293239;
+    --blue-bg-s: #2d4252;
+    --magenta: #a31db1;
+    --yellow: #b1951d;
+    --yellow-bg: #32322c;
+}
+
+/* Estilo para el texto del código embebido */
+pre {
+    background-color: var(--bg3); /* Cambia aquí si prefieres otro color de fondo */
+    color: var(--cblk);
+}
+
+/* Tema de Emacs dark */
+/* Estilos generales */
+body {
+    background-color: var(--bg1);
+    color: var(--base);
+    font-family: Arial, sans-serif;
+}
+a {
+    color: var(--blue);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+/* Encabezados */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--head1);
+    font-weight: bold;
+    margin-top: 20px;
+}
+h1 {
+    background-color: var(--head1-bg);
+    padding: 10px;
+    border-radius: 5px;
+}
+h2 {
+    color: var(--head2);
+    background-color: var(--head2-bg);
+    padding: 8px;
+    border-radius: 4px;
+}
+h3 {
+    color: var(--head3);
+    background-color: var(--head3-bg);
+    padding: 6px;
+    border-radius: 3px;
+}
+h4 {
+    color: var(--head4);
+    background-color: var(--head4-bg);
+    padding: 4px;
+    border-radius: 2px;
+}
+/* Botones */
+.button {
+    background-color: var(--bg3);
+    color: var(--base);
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.button:hover {
+    background-color: var(--bg4);
+}
+/* Contenedores */
+.container {
+    background-color: var(--bg2);
+    color: var(--base);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+/* Clases de texto */
+.text-primary {
+    color: var(--blue);
+}
+.text-secondary {
+    color: var(--green);
+}
+/* Listas */
+ul, ol {
+    margin: 0;
+    padding: 0;
+}
+li {
+    margin-bottom: 5px;
+}
+/* Tablas */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+th, td {
+    padding: 8px;
+    border: 1px solid var(--border);
+}
+/* Citas */
+blockquote {
+    border-left: 4px solid var(--green);
+    margin-left: 0;
+    padding-left: 10px;
+    color: var(--comment);
+}
+/* Otros elementos específicos */
+/* Por ejemplo, si tienes una clase ".card" */
+.card {
+    background-color: var(--bg2);
+    color: var(--base);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+}
