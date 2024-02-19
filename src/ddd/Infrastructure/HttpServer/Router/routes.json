@@ -28,5 +28,10 @@
     "method": "GET",
     "path": "/post/{id:[0-9]+}",
     "handler": "\\pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\FindPostByIdController"
+  },
+  {
+    "method": "POST",
+    "path": "/post",
+    "handler": "\\pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\CreatePostController"
   }
 ]

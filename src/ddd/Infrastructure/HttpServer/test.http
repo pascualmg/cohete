@@ -8,3 +8,37 @@ Content-Type: application/json
 
 ###
 
+# curl -X POST --location "http://localhost:8000/post"
+#    -H "Content-Type: application/json"
+#    -d '{
+#          "foo": "bar"
+#
+#        }'
+
+
+###
+
+# curl -X POST http://localhost:8000/post
+#-H "Content-Type: application/json"
+#-d '{
+#  "id": "generated-uuid",
+#  "headline": "Sample Headline",
+#  "articleBody": "Sample Article Body",
+#  "image": "image/path/here",
+#  "author": "Author Name",
+#  "datePublished": "2023-04-13 18:31:30"
+#}'
+POST http://localhost:8000/post
+Content-Type: application/json
+
+{
+  "id": "0000ce1a-b329-3459-b82f-9efb54a69ef5",
+  "headline": "Sample Headline",
+  "articleBody": "Sample Article Body",
+  "image": "image url",
+  "author": "Author Name",
+  "datePublished": "2023-04-13 18:31:30"
+}
+
+###
+
