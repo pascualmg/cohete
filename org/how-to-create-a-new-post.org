@@ -1,3 +1,182 @@
+#+HTML_HEAD: <style>
+#+HTML_HEAD: :root {
+#+HTML_HEAD:   --act1: #222226;
+#+HTML_HEAD:   --act2: #5d4d7a;
+#+HTML_HEAD:   --base: #b2b2b2;
+#+HTML_HEAD:   --base-dim: #686868;
+#+HTML_HEAD:   --bg1: #292b2e;
+#+HTML_HEAD:   --bg2: #212026;
+#+HTML_HEAD:   --bg3: #100a14;
+#+HTML_HEAD:   --bg4: #0a0814;
+#+HTML_HEAD:   --bg-alt: #42444a;
+#+HTML_HEAD:   --border: #5d4d7a;
+#+HTML_HEAD:   --cblk: #cbc1d5;
+#+HTML_HEAD:   --cblk-bg: #2f2b33;
+#+HTML_HEAD:   --cblk-ln: #827591;
+#+HTML_HEAD:   --cblk-ln-bg: #373040;
+#+HTML_HEAD:   --cursor: #e3dedd;
+#+HTML_HEAD:   --const: #a45bad;
+#+HTML_HEAD:   --comment: #2aa1ae;
+#+HTML_HEAD:   --comment-light: #2aa1ae;
+#+HTML_HEAD:   --comment-bg: #292e34;
+#+HTML_HEAD:   --comp: #c56ec3;
+#+HTML_HEAD:   --err: #e0211d;
+#+HTML_HEAD:   --func: #bc6ec5;
+#+HTML_HEAD:   --head1: #4f97d7;
+#+HTML_HEAD:   --head1-bg: #293239;
+#+HTML_HEAD:   --head2: #2d9574;
+#+HTML_HEAD:   --head2-bg: #293235;
+#+HTML_HEAD:   --head3: #67b11d;
+#+HTML_HEAD:   --head3-bg: #293235;
+#+HTML_HEAD:   --head4: #b1951d;
+#+HTML_HEAD:   --head4-bg: #32322c;
+#+HTML_HEAD:   --highlight: #444155;
+#+HTML_HEAD:   --highlight-dim: #3b314d;
+#+HTML_HEAD:   --keyword: #4f97d7;
+#+HTML_HEAD:   --lnum: #44505c;
+#+HTML_HEAD:   --mat: #86dc2f;
+#+HTML_HEAD:   --meta: #9f8766;
+#+HTML_HEAD:   --str: #2d9574;
+#+HTML_HEAD:   --suc: #86dc2f;
+#+HTML_HEAD:   --ttip: #9a9aba;
+#+HTML_HEAD:   --ttip-sl: #5e5079;
+#+HTML_HEAD:   --ttip-bg: #34323e;
+#+HTML_HEAD:   --type: #ce537a;
+#+HTML_HEAD:   --var: #7590db;
+#+HTML_HEAD:   --war: #dc752f;
+#+HTML_HEAD:   --aqua: #2d9574;
+#+HTML_HEAD:   --aqua-bg: #293235;
+#+HTML_HEAD:   --green: #67b11d;
+#+HTML_HEAD:   --green-bg: #293235;
+#+HTML_HEAD:   --green-bg-s: #29422d;
+#+HTML_HEAD:   --cyan: #28def0;
+#+HTML_HEAD:   --red: #f2241f;
+#+HTML_HEAD:   --red-bg: #3c2a2c;
+#+HTML_HEAD:   --red-bg-s: #512e31;
+#+HTML_HEAD:   --blue: #4f97d7;
+#+HTML_HEAD:   --blue-bg: #293239;
+#+HTML_HEAD:   --blue-bg-s: #2d4252;
+#+HTML_HEAD:   --magenta: #a31db1;
+#+HTML_HEAD:   --yellow: #b1951d;
+#+HTML_HEAD:   --yellow-bg: #32322c;
+#+HTML_HEAD: }
+#+HTML_HEAD: </style>
+#+HTML_HEAD: <style>
+#+HTML_HEAD: /* Estilo para el texto del código embebido */
+#+HTML_HEAD: pre {
+#+HTML_HEAD:   background-color: var(--bg3); /* Cambia aquí si prefieres otro color de fondo */
+#+HTML_HEAD:   color: var(--cblk);
+#+HTML_HEAD: }
+#+HTML_HEAD: </style>
+#+HTML_HEAD: <style>
+#+HTML_HEAD: /* Tema de Emacs dark */
+#+HTML_HEAD: /* Estilos generales */
+#+HTML_HEAD: body {
+#+HTML_HEAD:   background-color: var(--bg1);
+#+HTML_HEAD:   color: var(--base);
+#+HTML_HEAD:   font-family: Arial, sans-serif;
+#+HTML_HEAD: }
+#+HTML_HEAD: a {
+#+HTML_HEAD:   color: var(--blue);
+#+HTML_HEAD:   text-decoration: none;
+#+HTML_HEAD: }
+#+HTML_HEAD: a:hover {
+#+HTML_HEAD:   text-decoration: underline;
+#+HTML_HEAD: }
+#+HTML_HEAD: /* Encabezados */
+#+HTML_HEAD: h1, h2, h3, h4, h5, h6 {
+#+HTML_HEAD:   color: var(--head1);
+#+HTML_HEAD:   font-weight: bold;
+#+HTML_HEAD:   margin-top: 20px;
+#+HTML_HEAD: }
+#+HTML_HEAD: h1 {
+#+HTML_HEAD:   background-color: var(--head1-bg);
+#+HTML_HEAD:   padding: 10px;
+#+HTML_HEAD:   border-radius: 5px;
+#+HTML_HEAD: }
+#+HTML_HEAD: h2 {
+#+HTML_HEAD:   color: var(--head2);
+#+HTML_HEAD:   background-color: var(--head2-bg);
+#+HTML_HEAD:   padding: 8px;
+#+HTML_HEAD:   border-radius: 4px;
+#+HTML_HEAD: }
+#+HTML_HEAD: h3 {
+#+HTML_HEAD:   color: var(--head3);
+#+HTML_HEAD:   background-color: var(--head3-bg);
+#+HTML_HEAD:   padding: 6px;
+#+HTML_HEAD:   border-radius: 3px;
+#+HTML_HEAD: }
+#+HTML_HEAD: h4 {
+#+HTML_HEAD:   color: var(--head4);
+#+HTML_HEAD:   background-color: var(--head4-bg);
+#+HTML_HEAD:   padding: 4px;
+#+HTML_HEAD:   border-radius: 2px;
+#+HTML_HEAD: }
+#+HTML_HEAD: /* Botones */
+#+HTML_HEAD: .button {
+#+HTML_HEAD:   background-color: var(--bg3);
+#+HTML_HEAD:   color: var(--base);
+#+HTML_HEAD:   padding: 8px 16px;
+#+HTML_HEAD:   border: none;
+#+HTML_HEAD:   border-radius: 4px;
+#+HTML_HEAD:   cursor: pointer;
+#+HTML_HEAD: }
+#+HTML_HEAD: .button:hover {
+#+HTML_HEAD:   background-color: var(--bg4);
+#+HTML_HEAD: }
+#+HTML_HEAD: /* Contenedores */
+#+HTML_HEAD: .container {
+#+HTML_HEAD:   background-color: var(--bg2);
+#+HTML_HEAD:   color: var(--base);
+#+HTML_HEAD:   padding: 20px;
+#+HTML_HEAD:   border-radius: 8px;
+#+HTML_HEAD:   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+#+HTML_HEAD: }
+#+HTML_HEAD: /* Clases de texto */
+#+HTML_HEAD: .text-primary {
+#+HTML_HEAD:   color: var(--blue);
+#+HTML_HEAD: }
+#+HTML_HEAD: .text-secondary {
+#+HTML_HEAD:   color: var(--green);
+#+HTML_HEAD: }
+#+HTML_HEAD: /* Listas */
+#+HTML_HEAD: ul, ol {
+#+HTML_HEAD:   margin: 0;
+#+HTML_HEAD:   padding: 0;
+#+HTML_HEAD: }
+#+HTML_HEAD: li {
+#+HTML_HEAD:   margin-bottom: 5px;
+#+HTML_HEAD: }
+#+HTML_HEAD: /* Tablas */
+#+HTML_HEAD: table {
+#+HTML_HEAD:   width: 100%;
+#+HTML_HEAD:   border-collapse: collapse;
+#+HTML_HEAD:   margin-bottom: 20px;
+#+HTML_HEAD: }
+#+HTML_HEAD: th, td {
+#+HTML_HEAD:   padding: 8px;
+#+HTML_HEAD:   border: 1px solid var(--border);
+#+HTML_HEAD: }
+#+HTML_HEAD: /* Citas */
+#+HTML_HEAD: blockquote {
+#+HTML_HEAD:   border-left: 4px solid var(--green);
+#+HTML_HEAD:   margin-left: 0;
+#+HTML_HEAD:   padding-left: 10px;
+#+HTML_HEAD:   color: var(--comment);
+#+HTML_HEAD: }
+#+HTML_HEAD: /* Otros elementos específicos */
+#+HTML_HEAD: /* Por ejemplo, si tienes una clase ".card" */
+#+HTML_HEAD: .card {
+#+HTML_HEAD:   background-color: var(--bg2);
+#+HTML_HEAD:   color: var(--base);
+#+HTML_HEAD:   border: 1px solid var(--border);
+#+HTML_HEAD:   border-radius: 4px;
+#+HTML_HEAD:   padding: 15px;
+#+HTML_HEAD:   margin-bottom: 20px;
+#+HTML_HEAD: }
+#+HTML_HEAD: </style>
+
+
 #+TITLE: How to create a post    .
 
 * Define your router file in your .env
