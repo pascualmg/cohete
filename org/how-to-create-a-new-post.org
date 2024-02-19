@@ -58,9 +58,6 @@ class CreatePostController implements HttpRequestHandler
 #+end_src
 
 ** Una "larga y necesaria aclaración" antes de seguir.
-Antes de comenzar el refactor del skel del controlador , me gustaría decir algo al respecto desde el punto de vista de este MicroFramework.
-Esa firma es de las pocas cosas que hay "opinionadas" , pero es que precisamente  esto es lo que esta proporcionando este cohete . Esa parte
-está hecha y funciona , el kernel. el cual necesita un capitulo completo para el , pero corto.
 
 Todos los Condroladores , deben implementar =HttpRequestHandler= , no ha de verse como una restricción en absoluto, ya que reactPHP no impone aquí ninguna restricción se podria usar una lamda cualquiera, este tipado lo brinda el microFramework 🚀 , En este caso ese tipado es algo que nos brinda una clara visión de lo que puede o no hacer, y debe o no hacer , nuestro controlador.
 
@@ -130,9 +127,19 @@ curl -X POST --location "http://localhost:8000/post" \
  #+RESULTS:
  : {"foo":"bar"}
 
- Como se puede observar está funcionando tal como se espera , esto de evaluar código en el .org es _magic_
- Ahora vamos a por el siguiente paso, hacer funcionar la linea 95 , podríamos no complicarnos mucho y usar el repo, pero eso no sería nada ortodoxo y aunque tenga una mayor complejidad , seguiremos las buenas prácticas de DDD.
+ Está funcionando tal como se espera , esto de evaluar código en el .org es _magic_
 
 
+Lo más ortodoxo sería pues hacer un Command Handler que llame al repo etc, pero por "simplificar"
+el desarrollo inicialmente simplemente llamare al save del repo .
 
-* me gustaría un servicio de dominio
+1. Añadido el nuevo método a la interfaz de dominio.
+
+ 
+ #+begin_src
+
+
+ #+end_src
+
+* PostCreator domain service.
+Es momento de implmentar este servicio de dominio, que se encargará de crear usando el =PostRepository=
