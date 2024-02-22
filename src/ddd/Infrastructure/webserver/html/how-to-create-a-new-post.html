@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-02-19 lun 02:24 -->
+<!-- 2024-02-19 lun 02:45 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>How to create a post    .</title>
@@ -193,183 +193,7 @@
     { background-color: #ffff00; color: #000000; font-weight: bold; }
   .org-svg { }
 </style>
-<style>
-:root {
---act1: #222226;
---act2: #5d4d7a;
---base: #b2b2b2;
---base-dim: #686868;
---bg1: #292b2e;
---bg2: #212026;
---bg3: #100a14;
---bg4: #0a0814;
---bg-alt: #42444a;
---border: #5d4d7a;
---cblk: #cbc1d5;
---cblk-bg: #2f2b33;
---cblk-ln: #827591;
---cblk-ln-bg: #373040;
---cursor: #e3dedd;
---const: #a45bad;
---comment: #2aa1ae;
---comment-light: #2aa1ae;
---comment-bg: #292e34;
---comp: #c56ec3;
---err: #e0211d;
---func: #bc6ec5;
---head1: #4f97d7;
---head1-bg: #293239;
---head2: #2d9574;
---head2-bg: #293235;
---head3: #67b11d;
---head3-bg: #293235;
---head4: #b1951d;
---head4-bg: #32322c;
---highlight: #444155;
---highlight-dim: #3b314d;
---keyword: #4f97d7;
---lnum: #44505c;
---mat: #86dc2f;
---meta: #9f8766;
---str: #2d9574;
---suc: #86dc2f;
---ttip: #9a9aba;
---ttip-sl: #5e5079;
---ttip-bg: #34323e;
---type: #ce537a;
---var: #7590db;
---war: #dc752f;
---aqua: #2d9574;
---aqua-bg: #293235;
---green: #67b11d;
---green-bg: #293235;
---green-bg-s: #29422d;
---cyan: #28def0;
---red: #f2241f;
---red-bg: #3c2a2c;
---red-bg-s: #512e31;
---blue: #4f97d7;
---blue-bg: #293239;
---blue-bg-s: #2d4252;
---magenta: #a31db1;
---yellow: #b1951d;
---yellow-bg: #32322c;
-}
-</style>
-<style>
-/* Estilo para el texto del código embebido */
-pre {
-background-color: var(--bg3); /* Cambia aquí si prefieres otro color de fondo */
-color: var(--cblk);
-}
-</style>
-<style>
-/* Tema de Emacs dark */
-/* Estilos generales */
-body {
-background-color: var(--bg1);
-color: var(--base);
-font-family: Arial, sans-serif;
-}
-a {
-color: var(--blue);
-text-decoration: none;
-}
-a:hover {
-text-decoration: underline;
-}
-/* Encabezados */
-h1, h2, h3, h4, h5, h6 {
-color: var(--head1);
-font-weight: bold;
-margin-top: 20px;
-}
-h1 {
-background-color: var(--head1-bg);
-padding: 10px;
-border-radius: 5px;
-}
-h2 {
-color: var(--head2);
-background-color: var(--head2-bg);
-padding: 8px;
-border-radius: 4px;
-}
-h3 {
-color: var(--head3);
-background-color: var(--head3-bg);
-padding: 6px;
-border-radius: 3px;
-}
-h4 {
-color: var(--head4);
-background-color: var(--head4-bg);
-padding: 4px;
-border-radius: 2px;
-}
-/* Botones */
-.button {
-background-color: var(--bg3);
-color: var(--base);
-padding: 8px 16px;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-}
-.button:hover {
-background-color: var(--bg4);
-}
-/* Contenedores */
-.container {
-background-color: var(--bg2);
-color: var(--base);
-padding: 20px;
-border-radius: 8px;
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-/* Clases de texto */
-.text-primary {
-color: var(--blue);
-}
-.text-secondary {
-color: var(--green);
-}
-/* Listas */
-ul, ol {
-margin: 0;
-padding: 0;
-}
-li {
-margin-bottom: 5px;
-}
-/* Tablas */
-table {
-width: 100%;
-border-collapse: collapse;
-margin-bottom: 20px;
-}
-th, td {
-padding: 8px;
-border: 1px solid var(--border);
-}
-/* Citas */
-blockquote {
-border-left: 4px solid var(--green);
-margin-left: 0;
-padding-left: 10px;
-color: var(--comment);
-}
-/* Otros elementos específicos */
-/* Por ejemplo, si tienes una clase ".card" */
-.card {
-background-color: var(--bg2);
-color: var(--base);
-border: 1px solid var(--border);
-border-radius: 4px;
-padding: 15px;
-margin-bottom: 20px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="../../../../../org/spacemacs.css">
 <script>
   window.MathJax = {
     tex: {
@@ -410,21 +234,21 @@ margin-bottom: 20px;
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org7148cc7">1. Define your router file in your .env</a></li>
-<li><a href="#org0d7cbd5">2. Arrancamos el cohete.</a></li>
-<li><a href="#org4e35206">3. Create a new entry for the new <code>Controller/HttpRequestHandler</code></a></li>
-<li><a href="#orge87fbd4">4. Create the <code>Controller</code></a>
+<li><a href="#org43551a0">1. Define your router file in your .env</a></li>
+<li><a href="#org6f2362c">2. Arrancamos el cohete.</a></li>
+<li><a href="#orgc0cd170">3. Create a new entry for the new <code>Controller/HttpRequestHandler</code></a></li>
+<li><a href="#orgbe4eb44">4. Create the <code>Controller</code></a>
 <ul>
-<li><a href="#org318ee59">4.1. Una &ldquo;larga y necesaria aclaración&rdquo; antes de seguir.</a></li>
+<li><a href="#org97c04b7">4.1. Una &ldquo;larga y necesaria aclaración&rdquo; antes de seguir.</a></li>
 </ul>
 </li>
-<li><a href="#orgaa8c7f2">5. Vamos a por ese Content</a></li>
-<li><a href="#org71e2bcf">6. PostCreator domain service.</a></li>
+<li><a href="#org757fd67">5. Vamos a por ese Content</a></li>
+<li><a href="#org418292d">6. PostCreator domain service.</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org7148cc7" class="outline-2">
-<h2 id="org7148cc7"><span class="section-number-2">1.</span> Define your router file in your .env</h2>
+<div id="outline-container-org43551a0" class="outline-2">
+<h2 id="org43551a0"><span class="section-number-2">1.</span> Define your router file in your .env</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-php"><span style="color: #a45bad;">ROUTES_PATH</span>=/Users/passh/src/php/reactor/src/ddd/Infrastructure/HttpServer/Router/routes.json
@@ -433,8 +257,8 @@ margin-bottom: 20px;
 </div>
 </div>
 </div>
-<div id="outline-container-org0d7cbd5" class="outline-2">
-<h2 id="org0d7cbd5"><span class="section-number-2">2.</span> Arrancamos el cohete.</h2>
+<div id="outline-container-org6f2362c" class="outline-2">
+<h2 id="org6f2362c"><span class="section-number-2">2.</span> Arrancamos el cohete.</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li><p>
@@ -457,8 +281,8 @@ Una vez dentro  de esta consola dispondremos de la version de php indicada con x
 </ul>
 </div>
 </div>
-<div id="outline-container-org4e35206" class="outline-2">
-<h2 id="org4e35206"><span class="section-number-2">3.</span> Create a new entry for the new <code>Controller/HttpRequestHandler</code></h2>
+<div id="outline-container-orgc0cd170" class="outline-2">
+<h2 id="orgc0cd170"><span class="section-number-2">3.</span> Create a new entry for the new <code>Controller/HttpRequestHandler</code></h2>
 <div class="outline-text-2" id="text-3">
 <p>
 #+begin<sub>src</sub> php
@@ -473,8 +297,8 @@ Una vez dentro  de esta consola dispondremos de la version de php indicada con x
 </p>
 </div>
 </div>
-<div id="outline-container-orge87fbd4" class="outline-2">
-<h2 id="orge87fbd4"><span class="section-number-2">4.</span> Create the <code>Controller</code></h2>
+<div id="outline-container-orgbe4eb44" class="outline-2">
+<h2 id="orgbe4eb44"><span class="section-number-2">4.</span> Create the <code>Controller</code></h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Este seria el skel del que partir, no hace nada mas que responder con un 200 que no es poco 😅
@@ -502,8 +326,8 @@ Este seria el skel del que partir, no hace nada mas que responder con un 200 que
 </pre>
 </div>
 </div>
-<div id="outline-container-org318ee59" class="outline-3">
-<h3 id="org318ee59"><span class="section-number-3">4.1.</span> Una &ldquo;larga y necesaria aclaración&rdquo; antes de seguir.</h3>
+<div id="outline-container-org97c04b7" class="outline-3">
+<h3 id="org97c04b7"><span class="section-number-3">4.1.</span> Una &ldquo;larga y necesaria aclaración&rdquo; antes de seguir.</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Todos los Condroladores , deben implementar <code>HttpRequestHandler</code> , no ha de verse como una restricción en absoluto, ya que reactPHP no impone aquí ninguna restricción se podria usar una lamda cualquiera, este tipado lo brinda el microFramework 🚀 , En este caso ese tipado es algo que nos brinda una clara visión de lo que puede o no hacer, y debe o no hacer , nuestro controlador.
@@ -526,8 +350,8 @@ ya que es como nuestro kernel espera que sea .
 </div>
 </div>
 </div>
-<div id="outline-container-orgaa8c7f2" class="outline-2">
-<h2 id="orgaa8c7f2"><span class="section-number-2">5.</span> Vamos a por ese Content</h2>
+<div id="outline-container-org757fd67" class="outline-2">
+<h2 id="org757fd67"><span class="section-number-2">5.</span> Vamos a por ese Content</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Ahora que ya tenemos el controller devolviendo un 200 , es la hora de ver como obtenemos el payload que nos viene en la request , en este caso va a ser como un JSON , que contendrá los parámetros necesarios para crear nuestra entidad ( y registro en la DDBB )
@@ -609,8 +433,8 @@ el desarrollo inicialmente simplemente llamare al save del repo .
 </div>
 </div>
 </div>
-<div id="outline-container-org71e2bcf" class="outline-2">
-<h2 id="org71e2bcf"><span class="section-number-2">6.</span> PostCreator domain service.</h2>
+<div id="outline-container-org418292d" class="outline-2">
+<h2 id="org418292d"><span class="section-number-2">6.</span> PostCreator domain service.</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Es momento de implmentar este servicio de dominio, que se encargará de crear usando el <code>PostRepository</code>
@@ -620,7 +444,7 @@ Es momento de implmentar este servicio de dominio, que se encargará de crear us
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Pascual M.G.</p>
-<p class="date">Created: 2024-02-19 lun 02:24</p>
+<p class="date">Created: 2024-02-19 lun 02:45</p>
 </div>
 </body>
 </html>

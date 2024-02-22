@@ -66,6 +66,10 @@ pre {
     color: var(--cblk);
 }
 
+code {
+    background-color: #2d4252;
+    color: #ce537a;
+}
 /* Tema de Emacs dark */
 /* Estilos generales */
 body {

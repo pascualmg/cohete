@@ -1,181 +1,4 @@
-#+HTML_HEAD: <style>
-#+HTML_HEAD: :root {
-#+HTML_HEAD:   --act1: #222226;
-#+HTML_HEAD:   --act2: #5d4d7a;
-#+HTML_HEAD:   --base: #b2b2b2;
-#+HTML_HEAD:   --base-dim: #686868;
-#+HTML_HEAD:   --bg1: #292b2e;
-#+HTML_HEAD:   --bg2: #212026;
-#+HTML_HEAD:   --bg3: #100a14;
-#+HTML_HEAD:   --bg4: #0a0814;
-#+HTML_HEAD:   --bg-alt: #42444a;
-#+HTML_HEAD:   --border: #5d4d7a;
-#+HTML_HEAD:   --cblk: #cbc1d5;
-#+HTML_HEAD:   --cblk-bg: #2f2b33;
-#+HTML_HEAD:   --cblk-ln: #827591;
-#+HTML_HEAD:   --cblk-ln-bg: #373040;
-#+HTML_HEAD:   --cursor: #e3dedd;
-#+HTML_HEAD:   --const: #a45bad;
-#+HTML_HEAD:   --comment: #2aa1ae;
-#+HTML_HEAD:   --comment-light: #2aa1ae;
-#+HTML_HEAD:   --comment-bg: #292e34;
-#+HTML_HEAD:   --comp: #c56ec3;
-#+HTML_HEAD:   --err: #e0211d;
-#+HTML_HEAD:   --func: #bc6ec5;
-#+HTML_HEAD:   --head1: #4f97d7;
-#+HTML_HEAD:   --head1-bg: #293239;
-#+HTML_HEAD:   --head2: #2d9574;
-#+HTML_HEAD:   --head2-bg: #293235;
-#+HTML_HEAD:   --head3: #67b11d;
-#+HTML_HEAD:   --head3-bg: #293235;
-#+HTML_HEAD:   --head4: #b1951d;
-#+HTML_HEAD:   --head4-bg: #32322c;
-#+HTML_HEAD:   --highlight: #444155;
-#+HTML_HEAD:   --highlight-dim: #3b314d;
-#+HTML_HEAD:   --keyword: #4f97d7;
-#+HTML_HEAD:   --lnum: #44505c;
-#+HTML_HEAD:   --mat: #86dc2f;
-#+HTML_HEAD:   --meta: #9f8766;
-#+HTML_HEAD:   --str: #2d9574;
-#+HTML_HEAD:   --suc: #86dc2f;
-#+HTML_HEAD:   --ttip: #9a9aba;
-#+HTML_HEAD:   --ttip-sl: #5e5079;
-#+HTML_HEAD:   --ttip-bg: #34323e;
-#+HTML_HEAD:   --type: #ce537a;
-#+HTML_HEAD:   --var: #7590db;
-#+HTML_HEAD:   --war: #dc752f;
-#+HTML_HEAD:   --aqua: #2d9574;
-#+HTML_HEAD:   --aqua-bg: #293235;
-#+HTML_HEAD:   --green: #67b11d;
-#+HTML_HEAD:   --green-bg: #293235;
-#+HTML_HEAD:   --green-bg-s: #29422d;
-#+HTML_HEAD:   --cyan: #28def0;
-#+HTML_HEAD:   --red: #f2241f;
-#+HTML_HEAD:   --red-bg: #3c2a2c;
-#+HTML_HEAD:   --red-bg-s: #512e31;
-#+HTML_HEAD:   --blue: #4f97d7;
-#+HTML_HEAD:   --blue-bg: #293239;
-#+HTML_HEAD:   --blue-bg-s: #2d4252;
-#+HTML_HEAD:   --magenta: #a31db1;
-#+HTML_HEAD:   --yellow: #b1951d;
-#+HTML_HEAD:   --yellow-bg: #32322c;
-#+HTML_HEAD: }
-#+HTML_HEAD: </style>
-#+HTML_HEAD: <style>
-#+HTML_HEAD: /* Estilo para el texto del código embebido */
-#+HTML_HEAD: pre {
-#+HTML_HEAD:   background-color: var(--bg3); /* Cambia aquí si prefieres otro color de fondo */
-#+HTML_HEAD:   color: var(--cblk);
-#+HTML_HEAD: }
-#+HTML_HEAD: </style>
-#+HTML_HEAD: <style>
-#+HTML_HEAD: /* Tema de Emacs dark */
-#+HTML_HEAD: /* Estilos generales */
-#+HTML_HEAD: body {
-#+HTML_HEAD:   background-color: var(--bg1);
-#+HTML_HEAD:   color: var(--base);
-#+HTML_HEAD:   font-family: Arial, sans-serif;
-#+HTML_HEAD: }
-#+HTML_HEAD: a {
-#+HTML_HEAD:   color: var(--blue);
-#+HTML_HEAD:   text-decoration: none;
-#+HTML_HEAD: }
-#+HTML_HEAD: a:hover {
-#+HTML_HEAD:   text-decoration: underline;
-#+HTML_HEAD: }
-#+HTML_HEAD: /* Encabezados */
-#+HTML_HEAD: h1, h2, h3, h4, h5, h6 {
-#+HTML_HEAD:   color: var(--head1);
-#+HTML_HEAD:   font-weight: bold;
-#+HTML_HEAD:   margin-top: 20px;
-#+HTML_HEAD: }
-#+HTML_HEAD: h1 {
-#+HTML_HEAD:   background-color: var(--head1-bg);
-#+HTML_HEAD:   padding: 10px;
-#+HTML_HEAD:   border-radius: 5px;
-#+HTML_HEAD: }
-#+HTML_HEAD: h2 {
-#+HTML_HEAD:   color: var(--head2);
-#+HTML_HEAD:   background-color: var(--head2-bg);
-#+HTML_HEAD:   padding: 8px;
-#+HTML_HEAD:   border-radius: 4px;
-#+HTML_HEAD: }
-#+HTML_HEAD: h3 {
-#+HTML_HEAD:   color: var(--head3);
-#+HTML_HEAD:   background-color: var(--head3-bg);
-#+HTML_HEAD:   padding: 6px;
-#+HTML_HEAD:   border-radius: 3px;
-#+HTML_HEAD: }
-#+HTML_HEAD: h4 {
-#+HTML_HEAD:   color: var(--head4);
-#+HTML_HEAD:   background-color: var(--head4-bg);
-#+HTML_HEAD:   padding: 4px;
-#+HTML_HEAD:   border-radius: 2px;
-#+HTML_HEAD: }
-#+HTML_HEAD: /* Botones */
-#+HTML_HEAD: .button {
-#+HTML_HEAD:   background-color: var(--bg3);
-#+HTML_HEAD:   color: var(--base);
-#+HTML_HEAD:   padding: 8px 16px;
-#+HTML_HEAD:   border: none;
-#+HTML_HEAD:   border-radius: 4px;
-#+HTML_HEAD:   cursor: pointer;
-#+HTML_HEAD: }
-#+HTML_HEAD: .button:hover {
-#+HTML_HEAD:   background-color: var(--bg4);
-#+HTML_HEAD: }
-#+HTML_HEAD: /* Contenedores */
-#+HTML_HEAD: .container {
-#+HTML_HEAD:   background-color: var(--bg2);
-#+HTML_HEAD:   color: var(--base);
-#+HTML_HEAD:   padding: 20px;
-#+HTML_HEAD:   border-radius: 8px;
-#+HTML_HEAD:   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-#+HTML_HEAD: }
-#+HTML_HEAD: /* Clases de texto */
-#+HTML_HEAD: .text-primary {
-#+HTML_HEAD:   color: var(--blue);
-#+HTML_HEAD: }
-#+HTML_HEAD: .text-secondary {
-#+HTML_HEAD:   color: var(--green);
-#+HTML_HEAD: }
-#+HTML_HEAD: /* Listas */
-#+HTML_HEAD: ul, ol {
-#+HTML_HEAD:   margin: 0;
-#+HTML_HEAD:   padding: 0;
-#+HTML_HEAD: }
-#+HTML_HEAD: li {
-#+HTML_HEAD:   margin-bottom: 5px;
-#+HTML_HEAD: }
-#+HTML_HEAD: /* Tablas */
-#+HTML_HEAD: table {
-#+HTML_HEAD:   width: 100%;
-#+HTML_HEAD:   border-collapse: collapse;
-#+HTML_HEAD:   margin-bottom: 20px;
-#+HTML_HEAD: }
-#+HTML_HEAD: th, td {
-#+HTML_HEAD:   padding: 8px;
-#+HTML_HEAD:   border: 1px solid var(--border);
-#+HTML_HEAD: }
-#+HTML_HEAD: /* Citas */
-#+HTML_HEAD: blockquote {
-#+HTML_HEAD:   border-left: 4px solid var(--green);
-#+HTML_HEAD:   margin-left: 0;
-#+HTML_HEAD:   padding-left: 10px;
-#+HTML_HEAD:   color: var(--comment);
-#+HTML_HEAD: }
-#+HTML_HEAD: /* Otros elementos específicos */
-#+HTML_HEAD: /* Por ejemplo, si tienes una clase ".card" */
-#+HTML_HEAD: .card {
-#+HTML_HEAD:   background-color: var(--bg2);
-#+HTML_HEAD:   color: var(--base);
-#+HTML_HEAD:   border: 1px solid var(--border);
-#+HTML_HEAD:   border-radius: 4px;
-#+HTML_HEAD:   padding: 15px;
-#+HTML_HEAD:   margin-bottom: 20px;
-#+HTML_HEAD: }
-#+HTML_HEAD: </style>
-
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="spacemacs.css">
 
 #+TITLE: How to create a post    .
 
@@ -249,10 +72,11 @@ Lo importante es tenerlo claro , que si vas a devolver una promise, aka *deferre
 ya que es como nuestro kernel espera que sea .
 #+end_quote
 
-* Vamos a por ese Content
+* Extraemos el body
 
 Ahora que ya tenemos el controller devolviendo un 200 , es la hora de ver como obtenemos el payload que nos viene en la request , en este caso va a ser como un JSON , que contendrá los parámetros necesarios para crear nuestra entidad ( y registro en la DDBB )
 
+Para empezar y ver que todo va bien haremos primero un =EchoController= para ver que conseguimos el payload , mirando un poco de doc...
 #+begin_src php
 <?php
 
@@ -294,31 +118,117 @@ class CreatePostController implements HttpRequestHandler
 
  En la linea 96 ya tenemos la manera de obtener fácilmente el json que nos viene de la request , una vez la obtenemos por el momento simplemente la devolvemos tal cual nos llegue.
 
-#+begin_src bash :results output
-curl -X POST --location "http://localhost:8000/post" \
-    -H "Content-Type: application/json" \
-    -d '{
-          "foo": "bar"
-        }'
 
-#+end_src
-
- #+RESULTS:
- : {"foo":"bar"}
-
- Está funcionando tal como se espera , esto de evaluar código en el .org es _magic_
+Lo más ortodoxo sería pues hacer un =CommandHandler= que llame a un _Domain Service_ y este que llamara al =PostRepository= y lanzara un =DomainEvent= que sería escuchado por los diferentes listeners, esto será la meta, pero por el monento nos centraremos en que funcione el =save= del repositorio.
 
 
-Lo más ortodoxo sería pues hacer un Command Handler que llame al repo etc, pero por "simplificar"
-el desarrollo inicialmente simplemente llamare al save del repo .
+ #+begin_src php
 
-1. Añadido el nuevo método a la interfaz de dominio.
+    public function save(Post $postToCreate): PromiseInterface
+    {
+        $insertPostQuery = "
+INSERT INTO post
+(id, headline, articleBody, image, author, datePublished) VALUES
+(?,?,?,?,?,?)
+";
+        return $this->mysqlClient->query($insertPostQuery, [
+            (string)$postToCreate->id,
+            $postToCreate->headline,
+            $postToCreate->articleBody,
+            $postToCreate->image,
+            $postToCreate->author,
+            $postToCreate->datePublished->format('Y-m-d H:i:s')
+        ])->then(
+            function (MysqlResult $mysqlResult): bool {
+                $affectedRows = $mysqlResult->affectedRows;
+                return $affectedRows > 0;
+            },
+            function (\Exception $e) {
+                //Si en vez the throw hacemos return, en vez de
+                //irse al onRejected , se va al onFullFilled
+                //ya  que de hacerlo se entiende que la estamos solucionando
+                throw $e;
+            }
+        );
 
- 
- #+begin_src
+    }
+ #+end_src
 
+* Lo más interesante viene ahora ...
+ En este snapshot del controller , no voy a extraer aun ninguna func , en si el código
+ es bastante "normal" y me refiero a "síncrono" hasta que llega el return y es donde entra en escena la mágia de reactPHP.
+
+ Sin duda esas 2 líneas son las que más llaman la atención a quien esté acostumbrado a frameworks no asíncronos
+
+ #+begin_src php
+<?php
+
+namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
+
+use Fig\Http\Message\StatusCodeInterface;
+use pascualmg\reactor\ddd\Domain\Entity\Post;
+use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
+use pascualmg\reactor\ddd\Domain\ValueObject\Uuid;
+use pascualmg\reactor\ddd\Infrastructure\HelperFunctions\ExceptionTo;
+use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use React\Http\Message\Response;
+use React\Promise\PromiseInterface;
+
+class CreatePostController implements HttpRequestHandler
+{
+    public function __construct(
+        private readonly PostRepository $postRepository
+    ) {
+    }
+
+   public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface|PromiseInterface
+    {
+        $body = $request->getBody()->getContents();
+        try {
+            $payload = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
+        } catch (\JsonException $e) {
+            return JsonResponse::withError($e);
+        }
+        $postToCreate = new Post(
+            id: Uuid::from($payload['id']),
+            headline: $payload['headline'],
+            articleBody: $payload['articleBody'],
+            image: $payload['image'],
+            author: $payload['author'],
+            datePublished: new \DateTimeImmutable($payload['datePublished']),
+        );
+
+        return $this->postRepository->save($postToCreate)->then(
+            static fn (Bool $affectedRows) => JsonResponse::create(StatusCodeInterface::STATUS_CREATED, [$affectedRows]),
+            static fn (\Exception $error) => JsonResponse::withError($error)
+        );
+    }
+
+}
 
  #+end_src
 
-* PostCreator domain service.
-Es momento de implmentar este servicio de dominio, que se encargará de crear usando el =PostRepository=
+ Aquí es donde cobra más sentido ese comentario que la función =save= del repositorio tiene.
+
+ Si dentro de esa función, no lanzamos la excepción hacia afuera, iría al =onSuccess= ya que consideraría como manejada , y no es lo que queremos.
+
+ Entiendo que, si quito el =onRejected=, se comportará exactamente igual.
+
+
+#+begin_src bash :results output :exports both
+curl --location --request POST 'http://localhost:8000/post' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+          "id": "0000ce1a-b329-3459-b82f-9efb54a69ef5",
+          "headline": "Sample Headline",
+          "articleBody": "Sample Article Body",
+
+          "image": "image url",
+          "author": "Author Name",
+          "datePublished": "2023-04-13 18:31:30"
+        }'
+#+end_src
+
+#+RESULTS:
