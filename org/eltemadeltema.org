@@ -1,19 +1,4 @@
-#+HTML_HEAD: <style>
-#+HTML_HEAD:   /* Estilo para todos los encabezados */
-#+HTML_HEAD:   h1, h2, h3, h4, h5, h6 {
-#+HTML_HEAD:     color: #4f97d7; /* Color del texto para los encabezados */
-#+HTML_HEAD:   }
-
-#+HTML_HEAD:   /* Estilo para los contenedores de los encabezados */
-#+HTML_HEAD:   .outline-2, .outline-3, .outline-4, .outline-text-2, .outline-text-3, .outline-text-4 {
-#+HTML_HEAD:     background-color: #293239; /* Ajusta el color del fondo según tu preferencia */
-#+HTML_HEAD:     padding: 10px;
-#+HTML_HEAD:     border-radius: 5px;
-#+HTML_HEAD:     margin-top: 20px;
-#+HTML_HEAD:     margin-bottom: 10px;
-#+HTML_HEAD:   }
-#+HTML_HEAD: </style>
-
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="spacemacs.css">
 
 * El tema del tema
 Siempre he visto que era un verdadero quebradero de cabeza , el mantener un tema de colores para una web , en mi caso como no uso ningún framework web, sino que estoy usando custom web components he ideado una forma a mi entender bastante sencilla que para el problema que se prentende solucionar, creo que es suficiente.
