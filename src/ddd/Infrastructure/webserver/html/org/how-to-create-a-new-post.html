@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2024-02-22 jue 01:42 -->
+<!-- 2024-02-22 jue 12:23 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>How to create a post    .</title>
@@ -194,38 +194,6 @@
   .org-svg { }
 </style>
 <link rel="stylesheet" type="text/css" href="spacemacs.css">
-<script>
-  window.MathJax = {
-    tex: {
-      ams: {
-        multlineWidth: '85%'
-      },
-      tags: 'ams',
-      tagSide: 'right',
-      tagIndent: '.8em'
-    },
-    chtml: {
-      scale: 1.0,
-      displayAlign: 'center',
-      displayIndent: '0em'
-    },
-    svg: {
-      scale: 1.0,
-      displayAlign: 'center',
-      displayIndent: '0em'
-    },
-    output: {
-      font: 'mathjax-modern',
-      displayOverflow: 'overflow'
-    }
-  };
-</script>
-
-<script
-  id="MathJax-script"
-  async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
 </head>
 <body>
 <div id="content" class="content">
@@ -234,21 +202,23 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org2c0a0a7">1. Define your router file in your .env</a></li>
-<li><a href="#org4797d12">2. Arrancamos el cohete.</a></li>
-<li><a href="#org8c5371b">3. Create a new entry for the new <code>Controller/HttpRequestHandler</code></a></li>
-<li><a href="#orgbd9a69f">4. Create the <code>Controller</code></a>
+<li><a href="#org03f4916">1. Define your router file in your .env</a></li>
+<li><a href="#org62b4df0">2. Arrancamos el cohete.</a></li>
+<li><a href="#org247fc9e">3. Añadimos una nueva entrada en la tabla de rutas</a></li>
+<li><a href="#orgf633fe0">4. Creamos un el <code>HttpRequestHandler</code> aka <code>Controller</code></a>
 <ul>
-<li><a href="#orgb148fb7">4.1. Una &ldquo;larga y necesaria aclaración&rdquo; antes de seguir.</a></li>
+<li><a href="#org7e01493">4.1. Una &ldquo;larga y necesaria aclaración&rdquo; antes de seguir.</a></li>
 </ul>
 </li>
-<li><a href="#org497510e">5. Extraemos el body</a></li>
-<li><a href="#org646e643">6. Lo más interesante viene ahora &#x2026;</a></li>
+<li><a href="#org376262b">5. Extraemos el body</a></li>
+<li><a href="#org545d91b">6. Lo más interesante viene ahora &#x2026;</a></li>
+<li><a href="#orgbe51773">7. Curl de ejemplo 100% funcional.</a></li>
+<li><a href="#orgec09a31">8. Concusiones</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org2c0a0a7" class="outline-2">
-<h2 id="org2c0a0a7"><span class="section-number-2">1.</span> Define your router file in your .env</h2>
+<div id="outline-container-org03f4916" class="outline-2">
+<h2 id="org03f4916"><span class="section-number-2">1.</span> Define your router file in your .env</h2>
 <div class="outline-text-2" id="text-1">
 <div class="org-src-container">
 <pre class="src src-php"><span style="color: #a45bad;">ROUTES_PATH</span>=/Users/passh/src/php/reactor/src/ddd/Infrastructure/HttpServer/Router/routes.json
@@ -257,8 +227,8 @@
 </div>
 </div>
 </div>
-<div id="outline-container-org4797d12" class="outline-2">
-<h2 id="org4797d12"><span class="section-number-2">2.</span> Arrancamos el cohete.</h2>
+<div id="outline-container-org62b4df0" class="outline-2">
+<h2 id="org62b4df0"><span class="section-number-2">2.</span> Arrancamos el cohete.</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li><p>
@@ -281,24 +251,25 @@ Una vez dentro  de esta consola dispondremos de la version de php indicada con x
 </ul>
 </div>
 </div>
-<div id="outline-container-org8c5371b" class="outline-2">
-<h2 id="org8c5371b"><span class="section-number-2">3.</span> Create a new entry for the new <code>Controller/HttpRequestHandler</code></h2>
+<div id="outline-container-org247fc9e" class="outline-2">
+<h2 id="org247fc9e"><span class="section-number-2">3.</span> Añadimos una nueva entrada en la tabla de rutas</h2>
 <div class="outline-text-2" id="text-3">
-<p>
-#+begin<sub>src</sub> php
-[
-  {
-    &ldquo;method&rdquo;: &ldquo;POST&rdquo;,
-    &ldquo;path&rdquo;: &ldquo;/post&rdquo;,
-    &ldquo;handler&rdquo;: &ldquo;\\pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\CreatePostController&rdquo;
-  }
-]
-#+end<sub>src</sub> php
-</p>
+<div class="org-src-container">
+<pre class="src src-php">
+<span style="color: #4f97d7;">[</span>
+  <span style="color: #bc6ec5;">{</span>
+    <span style="color: #2d9574;">"method"</span>: <span style="color: #2d9574;">"POST"</span>,
+    <span style="color: #2d9574;">"path"</span>: <span style="color: #2d9574;">"/post"</span>,
+    <span style="color: #2d9574;">"handler"</span>: <span style="color: #2d9574;">"\\pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\CreatePostController"</span>
+  <span style="color: #bc6ec5;">}</span>
+<span style="color: #4f97d7;">]</span>
+
+</pre>
 </div>
 </div>
-<div id="outline-container-orgbd9a69f" class="outline-2">
-<h2 id="orgbd9a69f"><span class="section-number-2">4.</span> Create the <code>Controller</code></h2>
+</div>
+<div id="outline-container-orgf633fe0" class="outline-2">
+<h2 id="orgf633fe0"><span class="section-number-2">4.</span> Creamos un el <code>HttpRequestHandler</code> aka <code>Controller</code></h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Este seria el skel del que partir, no hace nada mas que responder con un 200 que no es poco 😅
@@ -326,8 +297,8 @@ Este seria el skel del que partir, no hace nada mas que responder con un 200 que
 </pre>
 </div>
 </div>
-<div id="outline-container-orgb148fb7" class="outline-3">
-<h3 id="orgb148fb7"><span class="section-number-3">4.1.</span> Una &ldquo;larga y necesaria aclaración&rdquo; antes de seguir.</h3>
+<div id="outline-container-org7e01493" class="outline-3">
+<h3 id="org7e01493"><span class="section-number-3">4.1.</span> Una &ldquo;larga y necesaria aclaración&rdquo; antes de seguir.</h3>
 <div class="outline-text-3" id="text-4-1">
 <p>
 Todos los Condroladores , deben implementar <code>HttpRequestHandler</code> , no ha de verse como una restricción en absoluto, ya que reactPHP no impone aquí ninguna restricción se podria usar una lamda cualquiera, este tipado lo brinda el microFramework 🚀 , En este caso ese tipado es algo que nos brinda una clara visión de lo que puede o no hacer, y debe o no hacer , nuestro controlador.
@@ -350,8 +321,8 @@ ya que es como nuestro kernel espera que sea .
 </div>
 </div>
 </div>
-<div id="outline-container-org497510e" class="outline-2">
-<h2 id="org497510e"><span class="section-number-2">5.</span> Extraemos el body</h2>
+<div id="outline-container-org376262b" class="outline-2">
+<h2 id="org376262b"><span class="section-number-2">5.</span> Extraemos el body</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 Ahora que ya tenemos el controller devolviendo un 200 , es la hora de ver como obtenemos el payload que nos viene en la request , en este caso va a ser como un JSON , que contendrá los parámetros necesarios para crear nuestra entidad ( y registro en la DDBB )
@@ -360,48 +331,49 @@ Ahora que ya tenemos el controller devolviendo un 200 , es la hora de ver como o
 <p>
 Para empezar y ver que todo va bien haremos primero un <code>EchoController</code> para ver que conseguimos el payload , mirando un poco de doc&#x2026;
 </p>
+
 <div class="org-src-container">
-<pre class="src src-php"><span style="color: #bc6ec5;">&lt;?php</span>
-
-<span style="color: #4f97d7; font-weight: bold;">namespace</span> <span style="color: #ce537a; font-weight: bold;">pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler</span>;
-
-<span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse</span>;
-<span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">Psr\Http\Message\ResponseInterface</span>;
-<span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">Psr\Http\Message\ServerRequestInterface</span>;
-<span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">React\Http\Message\Response</span>;
-<span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">React\Promise\PromiseInterface</span>;
-
-<span style="color: #4f97d7; font-weight: bold;">class</span> <span style="color: #ce537a; font-weight: bold;">CreatePostController</span> <span style="color: #4f97d7; font-weight: bold;">implements</span> <span style="color: #ce537a; font-weight: bold;">HttpRequestHandler</span>
-<span style="color: #4f97d7;">{</span>
-
-    <span style="color: #4f97d7; font-weight: bold;">public</span> <span style="color: #4f97d7; font-weight: bold;">function</span> <span style="color: #bc6ec5; font-weight: bold;">__construct</span><span style="color: #bc6ec5;">(</span>
-   <span style="color: #2aa1ae; background-color: #292e34;">//     </span><span style="color: #2aa1ae; background-color: #292e34;">private readonly PostCreator $postCreator</span>
-    <span style="color: #bc6ec5;">)</span>
-    <span style="color: #bc6ec5;">{</span>
-    <span style="color: #bc6ec5;">}</span>
-
-    <span style="color: #4f97d7; font-weight: bold;">public</span> <span style="color: #4f97d7; font-weight: bold;">function</span> <span style="color: #bc6ec5; font-weight: bold;">__invoke</span><span style="color: #bc6ec5;">(</span><span style="color: #ce537a; font-weight: bold;">ServerRequestInterface</span> $<span style="color: #7590db;">request</span>, <span style="color: #ce537a; font-weight: bold;">?array</span> $<span style="color: #7590db;">routeParams</span><span style="color: #bc6ec5;">)</span>: <span style="color: #ce537a; font-weight: bold;">ResponseInterface</span>|PromiseInterface
-    <span style="color: #bc6ec5;">{</span>
-        $<span style="color: #7590db;">body</span> = $<span style="color: #7590db;">request</span>-&gt;getBody<span style="color: #2d9574;">()</span>-&gt;getContents<span style="color: #2d9574;">()</span>;
-        <span style="color: #4f97d7; font-weight: bold;">try</span> <span style="color: #2d9574;">{</span>
-            $<span style="color: #7590db;">payload</span> = json_decode<span style="color: #67b11d;">(</span>$<span style="color: #7590db;">body</span>, <span style="color: #a45bad;">true</span>, <span style="color: #a45bad;">512</span>, <span style="color: #a45bad;">JSON_THROW_ON_ERROR</span><span style="color: #67b11d;">)</span>;
-        <span style="color: #2d9574;">}</span> <span style="color: #4f97d7; font-weight: bold;">catch</span> <span style="color: #2d9574;">(</span><span style="color: #ce537a; font-weight: bold;">\JsonException</span> $<span style="color: #7590db;">e</span><span style="color: #2d9574;">)</span> <span style="color: #2d9574;">{</span>
-            <span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #a45bad;">JsonResponse</span>::withError<span style="color: #67b11d;">(</span>$<span style="color: #7590db;">e</span><span style="color: #67b11d;">)</span>;
-        <span style="color: #2d9574;">}</span>
-
-        <span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">Response</span><span style="color: #2d9574;">(</span>
-            <span style="color: #a45bad;">200</span>,
-            <span style="color: #67b11d;">[</span><span style="color: #2d9574;">"Content-Type"</span> =&gt; <span style="color: #2d9574;">"application/json"</span><span style="color: #67b11d;">]</span>,
-            json_encode<span style="color: #67b11d;">(</span>$<span style="color: #7590db;">payload</span><span style="color: #67b11d;">)</span>
-        <span style="color: #2d9574;">)</span>;
-    <span style="color: #bc6ec5;">}</span>
-<span style="color: #4f97d7;">}</span>
-
+<pre class="src src-php"><span class="linenr"> 1: </span><span style="color: #bc6ec5;">&lt;?php</span>
+<span class="linenr"> 2: </span>
+<span class="linenr"> 3: </span><span style="color: #4f97d7; font-weight: bold;">namespace</span> <span style="color: #ce537a; font-weight: bold;">pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler</span>;
+<span class="linenr"> 4: </span>
+<span class="linenr"> 5: </span><span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse</span>;
+<span class="linenr"> 6: </span><span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">Psr\Http\Message\ResponseInterface</span>;
+<span class="linenr"> 7: </span><span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">Psr\Http\Message\ServerRequestInterface</span>;
+<span class="linenr"> 8: </span><span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">React\Http\Message\Response</span>;
+<span class="linenr"> 9: </span><span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">React\Promise\PromiseInterface</span>;
+<span class="linenr">10: </span>
+<span class="linenr">11: </span><span style="color: #4f97d7; font-weight: bold;">class</span> <span style="color: #ce537a; font-weight: bold;">CreatePostController</span> <span style="color: #4f97d7; font-weight: bold;">implements</span> <span style="color: #ce537a; font-weight: bold;">HttpRequestHandler</span>
+<span class="linenr">12: </span><span style="color: #4f97d7;">{</span>
+<span class="linenr">13: </span>
+<span class="linenr">14: </span>    <span style="color: #4f97d7; font-weight: bold;">public</span> <span style="color: #4f97d7; font-weight: bold;">function</span> <span style="color: #bc6ec5; font-weight: bold;">__construct</span><span style="color: #bc6ec5;">(</span>
+<span class="linenr">15: </span>   <span style="color: #2aa1ae; background-color: #292e34;">//     </span><span style="color: #2aa1ae; background-color: #292e34;">private readonly PostCreator $postCreator</span>
+<span class="linenr">16: </span>    <span style="color: #bc6ec5;">)</span>
+<span class="linenr">17: </span>    <span style="color: #bc6ec5;">{</span>
+<span class="linenr">18: </span>    <span style="color: #bc6ec5;">}</span>
+<span class="linenr">19: </span>
+<span class="linenr">20: </span>    <span style="color: #4f97d7; font-weight: bold;">public</span> <span style="color: #4f97d7; font-weight: bold;">function</span> <span style="color: #bc6ec5; font-weight: bold;">__invoke</span><span style="color: #bc6ec5;">(</span><span style="color: #ce537a; font-weight: bold;">ServerRequestInterface</span> $<span style="color: #7590db;">request</span>, <span style="color: #ce537a; font-weight: bold;">?array</span> $<span style="color: #7590db;">routeParams</span><span style="color: #bc6ec5;">)</span>: <span style="color: #ce537a; font-weight: bold;">ResponseInterface</span>|PromiseInterface
+<span class="linenr">21: </span>    <span style="color: #bc6ec5;">{</span>
+<span class="linenr">22: </span>        $<span style="color: #7590db;">body</span> = $<span style="color: #7590db;">request</span>-&gt;getBody<span style="color: #2d9574;">()</span>-&gt;getContents<span style="color: #2d9574;">()</span>;
+<span class="linenr">23: </span>        <span style="color: #4f97d7; font-weight: bold;">try</span> <span style="color: #2d9574;">{</span>
+<span class="linenr">24: </span>            $<span style="color: #7590db;">payload</span> = json_decode<span style="color: #67b11d;">(</span>$<span style="color: #7590db;">body</span>, <span style="color: #a45bad;">true</span>, <span style="color: #a45bad;">512</span>, <span style="color: #a45bad;">JSON_THROW_ON_ERROR</span><span style="color: #67b11d;">)</span>;
+<span class="linenr">25: </span>        <span style="color: #2d9574;">}</span> <span style="color: #4f97d7; font-weight: bold;">catch</span> <span style="color: #2d9574;">(</span><span style="color: #ce537a; font-weight: bold;">\JsonException</span> $<span style="color: #7590db;">e</span><span style="color: #2d9574;">)</span> <span style="color: #2d9574;">{</span>
+<span class="linenr">26: </span>            <span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #a45bad;">JsonResponse</span>::withError<span style="color: #67b11d;">(</span>$<span style="color: #7590db;">e</span><span style="color: #67b11d;">)</span>;
+<span class="linenr">27: </span>        <span style="color: #2d9574;">}</span>
+<span class="linenr">28: </span>
+<span class="linenr">29: </span>        <span style="color: #4f97d7; font-weight: bold;">return</span> <span style="color: #4f97d7; font-weight: bold;">new</span> <span style="color: #ce537a; font-weight: bold;">Response</span><span style="color: #2d9574;">(</span>
+<span class="linenr">30: </span>            <span style="color: #a45bad;">200</span>,
+<span class="linenr">31: </span>            <span style="color: #67b11d;">[</span><span style="color: #2d9574;">"Content-Type"</span> =&gt; <span style="color: #2d9574;">"application/json"</span><span style="color: #67b11d;">]</span>,
+<span class="linenr">32: </span>            json_encode<span style="color: #67b11d;">(</span>$<span style="color: #7590db;">payload</span><span style="color: #67b11d;">)</span>
+<span class="linenr">33: </span>        <span style="color: #2d9574;">)</span>;
+<span class="linenr">34: </span>    <span style="color: #bc6ec5;">}</span>
+<span class="linenr">35: </span><span style="color: #4f97d7;">}</span>
+<span class="linenr">36: </span>
 </pre>
 </div>
 
 <p>
-En la linea 96 ya tenemos la manera de obtener fácilmente el json que nos viene de la request , una vez la obtenemos por el momento simplemente la devolvemos tal cual nos llegue.
+Aquí ya tenemos la manera de obtener fácilmente el json que nos viene de la request , una vez la obtenemos por el momento simplemente la devolvemos tal cual nos llegue.
 </p>
 
 
@@ -444,8 +416,8 @@ Lo más ortodoxo sería pues hacer un <code>CommandHandler</code> que llame a un
 </div>
 </div>
 </div>
-<div id="outline-container-org646e643" class="outline-2">
-<h2 id="org646e643"><span class="section-number-2">6.</span> Lo más interesante viene ahora &#x2026;</h2>
+<div id="outline-container-org545d91b" class="outline-2">
+<h2 id="org545d91b"><span class="section-number-2">6.</span> Lo más interesante viene ahora &#x2026;</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 En este snapshot del controller , no voy a extraer aun ninguna func , en si el código
@@ -512,37 +484,69 @@ Aquí es donde cobra más sentido ese comentario que la función <code>save</cod
 </p>
 
 <p>
-Si dentro de esa función  , no lanzamos la excepción hacia afuera si esta se produce , iríaa al success ya que consideraría como manejada , y no es lo que queremos.
+Si dentro de esa función, no lanzamos la excepción hacia afuera, iría al <code>onSuccess</code> ya que consideraría como manejada , y no es lo que queremos.
 </p>
 
 <p>
-Entiendo que, si quito el , se comportará exactamente igual.
+Entiendo que, si quito el <code>onRejected</code>, se comportará exactamente igual. Pero ahora que funcioba bien no lo voy a tocar , por el momento 😅.
 </p>
+</div>
+</div>
+<div id="outline-container-orgbe51773" class="outline-2">
+<h2 id="orgbe51773"><span class="section-number-2">7.</span> Curl de ejemplo 100% funcional.</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Con este pequeño snippet, genero los uuids para pruebas rapidamente, me parece sin duda mejor alternativa que la que nos proporciona la web .
+</p>
+<div class="org-src-container">
+<pre class="src src-php"><span style="color: #4f97d7; font-weight: bold;">require</span> <span style="color: #4f97d7;">__DIR__</span> . <span style="color: #2d9574;">'/../vendor/autoload.php'</span>;
+<span style="color: #4f97d7; font-weight: bold;">use</span> <span style="color: #ce537a; font-weight: bold;">Ramsey\Uuid\Uuid</span>;
+$<span style="color: #7590db;">uuid</span> = <span style="color: #a45bad;">Uuid</span>::uuid4<span style="color: #4f97d7;">()</span>;
+$<span style="color: #7590db;">uuidString</span> = $<span style="color: #7590db;">uuid</span>-&gt;toString<span style="color: #4f97d7;">()</span>;
+<span style="color: #4f97d7; font-weight: bold;">echo</span> $<span style="color: #7590db;">uuidString</span>;
+</pre>
+</div>
 
+<p>
+Y un curl que funciona
+</p>
 <div class="org-src-container">
 <pre class="src src-bash"><span style="color: #ce537a; font-weight: bold;">curl</span> --location --request POST <span style="color: #2d9574;">'http://localhost:8000/post'</span> <span style="color: #2d9574;">\</span>
 --header <span style="color: #2d9574;">'Content-Type: application/json'</span> <span style="color: #2d9574;">\</span>
 --data-raw <span style="color: #2d9574;">'{</span>
-<span style="color: #2d9574;">          "id": "0000ce1a-b329-3459-b82f-9efb54a69ef5",</span>
+<span style="color: #2d9574;">          "id": "d32ea57f-6f8b-472b-bac8-845445b548e5",</span>
 <span style="color: #2d9574;">          "headline": "Sample Headline",</span>
 <span style="color: #2d9574;">          "articleBody": "Sample Article Body",</span>
-<span style="color: #2d9574;">          </span>
+
 <span style="color: #2d9574;">          "image": "image url",</span>
 <span style="color: #2d9574;">          "author": "Author Name",</span>
 <span style="color: #2d9574;">          "datePublished": "2023-04-13 18:31:30"</span>
 <span style="color: #2d9574;">        }'</span>
 </pre>
 </div>
+</div>
+</div>
+<div id="outline-container-orgec09a31" class="outline-2">
+<h2 id="orgec09a31"><span class="section-number-2">8.</span> Concusiones</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Pese a lo parecido del código con enfoques más tradicionales, aquí estamos haciendo uso de la capacidad asíncrona de PHP.
+Hay que tener en cuenta que la devolución de la promise , se realiza en el mismo momento de la llamada , pero que no es hasta que se resuelve esta promesa que crea el nuevo registro que no se devuelve el resultado.
+</p>
 
-<pre class="example">
-{"name":"React\\Mysql\\Exception","code":1062,"message":"Duplicate entry '0000ce1a-b329-3459-b82f-9efb54a69ef5' for key 'PRIMARY'","file":"\/Users\/passh\/src\/php\/reactor\/vendor\/react\/mysql\/src\/Io\/Parser.php","line":242,"trace":[{"file":"\/Users\/passh\/src\/php\/reactor\/vendor\/react\/mysql\/src\/Io\/Parser.php","line":173,"function":"parsePacket","class":"React\\Mysql\\Io\\Parser","type":"-&gt;","args":[{}]},null,null,null,null,null,{"file":"\/Users\/passh\/src\/php\/reactor\/vendor\/react\/event-loop\/src\/StreamSelectLoop.php","line":213,"function":"waitForStreamActivity","class":"React\\EventLoop\\StreamSelectLoop","type":"-&gt;","args":[null]},{"file":"\/Users\/passh\/src\/php\/reactor\/src\/bootstrap.php","line":38,"function":"run","class":"React\\EventLoop\\StreamSelectLoop","type":"-&gt;","args":[]}]}
-</pre>
+<p>
+Lo más interesante , es que mientras esto sucede nuestro server puede seguir procesando peticiones de forma concurrente.
+</p>
+
+<p>
+Os animais a probar ? Que os parece esta forma de elevar a PHP hacia un paradigma más asíncrono ?
+</p>
 </div>
 </div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Pascual M.G.</p>
-<p class="date">Created: 2024-02-22 jue 01:42</p>
+<p class="date">Created: 2024-02-22 jue 12:23</p>
 </div>
 </body>
 </html>

@@ -21,9 +21,10 @@ ROUTES_PATH=/Users/passh/src/php/reactor/src/ddd/Infrastructure/HttpServer/Route
 
   Una vez dentro  de esta consola dispondremos de la version de php indicada con xdebug , ya que por defecto se arranca con estos módulos en la shell de desarrollo.
 
-* Create a new entry for the new =Controller/HttpRequestHandler=
+* Añadimos una nueva entrada en la tabla de rutas
 
 #+begin_src php
+
 [
   {
     "method": "POST",
@@ -31,9 +32,10 @@ ROUTES_PATH=/Users/passh/src/php/reactor/src/ddd/Infrastructure/HttpServer/Route
     "handler": "\\pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\CreatePostController"
   }
 ]
-#+end_src php
 
-* Create the =Controller=
+#+end_src
+
+* Creamos un el =HttpRequestHandler= aka =Controller=
 
 
 Este seria el skel del que partir, no hace nada mas que responder con un 200 que no es poco 😅
@@ -77,7 +79,8 @@ ya que es como nuestro kernel espera que sea .
 Ahora que ya tenemos el controller devolviendo un 200 , es la hora de ver como obtenemos el payload que nos viene en la request , en este caso va a ser como un JSON , que contendrá los parámetros necesarios para crear nuestra entidad ( y registro en la DDBB )
 
 Para empezar y ver que todo va bien haremos primero un =EchoController= para ver que conseguimos el payload , mirando un poco de doc...
-#+begin_src php
+
+#+begin_src php -n -r
 <?php
 
 namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
@@ -116,7 +119,7 @@ class CreatePostController implements HttpRequestHandler
 
 #+end_src
 
- En la linea 96 ya tenemos la manera de obtener fácilmente el json que nos viene de la request , una vez la obtenemos por el momento simplemente la devolvemos tal cual nos llegue.
+Aquí ya tenemos la manera de obtener fácilmente el json que nos viene de la request , una vez la obtenemos por el momento simplemente la devolvemos tal cual nos llegue.
 
 
 Lo más ortodoxo sería pues hacer un =CommandHandler= que llame a un _Domain Service_ y este que llamara al =PostRepository= y lanzara un =DomainEvent= que sería escuchado por los diferentes listeners, esto será la meta, pero por el monento nos centraremos en que funcione el =save= del repositorio.
@@ -214,14 +217,28 @@ class CreatePostController implements HttpRequestHandler
 
  Si dentro de esa función, no lanzamos la excepción hacia afuera, iría al =onSuccess= ya que consideraría como manejada , y no es lo que queremos.
 
- Entiendo que, si quito el =onRejected=, se comportará exactamente igual.
+ Entiendo que, si quito el =onRejected=, se comportará exactamente igual. Pero ahora que funcioba bien no lo voy a tocar , por el momento 😅.
 
+* Curl de ejemplo 100% funcional.
 
-#+begin_src bash :results output :exports both
+Con este pequeño snippet, genero los uuids para pruebas rapidamente, me parece sin duda mejor alternativa que la que nos proporciona la web .
+#+begin_src php :results output both
+require __DIR__ . '/../vendor/autoload.php';
+use Ramsey\Uuid\Uuid;
+$uuid = Uuid::uuid4();
+$uuidString = $uuid->toString();
+echo $uuidString;
+#+end_src
+
+#+RESULTS:
+: d32ea57f-6f8b-472b-bac8-845445b548e5
+
+Y un curl que funciona
+#+begin_src bash :results output both
 curl --location --request POST 'http://localhost:8000/post' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-          "id": "0000ce1a-b329-3459-b82f-9efb54a69ef5",
+          "id": "d32ea57f-6f8b-472b-bac8-845445b548e5",
           "headline": "Sample Headline",
           "articleBody": "Sample Article Body",
 
@@ -231,4 +248,11 @@ curl --location --request POST 'http://localhost:8000/post' \
         }'
 #+end_src
 
-#+RESULTS:
+* Concusiones
+
+Pese a lo parecido del código con enfoques más tradicionales, aquí estamos haciendo uso de la capacidad asíncrona de PHP.
+Hay que tener en cuenta que la devolución de la promise , se realiza en el mismo momento de la llamada , pero que no es hasta que se resuelve esta promesa que crea el nuevo registro que no se devuelve el resultado.
+
+Lo más interesante , es que mientras esto sucede nuestro server puede seguir procesando peticiones de forma concurrente.
+
+Os animais a probar ? Que os parece esta forma de elevar a PHP hacia un paradigma más asíncrono ?
