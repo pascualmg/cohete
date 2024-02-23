@@ -4,3 +4,5 @@ vendor
 /.php-cs-fixer.cache
 /src/ddd/Infrastructure/PSR11/var/cache/
 /src/ddd/Infrastructure/Queue/RabbitMQ/data/
+phinx.php
+
