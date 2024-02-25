@@ -2,7 +2,7 @@
 
 namespace pascualmg\reactor\ddd\Infrastructure\Repository\Post;
 
-use pascualmg\reactor\ddd\Domain\Entity\Post;
+use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
 use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
 use pascualmg\reactor\ddd\Domain\ValueObject\Uuid;
 use React\Mysql\MysqlClient;

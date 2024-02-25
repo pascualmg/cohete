@@ -1,6 +1,6 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Domain\Entity;
+namespace pascualmg\reactor\ddd\Domain\Entity\Post;
 
 use DateTimeInterface;
 use pascualmg\reactor\ddd\Domain\ValueObject\Uuid;

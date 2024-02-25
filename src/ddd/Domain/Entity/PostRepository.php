@@ -2,6 +2,7 @@
 
 namespace pascualmg\reactor\ddd\Domain\Entity;
 
+use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
 use React\Promise\PromiseInterface;
 
 interface PostRepository

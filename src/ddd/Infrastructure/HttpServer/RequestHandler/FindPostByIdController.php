@@ -4,7 +4,7 @@ namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
 
 use pascualmg\reactor\ddd\Application\Post\FindPostByIdQuery;
 use pascualmg\reactor\ddd\Application\Post\FindPostByIdQueryHandler;
-use pascualmg\reactor\ddd\Domain\Entity\Post;
+use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
 use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

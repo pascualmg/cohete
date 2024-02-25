@@ -2,7 +2,7 @@
 
 namespace pascualmg\reactor\ddd\Infrastructure\scripts\Drafts\websocketServer;
 
-use pascualmg\reactor\ddd\Domain\Entity\Post;
+use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
 use pascualmg\reactor\ddd\Infrastructure\Repository\Post\AsyncMysqlPostRepository;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;

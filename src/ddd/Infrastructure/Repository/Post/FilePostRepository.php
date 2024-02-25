@@ -4,7 +4,7 @@ namespace pascualmg\reactor\ddd\Infrastructure\Repository\Post;
 
 use DateTimeImmutable;
 use Exception;
-use pascualmg\reactor\ddd\Domain\Entity\Post;
+use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
 use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
 use React\Promise\Deferred;
 use React\Promise\PromiseInterface;

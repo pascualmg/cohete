@@ -3,14 +3,12 @@
 namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
 
 use Fig\Http\Message\StatusCodeInterface;
-use pascualmg\reactor\ddd\Domain\Entity\Post;
+use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
 use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
 use pascualmg\reactor\ddd\Domain\ValueObject\Uuid;
-use pascualmg\reactor\ddd\Infrastructure\HelperFunctions\ExceptionTo;
 use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use React\Http\Message\Response;
 use React\Promise\PromiseInterface;
 
 class CreatePostController implements HttpRequestHandler
