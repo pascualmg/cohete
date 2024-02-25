@@ -55,7 +55,7 @@ class ContainerFactory
         } catch (\Exception $e) {
         }
         //todo: donde iran los listeners? seguir investigando.
-        $container->get(MessageBus::class)->listen(
+        $container->get(MessageBus::class)->subscribe(
             'foo',
             function ($data) {
                 var_dump($data);

@@ -20,7 +20,7 @@ class EchoController implements HttpRequestHandler
 
     public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface
     {
-        $this->bus->dispatch(
+        $this->bus->publish(
             new Message(
                 'foo',
                 ['some payload']

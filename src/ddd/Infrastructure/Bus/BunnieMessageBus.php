@@ -44,7 +44,7 @@ class BunnieMessageBus implements MessageBus
     /**
      * @throws \JsonException
      */
-    public function dispatch(Message $message): void
+    public function publish(Message $message): void
     {
         $payload = json_encode($message, JSON_THROW_ON_ERROR);
 
@@ -72,7 +72,7 @@ class BunnieMessageBus implements MessageBus
         );
     }
 
-    public function listen(string $messageName, callable $listener): void
+    public function subscribe(string $messageName, callable $listener): void
     {
         $this->channelObservable
             ->flatMap(

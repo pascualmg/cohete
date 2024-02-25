@@ -18,7 +18,7 @@ class ReactMessageBus implements MessageBus
         $this->loop = $loop;
     }
 
-    public function dispatch(Message $message): void
+    public function publish(Message $message): void
     {
         $this->loop->futureTick(function () use ($message) {
             $this->emitter->emit(
@@ -28,7 +28,7 @@ class ReactMessageBus implements MessageBus
         });
     }
 
-    public function listen(string $messageName, callable $listener): void
+    public function subscribe(string $messageName, callable $listener): void
     {
         //Aquí se emiten eventos asincrónicamente
         $this->emitter->on(

@@ -4,8 +4,8 @@ namespace pascualmg\reactor\ddd\Domain\Bus;
 
 interface MessageBus
 {
-    public function dispatch(Message $message);
+    public function publish(Message $message);
 
-    public function listen(string $messageName, callable $listener);
+    public function subscribe(string $messageName, callable $listener);
 
 }

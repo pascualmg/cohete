@@ -6,6 +6,7 @@ class Message
 {
     public function __construct(
         public readonly string $name,
+        public readonly string $type,
         public readonly mixed $payload,
     ) {
     }

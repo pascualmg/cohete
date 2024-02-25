@@ -47,7 +47,7 @@ class TestController implements HttpRequestHandler
         );
 
 
-        $this->bus->dispatch(
+        $this->bus->publish(
             new Message(
                 'foo',
                 "wee! desde testcontroller"
