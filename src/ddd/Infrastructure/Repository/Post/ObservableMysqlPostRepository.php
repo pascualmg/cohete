@@ -2,9 +2,13 @@
 
 namespace pascualmg\reactor\ddd\Infrastructure\Repository\Post;
 
+use pascualmg\reactor\ddd\Domain\Entity\Post\ArticleBody;
+use pascualmg\reactor\ddd\Domain\Entity\Post\Author;
+use pascualmg\reactor\ddd\Domain\Entity\Post\HeadLine;
 use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
+use pascualmg\reactor\ddd\Domain\Entity\Post\PostId;
 use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
-use pascualmg\reactor\ddd\Domain\ValueObject\Uuid;
+use pascualmg\reactor\ddd\Domain\ValueObject\UuidValueObject;
 use React\Mysql\MysqlClient;
 use React\Mysql\MysqlResult;
 use React\Promise\PromiseInterface;
@@ -52,13 +56,12 @@ class ObservableMysqlPostRepository implements PostRepository
 
     private static function hydrate(array $rawPost): Post
     {
-        return new Post(
-            Uuid::from($rawPost['id']),
-            $rawPost['headline'] ?? "",
-            $rawPost['articleBody'] ?? "",
-            $rawPost['image'] ?? "",
-            $rawPost['author'] ?? "",
-            new \DateTimeImmutable($rawPost['datePublished'])
+        return Post::fromPrimitives(
+            $rawPost['id'],
+            $rawPost['headline'],
+            $rawPost['articleBody'],
+            $rawPost['author'],
+            $rawPost['datePublished'],
         );
     }
 

@@ -3,29 +3,42 @@
 namespace pascualmg\reactor\ddd\Domain\Entity\Post;
 
 use DateTimeInterface;
-use pascualmg\reactor\ddd\Domain\ValueObject\Uuid;
 
 class Post implements \JsonSerializable
 {
     //properties from schema.org
     public function __construct(
-        public Uuid $id,
-        public readonly string $headline,
-        public readonly string $articleBody,
-        public readonly string $image,
-        public readonly string $author,
+        public PostId $id,
+        public readonly HeadLine $headline,
+        public readonly ArticleBody $articleBody,
+        public readonly Author $author,
         public readonly DateTimeInterface $datePublished
     ) {
+    }
+
+    public static function fromPrimitives(
+        string $id,
+        string $headline,
+        string $articleBody,
+        string $author,
+        string $datePublished,
+    ): Post {
+        return new Post(
+            PostId::from($id),
+            HeadLine::from($headline),
+            ArticleBody::from($articleBody),
+            Author::from($author),
+            new \DateTimeImmutable($datePublished)
+        );
     }
 
     public function jsonSerialize(): array
     {
         return [
             'id' => (string)$this->id,
-            'headline' => $this->headline,
-            'articleBody' => $this->articleBody,
-            'image' => $this->image,
-            'author' => $this->author,
+            'headline' => (string)$this->headline,
+            'articleBody' => (string)$this->articleBody,
+            'author' => (string)$this->author,
             'datePublished' => $this->datePublished->format(DateTimeInterface::ATOM),
         ];
     }

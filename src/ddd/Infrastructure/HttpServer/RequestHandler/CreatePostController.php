@@ -5,7 +5,7 @@ namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
 use Fig\Http\Message\StatusCodeInterface;
 use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
 use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
-use pascualmg\reactor\ddd\Domain\ValueObject\Uuid;
+use pascualmg\reactor\ddd\Domain\ValueObject\UuidValueObject;
 use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,7 +27,7 @@ class CreatePostController implements HttpRequestHandler
             return JsonResponse::withError($e);
         }
         $postToCreate = new Post(
-            id: Uuid::from($payload['id']),
+            id: UuidValueObject::from($payload['id']),
             headline: $payload['headline'],
             articleBody: $payload['articleBody'],
             image: $payload['image'],
