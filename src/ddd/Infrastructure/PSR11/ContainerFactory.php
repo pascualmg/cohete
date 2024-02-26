@@ -3,6 +3,8 @@
 namespace pascualmg\reactor\ddd\Infrastructure\PSR11;
 
 use DI\ContainerBuilder;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
@@ -17,6 +19,11 @@ use React\Mysql\MysqlClient;
 
 class ContainerFactory
 {
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws \Exception
+     */
     public static function create(
         bool $isProd = false,
         bool $useAutowiring = true,
@@ -33,23 +40,29 @@ class ContainerFactory
             $builder->writeProxiesToFile(true, $proxyDirectory);
         }
 
+        //todo: extract definitions outside this file ?
         $definitions = [
-            LoopInterface::class => static fn () => Loop::get(),
-            ReactMessageBus::class => static fn (ContainerInterface $c) => new ReactMessageBus(
-                $c->get(LoopInterface::class)
-            ),
-            LoggerInterface::class => function (ContainerInterface $c) {
-                $logger = new Logger('cohete_logger');
-                $logger->pushHandler(new StreamHandler(__DIR__.'/cohete.log'));
+            LoopInterface::class => static fn() => Loop::get(),
+            LoggerInterface::class => function (ContainerInterface $_) {
+                //todo: extract factory ?
+                $logger = new Logger('cohete');
+                $logger->pushHandler(
+                    new StreamHandler(
+                        dirname(__DIR__, 2) . '/Infrastructure/var/log/cohete.log'
+                    )
+                );
                 return $logger;
             },
-            MessageBus::class => static fn (ContainerInterface $c) => $c->get(ReactMessageBus::class),
-            PostRepository::class => static fn (ContainerInterface $c) => $c->get(ObservableMysqlPostRepository::class),
-            'EventBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
-            'CommandBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
-            'QueryBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
-            'routes.path' => static fn (ContainerInterface $_) => $_ENV['ROUTES_PATH'],
-            MysqlClient::class => static fn (ContainerInterface $c) => new MysqlClient(
+            PostRepository::class => static fn(ContainerInterface $c) => $c->get(ObservableMysqlPostRepository::class),
+            MessageBus::class => static fn(ContainerInterface $c) => $c->get(ReactMessageBus::class),
+            ReactMessageBus::class => static fn(ContainerInterface $c) => new ReactMessageBus(
+                $c->get(LoopInterface::class)
+            ),
+            'EventBus' => static fn(ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
+            'CommandBus' => static fn(ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
+            'QueryBus' => static fn(ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
+            'routes.path' => static fn(ContainerInterface $_) => $_ENV['ROUTES_PATH'],
+            MysqlClient::class => static fn(ContainerInterface $c) => new MysqlClient(
                 "{$_ENV['MYSQL_USER']}:{$_ENV['MYSQL_PASSWORD']}@{$_ENV['MYSQL_HOST']}:{$_ENV['MYSQL_PORT']}/{$_ENV['MYSQL_DATABASE']}",
             ),
         ];
@@ -58,17 +71,15 @@ class ContainerFactory
             $builder->addDefinitions($definitions);
         }
 
-        try {
-            $container = $builder->build();
-        } catch (\Exception $e) {
-        }
-        //todo: donde iran los listeners? seguir investigando.
+        $container = $builder->build();
+
         $container->get(MessageBus::class)->subscribe(
             'domain_event.post_created',
             function ($data) use ($container) {
                 var_dump($data);
-                $container->get(LoggerInterface::class)->info("Escuchando al evento PostCreated !! enviando un email o loque sea ");
-
+                $container->get(LoggerInterface::class)->info(
+                    "Escuchando al evento PostCreated !! enviando un email o loque sea "
+                );
             }
         );
         return $container;
