@@ -2,6 +2,7 @@
 
 namespace pascualmg\reactor\ddd\Infrastructure\Repository\Post;
 
+use DateTimeImmutable;
 use pascualmg\reactor\ddd\Domain\Entity\Post\ArticleBody;
 use pascualmg\reactor\ddd\Domain\Entity\Post\Author;
 use pascualmg\reactor\ddd\Domain\Entity\Post\HeadLine;
@@ -69,18 +70,15 @@ class ObservableMysqlPostRepository implements PostRepository
     {
         $insertPostQuery = "
 INSERT INTO post 
-(id, headline, articleBody, image, author, datePublished) VALUES 
-(?,?,?,?,?,?)
+(id, headline, articleBody, author, datePublished) VALUES 
+(?,?,?,?,?)
 ";
-
-
         return $this->mysqlClient->query($insertPostQuery, [
             (string)$postToCreate->id,
-            $postToCreate->headline,
-            $postToCreate->articleBody,
-            $postToCreate->image,
-            $postToCreate->author,
-            $postToCreate->datePublished->format('Y-m-d H:i:s')
+            (string)$postToCreate->headline,
+            (string)$postToCreate->articleBody,
+            (string)$postToCreate->author,
+            $postToCreate->datePublished->getDatetimeImmutable()->format('Y-m-d H:m:s')
         ])->then(
             function (MysqlResult $mysqlResult): bool {
                 $affectedRows = $mysqlResult->affectedRows;

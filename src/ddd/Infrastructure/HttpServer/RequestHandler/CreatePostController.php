@@ -26,13 +26,12 @@ class CreatePostController implements HttpRequestHandler
         } catch (\JsonException $e) {
             return JsonResponse::withError($e);
         }
-        $postToCreate = new Post(
-            id: UuidValueObject::from($payload['id']),
+        $postToCreate = Post::fromPrimitives(
+            id: $payload['id'],
             headline: $payload['headline'],
             articleBody: $payload['articleBody'],
-            image: $payload['image'],
             author: $payload['author'],
-            datePublished: new \DateTimeImmutable($payload['datePublished']),
+            datePublished: $payload['datePublished'],
         );
 
         return $this->postRepository->save($postToCreate)->then(

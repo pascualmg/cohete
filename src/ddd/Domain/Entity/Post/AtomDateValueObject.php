@@ -29,4 +29,8 @@ class AtomDateValueObject extends StringValueObject
         }
     }
 
+    public function getDatetimeImmutable(): \DateTimeImmutable
+    {
+        return \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, $this->value);
+    }
 }
