@@ -27,11 +27,11 @@ class CreatePostController implements HttpRequestHandler
             return JsonResponse::withError($e);
         }
         $postToCreate = Post::fromPrimitives(
-            id: $payload['id'],
-            headline: $payload['headline'],
-            articleBody: $payload['articleBody'],
-            author: $payload['author'],
-            datePublished: $payload['datePublished'],
+            $payload['id'],
+            $payload['headline'],
+            $payload['articleBody'],
+            $payload['author'],
+            $payload['datePublished'],
         );
 
         return $this->postRepository->save($postToCreate)->then(
