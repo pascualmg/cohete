@@ -3,9 +3,8 @@
 namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
 
 use Fig\Http\Message\StatusCodeInterface;
-use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
-use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
-use pascualmg\reactor\ddd\Domain\ValueObject\UuidValueObject;
+use pascualmg\reactor\ddd\Application\Post\CreatePostCommand;
+use pascualmg\reactor\ddd\Application\Post\CreatePostCommandHandler;
 use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,7 +13,7 @@ use React\Promise\PromiseInterface;
 class CreatePostController implements HttpRequestHandler
 {
     public function __construct(
-        private readonly PostRepository $postRepository
+        private readonly CreatePostCommandHandler $createPostCommandHandler
     ) {
     }
 
@@ -26,18 +25,18 @@ class CreatePostController implements HttpRequestHandler
         } catch (\JsonException $e) {
             return JsonResponse::withError($e);
         }
-        $postToCreate = Post::fromPrimitives(
-            $payload['id'],
-            $payload['headline'],
-            $payload['articleBody'],
-            $payload['author'],
-            $payload['datePublished'],
+        ($this->createPostCommandHandler)(
+            new CreatePostCommand(
+                $payload['id'],
+                $payload['headline'],
+                $payload['articleBody'],
+                $payload['image'],
+                $payload['datePublished'],
+                $payload['datePublished']
+            )
         );
 
-        return $this->postRepository->save($postToCreate)->then(
-            static fn (Bool $affectedRows) => JsonResponse::create(StatusCodeInterface::STATUS_CREATED, [$affectedRows]),
-            static fn (\Exception $error) => JsonResponse::withError($error)
-        );
+        return JsonResponse::accepted();
     }
 
 }

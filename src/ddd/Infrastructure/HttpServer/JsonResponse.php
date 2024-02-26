@@ -60,5 +60,9 @@ class JsonResponse implements StatusCodeInterface
         );
     }
 
+    public static function accepted(): ResponseInterface
+    {
+        return self::create(self::STATUS_ACCEPTED, 'Accepted');
+    }
 
 }

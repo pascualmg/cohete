@@ -19,7 +19,8 @@
         "react/promise-stream": "^1.7",
         "ramsey/uuid": "^4.7",
         "bunny/bunny": "^0.5.5",
-        "ext-fileinfo": "*"
+        "ext-fileinfo": "*",
+        "monolog/monolog": "^3.5"
     },
     "require-dev": {
       "roave/security-advisories": "dev-latest" ,

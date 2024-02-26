@@ -11,7 +11,15 @@ class CreatePostCommandHandler
     ) {
     }
 
-    public function __invoke(CreatePostCommand $createPostCommand)
+    public function __invoke(CreatePostCommand $createPostCommand): void
     {
+        ($this->postCreator)(
+            $createPostCommand->postId,
+            $createPostCommand->headline,
+            $createPostCommand->image,
+            $createPostCommand->articleBody,
+            $createPostCommand->author,
+            $createPostCommand->datePublished,
+        );
     }
 }

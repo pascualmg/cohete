@@ -3,11 +3,14 @@
 namespace pascualmg\reactor\ddd\Infrastructure\PSR11;
 
 use DI\ContainerBuilder;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
 use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
 use pascualmg\reactor\ddd\Infrastructure\Bus\ReactMessageBus;
 use pascualmg\reactor\ddd\Infrastructure\Repository\Post\ObservableMysqlPostRepository;
 use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Mysql\MysqlClient;
@@ -35,6 +38,11 @@ class ContainerFactory
             ReactMessageBus::class => static fn (ContainerInterface $c) => new ReactMessageBus(
                 $c->get(LoopInterface::class)
             ),
+            LoggerInterface::class => function (ContainerInterface $c) {
+                $logger = new Logger('cohete_logger');
+                $logger->pushHandler(new StreamHandler(__DIR__.'/cohete.log'));
+                return $logger;
+            },
             MessageBus::class => static fn (ContainerInterface $c) => $c->get(ReactMessageBus::class),
             PostRepository::class => static fn (ContainerInterface $c) => $c->get(ObservableMysqlPostRepository::class),
             'EventBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
@@ -56,9 +64,11 @@ class ContainerFactory
         }
         //todo: donde iran los listeners? seguir investigando.
         $container->get(MessageBus::class)->subscribe(
-            'foo',
-            function ($data) {
+            'domain_event.post_created',
+            function ($data) use ($container) {
                 var_dump($data);
+                $container->get(LoggerInterface::class)->info("Escuchando al evento PostCreated !! enviando un email o loque sea ");
+
             }
         );
         return $container;
