@@ -61,7 +61,7 @@ class ObservableMysqlPostRepository implements PostRepository
             $rawPost['headline'],
             $rawPost['articleBody'],
             $rawPost['author'],
-            $rawPost['datePublished'],
+            (new \DateTimeImmutable($rawPost['datePublished']))->format(\DateTimeInterface::ATOM),
         );
     }
 

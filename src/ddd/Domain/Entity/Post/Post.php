@@ -12,7 +12,7 @@ class Post implements \JsonSerializable
         public readonly HeadLine $headline,
         public readonly ArticleBody $articleBody,
         public readonly Author $author,
-        public readonly DateTimeInterface $datePublished
+        public readonly DatePublished $datePublished
     ) {
     }
 
@@ -28,7 +28,7 @@ class Post implements \JsonSerializable
             HeadLine::from($headline),
             ArticleBody::from($articleBody),
             Author::from($author),
-            new \DateTimeImmutable($datePublished)
+           DatePublished::from($datePublished)
         );
     }
 
@@ -39,7 +39,7 @@ class Post implements \JsonSerializable
             'headline' => (string)$this->headline,
             'articleBody' => (string)$this->articleBody,
             'author' => (string)$this->author,
-            'datePublished' => $this->datePublished->format(DateTimeInterface::ATOM),
+            'datePublished' => (string)$this->datePublished
         ];
     }
 }
