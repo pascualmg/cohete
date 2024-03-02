@@ -14,7 +14,7 @@
       let
         php = pkgs.api.buildPhpFromComposer {
           src = inputs.self;
-          php = pkgs.php82; # Change to php56, php70, ..., php81, php82, php83 etc.
+          php = pkgs.php83; # Change to php56, php70, ..., php81, php82, php83 etc.
         };
       in
       {
