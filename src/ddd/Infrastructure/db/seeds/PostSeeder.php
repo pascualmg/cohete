@@ -26,7 +26,6 @@ class PostSeeder extends AbstractSeed
                 'headline' => $faker->sentence(),
                 'articleBody' => $faker->paragraph(),
                 'author' => $faker->name(),
-                'image' => $faker->imageUrl(),
                 'datePublished' => $faker->date(),
             ];
         }
