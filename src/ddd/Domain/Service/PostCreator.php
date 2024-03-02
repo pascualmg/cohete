@@ -2,7 +2,6 @@
 
 namespace pascualmg\reactor\ddd\Domain\Service;
 
-use pascualmg\reactor\ddd\Domain\Bus\DomainEventBus;
 use pascualmg\reactor\ddd\Domain\Bus\Message;
 use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
 use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
