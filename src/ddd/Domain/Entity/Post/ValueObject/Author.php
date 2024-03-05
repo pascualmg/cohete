@@ -10,7 +10,7 @@ class Author extends StringValueObject
 
     public function __construct(string $value)
     {
-        self::assertMaxLength(self::MAXLENGTH,$value);
+        self::assertMaxLength(self::MAXLENGTH, $value);
         parent::__construct($value);
     }
 

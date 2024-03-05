@@ -28,12 +28,12 @@ class FilePostRepository implements PostRepository
             return $deferred->promise();
         }
 
-       $deferred->resolve(
-           array_map(
-               [self::class,'hydrate'],
-               $rawPosts
-           )
-       );
+        $deferred->resolve(
+            array_map(
+                [self::class,'hydrate'],
+                $rawPosts
+            )
+        );
 
         return $deferred->promise();
     }

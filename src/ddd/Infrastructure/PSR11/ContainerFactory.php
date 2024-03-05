@@ -42,7 +42,7 @@ class ContainerFactory
 
         //todo: extract definitions outside this file ?
         $definitions = [
-            LoopInterface::class => static fn() => Loop::get(),
+            LoopInterface::class => static fn () => Loop::get(),
             LoggerInterface::class => function (ContainerInterface $_) {
                 //todo: extract factory ?
                 $logger = new Logger('cohete');
@@ -53,16 +53,16 @@ class ContainerFactory
                 );
                 return $logger;
             },
-            PostRepository::class => static fn(ContainerInterface $c) => $c->get(ObservableMysqlPostRepository::class),
-            MessageBus::class => static fn(ContainerInterface $c) => $c->get(ReactMessageBus::class),
-            ReactMessageBus::class => static fn(ContainerInterface $c) => new ReactMessageBus(
+            PostRepository::class => static fn (ContainerInterface $c) => $c->get(ObservableMysqlPostRepository::class),
+            MessageBus::class => static fn (ContainerInterface $c) => $c->get(ReactMessageBus::class),
+            ReactMessageBus::class => static fn (ContainerInterface $c) => new ReactMessageBus(
                 $c->get(LoopInterface::class)
             ),
-            'EventBus' => static fn(ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
-            'CommandBus' => static fn(ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
-            'QueryBus' => static fn(ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
-            'routes.path' => static fn(ContainerInterface $_) => $_ENV['ROUTES_PATH'],
-            MysqlClient::class => static fn(ContainerInterface $c) => new MysqlClient(
+            'EventBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
+            'CommandBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
+            'QueryBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
+            'routes.path' => static fn (ContainerInterface $_) => $_ENV['ROUTES_PATH'],
+            MysqlClient::class => static fn (ContainerInterface $c) => new MysqlClient(
                 "{$_ENV['MYSQL_USER']}:{$_ENV['MYSQL_PASSWORD']}@{$_ENV['MYSQL_HOST']}:{$_ENV['MYSQL_PORT']}/{$_ENV['MYSQL_DATABASE']}",
             ),
         ];

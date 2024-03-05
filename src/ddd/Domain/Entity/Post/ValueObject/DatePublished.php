@@ -6,5 +6,4 @@ use pascualmg\reactor\ddd\Domain\ValueObject\AtomDateValueObject;
 
 class DatePublished extends AtomDateValueObject
 {
-
 }

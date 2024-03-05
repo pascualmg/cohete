@@ -2,7 +2,6 @@
 
 namespace pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject;
 
-use InvalidArgumentException;
 use pascualmg\reactor\ddd\Domain\ValueObject\StringValueObject;
 
 class Slug extends StringValueObject
@@ -18,7 +17,8 @@ class Slug extends StringValueObject
     }
 
 
-    public static function generateSlug(string $string) : string {
+    public static function generateSlug(string $string): string
+    {
 
         $slug = preg_replace("/'/", "", $string);
         $slug = preg_replace("/&/", " and ", $slug);

@@ -2,7 +2,7 @@
 
 namespace pascualmg\reactor\ddd\Domain\ValueObject;
 
-use \Stringable;
+use Stringable;
 
 class StringValueObject implements Stringable
 {
@@ -10,12 +10,12 @@ class StringValueObject implements Stringable
     {
     }
 
-    public static function from(?string $value = null) : static
+    public static function from(?string $value = null): static
     {
         return new static($value ?? "");
     }
 
-    public function isEmpty() : bool
+    public function isEmpty(): bool
     {
         return $this->value === "";
     }
@@ -55,7 +55,7 @@ class StringValueObject implements Stringable
         }
     }
 
-    public static  function assertNotEmpty(?string $value): void
+    public static function assertNotEmpty(?string $value): void
     {
         if (empty(trim($value))) {
             $valueObjectName = self::class;

@@ -6,5 +6,4 @@ use pascualmg\reactor\ddd\Domain\ValueObject\UuidValueObject;
 
 class PostId extends UuidValueObject
 {
-
 }

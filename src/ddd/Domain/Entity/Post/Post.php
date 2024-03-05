@@ -36,7 +36,7 @@ class Post implements \JsonSerializable
             HeadLine::from($headline),
             ArticleBody::from($articleBody),
             Author::from($author),
-           DatePublished::from($datePublished)
+            DatePublished::from($datePublished)
         );
     }
 

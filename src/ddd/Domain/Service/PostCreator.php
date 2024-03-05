@@ -33,14 +33,14 @@ class PostCreator
             $datePublished
         );
 
-        $this->logger->info("creando el post" , [$post]);
+        $this->logger->info("creando el post", [$post]);
 
         $this->postRepository->save($post)->then(
             function (Bool $_) use ($post) {
                 $this->logger->info("Post created successfully", [$post]);
-                $this->messageBus->publish(new Message('domain_event.post_created', [$post] ));
+                $this->messageBus->publish(new Message('domain_event.post_created', [$post]));
             },
-            fn(\Exception $exception) => $this->logger->error("Cant create the new post", [$post, $exception])
+            fn (\Exception $exception) => $this->logger->error("Cant create the new post", [$post, $exception])
         );
 
     }
