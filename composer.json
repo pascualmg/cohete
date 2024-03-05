@@ -20,7 +20,8 @@
         "ramsey/uuid": "^4.7",
         "bunny/bunny": "^0.5.5",
         "ext-fileinfo": "*",
-        "monolog/monolog": "^3.5"
+        "monolog/monolog": "^3.5",
+        "ext-iconv": "*"
     },
     "require-dev": {
       "roave/security-advisories": "dev-latest" ,

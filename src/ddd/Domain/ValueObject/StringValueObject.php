@@ -57,7 +57,7 @@ class StringValueObject implements Stringable
 
     public static  function assertNotEmpty(?string $value): void
     {
-        if (empty($value)) {
+        if (empty(trim($value))) {
             $valueObjectName = self::class;
             throw new \InvalidArgumentException(
                 sprintf(

@@ -2,11 +2,18 @@
 
 namespace pascualmg\reactor\ddd\Domain\Entity\Post;
 
-use DateTimeInterface;
+use pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\ArticleBody;
+use pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\Author;
+use pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\DatePublished;
+use pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\HeadLine;
+use pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\PostId;
+use pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\Slug;
 
 class Post implements \JsonSerializable
 {
     //properties from schema.org
+    private Slug $slug;
+
     public function __construct(
         public PostId $id,
         public readonly HeadLine $headline,
@@ -14,6 +21,7 @@ class Post implements \JsonSerializable
         public readonly Author $author,
         public readonly DatePublished $datePublished
     ) {
+        $this->slug = Slug::from((string)$this->headline);
     }
 
     public static function fromPrimitives(
@@ -37,6 +45,7 @@ class Post implements \JsonSerializable
         return [
             'id' => (string)$this->id,
             'headline' => (string)$this->headline,
+            'slug' => (string)$this->slug,
             'articleBody' => (string)$this->articleBody,
             'author' => (string)$this->author,
             'datePublished' => (string)$this->datePublished
