@@ -7,3 +7,5 @@ vendor
 phinx.php
 
 /src/ddd/Infrastructure/var/log/cohete.log
+/.phpunit.result.cache
+/.phpunit.cache/test-results
