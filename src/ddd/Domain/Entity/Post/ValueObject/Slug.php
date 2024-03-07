@@ -34,10 +34,7 @@ class Slug extends StringValueObject
         $slug = trim($slug, '-');
 
         // lowercase
-        $slug = strtolower($slug);
-
-
-        return $slug;
+        return strtolower($slug);
     }
 
 }
