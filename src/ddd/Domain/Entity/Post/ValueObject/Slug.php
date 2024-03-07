@@ -36,9 +36,6 @@ class Slug extends StringValueObject
         // lowercase
         $slug = strtolower($slug);
 
-        if (empty($slug)) {
-            return 'n-a';
-        }
 
         return $slug;
     }
