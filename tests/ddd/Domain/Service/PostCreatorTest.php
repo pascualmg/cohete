@@ -74,5 +74,46 @@ class PostCreatorTest extends TestCase
             (string)$postToCreate->datePublished
         );
     }
+    public function test_given_a_post_when_create_with_error_then_this_concrete_error_is_logged(): void
+    {
+        $postToCreate = Post::fromPrimitives(
+            "be0f19bf-5225-4a9d-8cd9-0a8735d20aa6",
+            "some title",
+            "this is the articlebody",
+            "me",
+            "2024-03-11T12:25:51+00:00",
+        );
+
+        $concreteException = new class extends \Exception
+        {
+            public function __construct()
+            {
+                parent::__construct('some error message', 0, null);
+            }
+
+        };
+
+        $deferred = new Deferred();
+        $deferred->reject($concreteException);
+        $this->postRepository->method('save')->willReturn(
+            $deferred->promise()
+        );
+
+        $this->logger->expects($this->once())
+                ->method('error')
+                ->with(
+                    'Cant create the new post',
+                    [$postToCreate, $concreteException]
+                );
+
+        ($this->postCreator)(
+            (string)$postToCreate->id,
+            (string)$postToCreate->headline,
+            (string)$postToCreate->articleBody,
+            (string)$postToCreate->author,
+            (string)$postToCreate->datePublished
+        );
+
+    }
 
 }
