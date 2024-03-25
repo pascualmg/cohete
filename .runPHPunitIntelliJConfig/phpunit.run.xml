@@ -5,7 +5,7 @@
         <option name="interpreterName" value="PHP" />
       </PhpTestInterpreterSettings>
     </CommandLine>
-    <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="XML" />
+    <TestRunner configuration_file="$PROJECT_DIR$/phpunit.xml" scope="XML" use_alternative_configuration_file="true" />
     <method v="2" />
   </configuration>
 </component>

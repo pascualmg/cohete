@@ -12,6 +12,7 @@
     <testsuites>
         <testsuite name="Cohete">
             <directory>tests</directory>
+            <exclude>src/ddd/Infrastructure</exclude>
         </testsuite>
     </testsuites>
 
