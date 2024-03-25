@@ -2,6 +2,7 @@
 
 namespace ddd\Domain\Service;
 
+use pascualmg\reactor\ddd\Domain\Bus\Message;
 use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
 use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
 use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
@@ -31,7 +32,6 @@ class PostCreatorTest extends TestCase
 
     protected function setUp(): void
     {
-
         $this->postRepository = $this->createMock(PostRepository::class);
         $this->messageBus = $this->createMock(MessageBus::class);
         $this->logger = $this->createMock(LoggerInterface::class);
@@ -46,45 +46,33 @@ class PostCreatorTest extends TestCase
 
     public function test_given_a_post_when_create_then_is_created_and_event_is_dispatched(): void
     {
-
-        $loop = Loop::get();
         $postToCreate = Post::fromPrimitives(
-           "be0f19bf-5225-4a9d-8cd9-0a8735d20aa6",
+            "be0f19bf-5225-4a9d-8cd9-0a8735d20aa6",
             "some title",
             "this is the articlebody",
             "me",
             "2024-03-11T12:25:51+00:00",
         );
 
-       //expect that the mock logger is called
-
         $deferred = new Deferred();
-        $deferred->resolve( false);
-
+        $deferred->resolve(false);
         $this->postRepository->method('save')->willReturn(
             $deferred->promise()
         );
-        $this->logger
-            ->expects($this->once())
-            ->method('info');
 
         $this->messageBus->expects($this->once())
-            ->method('publish');
-
-        $loop->futureTick(function () use ($postToCreate) {
-            return ($this->postCreator)(
-                (string)$postToCreate->id,
-                (string)$postToCreate->headline,
-                (string)$postToCreate->articleBody,
-                (string)$postToCreate->author,
-                (string)$postToCreate->datePublished
+            ->method('publish')
+            ->with(
+                new Message('domain_event.post_created', [$postToCreate])
             );
-        });
 
-        $loop->run();
-
-
-
+        ($this->postCreator)(
+            (string)$postToCreate->id,
+            (string)$postToCreate->headline,
+            (string)$postToCreate->articleBody,
+            (string)$postToCreate->author,
+            (string)$postToCreate->datePublished
+        );
     }
 
 }
