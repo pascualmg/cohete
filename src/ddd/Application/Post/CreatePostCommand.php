@@ -2,15 +2,14 @@
 
 namespace pascualmg\reactor\ddd\Application\Post;
 
-class CreatePostCommand
+readonly class CreatePostCommand
 {
     public function __construct(
-        public readonly string $postId,
-        public readonly string $headline,
-        public readonly string $articleBody,
-        public readonly string $image,
-        public readonly string $author,
-        public readonly string $datePublished,
+        public string $postId,
+        public string $headline,
+        public string $articleBody,
+        public string $author,
+        public string $datePublished,
     ) {
     }
 }

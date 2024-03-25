@@ -16,7 +16,6 @@ class CreatePostCommandHandler
         ($this->postCreator)(
             $createPostCommand->postId,
             $createPostCommand->headline,
-            $createPostCommand->image,
             $createPostCommand->articleBody,
             $createPostCommand->author,
             $createPostCommand->datePublished,
