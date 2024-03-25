@@ -8,19 +8,18 @@ use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
 use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
 use Psr\Log\LoggerInterface;
 
-class PostCreator
+readonly class PostCreator
 {
     public function __construct(
-        private readonly PostRepository $postRepository,
-        private readonly MessageBus $messageBus,
-        private readonly LoggerInterface $logger
+        private PostRepository $postRepository,
+        private MessageBus $messageBus,
+        private LoggerInterface $logger
     ) {
     }
 
     public function __invoke(
         string $postId,
         string $headline,
-        string $image,
         string $articleBody,
         string $author,
         string $datePublished
@@ -33,7 +32,6 @@ class PostCreator
             $datePublished
         );
 
-        $this->logger->info("creando el post", [$post]);
 
         $this->postRepository->save($post)->then(
             function (Bool $_) use ($post) {
@@ -43,6 +41,6 @@ class PostCreator
             fn (\Exception $exception) => $this->logger->error("Cant create the new post", [$post, $exception])
         );
 
-    }
+        }
 
 }
