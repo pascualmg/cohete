@@ -32,14 +32,10 @@ readonly class PostCreator
             $datePublished
         );
 
-
         $this->postRepository->save($post)->then(
-            function (Bool $_) use ($post) {
-                $this->messageBus->publish(new Message('domain_event.post_created', [$post]));
-            },
-            fn (\Exception $exception) => $this->logger->error("Cant create the new post", [$post, $exception])
+            fn(Bool $_) => $this->messageBus->publish(new Message('domain_event.post_created', [$post])),
+            fn(\Exception $exception) => $this->logger->error("Cant create the new post", [$post, $exception])
         );
-
-        }
+    }
 
 }
