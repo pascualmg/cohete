@@ -2,11 +2,11 @@
 
 namespace pascualmg\reactor\ddd\Domain\Bus;
 
-class Message
+readonly class Message
 {
     public function __construct(
-        public readonly string $name,
-        public readonly mixed $payload,
+        public string $name,
+        public mixed $payload,
     ) {
     }
 
