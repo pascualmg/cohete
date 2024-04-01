@@ -1,11 +1,11 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\Kernel;
+namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\Kernel;
 
 use FastRoute\Dispatcher;
-use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
-use pascualmg\reactor\ddd\Infrastructure\HttpServer\Router\Router;
-use pascualmg\reactor\ddd\Infrastructure\PSR11\ContainerFactory;
+use pascualmg\cohete\ddd\Infrastructure\HttpServer\JsonResponse;
+use pascualmg\cohete\ddd\Infrastructure\HttpServer\Router\Router;
+use pascualmg\cohete\ddd\Infrastructure\PSR11\ContainerFactory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

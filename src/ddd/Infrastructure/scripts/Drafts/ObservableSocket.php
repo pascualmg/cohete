@@ -1,6 +1,6 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\scripts\Drafts;
+namespace pascualmg\cohete\ddd\Infrastructure\scripts\Drafts;
 
 use React\EventLoop\Loop;
 use React\Socket\ConnectionInterface;

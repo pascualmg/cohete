@@ -1,9 +1,9 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\scripts\Drafts\websocketServer;
+namespace pascualmg\cohete\ddd\Infrastructure\scripts\Drafts\websocketServer;
 
-use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
-use pascualmg\reactor\ddd\Infrastructure\Repository\Post\AsyncMysqlPostRepository;
+use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
+use pascualmg\cohete\ddd\Infrastructure\Repository\Post\AsyncMysqlPostRepository;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use React\EventLoop\Loop;

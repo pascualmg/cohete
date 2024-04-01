@@ -1,6 +1,6 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\scripts\chat;
+namespace pascualmg\cohete\ddd\Infrastructure\scripts\chat;
 
 use Colors\Color;
 use React\Socket\ConnectionInterface;

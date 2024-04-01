@@ -1,6 +1,6 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Domain\Bus;
+namespace pascualmg\cohete\ddd\Domain\Bus;
 
 readonly class Message
 {

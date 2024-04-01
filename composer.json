@@ -1,5 +1,5 @@
 {
-    "name": "pascualmg/reactor",
+    "name": "pascualmg/cohete",
     "require": {
         "reactivex/rxphp": "^2.0",
         "react/event-loop": "^1.5",
@@ -30,8 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "pascualmg\\reactor\\": "src/",
-            "test\\pascualmg\\reactor\\": "tests/"
+            "pascualmg\\cohete\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "\\pascualmg\\cohete\\": "test/"
         }
     },
     "authors": [

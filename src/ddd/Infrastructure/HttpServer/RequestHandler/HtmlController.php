@@ -1,10 +1,10 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
+namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
 
 use Fig\Http\Message\StatusCodeInterface;
 use finfo;
-use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
+use pascualmg\cohete\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

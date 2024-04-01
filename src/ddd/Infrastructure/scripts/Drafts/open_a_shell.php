@@ -2,7 +2,7 @@
 
 require dirname(__DIR__, 5) . '/vendor/autoload.php';
 
-use pascualmg\reactor\ddd\Infrastructure\scripts\Drafts\ObservableSocket;
+use pascualmg\cohete\ddd\Infrastructure\scripts\Drafts\ObservableSocket;
 use Rx\ObserverInterface;
 
 $shell = new class () implements ObserverInterface {

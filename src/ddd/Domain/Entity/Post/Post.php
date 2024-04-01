@@ -1,13 +1,13 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Domain\Entity\Post;
+namespace pascualmg\cohete\ddd\Domain\Entity\Post;
 
-use pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\ArticleBody;
-use pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\Author;
-use pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\DatePublished;
-use pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\HeadLine;
-use pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\PostId;
-use pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\Slug;
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\ArticleBody;
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Author;
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\DatePublished;
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\HeadLine;
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Slug;
 
 class Post implements \JsonSerializable
 {

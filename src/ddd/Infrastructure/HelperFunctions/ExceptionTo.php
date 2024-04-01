@@ -1,6 +1,6 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\HelperFunctions;
+namespace pascualmg\cohete\ddd\Infrastructure\HelperFunctions;
 
 use Throwable;
 

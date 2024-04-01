@@ -1,6 +1,6 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Domain\ValueObject;
+namespace pascualmg\cohete\ddd\Domain\ValueObject;
 
 use Ramsey\Uuid\Uuid as RamseyUuid;
 
@@ -17,7 +17,7 @@ class UuidValueObject implements \Stringable
         return new static($validUuid->toString());
     }
 
-    public static function v4() : static
+    public static function v4(): static
     {
         return new self(RamseyUuid::uuid4()->toString());
     }

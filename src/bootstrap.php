@@ -6,7 +6,7 @@ ini_set('memory_limit', '256M');
 require __DIR__ . '/../vendor/autoload.php';
 
 use Dotenv\Dotenv;
-use pascualmg\reactor\ddd\Infrastructure\HttpServer\ReactHttpServer;
+use pascualmg\cohete\ddd\Infrastructure\HttpServer\ReactHttpServer;
 use React\EventLoop\Loop;
 use Rx\Scheduler;
 use Rx\Scheduler\EventLoopScheduler;

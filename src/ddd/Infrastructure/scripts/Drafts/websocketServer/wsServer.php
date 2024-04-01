@@ -6,8 +6,8 @@ error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 
 require dirname(__DIR__, 6) . '/vendor/autoload.php';
 
-use pascualmg\reactor\ddd\Infrastructure\scripts\Drafts\websocketServer\Chat;
-use pascualmg\reactor\ddd\Infrastructure\scripts\Drafts\websocketServer\TestMessageComponent;
+use pascualmg\cohete\ddd\Infrastructure\scripts\Drafts\websocketServer\Chat;
+use pascualmg\cohete\ddd\Infrastructure\scripts\Drafts\websocketServer\TestMessageComponent;
 use Ratchet\Server\IoServer;
 use Ratchet\WebSocket\WsServer;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\Router;
+namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\Router;
 
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;

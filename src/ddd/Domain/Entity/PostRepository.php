@@ -1,8 +1,8 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Domain\Entity;
+namespace pascualmg\cohete\ddd\Domain\Entity;
 
-use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
+use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
 use React\Promise\PromiseInterface;
 
 interface PostRepository

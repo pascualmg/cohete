@@ -1,16 +1,16 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\PSR11;
+namespace pascualmg\cohete\ddd\Infrastructure\PSR11;
 
 use DI\ContainerBuilder;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
-use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
-use pascualmg\reactor\ddd\Infrastructure\Bus\ReactMessageBus;
-use pascualmg\reactor\ddd\Infrastructure\Repository\Post\ObservableMysqlPostRepository;
+use pascualmg\cohete\ddd\Domain\Bus\MessageBus;
+use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
+use pascualmg\cohete\ddd\Infrastructure\Bus\ReactMessageBus;
+use pascualmg\cohete\ddd\Infrastructure\Repository\Post\ObservableMysqlPostRepository;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use React\EventLoop\Loop;

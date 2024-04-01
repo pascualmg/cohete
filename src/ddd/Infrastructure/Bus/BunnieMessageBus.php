@@ -1,13 +1,13 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\Bus;
+namespace pascualmg\cohete\ddd\Infrastructure\Bus;
 
 use Bunny\Async\Client;
 use Bunny\Channel;
 use Bunny\Message as BunnieMessage;
 use Bunny\Protocol\MethodQueueDeclareOkFrame;
-use pascualmg\reactor\ddd\Domain\Bus\Message;
-use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
+use pascualmg\cohete\ddd\Domain\Bus\Message;
+use pascualmg\cohete\ddd\Domain\Bus\MessageBus;
 use React\Promise\PromiseInterface;
 use Rx\Observable;
 

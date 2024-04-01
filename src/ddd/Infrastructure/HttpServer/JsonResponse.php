@@ -1,9 +1,9 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\HttpServer;
+namespace pascualmg\cohete\ddd\Infrastructure\HttpServer;
 
 use Fig\Http\Message\StatusCodeInterface;
-use pascualmg\reactor\ddd\Infrastructure\HelperFunctions\ExceptionTo;
+use pascualmg\cohete\ddd\Infrastructure\HelperFunctions\ExceptionTo;
 use Psr\Http\Message\ResponseInterface;
 use React\Http\Message\Response;
 use Throwable;

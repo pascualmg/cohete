@@ -1,8 +1,8 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\scripts\Drafts\websocketServer;
+namespace pascualmg\cohete\ddd\Infrastructure\scripts\Drafts\websocketServer;
 
-use pascualmg\reactor\ddd\Infrastructure\HelperFunctions\ExceptionTo;
+use pascualmg\cohete\ddd\Infrastructure\HelperFunctions\ExceptionTo;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 

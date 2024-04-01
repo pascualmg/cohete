@@ -1,10 +1,10 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\HttpServer;
+namespace pascualmg\cohete\ddd\Infrastructure\HttpServer;
 
 use FriendsOfReact\Http\Middleware\Psr15Adapter\PSR15Middleware;
 use Middlewares\ClientIp;
-use pascualmg\reactor\ddd\Infrastructure\HttpServer\Kernel\Kernel;
+use pascualmg\cohete\ddd\Infrastructure\HttpServer\Kernel\Kernel;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;

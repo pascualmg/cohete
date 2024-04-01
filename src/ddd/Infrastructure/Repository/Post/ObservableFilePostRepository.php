@@ -1,10 +1,10 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\Repository\Post;
+namespace pascualmg\cohete\ddd\Infrastructure\Repository\Post;
 
 use DateTimeImmutable;
-use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
-use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
+use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
+use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use React\Promise\PromiseInterface;
 use React\Promise\Stream;
 use React\Stream\ReadableResourceStream;

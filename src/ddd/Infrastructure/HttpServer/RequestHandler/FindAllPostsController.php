@@ -1,10 +1,10 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
+namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
 
-use pascualmg\reactor\ddd\Application\Post\FindAllPosts;
-use pascualmg\reactor\ddd\Application\Post\FindAllPostsQuery;
-use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
+use pascualmg\cohete\ddd\Application\Post\FindAllPosts;
+use pascualmg\cohete\ddd\Application\Post\FindAllPostsQuery;
+use pascualmg\cohete\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Promise\PromiseInterface;

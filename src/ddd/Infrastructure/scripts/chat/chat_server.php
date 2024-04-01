@@ -1,6 +1,6 @@
 <?php
 
-use pascualmg\reactor\ddd\Infrastructure\scripts\chat\ConnectionPool;
+use pascualmg\cohete\ddd\Infrastructure\scripts\chat\ConnectionPool;
 use React\EventLoop\Loop;
 use React\Socket\ConnectionInterface;
 use React\Socket\SocketServer;

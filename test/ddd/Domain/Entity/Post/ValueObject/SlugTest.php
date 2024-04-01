@@ -1,15 +1,14 @@
 <?php
 
 
-namespace pascualmg\reactor\ddd\Domain\Entity\Post;
+namespace pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject;
 
 use InvalidArgumentException;
-use pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\Slug;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\Slug
- * @covers \pascualmg\reactor\ddd\Domain\ValueObject\StringValueObject
+ * @covers \pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Slug
+ * @covers \pascualmg\cohete\ddd\Domain\ValueObject\StringValueObject
  */
 class SlugTest extends TestCase
 {
@@ -97,3 +96,4 @@ class SlugTest extends TestCase
         );
     }
 }
+

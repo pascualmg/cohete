@@ -2,36 +2,36 @@
   {
     "method": "GET",
     "path": "/post",
-    "handler": "pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\FindAllPostsController"
+    "handler": "pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\FindAllPostsController"
   },
   {
     "method": "POST",
     "path": "/test",
-    "handler": "pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\TestController"
+    "handler": "pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\TestController"
   },
   {
     "method": "GET,PUT post, patch",
     "path": "/echo",
-    "handler": "pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\EchoController"
+    "handler": "pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\EchoController"
   },
   {
     "method": "GET",
     "path": "/html[{params:.+}]",
-    "handler": "pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\HtmlController"
+    "handler": "pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\HtmlController"
   },
   {
     "method": "GET",
     "path": "/health",
-    "handler": "\\pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\HealthController"
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\HealthController"
   },
   {
     "method": "GET",
     "path": "/post/{id:[0-9]+}",
-    "handler": "\\pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\FindPostByIdController"
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\FindPostByIdController"
   },
   {
     "method": "POST",
     "path": "/post",
-    "handler": "\\pascualmg\\reactor\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\CreatePostController"
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\CreatePostController"
   }
 ]

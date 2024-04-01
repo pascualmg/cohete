@@ -1,9 +1,9 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\Repository\Post;
+namespace pascualmg\cohete\ddd\Infrastructure\Repository\Post;
 
-use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
-use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
+use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
+use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use React\Mysql\MysqlClient;
 use React\Mysql\MysqlResult;
 use React\Promise\PromiseInterface;

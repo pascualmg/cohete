@@ -1,8 +1,8 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject;
+namespace pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject;
 
-use pascualmg\reactor\ddd\Domain\ValueObject\AtomDateValueObject;
+use pascualmg\cohete\ddd\Domain\ValueObject\AtomDateValueObject;
 
 class DatePublished extends AtomDateValueObject
 {

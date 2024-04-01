@@ -1,6 +1,6 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Domain\ValueObject;
+namespace pascualmg\cohete\ddd\Domain\ValueObject;
 
 class AtomDateValueObject extends StringValueObject
 {

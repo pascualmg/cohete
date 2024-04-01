@@ -1,6 +1,6 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
+namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

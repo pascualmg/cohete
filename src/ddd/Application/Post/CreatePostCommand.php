@@ -1,6 +1,6 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Application\Post;
+namespace pascualmg\cohete\ddd\Application\Post;
 
 readonly class CreatePostCommand
 {

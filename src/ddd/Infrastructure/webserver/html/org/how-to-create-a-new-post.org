@@ -43,7 +43,7 @@ Este seria el skel del que partir, no hace nada mas que responder con un 200 que
 #+begin_src php
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
+namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -83,9 +83,9 @@ Para empezar y ver que todo va bien haremos primero un =EchoController= para ver
 #+begin_src php -n -r
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
+namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
 
-use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
+use pascualmg\cohete\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
@@ -166,14 +166,14 @@ INSERT INTO post
  #+begin_src php
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\HttpServer\RequestHandler;
+namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
 
 use Fig\Http\Message\StatusCodeInterface;
-use pascualmg\reactor\ddd\Domain\Entity\Post;
-use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
-use pascualmg\reactor\ddd\Domain\ValueObject\Uuid;
-use pascualmg\reactor\ddd\Infrastructure\HelperFunctions\ExceptionTo;
-use pascualmg\reactor\ddd\Infrastructure\HttpServer\JsonResponse;
+use pascualmg\cohete\ddd\Domain\Entity\Post;
+use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
+use pascualmg\cohete\ddd\Domain\ValueObject\Uuid;
+use pascualmg\cohete\ddd\Infrastructure\HelperFunctions\ExceptionTo;
+use pascualmg\cohete\ddd\Infrastructure\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;

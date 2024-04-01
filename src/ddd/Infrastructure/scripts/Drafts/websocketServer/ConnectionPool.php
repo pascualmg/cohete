@@ -1,6 +1,6 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Infrastructure\scripts\Drafts\websocketServer;
+namespace pascualmg\cohete\ddd\Infrastructure\scripts\Drafts\websocketServer;
 
 use JsonException;
 use Ramsey\Uuid\Uuid;

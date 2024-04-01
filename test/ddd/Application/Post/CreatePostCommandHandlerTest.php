@@ -1,11 +1,9 @@
 <?php
 
-namespace test\pascualmg\reactor\ddd\Application\Post;
+namespace pascualmg\cohete\ddd\Application\Post;
 
-use pascualmg\reactor\ddd\Application\Post\CreatePostCommand;
-use pascualmg\reactor\ddd\Application\Post\CreatePostCommandHandler;
-use pascualmg\reactor\ddd\Domain\ValueObject\UuidValueObject;
-use test\pascualmg\reactor\ddd\Domain\Service\PostCreatorTest;
+use pascualmg\cohete\ddd\Domain\Service\PostCreatorTest;
+use pascualmg\cohete\ddd\Domain\ValueObject\UuidValueObject;
 
 class CreatePostCommandHandlerTest extends PostCreatorTest
 {
@@ -22,9 +20,9 @@ class CreatePostCommandHandlerTest extends PostCreatorTest
 
     /**
      *
-     * @covers \pascualmg\reactor\ddd\Application\Post\CreatePostCommandHandler
-     * @covers \pascualmg\reactor\ddd\Application\Post\CreatePostCommand
-     * @covers \pascualmg\reactor\ddd\Domain\ValueObject\UuidValueObject
+     * @covers \pascualmg\cohete\ddd\Application\Post\CreatePostCommandHandler
+     * @covers \pascualmg\cohete\ddd\Application\Post\CreatePostCommand
+     * @covers \pascualmg\cohete\ddd\Domain\ValueObject\UuidValueObject
      */
     public function test_given_valid_command_when_create_then_service_is_invoked() : void
     {
@@ -33,7 +31,7 @@ class CreatePostCommandHandlerTest extends PostCreatorTest
             "headline",
             "articlebody",
             "me",
-            "2024-04-01T18:20:09+00f",
+            "2024-04-01T21:46:50+00:00",
         );
 
         ($this->createPostCommandHandler)(

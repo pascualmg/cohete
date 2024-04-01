@@ -1,26 +1,25 @@
 <?php
 
-namespace test\pascualmg\reactor\ddd\Domain\Service;
+namespace pascualmg\cohete\ddd\Domain\Service;
 
-use pascualmg\reactor\ddd\Domain\Bus\Message;
-use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
-use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
-use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
-use pascualmg\reactor\ddd\Domain\Service\PostCreator;
+use pascualmg\cohete\ddd\Domain\Bus\Message;
+use pascualmg\cohete\ddd\Domain\Bus\MessageBus;
+use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
+use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use React\Promise\Deferred;
 
-/** @covers \pascualmg\reactor\ddd\Domain\Service\PostCreator
- * @covers  \pascualmg\reactor\ddd\Domain\Bus\Message
- * @covers  \pascualmg\reactor\ddd\Domain\Entity\Post\Post
- * @covers  \pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\ArticleBody
- * @covers  \pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\Author
- * @covers  \pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\HeadLine
- * @covers  \pascualmg\reactor\ddd\Domain\Entity\Post\ValueObject\Slug
- * @covers  \pascualmg\reactor\ddd\Domain\ValueObject\AtomDateValueObject
- * @covers  \pascualmg\reactor\ddd\Domain\ValueObject\StringValueObject
- * @covers  \pascualmg\reactor\ddd\Domain\ValueObject\UuidValueObject
+/** @covers \pascualmg\cohete\ddd\Domain\Service\PostCreator
+ * @covers  \pascualmg\cohete\ddd\Domain\Bus\Message
+ * @covers  \pascualmg\cohete\ddd\Domain\Entity\Post\Post
+ * @covers  \pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\ArticleBody
+ * @covers  \pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Author
+ * @covers  \pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\HeadLine
+ * @covers  \pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Slug
+ * @covers  \pascualmg\cohete\ddd\Domain\ValueObject\AtomDateValueObject
+ * @covers  \pascualmg\cohete\ddd\Domain\ValueObject\StringValueObject
+ * @covers  \pascualmg\cohete\ddd\Domain\ValueObject\UuidValueObject
  */
 class PostCreatorTest extends TestCase
 {
@@ -112,7 +111,6 @@ class PostCreatorTest extends TestCase
             (string)$postToCreate->author,
             (string)$postToCreate->datePublished
         );
-
     }
 
 }

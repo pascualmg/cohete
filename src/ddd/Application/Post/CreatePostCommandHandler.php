@@ -1,8 +1,8 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Application\Post;
+namespace pascualmg\cohete\ddd\Application\Post;
 
-use pascualmg\reactor\ddd\Domain\Service\PostCreator;
+use pascualmg\cohete\ddd\Domain\Service\PostCreator;
 
 class CreatePostCommandHandler
 {

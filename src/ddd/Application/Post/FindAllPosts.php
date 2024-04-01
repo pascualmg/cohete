@@ -1,8 +1,8 @@
 <?php
 
-namespace pascualmg\reactor\ddd\Application\Post;
+namespace pascualmg\cohete\ddd\Application\Post;
 
-use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
+use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use React\Promise\PromiseInterface;
 
 class FindAllPosts

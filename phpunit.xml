@@ -11,7 +11,7 @@
          failOnWarning="true">
     <testsuites>
         <testsuite name="Cohete">
-            <directory>tests</directory>
+            <directory>test</directory>
             <exclude>src/ddd/Infrastructure</exclude>
         </testsuite>
     </testsuites>
