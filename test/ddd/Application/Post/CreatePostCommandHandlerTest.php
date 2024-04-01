@@ -2,17 +2,20 @@
 
 namespace pascualmg\cohete\ddd\Application\Post;
 
-use pascualmg\cohete\ddd\Domain\Service\PostCreatorTest;
+use pascualmg\cohete\ddd\Domain\Service\PostCreator;
 use pascualmg\cohete\ddd\Domain\ValueObject\UuidValueObject;
+use PHPUnit\Framework\TestCase;
 
-class CreatePostCommandHandlerTest extends PostCreatorTest
+class CreatePostCommandHandlerTest  extends TestCase
 {
     private CreatePostCommandHandler $createPostCommandHandler;
+    private PostCreator $postCreator;
 
     protected function setUp(): void
     {
         parent::setUp();
 
+        $this->postCreator = $this->createMock(PostCreator::class);
         $this->createPostCommandHandler = new CreatePostCommandHandler(
             $this->postCreator
         );
@@ -33,6 +36,8 @@ class CreatePostCommandHandlerTest extends PostCreatorTest
             "me",
             "2024-04-01T21:46:50+00:00",
         );
+
+        $this->postCreator->expects($this->once())->method('__invoke');
 
         ($this->createPostCommandHandler)(
          $createPostCommand
