@@ -8,7 +8,7 @@ use pascualmg\reactor\ddd\Domain\Entity\Post\Post;
 use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
 use Psr\Log\LoggerInterface;
 
-readonly class PostCreator
+class PostCreator
 {
     public function __construct(
         private PostRepository $postRepository,

@@ -30,7 +30,8 @@
     },
     "autoload": {
         "psr-4": {
-            "pascualmg\\reactor\\": "src/"
+            "pascualmg\\reactor\\": "src/",
+            "test\\pascualmg\\reactor\\": "tests/"
         }
     },
     "authors": [

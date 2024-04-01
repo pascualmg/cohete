@@ -17,6 +17,11 @@ class UuidValueObject implements \Stringable
         return new static($validUuid->toString());
     }
 
+    public static function v4() : static
+    {
+        return new self(RamseyUuid::uuid4()->toString());
+    }
+
     public function __toString(): string
     {
         return $this->value;

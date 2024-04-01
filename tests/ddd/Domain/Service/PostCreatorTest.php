@@ -1,6 +1,6 @@
 <?php
 
-namespace ddd\Domain\Service;
+namespace test\pascualmg\reactor\ddd\Domain\Service;
 
 use pascualmg\reactor\ddd\Domain\Bus\Message;
 use pascualmg\reactor\ddd\Domain\Bus\MessageBus;
@@ -9,7 +9,6 @@ use pascualmg\reactor\ddd\Domain\Entity\PostRepository;
 use pascualmg\reactor\ddd\Domain\Service\PostCreator;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use React\EventLoop\Loop;
 use React\Promise\Deferred;
 
 /** @covers \pascualmg\reactor\ddd\Domain\Service\PostCreator
@@ -25,9 +24,9 @@ use React\Promise\Deferred;
  */
 class PostCreatorTest extends TestCase
 {
-    private PostCreator $postCreator;
-    private PostRepository $postRepository;
-    private LoggerInterface $logger;
+    protected PostCreator $postCreator;
+    protected PostRepository $postRepository;
+    protected LoggerInterface $logger;
 
 
     protected function setUp(): void
