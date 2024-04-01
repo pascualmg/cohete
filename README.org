@@ -40,6 +40,31 @@ a sumergirte en su código, a desafiar tus propios límites y a compartir
 tus descubrimientos y experiencias. Si tienes interés por la
 programación reactiva y PHP, te invito a que lo pruebes
 
+* Estructura del Proyecto
+
+La organización de este proyecto gira alrededor del concepto DDD (Diseño Guiado por Dominio). Para que te hagas una idea, el esquema a continuación te da una representación de alto nivel:
+
+#+BEGIN_EXAMPLE
+.
+├── src                # Aquí vive el código fuente
+│   └── ddd            # Zona DDD
+│       ├── Application
+│       ├── Domain
+│       ├── Infrastructure
+│       └── Presentation
+├── tests              # Aquí alojamos los tests.
+├── vendor             # Dependencias que composer se encarga de gestionar
+└── bootstrap.php      # Ejecútalo y la app arranca.
+#+END_EXAMPLE
+
+* src/ddd: Aquí es donde la magia del DDD sucede. Tenemos varios subdirectorios, cada uno se ocupa de un aspecto diferente de DDD.
+  - Application: Aquí, tenemos los casos de uso y servicios de la aplicación.
+
+Y mientras todo esto sucede, cuento con un poco de ayuda de mi lado. Maikel, un asistente AI, me está ayudando a generar este texto. De hecho, este documento puede ser más complejo de lo que parece a primera vista, dado que soy el único colaborador trabajando actualmente en este proyecto, cada pequeño ahorro de tiempo cuenta.
+
+* Pero, ¿por qué una plantilla de GitHub?
+
+En las primeras etapas de desarrollo de un proyecto, una plantilla de GitHub puede ser un recurso valioso. Proporciona una estructura de directorio ya definida y archivos preconfigurados para que puedas comenzar a trabajar de inmediato, minimizando la cantidad de configuración inicial necesaria por parte del usuario. Creemos que esto es especialmente valioso en nuestro caso, ya que esperamos que sea más fácil tanto trabajar con nuestro proyecto, como contribuir a él.
 * Instalación
 :PROPERTIES:
 :CUSTOM_ID: instalación
