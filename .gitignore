@@ -8,3 +8,4 @@ phinx.php
 
 /.phpunit.cache/
 /.phpunit.result.cache
+/src/ddd/Infrastructure/var/log/cohete.log
