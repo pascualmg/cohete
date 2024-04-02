@@ -44,7 +44,8 @@ class TestController implements HttpRequestHandler
                             ['Content-Type' => 'application/json'],
                             json_encode(['error' => $error->getMessage()], JSON_THROW_ON_ERROR)
                         );
-                    })
+                    }
+                )
         );
 
 

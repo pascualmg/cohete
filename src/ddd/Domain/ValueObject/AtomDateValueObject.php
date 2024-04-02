@@ -32,7 +32,7 @@ abstract class AtomDateValueObject extends StringValueObject
         return \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, $this->value);
     }
 
-    public static function now() : static
+    public static function now(): static
     {
         return static::from((new \DateTimeImmutable('now'))->format(\DateTimeInterface::ATOM));
     }

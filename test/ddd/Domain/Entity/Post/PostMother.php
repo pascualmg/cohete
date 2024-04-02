@@ -11,9 +11,6 @@ use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
 class PostMother extends Post
 {
 
-    /**
-     * @return Post
-     */
     public static function randomValid(): Post
     {
         return new Post(
