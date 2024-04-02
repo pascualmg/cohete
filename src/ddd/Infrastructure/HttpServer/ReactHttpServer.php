@@ -14,6 +14,16 @@ use React\Socket\SocketServer;
 
 class ReactHttpServer
 {
+    /**
+     * Initializes the async server.
+     *
+     * @param string $host The host to bind the server to.
+     * @param string $port The port to bind the server to.
+     * @param LoopInterface|null $loop The event loop to use. If not provided, the default loop will be used.
+     * @param bool $isDevelopment Whether the server is in development mode.
+     *
+     * @return void
+     */
     public static function init(
         string $host,
         string $port,
@@ -24,15 +34,9 @@ class ReactHttpServer
             $loop = Loop::get();
         }
 
-
-        $port8000 = new SocketServer(
+        //if you want ssl check doc
+        $socket = new SocketServer(
             sprintf("%s:%s", $host, $port),
-            //      [
-            //               'tls' => [
-            //                  'local_cert' => __DIR__ . '/localhost.pem'
-            //             ]
-            //        ],
-            //       $loop
         );
 
         //https://github.com/friends-of-reactphp/http-middleware-psr15-adapter
@@ -45,8 +49,8 @@ class ReactHttpServer
             new Kernel()
         );
 
-        $httpServer->listen($port8000);
-        echo "server listening on " . $port8000->getAddress();
+        $httpServer->listen($socket);
+        echo "server listening on " . $socket->getAddress();
 
         if ($isDevelopment) {
             $httpServer->on(
@@ -54,7 +58,7 @@ class ReactHttpServer
                 'var_dump'
             );
 
-            $port8000->on('connection', function (ConnectionInterface $connection) {
+            $socket->on('connection', function (ConnectionInterface $connection) {
                 $connection->on('data', 'var_dump');
             });
         }
