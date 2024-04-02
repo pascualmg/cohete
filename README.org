@@ -79,8 +79,4 @@ Para empezar tu viaje con Cohete, sigue estos pasos:
 2. nix develop
 3. y... `make run` o `php src/bootstrap.php`.
 
-## Contribución :handshake:
-
- Te animas ? Independientemente de tu nivel de experiencia, tus contribuciones, desde el desarrollo de nuevas características hasta el reporte de errores o mejoras en la documentación, tienen el poder de elevar este proyecto al próximo nivel. ¡Es fácil contribuir y tu colaboración es bienvenida!
-
->*README generado por un humano y revisado por una IA.
+* README generado por un humano y revisado por una IA.
