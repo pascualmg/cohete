@@ -58,12 +58,11 @@ La estructura del código fuente del proyecto Cohete es la siguiente:
 
 Donde:
 
-- src: contiene el código fuente principal del proyecto.
-- src/ddd: es donde reside el código del Domain-Driven Design (DDD). Se divide en Application, Domain e Infrastructure.
-- src/ddd/Infrastructure/HttpServer/Kernel/Kernel.php: este archivo es el núcleo de la aplicación. Aquí es donde se manejan las peticiones HTTP de forma asíncrona.
-- src/ddd/Infrastructure/HttpServer/ReactHttpServer.php: este archivo es un ejemplo completo de cómo luce un servidor http reactivo.
-- tests: contiene los tests del proyecto con una estructura en espejo.
-- bootstrap.php: es el punto de entrada del proyecto, donde se llama al _ReactHttpServer_
+- ddd: es donde reside el código del Domain-Driven Design (DDD). Se divide en Application, Domain e Infrastructure.
+- ddd/Infrastructure/HttpServer/Kernel/Kernel.php: este archivo es el núcleo de la aplicación. Aquí es donde se manejan las peticiones HTTP de forma asíncrona.
+- ddd/Infrastructure/HttpServer/ReactHttpServer.php: este archivo es un ejemplo completo de cómo luce un servidor http reactivo.
+- tests: contiene los tests del proyecto con una estructura en espejo del 'ddd'.
+- bootstrap.php: es el punto de entrada del proyecto, donde se llama al _ReactHttpServer_ y nada mas :)
 
 Asegúrate de leer y entender el código en `src/ddd/Infrastructure/HttpServer/Kernel/Kernel.php` y `src/ddd/Infrastructure/HttpServer/ReactHttpServer.php`, que son vitales para comprender cómo funciona el núcleo de la aplicación. El resto del código en `src` está diseñado para funcionar directamente y es principalmente estándar y sigue convenciones comunes. Se ha hecho un esfuerzo para hacer del proyecto un framework poco opinionado, por lo que te encontrarás con librerías lo más estándar posible.
 ## Cómo Empezar :rocket:
