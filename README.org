@@ -20,8 +20,15 @@ make run
 
 ** 📚 Documentación
 
-Para ayudarte a navegar por el universo de Cohete, te recomendamos que eches un vistazo a 'kernel.php'. Aquí es donde se encuentra el núcleo de nuestra aplicación que maneja las peticiones HTTP de manera asíncrona negándose a dejar que cualquier operación de E/S bloquee su ejecución. Para un ejemplo completo de código, visita nuestro archivo `httpserver.php`.
+* 📘 Documentación
 
+Si ya tienes experiencia con DDD y Symfony, podrás poner en marcha tu proyecto de manera rápida y efectiva utilizando
+el ejemplo `createPostCommandHandler` y `findAllPost`. Son un buen punto de partida y te permitirán entender la
+estructura básica y funcionamiento de Cohete.
+
+Lo realmente interesante para ti serán las implementaciones asíncronas de los repositorios. Las mismas posibilitarán que
+tu código se ejecute de manera no bloqueante, proporcionando un rendimiento superior. Te recomendamos que explores estas
+ características y las aproveches al máximo en tu proyecto.
 
 ** 🐉 Aquí hay dragones...
 Pero no hay miedo! ya está en producción funcionando perfectamente con consultas de más de 40k registros! y viene equipado de fábrica con Xdebug usando nix.
