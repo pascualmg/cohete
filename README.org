@@ -1,12 +1,18 @@
 * Cohete  🚀
 [[./logo.png]]
-  Lanzando PHP hacia el paradigma asíncrono.
+  Elevando tu PHP con asincronía
 
 * 📖 Descripción
 
 ¡Bienvenido a Cohete! Tu plataforma de lanzamiento hacia la programación asíncrona en PHP. Los motores de Cohete están alimentados por ReactPHP y RxPHP. Estas potentes librerías proporcionan una sólida base y amplían las capacidades del lenguaje PHP, permitiendo una programación eficiente y no bloqueante.
 
-Cohete es más que solo una herramienta o un framework - es un marco de trabajo inspirado en el Domain-Driven Design (DDD) que te ayuda a estructurar tu código de una manera razonable. Es un lugar de descubrimiento y aprendizaje, un espacio para los autodidactas, para aquellos que disfrutan explorando, aprendiendo e intercambiando ideas.
+Cohete es más que un framework.
+Es un marco de trabajo inspirado en el Domain-Driven Design (DDD) que te ayuda a estructurar tu código de una manera razonable.
+Es un lugar de descubrimiento y aprendizaje, un espacio para los autodidactas,
+para aquellos _softwareCracters_ que disfrutan explorando hasta donde puede llegar un lenguaje,
+a exprimir al máximo el rendimiento de PHP, permitiendo realizar I/O no blo
+En realidad es *DDDD* , Domain Driven Design for Delelopers ,está diseñado para ser entendible y manejable desde la linea 0.
+Diseñado
 
 * ⌨️ Instrucciones de instalación
 
