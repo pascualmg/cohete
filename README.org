@@ -36,17 +36,36 @@ Preparémonos para el despegue. ¡Contigo a bordo, estamos listos para elevar PH
 
 Cohete utiliza Domain-Driven Design (DDD), un patrón de programación centrado en el problema a resolver y en la lógica que le rodea. He aquí una rápida mirada a la estructura del proyecto:
 
-    .
-    ├── src
-    │       └── ddd
-    │           ├── Application
-    │           ├── Domain
-    │           ├── Infrastructure
-    │           └── Presentation
-    ├── tests
-    ├── vendor
-    └── bootstrap.php
+* Estructura del Proyecto
 
+La estructura del código fuente del proyecto Cohete es la siguiente:
+
+#+BEGIN_SRC text
+.
+├── src
+│   ├── ddd
+│   │   ├── Application
+│   │   ├── Domain
+│   │   ├── Infrastructure
+│   │   ├── HttpServer
+│   │   │   ├── Kernel
+│   │   │   │   └── Kernel.php
+│   │   │   └── ReactHttpServer.php
+├── tests
+├── vendor
+└── bootstrap.php
+#+END_SRC
+
+Donde:
+
+- src: contiene el código fuente principal del proyecto.
+- src/ddd: es donde reside el código del Domain-Driven Design (DDD). Se divide en Application, Domain e Infrastructure.
+- src/ddd/Infrastructure/HttpServer/Kernel/Kernel.php: este archivo es el núcleo de la aplicación. Aquí es donde se manejan las peticiones HTTP de forma asíncrona.
+- src/ddd/Infrastructure/HttpServer/ReactHttpServer.php: este archivo es un ejemplo completo de cómo luce un servidor http reactivo.
+- tests: contiene los tests del proyecto con una estructura en espejo.
+- bootstrap.php: es el punto de entrada del proyecto, donde se llama al _ReactHttpServer_
+
+Asegúrate de leer y entender el código en `src/ddd/Infrastructure/HttpServer/Kernel/Kernel.php` y `src/ddd/Infrastructure/HttpServer/ReactHttpServer.php`, que son vitales para comprender cómo funciona el núcleo de la aplicación. El resto del código en `src` está diseñado para funcionar directamente y es principalmente estándar y sigue convenciones comunes. Se ha hecho un esfuerzo para hacer del proyecto un framework poco opinionado, por lo que te encontrarás con librerías lo más estándar posible.
 ## Cómo Empezar :rocket:
 
 Para empezar tu viaje con Cohete, sigue estos pasos:
