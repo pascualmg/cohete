@@ -22,15 +22,16 @@ make run
 
 Para ayudarte a navegar por el universo de Cohete, te recomendamos que eches un vistazo a 'kernel.php'. Aquí es donde se encuentra el núcleo de nuestra aplicación que maneja las peticiones HTTP de manera asíncrona negándose a dejar que cualquier operación de E/S bloquee su ejecución. Para un ejemplo completo de código, visita nuestro archivo `httpserver.php`.
 
-** 🛡️ Aquí hay dragones
 
-Enfrentarse a lo desconocido puede ser duro, pero no te preocupes, eres valiente. Aunque puede haber dragones en el oscuro mar de la programación asincrónica, Cohete está aquí para guiarte. Te proporciona control detallado de las tareas mientras navegas por aguas desconocidas y te ayuda a mantener tu código ordenado y manejable.
+** 🐉 Aquí hay dragones...
+Pero no hay miedo! ya está en producción funcionando perfectamente con consultas de más de 40k registros! y viene equipado de fábrica con Xdebug usando nix.
+Si esto no te quita el miedo a PHP nada lo hará :)
 
 ** 🤝 Contribuciones
 
-Invitamos a todos los interesados a contribuir a la mejora de Cohete. Este es un proyecto abierto para el intercambio de ideas y el aprendizaje mutuo. Esperamos sus ideas y sugerencias para mejorar la funcionalidad y la eficiencia de Cohete. ¡Tu participación es muy bienvenida!
+Invito a todos los interesados a contribuir a la mejora de Cohete. Este es un proyecto abierto para el intercambio de ideas y el aprendizaje mutuo.
+Espero tus ideas y sugerencias para mejorar la funcionalidad y la eficiencia de Cohete. ¡Tu participación es muy bienvenida y necesaria !
 
-Preparémonos para el despegue. ¡Contigo a bordo, estamos listos para elevar PHP a la estratósfera!
 
 ## Arquitectura de Cohete :building_construction:
 
@@ -76,3 +77,5 @@ Para empezar tu viaje con Cohete, sigue estos pasos:
 ## Contribución :handshake:
 
  Te animas ? Independientemente de tu nivel de experiencia, tus contribuciones, desde el desarrollo de nuevas características hasta el reporte de errores o mejoras en la documentación, tienen el poder de elevar este proyecto al próximo nivel. ¡Es fácil contribuir y tu colaboración es bienvenida!
+
+>*README generado por un humano y revisado por una IA.
