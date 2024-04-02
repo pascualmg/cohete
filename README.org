@@ -71,7 +71,7 @@ Donde:
 - tests: contiene los tests del proyecto con una estructura en espejo del 'ddd'.
 - bootstrap.php: es el punto de entrada del proyecto, donde se llama al _ReactHttpServer_ y nada mas :)
 
-## Cómo Empezar :rocket:
+* Cómo Empezar :rocket:
 
 Para empezar tu viaje con Cohete, sigue estos pasos:
 
