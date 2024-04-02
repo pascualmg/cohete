@@ -34,11 +34,15 @@ Preparémonos para el despegue. ¡Contigo a bordo, estamos listos para elevar PH
 
 ## Arquitectura de Cohete :building_construction:
 
-Cohete utiliza Domain-Driven Design (DDD), un patrón de programación centrado en el problema a resolver y en la lógica que le rodea. He aquí una rápida mirada a la estructura del proyecto:
+Cohete utiliza Domain-Driven Design (DDD), un patrón de programación centrado en el problema a resolver y en la lógica que le rodea.
+Facilita directamente de casa auto wiring de tus clases,un genial router y las herramientas básicas para desarrollar un endpoint API REST rápidamente
+al igual que otros frameworks más grandes pero con menos ,no hay que privarse de nada necesario y útil pero sin olvidar que normalmente ...
+#+BEGIN_QUOTE
+Muchas veces menos es más.
+#+END_QUOTE
 
-* Estructura del Proyecto
-
-La estructura del código fuente del proyecto Cohete es la siguiente:
+* Un par de files son el núcleo, el 100% del control de tu código
+ No necesitas mucho más si necesitas saber como funciona todo! si solo quieres usarlo puedes saltar esta sección :P
 
 #+BEGIN_SRC text
 .
@@ -47,13 +51,10 @@ La estructura del código fuente del proyecto Cohete es la siguiente:
 │   │   ├── Application
 │   │   ├── Domain
 │   │   ├── Infrastructure
-│   │   ├── HttpServer
-│   │   │   ├── Kernel
-│   │   │   │   └── Kernel.php
-│   │   │   └── ReactHttpServer.php
-├── tests
-├── vendor
-└── bootstrap.php
+│   │   │   ├── HttpServer
+│   │   │   │   ├── Kernel
+│   │   │   │   │   └── Kernel.php
+│   │   │   │   └── ReactHttpServer.php
 #+END_SRC
 
 Donde:
@@ -64,7 +65,6 @@ Donde:
 - tests: contiene los tests del proyecto con una estructura en espejo del 'ddd'.
 - bootstrap.php: es el punto de entrada del proyecto, donde se llama al _ReactHttpServer_ y nada mas :)
 
-Asegúrate de leer y entender el código en `src/ddd/Infrastructure/HttpServer/Kernel/Kernel.php` y `src/ddd/Infrastructure/HttpServer/ReactHttpServer.php`, que son vitales para comprender cómo funciona el núcleo de la aplicación. El resto del código en `src` está diseñado para funcionar directamente y es principalmente estándar y sigue convenciones comunes. Se ha hecho un esfuerzo para hacer del proyecto un framework poco opinionado, por lo que te encontrarás con librerías lo más estándar posible.
 ## Cómo Empezar :rocket:
 
 Para empezar tu viaje con Cohete, sigue estos pasos:
