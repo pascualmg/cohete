@@ -1,6 +1,6 @@
 * Cohete  🚀
-
-  Elevando PHP a la programación asíncrona
+[[./logo.png]]
+  Lanzando PHP hacia el paradigma asíncrono.
 
 * 📖 Descripción
 
