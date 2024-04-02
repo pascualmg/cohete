@@ -2,13 +2,13 @@
 
   Elevando PHP a la programación asíncrona
 
-** 📖 Descripción
+* 📖 Descripción
 
 ¡Bienvenido a Cohete! Tu plataforma de lanzamiento hacia la programación asíncrona en PHP. Los motores de Cohete están alimentados por ReactPHP y RxPHP. Estas potentes librerías proporcionan una sólida base y amplían las capacidades del lenguaje PHP, permitiendo una programación eficiente y no bloqueante.
 
 Cohete es más que solo una herramienta o un framework - es un marco de trabajo inspirado en el Domain-Driven Design (DDD) que te ayuda a estructurar tu código de una manera razonable. Es un lugar de descubrimiento y aprendizaje, un espacio para los autodidactas, para aquellos que disfrutan explorando, aprendiendo e intercambiando ideas.
 
-** ⌨️ Instrucciones de instalación
+* ⌨️ Instrucciones de instalación
 
 Los siguientes pasos te guiarán para instalar y ejecutar el proyecto:
 
@@ -18,9 +18,7 @@ nix develop
 make run
 #+END_SRC
 
-** 📚 Documentación
-
-* 📘 Documentación
+* 📚 Documentación
 
 Si ya tienes experiencia con DDD y Symfony o frameworks similares, podrás poner en marcha tu proyecto de manera rápida y efectiva utilizando
 el ejemplo `createPostCommandHandler` y `findAllPost`. Son un buen punto de partida y te permitirán entender la
@@ -34,13 +32,13 @@ tu código se ejecute de manera no bloqueante, proporcionando un rendimiento sup
 Pero no hay miedo! ya está en producción funcionando perfectamente con consultas de más de 40k registros! y viene equipado de fábrica con Xdebug usando nix.
 Si esto no te quita el miedo a PHP nada lo hará :)
 
-** 🤝 Contribuciones
+* 🤝 Contribuciones
 
 Invito a todos los interesados a contribuir a la mejora de Cohete. Este es un proyecto abierto para el intercambio de ideas y el aprendizaje mutuo.
 Espero tus ideas y sugerencias para mejorar la funcionalidad y la eficiencia de Cohete. ¡Tu participación es muy bienvenida y necesaria !
 
 
-## Arquitectura de Cohete :building_construction:
+* Arquitectura de Cohete :building_construction:
 
 Cohete utiliza Domain-Driven Design (DDD), un patrón de programación centrado en el problema a resolver y en la lógica que le rodea.
 Facilita directamente de casa auto wiring de tus clases,un genial router y las herramientas básicas para desarrollar un endpoint API REST rápidamente
