@@ -12,7 +12,7 @@ use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Slug;
 class Post implements \JsonSerializable
 {
     //properties from schema.org
-    private Slug $slug;
+    public Slug $slug;
 
     public function __construct(
         public PostId $id,

@@ -4,7 +4,7 @@ namespace pascualmg\cohete\ddd\Domain\Service;
 
 use pascualmg\cohete\ddd\Domain\Bus\Message;
 use pascualmg\cohete\ddd\Domain\Bus\MessageBus;
-use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
+use pascualmg\cohete\ddd\Domain\Entity\Post\PostMother;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -27,6 +27,11 @@ class PostCreatorTest extends TestCase
     protected PostRepository $postRepository;
     protected LoggerInterface $logger;
 
+    public function __construct(string $name)
+    {
+        parent::__construct($name);
+    }
+
 
     protected function setUp(): void
     {
@@ -44,13 +49,7 @@ class PostCreatorTest extends TestCase
 
     public function test_given_a_post_when_create_then_is_created_and_event_is_dispatched(): void
     {
-        $postToCreate = Post::fromPrimitives(
-            "be0f19bf-5225-4a9d-8cd9-0a8735d20aa6",
-            "some title",
-            "this is the articlebody",
-            "me",
-            "2024-03-11T12:25:51+00:00",
-        );
+        $postToCreate = PostMother::randomValid();
 
         $deferred = new Deferred();
         $deferred->resolve(false);
@@ -74,13 +73,7 @@ class PostCreatorTest extends TestCase
     }
     public function test_given_a_post_when_create_with_error_then_this_concrete_error_is_logged(): void
     {
-        $postToCreate = Post::fromPrimitives(
-            "be0f19bf-5225-4a9d-8cd9-0a8735d20aa6",
-            "some title",
-            "this is the articlebody",
-            "me",
-            "2024-03-11T12:25:51+00:00",
-        );
+        $postToCreate = PostMother::randomValid();
 
         $concreteException = new class extends \Exception
         {

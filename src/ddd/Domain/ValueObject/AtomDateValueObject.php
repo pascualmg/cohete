@@ -2,7 +2,7 @@
 
 namespace pascualmg\cohete\ddd\Domain\ValueObject;
 
-class AtomDateValueObject extends StringValueObject
+abstract class AtomDateValueObject extends StringValueObject
 {
     public static function from(?string $value = null): static
     {
@@ -30,5 +30,10 @@ class AtomDateValueObject extends StringValueObject
     public function getDatetimeImmutable(): \DateTimeImmutable
     {
         return \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, $this->value);
+    }
+
+    public static function now() : static
+    {
+        return static::from((new \DateTimeImmutable('now'))->format(\DateTimeInterface::ATOM));
     }
 }
