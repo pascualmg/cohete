@@ -22,7 +22,7 @@ make run
 
 * 📘 Documentación
 
-Si ya tienes experiencia con DDD y Symfony, podrás poner en marcha tu proyecto de manera rápida y efectiva utilizando
+Si ya tienes experiencia con DDD y Symfony o frameworks similares, podrás poner en marcha tu proyecto de manera rápida y efectiva utilizando
 el ejemplo `createPostCommandHandler` y `findAllPost`. Son un buen punto de partida y te permitirán entender la
 estructura básica y funcionamiento de Cohete.
 
