@@ -1,6 +1,5 @@
 * Cohete  🚀
 [[./logo.png]]
-  Elevando tu PHP con asincronía
 
 * 📖 Descripción
 
