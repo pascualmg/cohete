@@ -35,7 +35,6 @@ final class CreateTablePost extends AbstractMigration
             ->addColumn('id', 'string', ['limit' => 36])
             ->addColumn('headline', 'string', ['limit' => 255])
             ->addColumn('articleBody', 'text')
-            ->addColumn('image', 'string', ['limit' => 255])
             ->addColumn('author', 'string', ['limit' => 255])
             ->addColumn('datePublished', 'datetime')
             ->create();

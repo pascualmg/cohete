@@ -3,6 +3,7 @@
 namespace pascualmg\cohete\ddd\Infrastructure\Repository\Post;
 
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use React\Mysql\MysqlClient;
 use React\Mysql\MysqlResult;
@@ -29,11 +30,11 @@ class ObservableMysqlPostRepository implements PostRepository
             ->toPromise();
     }
 
-    public function findById(int $postId): PromiseInterface //of Post or Null
+    public function findById(PostId $postId): PromiseInterface //of Post or Null
     {
         $promiseOfQuery = $this->mysqlClient->query(
             "SELECT * FROM post where post.id = ?",
-            [$postId]
+            [$postId->value]
         );
 
         return Observable::fromPromise($promiseOfQuery)

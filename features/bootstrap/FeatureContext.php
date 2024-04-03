@@ -1,8 +1,11 @@
 <?php
 
 use Behat\Behat\Context\Context;
+use Behat\Gherkin\Node\PyStringNode;
+use Dotenv\Dotenv;
 use GuzzleHttp\Client as HttpClient;
-use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
+use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use pascualmg\cohete\ddd\Infrastructure\PSR11\ContainerFactory;
 use Phinx\Migration\Manager as PhinxManager;
 use Psr\Container\ContainerInterface;
@@ -20,6 +23,7 @@ class FeatureContext implements Context
     protected ResponseInterface $response;
     private const string PHINX_ENVIRONMENT = 'development';
     private PhinxManager $phinxManager;
+    private string $payloadToSend;
 
 
     /**
@@ -31,16 +35,10 @@ class FeatureContext implements Context
      */
     public function __construct()
     {
+        $dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
+        $dotenv->load();
         $this->container = ContainerFactory::create();
         $this->phinxManager = $this->getPhinxManager();
-    }
-
-    /**
-     * @beforeSuite
-     */
-    public static function beforeSuite(\Behat\Testwork\Hook\Scope\BeforeSuiteScope $scope){
-
-       echo 'holi' ;
     }
 
     /**
@@ -137,6 +135,58 @@ class FeatureContext implements Context
         }
 
     }
+
+    /**
+     * @When /^I send the payload "([^"]*)" to endpoint "([^"]*)" with method "([^"]*)"$/
+     */
+    public function iSendThePayloadToEndpointWithMethod($json, $uri, $method)
+    {
+        $requestOptions = [
+            'headers' => ['Content-Type' => 'application/json'],
+            'body' => $json
+        ];
+        $this->response = $this->client->request($method, $uri, $requestOptions);
+    }
+
+    /**
+     * @Given /^the payload is:$/
+     */
+    public function thePayloadIs(PyStringNode $string)
+    {
+        $this->payloadToSend = $json = $string->getRaw();
+    }
+
+    /**
+     * @When /^i send payload to endpoint "([^"]*)" with method "([^"]*)"$/
+     */
+    public function iSendPayloadToEndpointWithMethod($url, $method): void
+    {
+        $requestOptions = [
+            'headers' => [
+
+            ],
+           'body'  => $this->payloadToSend
+        ];
+
+        $this->response = $this->client->request($method, $url, $requestOptions);
+    }
+
+    /**
+     * @Given /^the post with id "([^"]*)" exists$/
+     */
+    public function thePostWithIdExists($maybeUuid): void
+    {
+       $postId =  PostId::from($maybeUuid);
+
+        $container = $this->container;
+        $postRepository = $container->get(PostRepository::class);
+        $post = $postRepository->findById($postId);
+        if (!$post) {
+            throw new \Exception("Post with ID $maybeUuid does not exist");
+        }
+    }
+
+
 
 
 }
