@@ -29,8 +29,8 @@ Scheduler::setDefaultFactory(static fn () => $scheduler);
 
 //iniciamos el servidor web
 ReactHttpServer::init(
-    '0.0.0.0',
-    '8000',
+    $_ENV['HTTP_SERVER_HOST'],
+    $_ENV['HTTP_SERVER_PORT'],
     $loop,
     $isDevelopment,
 );
