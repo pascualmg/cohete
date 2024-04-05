@@ -1,61 +1,45 @@
-* Cohete  🚀
+* Cohete 🚀
 [[./logo.png]]
 
 * 📖 Descripción
 
 ¡Bienvenido a Cohete! Tu plataforma de lanzamiento hacia la programación asíncrona en PHP. Los motores de Cohete están alimentados por ReactPHP y RxPHP. Estas potentes librerías proporcionan una sólida base y amplían las capacidades del lenguaje PHP, permitiendo una programación eficiente y no bloqueante.
 
-Cohete es más que un framework.
-Es un marco de trabajo inspirado en el Domain-Driven Design (DDD) que te ayuda a estructurar tu código de una manera razonable.
-Es un lugar de descubrimiento y aprendizaje, un espacio para los autodidactas,
-para aquellos _softwareCracters_ que disfrutan explorando hasta donde puede llegar un lenguaje,
-a exprimir al máximo el rendimiento de PHP, permitiendo realizar I/O no blo
-En realidad es *DDDD* , Domain Driven Design for Delelopers ,está diseñado para ser entendible y manejable desde la linea 0.
-Diseñado
+Cohete es más que un framework. Es un marco de trabajo inspirado en el Domain-Driven Design (DDD) que te ayuda a estructurar tu código de una manera razonable. Es un lugar de descubrimiento y aprendizaje, un espacio para los autodidactas, para aquellos _softwareCrafters_ que disfrutan explorando hasta donde puede llegar un lenguaje, a exprimir al máximo el rendimiento de PHP. En realidad es *DDDD* - Domain Driven Design for Developers, está diseñado para ser entendible y manejable desde la primera línea.
 
 * ⌨️ Instrucciones de instalación
 
 Los siguientes pasos te guiarán para instalar y ejecutar el proyecto:
 
-#+BEGIN_SRC bash
+\#+BEGIN_SRC bash
 make nix-install
 nix develop
 make run
-#+END_SRC
+\#+END_SRC
 
 * 📚 Documentación
 
-Si ya tienes experiencia con DDD y Symfony o frameworks similares, podrás poner en marcha tu proyecto de manera rápida y efectiva utilizando
-el ejemplo `createPostCommandHandler` y `findAllPost`. Son un buen punto de partida y te permitirán entender la
-estructura básica y funcionamiento de Cohete.
+Si ya tienes experiencia con DDD y Symfony o frameworks similares, podrás poner en marcha tu proyecto de manera rápida y efectiva utilizando el ejemplo `createPostCommandHandler` y `findAllPost`. Estos se localizan en [ubicación del código]. Son un buen punto de partida que te permitirá entender la estructura básica y funcionamiento de Cohete.
 
-Lo realmente interesante para ti serán las implementaciones asíncronas de los repositorios. Las mismas posibilitarán que
-tu código se ejecute de manera no bloqueante, proporcionando un rendimiento superior. Te recomendamos que explores estas
- características y las aproveches al máximo en tu proyecto.
+Además, te resultarán especialmente interesantes las implementaciones asíncronas de los repositorios, que permitirán que tu código se ejecute de manera no bloqueante y proporcionar un rendimiento superior. Te animamos a explorar estas características y a utilizarlas al máximo en tu proyecto.
 
-** 🐉 Aquí hay dragones...
-Pero no hay miedo! ya está en producción funcionando perfectamente con consultas de más de 40k registros! y viene equipado de fábrica con Xdebug usando nix.
-Si esto no te quita el miedo a PHP nada lo hará :)
+* 🐉 Aquí hay dragones...
+
+Pero no te preocupes! El proyecto ya está en producción, funcionando perfectamente con consultas de más de 40k registros y viene equipado de fábrica con Xdebug usando nix. Si esto no te quita el miedo a PHP, nada lo hará. :)
 
 * 🤝 Contribuciones
 
-Invito a todos los interesados a contribuir a la mejora de Cohete. Este es un proyecto abierto para el intercambio de ideas y el aprendizaje mutuo.
-Espero tus ideas y sugerencias para mejorar la funcionalidad y la eficiencia de Cohete. ¡Tu participación es muy bienvenida y necesaria !
-
+Invitamos a todos los interesados a contribuir a la mejora de Cohete. Este es un proyecto abierto para el intercambio de ideas y el aprendizaje mutuo. Tus ideas y sugerencias para mejorar la funcionalidad y la eficiencia de Cohete son muy bienvenidas y necesarias!
 
 * Arquitectura de Cohete :building_construction:
 
-Cohete utiliza Domain-Driven Design (DDD), un patrón de programación centrado en el problema a resolver y en la lógica que le rodea.
-Facilita directamente de casa auto wiring de tus clases,un genial router y las herramientas básicas para desarrollar un endpoint API REST rápidamente
-al igual que otros frameworks más grandes pero con menos ,no hay que privarse de nada necesario y útil pero sin olvidar que normalmente ...
-#+BEGIN_QUOTE
-Muchas veces menos es más.
-#+END_QUOTE
+Cohete utiliza Domain-Driven Design (DDD), un patrón de programación centrado en el problema a resolver y en la lógica que le rodea. Ofrece auto-wiring de tus clases, un genial router y las herramientas básicas para desarrollar un endpoint API REST rápidamente, al igual que otros frameworks más grandes pero sin privarte de nada necesario y útil. Recuerda que muchas veces menos es más.
 
 * Un par de files son el núcleo, el 100% del control de tu código
- No necesitas mucho más si necesitas saber como funciona todo! si solo quieres usarlo puedes saltar esta sección :P
 
-#+BEGIN_SRC text
+ No necesitas mucho más si necesitas saber cómo funciona todo. Si sólo quieres usarlo, puedes saltar esta sección. :)
+
+\#+BEGIN_SRC text
 .
 ├── src
 │   ├── ddd
@@ -66,22 +50,13 @@ Muchas veces menos es más.
 │   │   │   │   ├── Kernel
 │   │   │   │   │   └── Kernel.php
 │   │   │   │   └── ReactHttpServer.php
-#+END_SRC
+├── bootstrap.php
+\#+END_SRC
 
 Donde:
-
 - ddd: es donde reside el código del Domain-Driven Design (DDD). Se divide en Application, Domain e Infrastructure.
 - ddd/Infrastructure/HttpServer/Kernel/Kernel.php: este archivo es el núcleo de la aplicación. Aquí es donde se manejan las peticiones HTTP de forma asíncrona.
 - ddd/Infrastructure/HttpServer/ReactHttpServer.php: este archivo es un ejemplo completo de cómo luce un servidor http reactivo.
-- tests: contiene los tests del proyecto con una estructura en espejo del 'ddd'.
-- bootstrap.php: es el punto de entrada del proyecto, donde se llama al _ReactHttpServer_ y nada mas :)
-
-* Cómo Empezar :rocket:
-
-Para empezar tu viaje con Cohete, sigue estos pasos:
-
-1. Instala todas las dependencias necesarias con el comando `make nix-install`.
-2. nix develop
-3. y... `make run` o `php src/bootstrap.php`.
+- bootstrap.php: es el punto de entrada del proyecto, aquí se inicializan todas las configuraciones y se arranca el servidor.
 
 * README generado por un humano y revisado por una IA.
