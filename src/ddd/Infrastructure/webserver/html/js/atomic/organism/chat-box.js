@@ -18,9 +18,22 @@ class ChatBox extends HTMLElement {
             'chatBox': this.shadowRoot.querySelector('.scrollable'),
             'userInputSection': this.shadowRoot.querySelector('.user-input-section'),
             'messageInput': this.shadowRoot.querySelector('.message-input'),
-            'connectedButton': this.shadowRoot.querySelector('.button-round.left')
+            'connectedButton': this.shadowRoot.querySelector('.button-round.left'),
+            'closeButton': this.shadowRoot.querySelector('.button-round.right')
         };
 
+        function setHidden(elem) {
+           return function () {
+               debugger
+               elem.hidden = true
+           }
+        }
+        rxjs.fromEvent(
+            this.elements.closeButton,
+            'click',
+        ).subscribe(
+            setHidden(this)
+        )
         this.SocketMessage$(uri)
             .subscribe(this.renderIncomingMessage(this.elements.chatBox))
 
