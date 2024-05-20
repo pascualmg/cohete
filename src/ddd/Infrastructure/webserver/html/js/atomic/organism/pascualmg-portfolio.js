@@ -70,6 +70,7 @@ class PortfolioElement extends HTMLElement {
             >
             </technologies-list>
             <chat-box 
+                    hidden
                     group="tbl001"
                     host="pascualmg.dev"
                     port="8001"
