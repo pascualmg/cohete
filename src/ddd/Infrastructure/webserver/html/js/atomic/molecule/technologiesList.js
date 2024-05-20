@@ -8,7 +8,7 @@ class TechnologiesList extends HTMLElement {
         for(let i = 0; i < images.length; i++) {
             imageElements += `
                 <li>
-                    <a><img src="${images[i]}" alt="Tecnologia_${i}"></a>
+                    <a><img src="${images[i]}" alt="tech_${i}"></a>
                 </li>
             `;
         }
@@ -50,7 +50,7 @@ class TechnologiesList extends HTMLElement {
     }
     @media screen and (min-width: 600px) {
         .technologies-list li {
-            max-width: 25%; // for medium screens, approximately 4 items per row
+            max-width: 25%; 
         }
     }
 </style>
