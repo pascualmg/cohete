@@ -9,8 +9,6 @@ class PortfolioElement extends HTMLElement {
 
   }
   connectedCallback() {
-    const theme = this.getAttribute('theme') || 'dark';
-    // language=HTML
     this.shadowRoot.innerHTML = `
             <style>
                 /* Estilos generales */
