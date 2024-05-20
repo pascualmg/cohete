@@ -260,10 +260,8 @@ class ThemeSwitcher extends HTMLElement {
         }
     }
     connectedCallback() {
-        const theme = this.getAttribute('theme') || 'dark';
+        const theme = this.getAttribute('theme') || 'light';
         this.applyTheme(theme);
-
-
     }
     applyTheme(themeName) {
         const themeColors = this.colors[themeName];
@@ -275,6 +273,8 @@ class ThemeSwitcher extends HTMLElement {
         for (let colorName in themeColors) {
             document.documentElement.style.setProperty(`--${colorName}`, themeColors[colorName]);
         }
+        //controlamos desde aquí el bg del html
+        document.documentElement.style.backgroundColor = themeColors['bg1']
     }
 }
 customElements.define('theme-switcher', ThemeSwitcher);
