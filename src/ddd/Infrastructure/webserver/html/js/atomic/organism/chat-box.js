@@ -22,18 +22,15 @@ class ChatBox extends HTMLElement {
             'closeButton': this.shadowRoot.querySelector('.button-round.right')
         };
 
-        function setHidden(elem) {
+        const hideChatBox = function setHidden(elem) {
            return function () {
-               debugger
                elem.hidden = true
            }
-        }
-        rxjs.fromEvent(
-            this.elements.closeButton,
-            'click',
-        ).subscribe(
-            setHidden(this)
-        )
+        }(this)
+
+        this.closeButtonClick$()
+            .subscribe(hideChatBox)
+
         this.SocketMessage$(uri)
             .subscribe(this.renderIncomingMessage(this.elements.chatBox))
 
@@ -188,6 +185,12 @@ class ChatBox extends HTMLElement {
 
     }
 
+    closeButtonClick$()  {
+        return rxjs.fromEvent(
+            this.elements.closeButton,
+            'click'
+        )
+    }
     /**
      * Sets the background color of the connected button element.
      *
