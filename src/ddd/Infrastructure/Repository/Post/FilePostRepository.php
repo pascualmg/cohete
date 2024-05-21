@@ -2,13 +2,15 @@
 
 namespace pascualmg\cohete\ddd\Infrastructure\Repository\Post;
 
-use DateTimeImmutable;
 use Exception;
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\DatePublished;
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
 use React\Stream\ReadableResourceStream;
+use React\Stream\WritableResourceStream;
 
 class FilePostRepository implements PostRepository
 {
@@ -38,14 +40,14 @@ class FilePostRepository implements PostRepository
         return $deferred->promise();
     }
 
-    public function findById(int $postId): PromiseInterface
+    public function findById(PostId $postId): PromiseInterface
     {
         $deferred = new Deferred();
         $contents = '';
 
         $file = new ReadableResourceStream(
             fopen(
-                dirname(__DIR__) . '/Post/posts.json',
+                $this->filename(),
                 'rb'
             )
         );
@@ -58,7 +60,7 @@ class FilePostRepository implements PostRepository
         $file->on('end', function () use ($postId, &$contents, $deferred) {
             $posts = json_decode($contents, true);
             foreach ($posts as $post) {
-                if ($post['id'] === $postId) {
+                if ($post['id'] === (string)$postId) {
                     $deferred->resolve(self::hydrate($post));
                     return;
                 }
@@ -80,9 +82,32 @@ class FilePostRepository implements PostRepository
             $post['id'],
             $post['headline'],
             $post['articleBody'],
-            $post['image'],
             $post['author'],
-            new DateTimeImmutable($post['datePublished'])
+            DatePublished::from($post['datePublished'])
         );
+    }
+
+    public function save(Post $postToCreate): PromiseInterface
+    {
+        $deferred = new Deferred();
+
+        $ostream = new WritableResourceStream(
+            fopen(
+                $this->filename(),
+                'ab+'
+            )
+        );
+
+        //todo: implement
+        $deferred->resolve(true);
+        return $deferred->promise();
+    }
+
+    /**
+     * @return string
+     */
+    public function filename(): string
+    {
+        return dirname(__DIR__) . '/Post/posts.json';
     }
 }
