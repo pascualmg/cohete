@@ -1,3 +1,5 @@
+import ChangingText from "../atom/ChangingText.js"
+
 class PortfolioHeader extends HTMLElement {
     constructor() {
         super();
@@ -47,7 +49,6 @@ class PortfolioHeader extends HTMLElement {
     .centeredText {
         text-align: center;
     }
-    
 </style>
 <section class="portfolio-header">
     <div class="header-content">
@@ -56,7 +57,19 @@ class PortfolioHeader extends HTMLElement {
         </div>
         <h1 class="header-title centeredText">PascualMG</h1>
         <h2 class="header-title-2 centeredText">PHP Developer</h2>
-        <h3 class="header-title-3 centeredText" >and GW-BASIC junior</h3>
+        <h3 class="header-title-3 centeredText" >
+                <changing-text 
+                texts='[
+                "GW-BASIC junior",
+                "Haskell Lover",
+                "TDD maker",
+                "Curl suffer",
+                "Extreme Programmer"
+                ]' 
+                delay="1"
+                ></changing-text>
+        </h3>
+        
     </div>
     <div class="header-social-media">
         <!-- Social media buttons/icons -->
@@ -95,7 +108,7 @@ function parallaxBackground(elem, backgroundImageURL, scrollSpeed, viewportWidth
 
     const parallaxTick = () => {
         if (window.innerWidth > viewportWidth) {
-            parallaxImage.style.transform = `translateY(${window.scrollY * scrollSpeed * 10}px)`;
+            parallaxImage.style.transform = `translateX(${window.scrollY * scrollSpeed * 10}px)`;
             parallaxImage.style.opacity = `${100.0 / window.scrollY}`;
         } else {
             parallaxImage.style.transform = 'none';
