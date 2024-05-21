@@ -6,6 +6,8 @@ class ChangingText extends HTMLElement {
         this.duration = 3000; // Duración fija de 3 segundos
         this.initialDelay = 20; // Muy rápido al principio
         this.timeoutId = null;
+
+        this.addEventListener('click', this.startTextAnimation)
     }
 
     static get observedAttributes() {
