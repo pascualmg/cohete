@@ -65,7 +65,7 @@ class ThemeSwitcher extends HTMLElement {
             'blue-bg-s': '#2d4252',
             'magenta': '#a31db1',
             'yellow': '#b1951d',
-            'yellow-bg': '#32322c'
+            'yellow-bg': '#32322c',
         },
         light: {
             'act1': '#e7e5eb',

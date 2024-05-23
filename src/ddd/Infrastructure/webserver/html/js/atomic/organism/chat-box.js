@@ -22,14 +22,14 @@ class ChatBox extends HTMLElement {
             'closeButton': this.shadowRoot.querySelector('.button-round.right')
         };
 
-        const hideChatBox = function setHidden(elem) {
+        const removeElement = function setHidden(elem) {
            return function () {
-               elem.hidden = true
+               elem.remove()
            }
         }(this)
 
         this.closeButtonClick$()
-            .subscribe(hideChatBox)
+            .subscribe(removeElement)
 
         this.SocketMessage$(uri)
             .subscribe(this.renderIncomingMessage(this.elements.chatBox))

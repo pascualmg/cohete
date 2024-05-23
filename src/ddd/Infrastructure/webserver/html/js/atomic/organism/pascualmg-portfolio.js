@@ -1,6 +1,7 @@
 import TechnologiesList from "../molecule/technologiesList.js";
 import ChatBox from "./chat-box.js";
 import PortFolioHeader from "../molecule/PortfolioHeader.js"
+import ThemeToggler from "./ThemeToogler.js"
 
 class PortfolioElement extends HTMLElement {
   constructor() {
@@ -41,9 +42,10 @@ class PortfolioElement extends HTMLElement {
                     border: 1px solid var(--border);
                 }
             </style>
+           <theme-toggler></theme-toggler>
            <portfolio-header></portfolio-header>
 
-            <section>
+           <section>
                 <h3>Sobre mí</h3>
                 <p>Aquí es donde puedes añadir un resumen breve y conciso sobre ti, tus habilidades y tu experiencia
                     profesional.</p>
