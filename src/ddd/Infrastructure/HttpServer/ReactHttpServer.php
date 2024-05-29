@@ -44,23 +44,28 @@ class ReactHttpServer
             (new ClientIp())
         );
 
+        $requestDumperMiddleware = new PSR15Middleware(
+            new RequestDumper()
+        );
+
+        $responseDumperMiddleware =  new PSR15Middleware(
+            new ResponseDumper()
+        );
         $httpServer = new HttpServer(
             $clientIPMiddleware,
+            $requestDumperMiddleware,
+            $responseDumperMiddleware,
             new Kernel()
         );
 
         $httpServer->listen($socket);
         echo "server listening on " . $socket->getAddress();
 
-        if ($isDevelopment) {
-            $httpServer->on(
-                'error',
-                'var_dump'
-            );
+        $httpServer->on(
+            'error',
+            'var_dump'
+        );
 
-            $socket->on('connection', function (ConnectionInterface $connection) {
-                $connection->on('data', 'var_dump');
-            });
-        }
+
     }
 }
