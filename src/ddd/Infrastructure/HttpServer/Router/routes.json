@@ -1,6 +1,11 @@
 [
   {
     "method": "GET",
+    "path": "/",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\RedirectController"
+  },
+  {
+    "method": "GET",
     "path": "/post",
     "handler": "pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\FindAllPostsController"
   },
@@ -24,7 +29,7 @@
     "path": "/health",
     "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\HealthController"
   },
-  {
+ {
     "method": "GET",
     "path": "/post/{id:[0-9]+}",
     "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\FindPostByIdController"
