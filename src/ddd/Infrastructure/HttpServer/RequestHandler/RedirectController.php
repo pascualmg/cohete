@@ -15,7 +15,7 @@ class RedirectController implements HttpRequestHandler
         return new Response(
             301,
             [
-                'Location' => 'http://localhost:8000/html/pascualmgPorfolio.html'
+                'Location' => '/html/pascualmgPorfolio.html'
             ],
             'Redirecting to my portfolio...'
         );
