@@ -44,7 +44,6 @@ class PortfolioElement extends HTMLElement {
             </style>
            <theme-toggler></theme-toggler>
            <portfolio-header></portfolio-header>
-
            <section>
                 <h3>Sobre mí</h3>
                 <p>Aquí es donde puedes añadir un resumen breve y conciso sobre ti, tus habilidades y tu experiencia
@@ -63,12 +62,17 @@ class PortfolioElement extends HTMLElement {
                     quieras que sea pública.</p>
             </section>
             <technologies-list
-                    images="
-                    https://raw.githubusercontent.com/reactphp/branding/main/reactphp-logo.svg,
-                    https://symfony.com/logos/symfony_black_03.png,
-                    https://chuidiang.org/images/f/f3/Logo_php.png,
-                    https://seeklogo.com/images/G/github-logo-2E3852456C-seeklogo.com.png
-                    "
+                images="
+                https://raw.githubusercontent.com/NixOS/nixos-artwork/53ea652ec7d8af5d21fd2b79b6c49cb39078ddfb/logo/nixos.svg,
+                https://upload.wikimedia.org/wikipedia/commons/7/7f/Haskell-logo2.svg,
+                https://chuidiang.org/images/f/f3/Logo_php.png,
+                https://upload.wikimedia.org/wikipedia/commons/a/ae/Github-desktop-logo-symbol.svg,
+                https://raw.githubusercontent.com/reactphp/branding/main/reactphp-logo.svg,
+                https://symfony.com/logos/symfony_black_03.png,
+                https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg,
+                https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg,
+                https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg,
+                "
             >
             </technologies-list>
             <chat-box 
