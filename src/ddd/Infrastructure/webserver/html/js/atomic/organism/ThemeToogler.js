@@ -4,14 +4,14 @@ class ThemeToggler extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-        this.themes = ['dark', 'light', 'solarized-dark', 'solarized-light'];
-        this.currentThemeIndex = 0;
+       this.currentThemeIndex = 0;
     }
 
     connectedCallback() {
         this.render();
-
         this.themeSwitcher = this.shadowRoot.querySelector('theme-switcher');
+        this.themes = this.themeSwitcher.themeNames;
+
         if(this.themeSwitcher === null){
             console.error("no se puedee localizr el theme switcher")
         }
