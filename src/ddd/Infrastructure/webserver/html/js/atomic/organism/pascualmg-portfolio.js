@@ -1,5 +1,5 @@
 import TechnologiesList from "../molecule/technologiesList.js";
-import ChatBox from "./chat-box.js";
+import ChatBox from "./ChatBox.js";
 import PortFolioHeader from "../molecule/PortfolioHeader.js"
 import ThemeToggler from "./ThemeToogler.js"
 
@@ -34,7 +34,7 @@ class PortfolioElement extends HTMLElement {
                 }
 
                 section {
-                    background-color: var(--bg3);
+                background: linear-gradient( var(--bg1), var(--base-dim));
                     color: var(--head2);
                     margin: 10px;
                     padding: 10px;
@@ -42,7 +42,6 @@ class PortfolioElement extends HTMLElement {
                     border: 1px solid var(--border);
                 }
             </style>
-           <theme-toggler></theme-toggler>
            <portfolio-header></portfolio-header>
            <section>
                 <h3>Sobre mí</h3>
