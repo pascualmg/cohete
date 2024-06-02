@@ -19,6 +19,7 @@ class PortfolioHeader extends HTMLElement {
                     text-align: center;
                 } 
                 .header-photo img {
+                hidden;
                     border-radius: 50%; 
                     object-fit: cover; 
                     width: 150px; 
@@ -48,7 +49,23 @@ class PortfolioHeader extends HTMLElement {
                 <div class="header-photo">
                     <img src="https://raw.githubusercontent.com/pascualmg/cdn/main/me.png" alt="Profile picture">
                 </div>
-                <h1 class="header-title">Pascual Muñoz Galián</h1>
+                <h1 class="header-title">
+             <changing-text texts='[
+    "¡Hola! Soy ",
+    "Hello! Im ",
+    "こんにちは！私は ",
+    "Hallo! Ich bin ",
+    "Ciao! Sono ",
+    "Olá! Eu sou ",
+    "Привет! Я ",
+    "Salut! Sunt ",
+    "Hej! Jeg er ",
+    "Hallå! Jag är ",
+    "Hei! Jeg er ",
+    "Hoi! Ik ben ",
+    "Merhaba! Ben "
+]' ></changing-text>
+                Pascual Muñoz Galián</h1>
                 <h2 class="header-title-2">PHP Backend <changing-text texts='[
                         "junior",
                         "senior"   
@@ -63,7 +80,9 @@ class PortfolioHeader extends HTMLElement {
                         "Curl suffer",
                         "Extreme Programmer",
                         "Creator of cohete",
-                        "ReactPHP noob"
+                        "ReactPHP noob",
+                        "PHP craftsman",
+                        "Clean Coder"
                         ]' 
                         delay="1"
                     ></changing-text>
@@ -74,7 +93,7 @@ class PortfolioHeader extends HTMLElement {
             </section>
         `;
 
-        const portfolioHeader = this.shadowRoot.querySelector('.portfolio-header');
+        const portfolioHeader = self;
         parallaxBackground(
             portfolioHeader,
             'https://raw.githubusercontent.com/pascualmg/cdn/main/header-background.png',
@@ -92,8 +111,10 @@ function parallaxBackground(elem, backgroundImageURL, scrollSpeed, viewportWidth
 
     const parallaxTick = () => {
         if (window.innerWidth > viewportWidth) {
-            parallaxImage.style.transform = `translateX(${window.scrollY * scrollSpeed * 10}px)`;
+            parallaxImage.style.transform = `translateY(${window.scrollY * scrollSpeed * 0.1}px)`;
             parallaxImage.style.opacity = `${100.0 / window.scrollY}`;
+            //set back of all elements
+            parallaxImage.style.zIndex = "-1";
         } else {
             parallaxImage.style.transform = 'none';
         }
