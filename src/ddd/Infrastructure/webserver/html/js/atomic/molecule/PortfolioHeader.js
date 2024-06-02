@@ -93,7 +93,7 @@ class PortfolioHeader extends HTMLElement {
             </section>
         `;
 
-        const portfolioHeader = self;
+        const portfolioHeader = this
         parallaxBackground(
             portfolioHeader,
             'https://raw.githubusercontent.com/pascualmg/cdn/main/header-background.png',
