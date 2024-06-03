@@ -1,8 +1,8 @@
 /**
-       Extracted from https://github.com/nashamri/spacemacs-theme/blob/master/spacemacs-theme.el with AI assistant check        the repo and give your start if you copy a line from here
-       https://github.com/nashamri/spacemacs-theme/tree/master?tab=readme-ov-file#override-themes-colors
+ Extracted from https://github.com/nashamri/spacemacs-theme/blob/master/spacemacs-theme.el with AI assistant check        the repo and give your start if you copy a line from here
+ https://github.com/nashamri/spacemacs-theme/tree/master?tab=readme-ov-file#override-themes-colors
 
-    */
+ */
 class ThemeSwitcher extends HTMLElement {
 
     colors = {
@@ -369,7 +369,131 @@ class ThemeSwitcher extends HTMLElement {
             'magenta': '#d33682',
             'yellow': '#b58900',
             'yellow-bg': '#fdf6e3'
+        },
+        'nord': {
+            'act1': '#2e3440',
+            'act2': '#3b4252',
+            'base': '#d8dee9',
+            'base-dim': '#e5e9f0',
+            'bg1': '#2e3440',
+            'bg2': '#3b4252',
+            'bg3': '#434c5e',
+            'bg4': '#4c566a',
+            'bg-alt': '#3b4252',
+            'border': '#4c566a',
+            'cblk': '#4c566a',
+            'cblk-bg': '#3b4252',
+            'cblk-ln': '#4c566a',
+            'cblk-ln-bg': '#3b4252',
+            'cursor': '#2e3440',
+            'const': '#81a1c1',
+            'comment': '#4c566a',
+            'comment-light': '#d8dee9',
+            'comment-bg': '#3b4252',
+            'comp': '#88c0d0',
+            'err': '#bf616a',
+            'func': '#88c0d0',
+            'head1': '#8fbcbb',
+            'head1-bg': '#3b4252',
+            'head2': '#88c0d0',
+            'head2-bg': '#3b4252',
+            'head3': '#81a1c1',
+            'head3-bg': '#3b4252',
+            'head4': '#5e81ac',
+            'head4-bg': '#3b4252',
+            'highlight': '#434c5e',
+            'highlight-dim': '#4c566a',
+            'keyword': '#81a1c1',
+            'lnum': '#4c566a',
+            'mat': '#b48ead',
+            'meta': '#d8dee9',
+            'str': '#a3be8c',
+            'suc': '#a3be8c',
+            'ttip': '#4c566a',
+            'ttip-sl': '#3b4252',
+            'ttip-bg': '#3b4252',
+            'type': '#8fbcbb',
+            'var': '#d08770',
+            'war': '#ebcb8b',
+            'aqua': '#8fbcbb',
+            'aqua-bg': '#3b4252',
+            'green': '#a3be8c',
+            'green-bg': '#3b4252',
+            'green-bg-s': '#3b4252',
+            'cyan': '#88c0d0',
+            'red': '#bf616a',
+            'red-bg': '#3b4252',
+            'red-bg-s': '#3b4252',
+            'blue': '#81a1c1',
+            'blue-bg': '#3b4252',
+            'blue-bg-s': '#3b4252',
+            'magenta': '#b48ead',
+            'yellow': '#ebcb8b',
+            'yellow-bg': '#3b4252'
+        },
+        'linkedIn': {
+            'act1': '#313335',
+            'act2': '#0077B5',
+            'base': '#000000',
+            //light almost white base
+            'base-dim': '#b9b3b3',
+            'bg1': '#FFFFFF',
+            'bg2': '#313335',
+            'bg3': '#86888A',
+            'bg4': '#000000',
+            'bg-alt': '#313335',
+            'border': '#0077B5',
+            'cblk': '#000000',
+            'cblk-bg': '#313335',
+            'cblk-ln': '#0077B5',
+            'cblk-ln-bg': '#86888A',
+            'cursor': '#000000',
+            'const': '#0077B5',
+            'comment': '#86888A',
+            'comment-light': '#86888A',
+            'comment-bg': '#313335',
+            'comp': '#0077B5',
+            'err': '#000000',
+            'func': '#0077B5',
+            'head1': '#0077B5',
+            'head1-bg': '#313335',
+            'head2': '#0077B5',
+            'head2-bg': '#313335',
+            'head3': '#0077B5',
+            'head3-bg': '#313335',
+            'head4': '#0077B5',
+            'head4-bg': '#313335',
+            'highlight': '#0077B5',
+            'highlight-dim': '#86888A',
+            'keyword': '#0077B5',
+            'lnum': '#86888A',
+            'mat': '#0077B5',
+            'meta': '#86888A',
+            'str': '#0077B5',
+            'suc': '#0077B5',
+            'ttip': '#86888A',
+            'ttip-sl': '#0077B5',
+            'ttip-bg': '#313335',
+            'type': '#0077B5',
+            'var': '#0077B5',
+            'war': '#000000',
+            'aqua': '#0077B5',
+            'aqua-bg': '#313335',
+            'green': '#0077B5',
+            'green-bg': '#313335',
+            'green-bg-s': '#313335',
+            'cyan': '#0077B5',
+            'red': '#000000',
+            'red-bg': '#313335',
+            'red-bg-s': '#313335',
+            'blue': '#0077B5',
+            'blue-bg': '#313335',
+            'blue-bg-s': '#313335',
+            'magenta': '#0077B5',
+            'yellow': '#0077B5',
+            'yellow-bg': '#313335',
         }
+
     };
 
     static get observedAttributes() {
@@ -381,10 +505,12 @@ class ThemeSwitcher extends HTMLElement {
             this.applyTheme(newValue);
         }
     }
+
     connectedCallback() {
         const theme = this.getAttribute('theme') || 'light';
         this.applyTheme(theme);
     }
+
     applyTheme(themeName) {
         const themeColors = this.colors[themeName];
         if (!themeColors) {
@@ -403,5 +529,6 @@ class ThemeSwitcher extends HTMLElement {
         return Object.keys(this.colors);
     }
 }
+
 customElements.define('theme-switcher', ThemeSwitcher);
 export default ThemeSwitcher;
