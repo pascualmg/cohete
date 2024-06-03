@@ -150,6 +150,11 @@ class PascualmgSpa extends HTMLElement {
             <p>
                 <a href="https://twitter.com/pascualmg">Twitter</a> |
                 <a href="https://github.com/pascualmg">GitHub</a>
+                <a href="https://www.linkedin.com/in/pascual-mu%C3%B1oz-gali%C3%A1n-7b4b3896/">LinkedIn</a>
+            </p>
+            </p>
+            tlf
+                <a href="tel:+34693000983">693000983</a>
             </p>
         </footer>;`;
 
@@ -183,6 +188,11 @@ class PascualmgSpa extends HTMLElement {
     LoadCustomComponent(event) {
         const customComponentName = event.target.getAttribute('data-custom-component-name');
         const mainContent = this.shadowRoot.querySelector('#main-content');
+
+        if(!customComponentName){
+            console.error('Custom component name not found');
+            return;
+        }
 
         mainContent.innerHTML = `<${customComponentName}></${customComponentName}>`;
 
