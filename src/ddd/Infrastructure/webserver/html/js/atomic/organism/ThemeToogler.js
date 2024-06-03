@@ -12,7 +12,7 @@ class ThemeToggler extends HTMLElement {
         this.themeSwitcher = this.shadowRoot.querySelector('theme-switcher');
         this.themes = this.themeSwitcher.themeNames;
 
-        if(this.themeSwitcher === null){
+        if(!this.themeSwitcher){
             console.error("no se puedee localizr el theme switcher")
         }
         this.updateTheme();
@@ -73,6 +73,7 @@ class ThemeToggler extends HTMLElement {
         const theme = this.themes[this.currentThemeIndex];
         if (this.themeSwitcher) {
             this.themeSwitcher.setAttribute('theme', theme);
+            this.shadowRoot.querySelector('button').textContent = theme;
         }
     }
 }
