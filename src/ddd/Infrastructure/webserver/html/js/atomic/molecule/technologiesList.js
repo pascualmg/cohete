@@ -55,8 +55,7 @@ class TechnologiesList extends HTMLElement {
     }
 </style>
             <div class="technologies-container">
-                <h2 class="technologies-subtitle">Tecnología</h2>
-                <h4 class="technologies-title">Las tecnologías que utilizamos</h4>
+                <h2 class="technologies-title">El stack de tecnologías que utilizo, amadas u odiadas sin distinción 👽</h2>
                 <ul class="technologies-list">
                     ${imageElements}
                 </ul>

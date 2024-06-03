@@ -106,8 +106,13 @@ class PascualmgSpa extends HTMLElement {
 
             /* Media Queries para pantallas más grandes */
             @media (min-width: 768px) {
+            :host {
+                max-width: 1200px;
+                margin: auto;
+                padding: 20px;
+             }
             .container {
-            flex-direction: row; /* Pantallas más grandes: fila horizontal */
+            flex-direction: row; 
         }
 
             .menu-button {
@@ -115,11 +120,23 @@ class PascualmgSpa extends HTMLElement {
         }
 
             .sidebar {
-            display: block; /* Muestra la barra lateral en pantallas grandes */
+            display: block;
             width: 200px;
-            flex-shrink: 0; /* Evita que la barra lateral se encoja */
+            background-color: var(--base);
+            padding: 20px;
+            border-right: 1px solid #333;
+            min-height: 100vh;
         }
 
+        header {
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        header, .sidebar {
+            position: sticky;
+        }
             .main-content {
             overflow-y: auto; /* Permite desplazarse si el contenido es demasiado grande */
         }
@@ -127,7 +144,7 @@ class PascualmgSpa extends HTMLElement {
         </style>
         <header class="header">
             <theme-toggler></theme-toggler>
-            <h1>Pascualmg.dev ==> </h1>
+            <h1>Pascualmg.dev</h1>
         </header>
         <div class="container">
             <button class="menu-button" id="menu-button">&#9776; Menu</button>

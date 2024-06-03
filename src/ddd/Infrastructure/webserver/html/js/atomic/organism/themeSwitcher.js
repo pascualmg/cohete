@@ -523,6 +523,9 @@ class ThemeSwitcher extends HTMLElement {
         }
         //controlamos desde aquí el bg del html
         document.documentElement.style.backgroundColor = themeColors['bg1']
+        //ponemos la imagen https://raw.githubusercontent.com/pascualmg/cdn/main/header-background.png
+     //   document.documentElement.style.backgroundImage = 'url(https://raw.githubusercontent.com/pascualmg/cdn/main/header-background.png)';
+      //  document.documentElement.style.backgroundSize = 'cover';
     }
 
     get themeNames() {
