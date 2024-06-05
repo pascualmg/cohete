@@ -1,6 +1,7 @@
 import './pascualmg-portfolio.js';
 import './ThemeToogler.js';
 import './ChatBox.js';
+import '../molecule/SocialLinks.js'
 /**
   @extends HTMLElement
  * @property {Function} toggleMenu - Muestra u oculta la barra lateral segun si es movil o no.
@@ -162,17 +163,15 @@ class PascualmgSpa extends HTMLElement {
             </main>
         </div>
         <footer class="footer">
-            <p>&copy; 2024 Pascualmg.dev. Todos los derechos reservados.</p>
-            <p><a href="mailto:info@pascualmg.dev">info@pascualmg.dev</a></p>
-            <p>
-                <a href="https://twitter.com/pascualmg">Twitter</a> |
-                <a href="https://github.com/pascualmg">GitHub</a>
-                <a href="https://www.linkedin.com/in/pascual-mu%C3%B1oz-gali%C3%A1n-7b4b3896/">LinkedIn</a>
-            </p>
-            </p>
-            tlf
-                <a href="tel:+34693000983">693000983</a>
-            </p>
+         <social-links links='[
+         {"name": "twitter", "url": "https://twitter.com/pascualmg"},
+         {"name": "github", "url": "https://github.com/pascualmg"},
+         {"name": "linkedin", "url": "https://www.linkedin.com/in/pascual-mu%C3%B1oz-gali%C3%A1n-7b4b3896/"},
+         {"name": "email", "url": "mailto:info@pascualmg.dev"},
+         {"name": "phone", "url": "tel:+34693000983"}
+         ]'></social-links>
+        
+           <p>&copy; 2024 Pascualmg.dev. Todos los derechos reservados.</p>
         </footer>;`;
 
         // Bind methods
