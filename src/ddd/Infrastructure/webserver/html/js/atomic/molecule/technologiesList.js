@@ -5,13 +5,14 @@ class TechnologiesList extends HTMLElement {
 
         // Create a <li> element for each image.
         let imageElements = '';
-        for(let i = 0; i < images.length; i++) {
+
+        images.forEach((image, index) => {
             imageElements += `
                 <li>
-                    <a><img src="${images[i]}" alt="tech_${i}"></a>
+                    <a><img src="${image}" alt="tech_${index}"></a>
                 </li>
             `;
-        }
+        });
 
         // Create the HTML markup for the component.
         this.innerHTML = `
@@ -44,8 +45,8 @@ class TechnologiesList extends HTMLElement {
     .technologies-list img {
         width: 100%; /* limit width to 100% of the parent element */
         height: auto; /* to maintain aspect ratio */
-        max-width: 150px; /* limit the maximum width */
-        max-height: 150px; /* limit the maximum height */
+        max-width: 80px; /* limit the maximum width */
+        max-height: 80px; /* limit the maximum height */
         object-fit: contain; /* this will make the images scale to fit inside their box */
     }
     @media screen and (min-width: 600px) {
