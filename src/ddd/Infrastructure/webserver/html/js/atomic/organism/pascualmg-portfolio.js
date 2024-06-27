@@ -60,19 +60,17 @@ class PortfolioElement extends HTMLElement {
                 <p>Indica cómo alguien puede ponerte en contacto. Recuerda, no compartas información de contacto que no
                     quieras que sea pública.</p>
             </section>
-            <technologies-list
-                images="
-                https://raw.githubusercontent.com/NixOS/nixos-artwork/53ea652ec7d8af5d21fd2b79b6c49cb39078ddfb/logo/nixos.svg,
-                https://upload.wikimedia.org/wikipedia/commons/7/7f/Haskell-logo2.svg,
-                https://chuidiang.org/images/f/f3/Logo_php.png,
-                https://upload.wikimedia.org/wikipedia/commons/a/ae/Github-desktop-logo-symbol.svg,
-                https://raw.githubusercontent.com/reactphp/branding/main/reactphp-logo.svg,
-                https://symfony.com/logos/symfony_black_03.png,
-                https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg,
-                https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg,
-                https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg,
-                "
-            >
+          <technologies-list images='[
+    {"src": "https://raw.githubusercontent.com/NixOS/nixos-artwork/53ea652ec7d8af5d21fd2b79b6c49cb39078ddfb/logo/nixos.svg", "alt": "nixos"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Haskell-logo2.svg", "alt": "haskell"},
+    {"src": "https://chuidiang.org/images/f/f3/Logo_php.png", "alt": "php"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Github-desktop-logo-symbol.svg", "alt": "github"},
+    {"src": "https://raw.githubusercontent.com/reactphp/branding/main/reactphp-logo.svg", "alt": "reactphp"},
+    {"src": "https://symfony.com/logos/symfony_black_03.png", "alt": "symfony"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg", "alt": "javascript"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg", "alt": "html5"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg", "alt": "css3"}
+]'></technologies-list>
             </technologies-list>
             <chat-box 
                     hidden

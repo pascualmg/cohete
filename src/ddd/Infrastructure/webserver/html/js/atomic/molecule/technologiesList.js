@@ -1,7 +1,13 @@
 class TechnologiesList extends HTMLElement {
+
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+    }
+
     connectedCallback() {
         // Get the list of images from the 'images' attribute.
-        const images = this.getAttribute('images').split(',');
+        const images = JSON.parse(this.getAttribute('images'));
 
         // Create a <li> element for each image.
         let imageElements = '';
@@ -9,13 +15,12 @@ class TechnologiesList extends HTMLElement {
         images.forEach((image, index) => {
             imageElements += `
                 <li>
-                    <a><img src="${image}" alt="tech_${index}"></a>
+                    <a><img src="${image.src}" alt="${image.alt}"></a>
                 </li>
             `;
         });
 
-        // Create the HTML markup for the component.
-        this.innerHTML = `
+        this.shadowRoot.innerHTML = `
 <style>
     .technologies-container {
         margin: auto;
