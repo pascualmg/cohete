@@ -50,9 +50,8 @@ class PortfolioElement extends HTMLElement {
             </section>
 
             <section>
-                <h3>Proyectos</h3>
-                <p>Aquí puedes enumerar tus proyectos más relevantes o impresionantes, con enlaces a los repositorios si
-                    están disponibles.</p>
+                <experience-timeline data=""></experience-timeline>
+      
             </section>
 
             <section>
