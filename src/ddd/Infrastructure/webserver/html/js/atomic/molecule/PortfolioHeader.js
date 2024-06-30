@@ -15,16 +15,23 @@ class PortfolioHeader extends HTMLElement {
                     margin: 10px;
                     padding: 10px;
                     border-radius: 10px;
-                    border: 1px solid var(--border);
                     text-align: center;
+                    display: grid;
+                    grid-template-rows: 1fr;
+                    gap: 10px;
                 } 
                 .header-photo img {
-                hidden;
-                    border-radius: 50%; 
+                    border-radius: 10px; 
                     object-fit: cover; 
-                    width: 150px; 
-                    height: 150px; 
+                    width: 100%; 
+                    height: auto; 
                     margin-bottom: 10px;
+                    max-width: 500px;
+                    max-height: 500px;
+                    }
+                }
+        
+                
                 }
                 .header-title {
                     color: var(--aqua); 
@@ -43,6 +50,7 @@ class PortfolioHeader extends HTMLElement {
                 .header-location {
                     color: var(--magenta);
                     margin-top: 10px;
+                }
                 }
             </style>
             <section class="portfolio-header">
@@ -93,14 +101,14 @@ class PortfolioHeader extends HTMLElement {
             </section>
         `;
 
-        const portfolioHeader = this
-        parallaxBackground(
-            portfolioHeader,
-            'https://raw.githubusercontent.com/pascualmg/cdn/main/header-background.png',
-            0.2,
-            480,
-            "50% 50%"
-        );
+        // const portfolioHeader = this
+        // parallaxBackground(
+        //     portfolioHeader,
+        //     'https://raw.githubusercontent.com/pascualmg/cdn/main/header-background.png',
+        //     0.2,
+        //     480,
+        //     "50% 50%"
+        // );
     }
 }
 
