@@ -125,12 +125,12 @@ class PortfolioElement extends HTMLElement {
     {"src": "https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg", "alt": "css3"}
 ]'></technologies-list>
             </technologies-list>
-            <chat-box 
-                    hidden
-                    group="tbl001"
-                    host="pascualmg.dev"
-                    port="8001"
-            ></chat-box>
+<!--            <chat-box -->
+<!--                    hidden-->
+<!--                    group="tbl001"-->
+<!--                    host="pascualmg.dev"-->
+<!--                    port="8001"-->
+<!--            ></chat-box>-->
 
 
         `;
