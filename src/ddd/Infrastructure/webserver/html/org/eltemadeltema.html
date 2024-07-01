@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2024-06-04 Tue 16:12 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>&lrm;</title>
+<meta name="author" content="Pascual M.G." />
+<meta name="generator" content="Org Mode" />
+<style type="text/css">
+  #content { max-width: 60em; margin: auto; }
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    background-color: #f2f2f2;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: auto;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    top: -8px;
+    right: 12px;
+    padding: 3px;
+    color: #555;
+    background-color: #f2f2f299;
+  }
+  pre.src:hover:before { display: inline; margin-top: 14px;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-authinfo::before { content: 'Authinfo'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .equation-container {
+    display: table;
+    text-align: center;
+    width: 100%;
+  }
+  .equation {
+    vertical-align: middle;
+  }
+  .equation-label {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+  }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { }
+</style>
+<link rel="stylesheet" type="text/css" href="spacemacs.css">
+</head>
+<body>
+<div id="content" class="content">
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org41949c9">1. El tema del tema</a>
+<ul>
+<li><a href="#org02589b7">1.1. El problema</a></li>
+<li><a href="#org838b215">1.2. La solución</a></li>
+<li><a href="#orgde72bf8">1.3. Ahora que sabemos como hacerlo , que colores usamos ?</a>
+<ul>
+<li><a href="#org25bd53d">1.3.1. <span class="todo TODO">TODO</span> IA al rescate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org41949c9" class="outline-2">
+<h2 id="org41949c9"><span class="section-number-2">1.</span> El tema del tema</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Siempre he visto que era un verdadero quebradero de cabeza , el mantener un tema de colores para una web , en mi caso como no uso ningún framework web, sino que estoy usando custom web components he ideado una forma a mi entender bastante sencilla que para el problema que se prentende solucionar, usando unicamente las capacidades del propio navegador . 
+</p>
+</div>
+
+<div id="outline-container-org02589b7" class="outline-3">
+<h3 id="org02589b7"><span class="section-number-3">1.1.</span> El problema</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Al organizar el código siguiendo la metodología atomic
+</p>
+
+<ul class="org-ul">
+<li>Organism</li>
+<li>Molecule</li>
+<li>Atom</li>
+</ul>
+
+<p>
+Siendo esta una organización jerárquica, se hace patente , que si cada uno de los componentes es responsable de su estilo, este tiene que ser coherente y comun a todos ellos.
+p
+</p>
+</div>
+</div>
+<div id="outline-container-org838b215" class="outline-3">
+<h3 id="org838b215"><span class="section-number-3">1.2.</span> La solución</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Para conseguir esto , he pensado en  hacerlo también con un componente , un organismo concretamente. Estableciendo de forma global en <b><b>:root</b></b>  js las variables de color , siendo cada componente el que , si quiere haga uso de ella , permaneciendo el valor HEX del mismo agnóstico dentro del mismo componente.
+</p>
+
+<p>
+Si, quizá estés pensando , en que entonces todos los componentes , tienen que conocer el nombre de las variables del tema, eso es correcto pero solo si estos quieren usarlo. La ventaja es que aqui el framework es el propio navegador , el que se encargará de cambiar los colores automáticamente con solo cambiar el valor de la propiedad del componente del tema. Magia sí! pero blanca.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgde72bf8" class="outline-3">
+<h3 id="orgde72bf8"><span class="section-number-3">1.3.</span> Ahora que sabemos como hacerlo , que colores usamos ?</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+creo que los mas chulos , los del tema de  <a href="https://github.com/nashamri/spacemacs-theme">spacemacs</a> 😎 , concretamente el tema dark que es una delicia (dejadle una 🌟! se lo merece)  y por supuesto los que no pueden faltar , los solarized <a href="https://ethanschoonover.com/solarized/">solarized</a>.
+</p>
+</div>
+
+<div id="outline-container-org25bd53d" class="outline-4">
+<h4 id="org25bd53d"><span class="section-number-4">1.3.1.</span> <span class="todo TODO">TODO</span> IA al rescate</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+Extraer el esquema de colores de una función en lisp es algo muy tedioso para un humano , aqui es donde un LLM nos puede sacar del apuro no sin antes pelearse un poco con el claro.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-json">{
+  <span style="color: #51afef;">"dark"</span>: {
+    <span style="color: #51afef;">"act1"</span>: <span style="color: #98be65;">"#222226"</span>,
+    <span style="color: #51afef;">"act2"</span>: <span style="color: #98be65;">"#5d4d7a"</span>,
+    <span style="color: #51afef;">"base"</span>: <span style="color: #98be65;">"#b2b2b2"</span>,
+    <span style="color: #51afef;">"base-dim"</span>: <span style="color: #98be65;">"#686868"</span>,
+    <span style="color: #51afef;">"bg1"</span>: <span style="color: #98be65;">"#292b2e"</span>,
+    <span style="color: #51afef;">"bg2"</span>: <span style="color: #98be65;">"#212026"</span>,
+    <span style="color: #51afef;">"bg3"</span>: <span style="color: #98be65;">"#100a14"</span>,
+    <span style="color: #51afef;">"bg4"</span>: <span style="color: #98be65;">"#0a0814"</span>,
+    <span style="color: #51afef;">"bg-alt"</span>: <span style="color: #98be65;">"#42444a"</span>,
+    <span style="color: #51afef;">"border"</span>: <span style="color: #98be65;">"#5d4d7a"</span>,
+    <span style="color: #51afef;">"cblk"</span>: <span style="color: #98be65;">"#cbc1d5"</span>,
+    <span style="color: #51afef;">"cblk-bg"</span>: <span style="color: #98be65;">"#2f2b33"</span>,
+    <span style="color: #51afef;">"cblk-ln"</span>: <span style="color: #98be65;">"#827591"</span>,
+    <span style="color: #51afef;">"cblk-ln-bg"</span>: <span style="color: #98be65;">"#373040"</span>,
+    <span style="color: #51afef;">"cursor"</span>: <span style="color: #98be65;">"#e3dedd"</span>,
+    <span style="color: #51afef;">"const"</span>: <span style="color: #98be65;">"#a45bad"</span>,
+    <span style="color: #51afef;">"comment"</span>: <span style="color: #98be65;">"#2aa1ae"</span>,
+    <span style="color: #51afef;">"comment-light"</span>: <span style="color: #98be65;">"#2aa1ae"</span>,
+    <span style="color: #51afef;">"comment-bg"</span>: <span style="color: #98be65;">"#292e34"</span>,
+    <span style="color: #51afef;">"comp"</span>: <span style="color: #98be65;">"#c56ec3"</span>,
+    <span style="color: #51afef;">"err"</span>: <span style="color: #98be65;">"#e0211d"</span>,
+    <span style="color: #51afef;">"func"</span>: <span style="color: #98be65;">"#bc6ec5"</span>,
+    <span style="color: #51afef;">"head1"</span>: <span style="color: #98be65;">"#4f97d7"</span>,
+    <span style="color: #51afef;">"head1-bg"</span>: <span style="color: #98be65;">"#293239"</span>,
+    <span style="color: #51afef;">"head2"</span>: <span style="color: #98be65;">"#2d9574"</span>,
+    <span style="color: #51afef;">"head2-bg"</span>: <span style="color: #98be65;">"#293235"</span>,
+    <span style="color: #51afef;">"head3"</span>: <span style="color: #98be65;">"#67b11d"</span>,
+    <span style="color: #51afef;">"head3-bg"</span>: <span style="color: #98be65;">"#293235"</span>,
+    <span style="color: #51afef;">"head4"</span>: <span style="color: #98be65;">"#b1951d"</span>,
+    <span style="color: #51afef;">"head4-bg"</span>: <span style="color: #98be65;">"#32322c"</span>,
+    <span style="color: #51afef;">"highlight"</span>: <span style="color: #98be65;">"#444155"</span>,
+    <span style="color: #51afef;">"highlight-dim"</span>: <span style="color: #98be65;">"#3b314d"</span>,
+    <span style="color: #51afef;">"keyword"</span>: <span style="color: #98be65;">"#4f97d7"</span>,
+    <span style="color: #51afef;">"lnum"</span>: <span style="color: #98be65;">"#44505c"</span>,
+    <span style="color: #51afef;">"mat"</span>: <span style="color: #98be65;">"#86dc2f"</span>,
+    <span style="color: #51afef;">"meta"</span>: <span style="color: #98be65;">"#9f8766"</span>,
+    <span style="color: #51afef;">"str"</span>: <span style="color: #98be65;">"#2d9574"</span>,
+    <span style="color: #51afef;">"suc"</span>: <span style="color: #98be65;">"#86dc2f"</span>,
+    <span style="color: #51afef;">"ttip"</span>: <span style="color: #98be65;">"#9a9aba"</span>,
+    <span style="color: #51afef;">"ttip-sl"</span>: <span style="color: #98be65;">"#5e5079"</span>,
+    <span style="color: #51afef;">"ttip-bg"</span>: <span style="color: #98be65;">"#34323e"</span>,
+    <span style="color: #51afef;">"type"</span>: <span style="color: #98be65;">"#ce537a"</span>,
+    <span style="color: #51afef;">"var"</span>: <span style="color: #98be65;">"#7590db"</span>,
+    <span style="color: #51afef;">"war"</span>: <span style="color: #98be65;">"#dc752f"</span>,
+    <span style="color: #51afef;">"aqua"</span>: <span style="color: #98be65;">"#2d9574"</span>,
+    <span style="color: #51afef;">"aqua-bg"</span>: <span style="color: #98be65;">"#293235"</span>,
+    <span style="color: #51afef;">"green"</span>: <span style="color: #98be65;">"#67b11d"</span>,
+    <span style="color: #51afef;">"green-bg"</span>: <span style="color: #98be65;">"#293235"</span>,
+    <span style="color: #51afef;">"green-bg-s"</span>: <span style="color: #98be65;">"#29422d"</span>,
+    <span style="color: #51afef;">"cyan"</span>: <span style="color: #98be65;">"#28def0"</span>,
+    <span style="color: #51afef;">"red"</span>: <span style="color: #98be65;">"#f2241f"</span>,
+    <span style="color: #51afef;">"red-bg"</span>: <span style="color: #98be65;">"#3c2a2c"</span>,
+    <span style="color: #51afef;">"red-bg-s"</span>: <span style="color: #98be65;">"#512e31"</span>,
+    <span style="color: #51afef;">"blue"</span>: <span style="color: #98be65;">"#4f97d7"</span>,
+    <span style="color: #51afef;">"blue-bg"</span>: <span style="color: #98be65;">"#293239"</span>,
+    <span style="color: #51afef;">"blue-bg-s"</span>: <span style="color: #98be65;">"#2d4252"</span>,
+    <span style="color: #51afef;">"magenta"</span>: <span style="color: #98be65;">"#a31db1"</span>,
+    <span style="color: #51afef;">"yellow"</span>: <span style="color: #98be65;">"#b1951d"</span>,
+    <span style="color: #51afef;">"yellow-bg"</span>: <span style="color: #98be65;">"#32322c"</span>
+  }
+}
+</pre>
+</div>
+
+<p>
+y ya solamente queda montarlo en el html
+</p>
+
+<div class="org-src-container">
+<pre class="src src-html">&lt;<span style="color: #51afef;">!DOCTYPE</span> html&gt;
+&lt;<span style="color: #c678dd;">html</span> <span style="color: #dcaeea;">lang</span>=<span style="color: #98be65;">"en"</span>&gt;
+&lt;<span style="color: #c678dd;">head</span>&gt;
+    &lt;<span style="color: #c678dd;">meta</span> <span style="color: #dcaeea;">charset</span>=<span style="color: #98be65;">"UTF-8"</span>&gt;
+    &lt;<span style="color: #c678dd;">title</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Pascualmg Portfolio</span>&lt;/<span style="color: #c678dd;">title</span>&gt;
+    &lt;<span style="color: #c678dd;">script</span> <span style="color: #dcaeea;">type</span>=<span style="color: #98be65;">"module"</span> <span style="color: #dcaeea;">src</span>=<span style="color: #98be65;">"js/atomic/organism/pascualmg-portfolio.js"</span>&gt;&lt;/<span style="color: #c678dd;">script</span>&gt;
+    &lt;<span style="color: #c678dd;">script</span> <span style="color: #dcaeea;">type</span>=<span style="color: #98be65;">"module"</span> <span style="color: #dcaeea;">src</span>=<span style="color: #98be65;">"js/atomic/organism/themeSwitcher.js"</span>&gt;&lt;/<span style="color: #c678dd;">script</span>&gt;
+&lt;/<span style="color: #c678dd;">head</span>&gt;
+&lt;<span style="color: #c678dd;">body</span>&gt;
+&lt;<span style="color: #c678dd;">theme-switcher</span> <span style="color: #dcaeea;">theme</span>=<span style="color: #98be65;">"spacemacs-dark"</span>&gt;&lt;/<span style="color: #c678dd;">theme-switcher</span>&gt;
+&lt;<span style="color: #c678dd;">pascualmg-portfolio</span> <span style="color: #dcaeea;">theme</span>=<span style="color: #98be65;">"light"</span>&gt;&lt;/<span style="color: #c678dd;">pascualmg-portfolio</span>&gt;
+&lt;/<span style="color: #c678dd;">body</span>&gt;
+&lt;/<span style="color: #c678dd;">html</span>&gt;
+</pre>
+</div>
+</div>
+
+<ol class="org-ol">
+<li><a id="org9936bdf"></a><span class="todo TODO">TODO</span> quitar el attr theme al componente del portfolio<br /></li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Pascual M.G.</p>
+<p class="date">Created: 2024-06-04 Tue 16:12</p>
+</div>
+</body>
+</html>
