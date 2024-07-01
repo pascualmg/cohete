@@ -2,6 +2,7 @@ import TechnologiesList from "../molecule/technologiesList.js";
 import ChatBox from "./ChatBox.js";
 import PortFolioHeader from "../molecule/PortfolioHeader.js"
 import ThemeToggler from "./ThemeToogler.js"
+import ExperienceTimeline from "../molecule/ExperienceTimeline.js"
 
 class PortfolioElement extends HTMLElement {
   constructor() {
@@ -49,10 +50,63 @@ class PortfolioElement extends HTMLElement {
                     profesional.</p>
             </section>
 
-            <section>
-                <experience-timeline data=""></experience-timeline>
-      
-            </section>
+<experience-timeline data='
+[
+ {
+    "company": "PC COMPONENTES Y MULTIMEDIA S.L.L",
+    "position": "Desarrollador Backend con Microservicios y desarrollador Frontend especializado en JS",
+    "startDate": "2013",
+    "endDate": "2023",
+    "duration": "10 años",
+    "projects": [
+      {
+        "name": "Desarrollador Backend y Microservicios",
+        "role": "Software Engineer",
+        "highlights": [
+          "Diseñé e implementé una solución backend en Symfony para gestión de Contenido Generado por Usuarios, utilizando eventos asíncronos y proyecciones para optimizar consultas y soportar rankings dinámicos.",
+          "Lideré el desarrollo de microservicios API RESTful en Symfony, aplicando Domain-Driven Design (DDD) y RabbitMQ para Postventa y Atención al Cliente, automatizando procesos críticos.",
+          "Refactoricé casos de uso legacy, implementando tests unitarios (PHPUnit) y de comportamiento (Behat), estableciendo una base sólida para el desarrollo futuro.",
+          "Integré APIs de terceros (Swogo, Connectif, Salesmanago) para mejorar la eficiencia y funcionalidad de sistemas existentes.",
+          "Contribuí al desarrollo del configurador de equipos a medida, implementando un sistema de reglas que previene errores de compatibilidad y reduce incidencias.",
+          "Lideré la refactorización de proyectos legacy y ERP utilizando DDD y TDD, mejorando significativamente la estructura y mantenibilidad del código.",
+          "Optimicé el buscador del sistema legacy implementando Doofinder, mejorando drásticamente la experiencia del usuario y el rendimiento de las búsquedas."
+        ],
+        "technologies": [
+          "Symfony", "DDD", "RabbitMQ", "PHPUnit", "Behat", "APIs", "Doofinder"
+        ],
+        "achievements": []
+      },
+      {
+        "name": "Desarrollador Frontend",
+        "role": "Desarrollador Principal",
+        "highlights": [
+          "Desarrollé funcionalidades frontend avanzadas utilizando JavaScript, TypeScript y React, incluyendo un sistema de Bombas para campañas de Black Friday con lógica compleja."
+        ],
+        "technologies": [
+          "JavaScript", "TypeScript", "React"
+        ],
+        "achievements": []
+      },
+      {
+        "name": "Competencias Técnicas",
+        "role": "Desarrollador Principal",
+        "highlights": [
+          "Dominio avanzado de sistemas operativos Linux.",
+          "Experiencia sólida en control de versiones con Git.",
+          "Proficiencia en Docker para gestión de entornos de desarrollo y despliegue.",
+          "Amplia experiencia en diseño y desarrollo de arquitecturas de microservicios.",
+            "Conocimientos avanzados en bases de datos relacionales y NoSQL.",
+            "Experiencia en diseño y desarrollo de APIs RESTful.",
+            "Conocimientos avanzados en PHP, JavaScript, HTML y CSS."
+        ],
+        "technologies": [
+          "Linux", "Git", "Docker", "Microservicios", "Bases de Datos", "APIs", "PHP", "JavaScript", "HTML", "CSS"
+        ],
+        "achievements": []
+        }
+    ]
+    }
+]'></experience-timeline>
 
             <section>
                 <h3>Contacto</h3>
