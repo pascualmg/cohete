@@ -16,10 +16,10 @@ class ExperienceTimeline extends HTMLElement {
         :host {
           display: block;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          --timeline-width: 3px;
+          --timeline-width: 2px;
           --company-node-size: 24px;
           --project-node-size: 16px;
-          --company-node-color: var(--aqua);
+          --company-node-color: var(--blue);
           --project-node-color: var(--green);
           --max-width: 800px;
         }
@@ -30,7 +30,7 @@ class ExperienceTimeline extends HTMLElement {
         }
         .timeline {
           position: relative;
-          padding: 30px 0;
+          padding: 20px 0;
         }
         .timeline::before {
           content: '';
@@ -43,7 +43,7 @@ class ExperienceTimeline extends HTMLElement {
         }
         .experience {
           position: relative;
-          margin-bottom: 60px;
+          margin-bottom: 40px;
           padding-left: 40px;
         }
         .experience::before {
@@ -54,90 +54,116 @@ class ExperienceTimeline extends HTMLElement {
           width: var(--company-node-size);
           height: var(--company-node-size);
           border-radius: 50%;
-          background: var(--meta);
-          border: 3px solid #292b2e;
-          box-shadow: 0 0 0 5px rgba(79, 151, 215, 0.3);
+          background: var(--company-node-color);
+          border: 2px solid var(--bg1);
           z-index: 1;
         }
         .company {
-          font-size: 1.5em;
+          font-size: 1.4em;
           font-weight: bold;
-          color: #4f97d7;
+          color: var(--head1);
           margin-bottom: 8px;
         }
         .position {
           font-size: 1.2em;
-          color: #2d9574;
+          color: var(--head2);
           margin-bottom: 5px;
         }
         .date {
           font-style: italic;
-          color: #686868;
+          color: var(--base-dim);
           margin-bottom: 20px;
-          font-size: 0.95em;
-        }
-        .project {
-          background: var(--head2-bg)
-          border-radius: 10px;
-          padding: 20px;
-          margin-bottom: 30px;
-          margin-left: 20px;
-          box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-          transition: all 0.3s ease;
+          font-size: 0.9em;
         }
         .projects {
-            margin-left: 0;
-            margin-bottom: 30px;
-        
+          position: relative;
         }
-        .project:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+        .projects::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: -31px;
+          width: var(--timeline-width);
+          background: var(--project-node-color);
+        }
+        .project {
+          background: var(--head2-bg);
+          border-radius: 10px;
+          padding: 15px;
+          margin-bottom: 20px;
+          position: relative;
+        }
+        .project::before {
+          content: '';
+          position: absolute;
+          left: -35px;
+          top: 15px;
+          width: var(--project-node-size);
+          height: var(--project-node-size);
+          border-radius: 50%;
+          background: var(--project-node-color);
+          border: 2px solid var(--bg1);
+          z-index: 1;
         }
         .project-name {
           font-weight: bold;
-          color: #67b11d;
-          font-size: 1.2em;
-          margin-bottom: 12px;
+          color: var(--head3);
+          font-size: 1.1em;
+          margin-bottom: 10px;
         }
         .role {
           font-style: italic;
-          color: #a45bad;
+          color: var(--const);
           margin-bottom: 10px;
+          font-size: 0.9em;
         }
         .section-title {
           font-weight: bold;
-          color: #c56ec3;
-          margin: 15px 0 8px;
+          color: var(--comp);
+          margin: 12px 0 6px;
+          font-size: 1em;
         }
         .highlights, .technologies, .achievements {
-          padding-left: 20px;
+          padding-left: 15px;
         }
         .item {
-          color: var(--head2);
-          margin-bottom: 8px;
+          color: var(--base);
+          margin-bottom: 6px;
           position: relative;
-          font-size: 0.95em;
+          font-size: 0.9em;
         }
         .item::before {
           content: '▹';
-          color: #67b11d;
+          color: var(--green);
           position: absolute;
-          left: -20px;
+          left: -15px;
+        }
+        .tech-item {
+          display: inline-block;
+          background-color: var(--green);
+          color: var(--bg1);
+          padding: 2px 5px;
+          border-radius: 5px;
+          margin-right: 5px;
+          margin-bottom: 5px;
+          font-size: 0.8em;
         }
         
         @media (min-width: 768px) {
-          .timeline-container {
-            padding: 0 40px;
-          }
           .timeline::before {
-            left: 12px;
+            left: 15px;
           }
           .experience {
-            padding-left: 50px;
+            padding-left: 60px;
+          }
+          .experience::before {
+            width: 32px;
+            height: 32px;
+            left: 0;
           }
           .company {
-            font-size: 1.7em;
+            font-size: 1.6em;
           }
           .position {
             font-size: 1.3em;
@@ -145,29 +171,26 @@ class ExperienceTimeline extends HTMLElement {
           .date {
             font-size: 1em;
           }
+          .projects::before {
+            left: -45px;
+          }
           .project {
-            padding: 25px;
-            margin-left: 0;
+            padding: 20px;
+          }
+          .project::before {
+            left: -51px;
+            width: 20px;
+            height: 20px;
           }
           .project-name {
-            font-size: 1.3em;
+            font-size: 1.2em;
           }
-          .item {
+          .role, .item {
             font-size: 1em;
           }
           .tech-item {
-          /* little square to show all in a row */
-            display: inline-block;
-            background-color: #67b11d;
-            color: white;
-            padding: 2px 5px;
-            border-radius: 5px;
-            margin-right: 5px;
-            margin-bottom: 5px;
             font-size: 0.9em;
-            
           }
-          
         }
       </style>
       
@@ -184,7 +207,7 @@ class ExperienceTimeline extends HTMLElement {
       <div class="experience">
         <div class="company">${exp.company}</div>
         <div class="position">${exp.position}</div>
-        <div class="date">${exp.startDate} - ${exp.endDate} (${exp.duration})</div>
+        <div class="date">${exp.startDate || ''} - ${exp.endDate} (${exp.duration})</div>
         <div class="projects">
           ${exp.projects.map(proj => this.renderProject(proj)).join('')}
         </div>
@@ -203,7 +226,7 @@ class ExperienceTimeline extends HTMLElement {
         </div>
         <div class="section-title">Technologies:</div>
         <div class="technologies">
-          ${proj.technologies.map(tech => `<div class="tech-item">${tech}</div>`).join('')}
+          ${proj.technologies.map(tech => `<span class="tech-item">${tech}</span>`).join('')}
         </div>
         <div class="section-title">Achievements:</div>
         <div class="achievements">
@@ -215,4 +238,4 @@ class ExperienceTimeline extends HTMLElement {
 }
 
 customElements.define('experience-timeline', ExperienceTimeline);
-export default ExperienceTimeline
+export default ExperienceTimeline;

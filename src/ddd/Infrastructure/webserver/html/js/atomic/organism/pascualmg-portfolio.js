@@ -52,7 +52,7 @@ class PortfolioElement extends HTMLElement {
 
 <experience-timeline data='
 [
- {
+  {
     "company": "PC COMPONENTES Y MULTIMEDIA S.L.L",
     "position": "Desarrollador Backend con Microservicios y desarrollador Frontend especializado en JS",
     "startDate": "2013",
@@ -60,52 +60,91 @@ class PortfolioElement extends HTMLElement {
     "duration": "10 años",
     "projects": [
       {
-        "name": "Desarrollador Backend y Microservicios",
-        "role": "Software Engineer",
+        "name": "Sistema de Gestión de Contenido Generado por Usuarios",
+        "role": "Desarrollador Backend",
         "highlights": [
-          "Diseñé e implementé una solución backend en Symfony para gestión de Contenido Generado por Usuarios, utilizando eventos asíncronos y proyecciones para optimizar consultas y soportar rankings dinámicos.",
-          "Lideré el desarrollo de microservicios API RESTful en Symfony, aplicando Domain-Driven Design (DDD) y RabbitMQ para Postventa y Atención al Cliente, automatizando procesos críticos.",
-          "Refactoricé casos de uso legacy, implementando tests unitarios (PHPUnit) y de comportamiento (Behat), estableciendo una base sólida para el desarrollo futuro.",
-          "Integré APIs de terceros (Swogo, Connectif, Salesmanago) para mejorar la eficiencia y funcionalidad de sistemas existentes.",
-          "Contribuí al desarrollo del configurador de equipos a medida, implementando un sistema de reglas que previene errores de compatibilidad y reduce incidencias.",
-          "Lideré la refactorización de proyectos legacy y ERP utilizando DDD y TDD, mejorando significativamente la estructura y mantenibilidad del código.",
-          "Optimicé el buscador del sistema legacy implementando Doofinder, mejorando drásticamente la experiencia del usuario y el rendimiento de las búsquedas."
+          "Diseñé e implementé una solución backend en Symfony",
+          "Utilicé eventos asíncronos y proyecciones para optimizar consultas",
+          "Implementé soporte para rankings dinámicos"
         ],
-        "technologies": [
-          "Symfony", "DDD", "RabbitMQ", "PHPUnit", "Behat", "APIs", "Doofinder"
-        ],
-        "achievements": []
+        "technologies": ["Symfony", "Eventos Asíncronos", "Proyecciones"],
+        "achievements": ["Mejoró la eficiencia en la gestión de contenido de usuarios"]
       },
       {
-        "name": "Desarrollador Frontend",
-        "role": "Desarrollador Principal",
+        "name": "Microservicios para Postventa y Atención al Cliente",
+        "role": "Líder de Desarrollo",
         "highlights": [
-          "Desarrollé funcionalidades frontend avanzadas utilizando JavaScript, TypeScript y React, incluyendo un sistema de Bombas para campañas de Black Friday con lógica compleja."
+          "Desarrollé microservicios API RESTful en Symfony",
+          "Apliqué Domain-Driven Design (DDD)",
+          "Implementé RabbitMQ para comunicación asíncrona",
+          "Automaticé procesos críticos de atención al cliente"
         ],
-        "technologies": [
-          "JavaScript", "TypeScript", "React"
-        ],
-        "achievements": []
+        "technologies": ["Symfony", "DDD", "RabbitMQ", "API RESTful"],
+        "achievements": ["Mejoró la eficiencia en procesos de postventa"]
       },
       {
-        "name": "Competencias Técnicas",
+        "name": "Refactorización de Código Legacy",
+        "role": "Desarrollador Senior",
+        "highlights": [
+          "Refactoricé casos de uso legacy",
+          "Implementé tests unitarios con PHPUnit",
+          "Agregué tests de comportamiento con Behat"
+        ],
+        "technologies": ["PHPUnit", "Behat", "Refactorización"],
+        "achievements": ["Establecí una base sólida para el desarrollo futuro"]
+      },
+      {
+        "name": "Integración de APIs de Terceros",
+        "role": "Desarrollador Backend",
+        "highlights": [
+          "Integré APIs de Swogo, Connectif y Salesmanago",
+          "Mejoré la eficiencia y funcionalidad de sistemas existentes"
+        ],
+        "technologies": ["API Integration", "Swogo", "Connectif", "Salesmanago"],
+        "achievements": ["Amplió las capacidades de los sistemas existentes"]
+      },
+      {
+        "name": "Configurador de Equipos a Medida",
+        "role": "Desarrollador Backend",
+        "highlights": [
+          "Implementé un sistema de reglas para prevenir errores de compatibilidad",
+          "Reduje incidencias relacionadas con configuraciones incorrectas"
+        ],
+        "technologies": ["Sistema de Reglas", "Lógica de Negocio"],
+        "achievements": ["Mejoró la satisfacción del cliente y redujo errores en pedidos"]
+      },
+      {
+        "name": "Refactorización de Proyectos Legacy y ERP",
+        "role": "Líder Técnico",
+        "highlights": [
+          "Apliqué Domain-Driven Design (DDD) y Test-Driven Development (TDD)",
+          "Mejoré significativamente la estructura y mantenibilidad del código"
+        ],
+        "technologies": ["DDD", "TDD", "Refactorización"],
+        "achievements": ["Facilitó el mantenimiento y evolución de sistemas críticos"]
+      },
+      {
+        "name": "Optimización del Buscador",
+        "role": "Desarrollador Backend",
+        "highlights": [
+          "Implementé Doofinder en el sistema legacy",
+          "Mejoré drásticamente la experiencia del usuario y el rendimiento de las búsquedas"
+        ],
+        "technologies": ["Doofinder", "Optimización de Búsqueda"],
+        "achievements": ["Aumentó la satisfacción del usuario y la eficiencia en búsquedas"]
+      },
+      {
+        "name": "Desarrollo Frontend Avanzado",
         "role": "Desarrollador Principal",
         "highlights": [
-          "Dominio avanzado de sistemas operativos Linux.",
-          "Experiencia sólida en control de versiones con Git.",
-          "Proficiencia en Docker para gestión de entornos de desarrollo y despliegue.",
-          "Amplia experiencia en diseño y desarrollo de arquitecturas de microservicios.",
-            "Conocimientos avanzados en bases de datos relacionales y NoSQL.",
-            "Experiencia en diseño y desarrollo de APIs RESTful.",
-            "Conocimientos avanzados en PHP, JavaScript, HTML y CSS."
+          "Desarrollé funcionalidades frontend utilizando JavaScript, TypeScript y React",
+          "Implementé un sistema de Bombas para campañas de Black Friday con lógica compleja"
         ],
-        "technologies": [
-          "Linux", "Git", "Docker", "Microservicios", "Bases de Datos", "APIs", "PHP", "JavaScript", "HTML", "CSS"
-        ],
-        "achievements": []
-        }
+        "technologies": ["JavaScript", "TypeScript", "React"],
+        "achievements": ["Mejoró la interactividad y rendimiento de la interfaz de usuario"]
+      }
     ]
-    }
+  }
 ]'></experience-timeline>
 
             <section>
