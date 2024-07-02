@@ -19,8 +19,8 @@ class ExperienceTimeline extends HTMLElement {
           --timeline-width: 2px;
           --company-node-size: 24px;
           --project-node-size: 16px;
-          --company-node-color: var(--blue);
-          --project-node-color: var(--green);
+          --company-node-color: var(--aqua);
+          --project-node-color: var(--head2);
           --max-width: 800px;
         }
         .timeline-container {
@@ -115,7 +115,7 @@ class ExperienceTimeline extends HTMLElement {
         .role {
           font-style: italic;
           color: var(--const);
-          margin-bottom: 10px;
+          margin-bottom: 15px;
           font-size: 0.9em;
         }
         .section-title {
@@ -220,15 +220,13 @@ class ExperienceTimeline extends HTMLElement {
       <div class="project">
         <div class="project-name">${proj.name}</div>
         <div class="role">${proj.role}</div>
-        <div class="section-title">Highlights:</div>
         <div class="highlights">
           ${proj.highlights.map(highlight => `<div class="item">${highlight}</div>`).join('')}
         </div>
-        <div class="section-title">Technologies:</div>
         <div class="technologies">
           ${proj.technologies.map(tech => `<span class="tech-item">${tech}</span>`).join('')}
         </div>
-        <div class="section-title">Achievements:</div>
+        <div class="section-title">¿Que se logró?:</div>
         <div class="achievements">
           ${proj.achievements.map(achievement => `<div class="item">${achievement}</div>`).join('')}
         </div>
