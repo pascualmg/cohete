@@ -3,6 +3,7 @@ import ChatBox from "./ChatBox.js";
 import PortFolioHeader from "../molecule/PortfolioHeader.js"
 import ThemeToggler from "./ThemeToogler.js"
 import ExperienceTimeline from "../molecule/ExperienceTimeline.js"
+import SocialLinks from "../molecule/SocialLinks.js"
 
 class PortfolioElement extends HTMLElement {
   constructor() {
@@ -44,68 +45,208 @@ class PortfolioElement extends HTMLElement {
                 }
             </style>
            <portfolio-header></portfolio-header>
-           <section>
-                <h3>Sobre mí</h3>
-                <p>Aquí es donde puedes añadir un resumen breve y conciso sobre ti, tus habilidades y tu experiencia
-                    profesional.</p>
-            </section>
+  <social-links links='[
+         {"name": "twitter", "url": "https://twitter.com/pascualmg"},
+         {"name": "github", "url": "https://github.com/pascualmg"},
+         {"name": "linkedin", "url": "https://www.linkedin.com/in/pascual-mu%C3%B1oz-gali%C3%A1n-7b4b3896/"},
+         {"name": "facebook", "url": "https://www.facebook.com/pascualmg"},
+         {"name": "email", "url": "mailto:info@pascualmg.dev"},
+         {"name": "phone", "url": "tel:+34693000983"}
+         ]'>
+         </social-links>
 
-<experience-timeline data='
-[
- {
-    "company": "PC COMPONENTES Y MULTIMEDIA S.L.L",
-    "position": "Desarrollador Backend con Microservicios y desarrollador Frontend especializado en JS",
-    "startDate": "2013",
-    "endDate": "2023",
-    "duration": "10 años",
+<experience-timeline data='[
+  {
+    "company": "GRUPO EUROFORMAC",
+    "position": "PHP Software Engineer y Formador",
+    "startDate": "2024-06-14",
+    "endDate": "2024-06-28",
     "projects": [
       {
-        "name": "Desarrollador Backend y Microservicios",
-        "role": "Software Engineer",
+        "name": "EXPERTO WEB Y MULTIMEDIA PARA E-COMMERCE II",
+        "role": "Software Engineer Teacher",
         "highlights": [
-          "Diseñé e implementé una solución backend en Symfony para gestión de Contenido Generado por Usuarios, utilizando eventos asíncronos y proyecciones para optimizar consultas y soportar rankings dinámicos.",
-          "Lideré el desarrollo de microservicios API RESTful en Symfony, aplicando Domain-Driven Design (DDD) y RabbitMQ para Postventa y Atención al Cliente, automatizando procesos críticos.",
-          "Refactoricé casos de uso legacy, implementando tests unitarios (PHPUnit) y de comportamiento (Behat), estableciendo una base sólida para el desarrollo futuro.",
-          "Integré APIs de terceros (Swogo, Connectif, Salesmanago) para mejorar la eficiencia y funcionalidad de sistemas existentes.",
-          "Contribuí al desarrollo del configurador de equipos a medida, implementando un sistema de reglas que previene errores de compatibilidad y reduce incidencias.",
-          "Lideré la refactorización de proyectos legacy y ERP utilizando DDD y TDD, mejorando significativamente la estructura y mantenibilidad del código.",
-          "Optimicé el buscador del sistema legacy implementando Doofinder, mejorando drásticamente la experiencia del usuario y el rendimiento de las búsquedas."
+          "Participación en proyectos de formación empresarial"
         ],
-        "technologies": [
-          "Symfony", "DDD", "RabbitMQ", "PHPUnit", "Behat", "APIs", "Doofinder"
-        ],
-        "achievements": []
-      },
-      {
-        "name": "Desarrollador Frontend",
-        "role": "Desarrollador Principal",
-        "highlights": [
-          "Desarrollé funcionalidades frontend avanzadas utilizando JavaScript, TypeScript y React, incluyendo un sistema de Bombas para campañas de Black Friday con lógica compleja."
-        ],
-        "technologies": [
-          "JavaScript", "TypeScript", "React"
-        ],
-        "achievements": []
-      },
-      {
-        "name": "Competencias Técnicas",
-        "role": "Desarrollador Principal",
-        "highlights": [
-          "Dominio avanzado de sistemas operativos Linux.",
-          "Experiencia sólida en control de versiones con Git.",
-          "Proficiencia en Docker para gestión de entornos de desarrollo y despliegue.",
-          "Amplia experiencia en diseño y desarrollo de arquitecturas de microservicios.",
-            "Conocimientos avanzados en bases de datos relacionales y NoSQL.",
-            "Experiencia en diseño y desarrollo de APIs RESTful.",
-            "Conocimientos avanzados en PHP, JavaScript, HTML y CSS."
-        ],
-        "technologies": [
-          "Linux", "Git", "Docker", "Microservicios", "Bases de Datos", "APIs", "PHP", "JavaScript", "HTML", "CSS"
-        ],
-        "achievements": []
-        }
+        "technologies": ["PHP", "JS", "HTML5", "CSS4" ],
+        "achievements": [
+            "Formación en tecnologías web",
+            "Desarrollo de habilidades en e-commerce"
+        ]
+      }
     ]
+  },
+  {
+  "company": "I+D",
+  "position": "Investigador y Desarrollador de Software",
+  "startDate": "2023-05-24",
+  "endDate": "2024-06-13",
+  "projects": [
+    {
+      "name": "Creación de Framework PHP Asíncrono con ReactPHP (Cohete)",
+      "role": "Creador y Líder Técnico",
+      "highlights": [
+        "Desarrollé un framework en PHP para manejo asíncrono de peticiones utilizando ReactPHP.",
+        "Implementé el uso de observables para mejorar la interactividad y respuesta del framework.",
+        "Apliqué principios de Domain-Driven Design (DDD) para estructurar el framework de manera funcional.",
+        "Realicé pruebas exhaustivas para asegurar la calidad y estabilidad del framework."
+      ],
+      "technologies": ["PHP", "ReactPHP", "DDD", "Observables"],
+      "achievements": [
+        "Creación de un framework PHP innovador para manejo asíncrono de peticiones.",
+        "Contribución a la comunidad de PHP con una herramienta de desarrollo avanzada y moderna."
+      ]
     }
+  ]
+},
+  {
+    "company": "PC COMPONENTES Y MULTIMEDIA S.L.L",
+    "position": "Desarrollador Backend con Microservicios y desarrollador Frontend especializado en JS",
+    "startDate": "2013-01-05",
+    "endDate": "2023-05-23",
+    "projects": [
+      {
+        "name": "Gestión de Contenido Generado por Usuarios",
+        "role": "Software Engineer Backend",
+        "highlights": [
+          "Diseñé e implementé una solución backend en Symfony",
+          "Utilicé eventos asíncronos y proyecciones para optimizar consultas",
+          "Implementé soporte para rankings dinámicos"
+        ],
+        "technologies": ["Symfony", "Eventos asíncronos", "Proyecciones"],
+        "achievements": ["Optimización de consultas", "Soporte de rankings dinámicos"]
+      },
+      {
+        "name": "Desarrollo de Microservicios para Postventa y Atención al Cliente",
+        "role": "Líder de Desarrollo",
+        "highlights": [
+          "Lideré el desarrollo de microservicios API RESTful en Symfony",
+          "Apliqué Domain-Driven Design (DDD) y RabbitMQ",
+          "Automaticé procesos críticos de Postventa y Atención al Cliente"
+        ],
+        "technologies": ["Symfony", "DDD", "RabbitMQ", "API RESTful"],
+        "achievements": ["Automatización de procesos críticos"]
+      },
+      {
+        "name": "Refactorización de Código Legacy",
+        "role": "Desarrollador Senior",
+        "highlights": [
+          "Refactoricé casos de uso legacy",
+          "Implementé tests unitarios (PHPUnit) y de comportamiento (Behat)",
+          "Establecí una base sólida para el desarrollo futuro"
+        ],
+        "technologies": ["PHPUnit", "Behat"],
+        "achievements": ["Mejora de la calidad del código", "Incremento de la cobertura de tests"]
+      },
+      {
+        "name": "Integración de APIs de Terceros",
+        "role": "Integrador de Sistemas",
+        "highlights": [
+          "Integré APIs de terceros como Swogo, Connectif y Salesmanago",
+          "Mejoré la eficiencia y funcionalidad de sistemas existentes"
+        ],
+        "technologies": ["APIs", "Integración de sistemas"],
+        "achievements": ["Mejora de la eficiencia operativa"]
+      },
+      {
+        "name": "Configurador de Equipos a Medida",
+        "role": "Desarrollador de Sistemas",
+        "highlights": [
+          "Contribuí al desarrollo del configurador de equipos a medida",
+          "Implementé un sistema de reglas flexible y extensible",
+          "Reduje errores de compatibilidad e incidencias"
+        ],
+        "technologies": ["Sistemas de reglas", "Lógica de negocio compleja"],
+        "achievements": ["Reducción de errores de compatibilidad", "Mejora de la experiencia del usuario"]
+      },
+      {
+        "name": "Refactorización de Proyectos Legacy y ERP",
+        "role": "Líder Técnico",
+        "highlights": [
+          "Lideré la refactorización de proyectos legacy y ERP",
+          "Utilicé Domain-Driven Design (DDD) y Test-Driven Development (TDD)",
+          "Mejoré significativamente la estructura y mantenibilidad del código"
+        ],
+        "technologies": ["DDD", "TDD", "Refactorización"],
+        "achievements": ["Mejora de la mantenibilidad del código", "Modernización de sistemas legacy"]
+      },
+      {
+        "name": "Optimización del Buscador con Doofinder",
+        "role": "Desarrollador de Optimización",
+        "highlights": [
+          "Optimicé el buscador del sistema legacy implementando Doofinder",
+          "Mejoré drásticamente la experiencia del usuario y el rendimiento de las búsquedas"
+        ],
+        "technologies": ["Doofinder", "Optimización de búsquedas"],
+        "achievements": ["Mejora significativa en la experiencia de búsqueda del usuario"]
+      },
+      {
+        "name": "Desarrollo Frontend",
+        "role": "Desarrollador Frontend",
+        "highlights": [
+          "Desarrollé funcionalidades frontend avanzadas utilizando JavaScript, TypeScript y React",
+          "Implementé un sistema de Bombas para campañas de Black Friday con lógica compleja"
+        ],
+        "technologies": ["JavaScript", "TypeScript", "React"],
+        "achievements": ["Implementación de funcionalidades complejas para campañas especiales"]
+      }
+    ]
+  },
+  {
+    "company": "PC COMPONENTES Y MULTIMEDIA S.L.L",
+    "position": "Analista de Atención al Cliente",
+    "startDate": "2012-09-05",
+    "endDate": "2013-01-04",
+    "projects": [
+      {
+        "name": "Implementación de Sistema de Auditoría con Qlick",
+        "role": "Analista y Desarrollador",
+        "highlights": [
+          "Desarrollé e implementé un sistema de tracking usando Qlick",
+          "Diseñé un dashboard para monitorear en tiempo real las actividades de los operadores",
+          "Establecí KPIs para medir la eficiencia y calidad del servicio al cliente"
+        ],
+        "technologies": ["Qlick", "SQL", "Análisis de datos"],
+        "achievements": [
+          "Incremento del 30% en la eficiencia de los operadores",
+          "Reducción del 25% en el tiempo de resolución de incidencias",
+          "Mejora significativa en la capacidad de auditoría y control de calidad"
+        ]
+      },
+      {
+        "name": "Optimización de Procesos de Atención al Cliente",
+        "role": "Gestor de Atención al Cliente",
+        "highlights": [
+          "Implementé nuevos protocolos de atención basados en los datos recopilados",
+          "Desarrollé un programa de capacitación continua para el equipo"
+        ],
+        "technologies": ["CRM", "Herramientas de comunicación"],
+        "achievements": [
+          "Aumento del 20% en la satisfacción del cliente"
+        ]
+      }
+    ]
+  },
+  {
+    "company": "PC COMPONENTES Y MULTIMEDIA S.L.L",
+    "position": "Gestor de Compras Internacionales",
+    "startDate": "2012-09-05",
+    "endDate": "2013-01-04",
+    "projects": [
+      {
+        "name": "Optimización de Compras Internacionales",
+        "role": "Gestor de Compras",
+        "highlights": [
+          "Gestioné relaciones con proveedores internacionales",
+          "Negocié contratos y términos de compra favorables"
+        ],
+        "technologies": ["ERP", "Herramientas de gestión de inventario"],
+        "achievements": [
+            "Reducción del en los costes de adquisición de algunas marcas"
+        ]
+      }
+    ]
+  }
 ]'></experience-timeline>
 
             <section>

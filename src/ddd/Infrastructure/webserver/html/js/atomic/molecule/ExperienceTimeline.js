@@ -1,7 +1,7 @@
 class ExperienceTimeline extends HTMLElement {
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
+        this.attachShadow({mode: 'open'});
     }
 
     connectedCallback() {
@@ -10,6 +10,9 @@ class ExperienceTimeline extends HTMLElement {
 
     render() {
         const data = JSON.parse(this.getAttribute('data') || '[]');
+
+
+        this.assertions(data);
 
         this.shadowRoot.innerHTML = `
       <style>
@@ -158,8 +161,8 @@ class ExperienceTimeline extends HTMLElement {
           .tech-item {
           /* little square to show all in a row */
             display: inline-block;
-            background-color: #67b11d;
-            color: white;
+            background-color: var(--comment-bg);
+            color: var(--comment);
             padding: 2px 5px;
             border-radius: 5px;
             margin-right: 5px;
@@ -167,10 +170,21 @@ class ExperienceTimeline extends HTMLElement {
             font-size: 0.9em;
             
           }
+          .timeline-title {
+            font-size: 2em;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--head2);
+            
+            
+
+            
+            
           
         }
       </style>
       
+        <h2 class="timeline-title">Experience And Projects</h2>
       <div class="timeline-container">
         <div class="timeline">
           ${data.map(exp => this.renderExperience(exp)).join('')}
@@ -212,6 +226,76 @@ class ExperienceTimeline extends HTMLElement {
       </div>
     `;
     }
+
+
+    assertions = data => {
+        let someError = "";
+        data.forEach(experience => {
+            const {company, position, endDate, projects, startDate} = experience;
+
+            if (!company) {
+                someError += 'Company is missing in experience object, ';
+            }
+            if (!position) {
+                someError += 'Position is missing in experience object, ';
+            }
+            if (!startDate) {
+                someError += 'StartDate is missing in experience object, ';
+            }
+            if (!endDate) {
+                someError += 'EndDate is missing in experience object, ';
+            }
+            if (!projects) {
+                someError += 'Projects is missing in experience object, ';
+            }
+            projects.forEach(
+                proj => {
+                    const {achievements, role, technologies, highlights, name} = proj;
+                    if (!name) {
+                        someError += 'Name is missing in project object, ';
+                    }
+                    if (!role) {
+                    }
+                    if (!highlights) {
+                        someError += 'Highlights is missing in project object, ';
+                    }
+                    if (!technologies) {
+                        someError += 'Technologies is missing in project object, ';
+                    }
+                    if (!achievements) {
+                        someError += 'Achievements is missing in project object, ';
+                    }
+                }
+            );
+        })
+
+        if ("" !== someError) {
+            const exampleExperience = {
+                "company": "FooBar Inc.",
+                "position": "Lead Developer in FooBar Solutions",
+                "startDate": "2015",
+                "endDate": "Present",
+                "projects": [
+                    {
+                        "name": "FooBar Project",
+                        "role": "Project Lead",
+                        "highlights": [
+                            "Developed and maintained a FooBar web application using FooScript and BarJS frameworks.",
+                            "Designed and executed a scalable microservices architecture using FooServices and BarContainers."
+                        ],
+                        "technologies": [
+                            "FooScript", "BarJS", "FooPay API", "BarChat API", "FooCI", "BarDeploy", "FooDesign", "BarTesting", "FooServices", "BarContainers"
+                        ],
+                        "achievements": [
+                            "Increased the performance of the FooBar web application by 30%.",
+                            "Reduced the time to deploy new features by 20%"
+                        ]
+                    }
+                ]
+            };
+            console.error(someError + "Example experience object: ", exampleExperience);
+        }
+    };
 }
 
 customElements.define('experience-timeline', ExperienceTimeline);

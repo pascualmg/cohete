@@ -100,3 +100,4 @@ justify-content: center;
 }
 
 window.customElements.define('social-links', SocialLinks);
+export default SocialLinks
