@@ -47,10 +47,6 @@ class PortfolioHeader extends HTMLElement {
                     height: 30px; 
                     vertical-align: middle;
                 }
-                .header-location {
-                    color: var(--magenta);
-                    margin-top: 10px;
-                }
                 }
             </style>
             <section class="portfolio-header">
@@ -95,9 +91,6 @@ class PortfolioHeader extends HTMLElement {
                         delay="1"
                     ></changing-text>
                 </h3>
-                <div class="header-location">
-                    <span>Location: Earth</span>
-                </div>
             </section>
         `;
 
