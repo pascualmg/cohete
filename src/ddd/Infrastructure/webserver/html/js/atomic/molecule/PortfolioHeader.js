@@ -15,8 +15,6 @@ class PortfolioHeader extends HTMLElement {
                     align-items: center;
                     padding: 20px;
                     text-align: center;
-                    background-color: var(--bg);
-                    min-height: 100vh;
                     justify-content: center;
                 }
                 
