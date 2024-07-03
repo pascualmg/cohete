@@ -64,8 +64,8 @@ class SocialLinks extends HTMLElement {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    width: 40px;
-                    height: 40px;
+                    width: 50px;
+                    height: 50px;
                     border-radius: 50%;
                     background-color: var(--base-dim);
                     transition: background-color 0.3s, transform 0.3s;

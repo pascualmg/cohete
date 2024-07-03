@@ -83,7 +83,7 @@ class ExperienceTimeline extends HTMLElement {
                     position: absolute;
                     top: 0;
                     bottom: 0;
-                    left: -31px;
+                    left: -29px;
                     width: var(--timeline-width);
                     background: var(--project-node-color);
                 }
@@ -164,7 +164,7 @@ class ExperienceTimeline extends HTMLElement {
                     .project::before {
                         width: 16px;
                         height: 16px;
-                        left: -27px;
+                        left: -38px;
                     }
 
                     .company {

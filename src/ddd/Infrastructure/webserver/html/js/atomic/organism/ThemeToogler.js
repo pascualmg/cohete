@@ -4,7 +4,7 @@ class ThemeToggler extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
-       this.currentThemeIndex = 0;
+        this.currentThemeIndex = 0;
     }
 
     connectedCallback() {
@@ -12,13 +12,12 @@ class ThemeToggler extends HTMLElement {
         this.themeSwitcher = this.shadowRoot.querySelector('theme-switcher');
         this.themes = this.themeSwitcher.themeNames;
 
-        if(!this.themeSwitcher){
-            console.error("no se puedee localizr el theme switcher")
+        if (!this.themeSwitcher) {
+            console.error("No se puede localizar el theme switcher");
         }
         this.updateTheme();
 
         this.shadowRoot.querySelector('button').addEventListener('click', () => this.nextTheme());
-        this.shadowRoot.querySelector('button').addEventListener('wheel', (e) => this.onScroll(e));
     }
 
     render() {
@@ -26,32 +25,41 @@ class ThemeToggler extends HTMLElement {
         <style>
             :host {
                 position: fixed;
-                top: 20px; /* Ajusta según sea necesario */
-                right: 20px; /* Ajusta según sea necesario */
-                z-index: 1000; /* Ajusta según sea necesario */
+                bottom: 20px;
+                right: 20px;
+                z-index: 2;
             }
-            
-    button {
-        border: none;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        background: linear-gradient(var(--bg1), var(--str));
-        color: white; /* O el color de texto que prefieras */
-        cursor: pointer;
-        font-size: 1.2rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        transition: background 0.3s;
-    }
-    button:hover {
-        /* Puedes definir el hover como desees */
-    }
+
+            button {
+                border: none;
+                border-radius: 10px;
+                width: 60px;
+                height: 60px;
+                background: linear-gradient(var(--bg1), var(--str));
+                color: white;
+                cursor: pointer;
+                font-size: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+                transition: transform 0.3s ease-in-out;
+                 /* ensure the content allwais fit in the circled button */
+                text-overflow: ellipsis
+                
+            }
+
+            button:hover {
+                transform: scale(1.1);
+            }
+
+            button:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+            }
         </style>
         <theme-switcher></theme-switcher>
-        <button></button>
+        <button aria-label="Toggle theme"></button>
     `;
     }
 
@@ -60,14 +68,6 @@ class ThemeToggler extends HTMLElement {
         this.updateTheme();
     }
 
-    onScroll(event) {
-        if (event.deltaY < 0) {
-            this.currentThemeIndex = (this.currentThemeIndex - 1 + this.themes.length) % this.themes.length;
-        } else {
-            this.currentThemeIndex = (this.currentThemeIndex + 1) % this.themes.length;
-        }
-        this.updateTheme();
-    }
 
     updateTheme() {
         const theme = this.themes[this.currentThemeIndex];

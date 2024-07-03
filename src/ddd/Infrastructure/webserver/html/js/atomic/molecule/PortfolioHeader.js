@@ -46,7 +46,7 @@ class PortfolioHeader extends HTMLElement {
 
                 @media (min-width: 768px) {
                     .portfolio-header {
-                        padding: 50px;
+                        padding: 50px 50px 0;
                     }
 
                     .header-photo img {
