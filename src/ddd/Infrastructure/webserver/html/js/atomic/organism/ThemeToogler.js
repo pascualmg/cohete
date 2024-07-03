@@ -44,9 +44,7 @@ class ThemeToggler extends HTMLElement {
                 justify-content: center;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
                 transition: transform 0.3s ease-in-out;
-                 /* ensure the content allwais fit in the circled button */
-                text-overflow: ellipsis
-                
+                overflow: hidden;
             }
 
             button:hover {
