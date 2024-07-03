@@ -97,14 +97,6 @@ class PascualmgSpa extends HTMLElement {
         padding: 20px;
         flex: 1;
     }
-
-    theme-toogler {
-        /* cuando esta en la version movil se hace mas grande para que sea pulsable por un dedo */
-        width: 500px;
-        height: 500px;
-    }
-
-    /* Media Queries para pantallas más grandes */
    
 </style>
 <header class="header">

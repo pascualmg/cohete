@@ -31,9 +31,8 @@ class ThemeToggler extends HTMLElement {
             }
 
             button {
+                border-radius: 15px;
                 border: none;
-                border-radius: 10px;
-                width: 60px;
                 height: 60px;
                 background: linear-gradient(var(--bg1), var(--str));
                 color: white;
@@ -45,6 +44,25 @@ class ThemeToggler extends HTMLElement {
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
                 transition: transform 0.3s ease-in-out;
                 overflow: hidden;
+                z-index: 2;
+                
+            }
+            /* media query para cuando sea version escritorio que se muestre arriba a derecha  */
+            
+            @media (min-width: 768px) {
+                :host {
+                    border-radius: 10px;
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                }
+               
+            }
+            
+            @media (max-width: 500px) {
+                :host {
+                    display: none;
+                }
             }
 
             button:hover {
