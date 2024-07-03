@@ -37,7 +37,7 @@ class ThemeToggler extends HTMLElement {
                 background: linear-gradient(var(--bg1), var(--str));
                 color: white;
                 cursor: pointer;
-                font-size: 1rem;
+                font-size: 0.5rem;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -45,28 +45,26 @@ class ThemeToggler extends HTMLElement {
                 transition: transform 0.3s ease-in-out;
                 overflow: hidden;
                 z-index: 2;
+                min-width: 60px;
+                opacity: 0.3;
                 
             }
             /* media query para cuando sea version escritorio que se muestre arriba a derecha  */
             
-            @media (min-width: 768px) {
+            @media (min-width: 50em) {
                 :host {
                     border-radius: 10px;
                     position: fixed;
                     top: 20px;
                     right: 20px;
+                 
                 }
                
             }
             
-            @media (max-width: 500px) {
-                :host {
-                    display: none;
-                }
-            }
-
-            button:hover {
-                transform: scale(1.1);
+                button:hover {
+                transform: scale(1.3);
+                opacity: 1;
             }
 
             button:focus {
@@ -89,7 +87,8 @@ class ThemeToggler extends HTMLElement {
         const theme = this.themes[this.currentThemeIndex];
         if (this.themeSwitcher) {
             this.themeSwitcher.setAttribute('theme', theme);
-            this.shadowRoot.querySelector('button').textContent = theme;
+            this.shadowRoot.querySelector('button').textContent = theme + ' theme';
+
         }
     }
 }
