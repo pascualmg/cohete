@@ -12,7 +12,9 @@ class RequestDumper implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        //include timestamp
         echo "\n\e[0;33mRequest\e[0m \n";
+        echo "\e[0;33mAt:\e[0m \e[0;32m" . date('Y-m-d H:i:s') . "\n";
         echo "\e[0;35mMethod:\e[0m \e[0;32m{$request->getMethod()} ";
         echo "\e[0;35mUri:\e[0m \e[0;32m{$request->getUri()} \n";
         echo "\e[0;35mHeaders:\e[0m \n";
