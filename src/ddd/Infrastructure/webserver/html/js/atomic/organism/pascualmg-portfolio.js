@@ -249,11 +249,6 @@ class PortfolioElement extends HTMLElement {
   }
 ]'></experience-timeline>
 
-            <section>
-                <h3>Contacto</h3>
-                <p>Indica cómo alguien puede ponerte en contacto. Recuerda, no compartas información de contacto que no
-                    quieras que sea pública.</p>
-            </section>
           <technologies-list images='[
     {"src": "https://raw.githubusercontent.com/NixOS/nixos-artwork/53ea652ec7d8af5d21fd2b79b6c49cb39078ddfb/logo/nixos.svg", "alt": "nixos"},
     {"src": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Haskell-logo2.svg", "alt": "haskell"},

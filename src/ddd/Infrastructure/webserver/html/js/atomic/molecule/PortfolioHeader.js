@@ -10,124 +10,111 @@ class PortfolioHeader extends HTMLElement {
         this.shadowRoot.innerHTML = `
             <style>
                 .portfolio-header {
-                    height: auto;
-                    background-repeat: round; 
-                    margin: 10px;
-                    padding: 10px;
-                    border-radius: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    padding: 20px;
                     text-align: center;
-                    display: grid;
-                    grid-template-rows: 1fr;
-                    gap: 10px;
-                } 
+                    background-color: var(--bg);
+                    min-height: 100vh;
+                    justify-content: center;
+                }
+                
                 .header-photo img {
-                    border-radius: 10px; 
-                    object-fit: cover; 
-                    width: 100%; 
-                    height: auto; 
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    margin-bottom: 20px;
+                    border: 4px solid var(--blue);
+                }
+
+                .header-title {
+                    color: var(--cyan);
+                    font-size: 2rem;
+                    margin-bottom: 10px; 
+                }
+
+                .header-title-2 {
+                    color: var(--green);
+                    font-size: 1.5rem;
                     margin-bottom: 10px;
-                    max-width: 500px;
-                    max-height: 500px;
+                }
+
+                .header-title-3 {
+                    color: var(--yellow);
+                    font-size: 1.2rem;
+                }
+
+                @media (min-width: 768px) {
+                    .portfolio-header {
+                        padding: 50px;
+                    }
+
+                    .header-photo img {
+                        width: 200px;
+                        height: 200px;
+                    }
+
+                    .header-title {
+                        font-size: 3rem;
+                    }
+
+                    .header-title-2 {
+                        font-size: 2rem;
+                    }
+
+                    .header-title-3 {
+                        font-size: 1.5rem;
                     }
                 }
-        
-                
-                }
-                .header-title {
-                    color: var(--aqua); 
-                }
-                .header-title-2 {
-                    color: var(--head2); 
-                }
-                .header-title-3 {
-                    color: var(--head3); 
-                }
-                .header-location img {
-                    width: 30px; 
-                    height: 30px; 
-                    vertical-align: middle;
-                }
-                }
             </style>
+
             <section class="portfolio-header">
                 <div class="header-photo">
                     <img src="https://raw.githubusercontent.com/pascualmg/cdn/main/me.png" alt="Profile picture">
                 </div>
                 <h1 class="header-title">
-             <changing-text texts='[
-    "¡Hola! Soy ",
-    "Hello! Im ",
-    "こんにちは！私は ",
-    "Hallo! Ich bin ",
-    "Ciao! Sono ",
-    "Olá! Eu sou ",
-    "Привет! Я ",
-    "Salut! Sunt ",
-    "Hej! Jeg er ",
-    "Hallå! Jag är ",
-    "Hei! Jeg er ",
-    "Hoi! Ik ben ",
-    "Merhaba! Ben "
-]' ></changing-text>
-                Pascual Muñoz Galián</h1>
-                <h2 class="header-title-2">PHP Backend <changing-text texts='[
-                        "junior",
-                        "senior"   
-                        ]' ></changing-text> Developer</h2>
+                    <changing-text texts='[
+                        "¡Hola! Soy ",
+                        "Hello! Im ",
+                        "こんにちは！私は ",
+                        "Hallo! Ich bin ",
+                        "Ciao! Sono ",
+                        "Olá! Eu sou ",
+                        "Привет! Я ",
+                        "Salut! Sunt ",
+                        "Hej! Jeg er ",
+                        "Hallå! Jag är ",
+                        "Hei! Jeg er ",
+                        "Hoi! Ik ben ",
+                        "Merhaba! Ben "
+                    ]'></changing-text>
+                    Pascual Muñoz Galián
+                </h1>
+                <h2 class="header-title-2">
+                    PHP Backend <changing-text texts='["junior", "senior"]'></changing-text> Developer
+                </h2>
                 <h3 class="header-title-3">
-                    <changing-text 
+                    <changing-text
                         texts='[
-                        "GW-BASIC junior",
-                        "Haskell Lover",
-                        "You-Dont-Know-JS Fan",
-                        "TDD maker",
-                        "Curl suffer",
-                        "Extreme Programmer",
-                        "Creator of cohete",
-                        "ReactPHP noob",
-                        "PHP craftsman",
-                        "Clean Coder"
-                        ]' 
+                            "GW-BASIC junior",
+                            "Haskell Lover",
+                            "You-Dont-Know-JS Fan",
+                            "TDD maker",
+                            "Curl suffer", 
+                            "Extreme Programmer",
+                            "Creator of cohete",
+                            "ReactPHP noob",
+                            "PHP craftsman",
+                            "Clean Coder"
+                        ]'
                         delay="1"
                     ></changing-text>
                 </h3>
             </section>
         `;
-
-        // const portfolioHeader = this
-        // parallaxBackground(
-        //     portfolioHeader,
-        //     'https://raw.githubusercontent.com/pascualmg/cdn/main/header-background.png',
-        //     0.2,
-        //     480,
-        //     "50% 50%"
-        // );
     }
-}
-
-function parallaxBackground(elem, backgroundImageURL, scrollSpeed, viewportWidth, backgroundPosition = '50% 50%') {
-    const parallaxImage = elem;
-    parallaxImage.style.backgroundImage = `url(${backgroundImageURL})`;
-    parallaxImage.style.backgroundPosition = backgroundPosition;
-
-    const parallaxTick = () => {
-        if (window.innerWidth > viewportWidth) {
-            parallaxImage.style.transform = `translateY(${window.scrollY * scrollSpeed * 0.1}px)`;
-            parallaxImage.style.opacity = `${100.0 / window.scrollY}`;
-            //set back of all elements
-            parallaxImage.style.zIndex = "-1";
-        } else {
-            parallaxImage.style.transform = 'none';
-        }
-    }
-
-    window.addEventListener("scroll", () => {
-        window.requestAnimationFrame(parallaxTick)
-    });
-
-    window.addEventListener("resize", () => {
-        window.requestAnimationFrame(parallaxTick)
-    });
 }
 
 customElements.define('portfolio-header', PortfolioHeader);
