@@ -67,7 +67,7 @@ class SocialLinks extends HTMLElement {
                     width: 40px;
                     height: 40px;
                     border-radius: 50%;
-                    background-color: var(--bg2);
+                    background-color: var(--base-dim);
                     transition: background-color 0.3s, transform 0.3s;
                 }
                 
