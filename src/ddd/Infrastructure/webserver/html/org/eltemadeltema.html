@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El tema del tema: Manejo de colores en Web Components</title>
+    <title>El tema del tema: KISS con Web Components</title>
     <style>
         :root {
             --act1: #222226;
@@ -69,6 +69,11 @@
 
         html {
             font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
         }
 
         body {
@@ -79,6 +84,7 @@
             margin: 0;
             padding: 0;
             font-size: 1rem;
+            padding-top: 60px; /* Altura del header */
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -86,76 +92,28 @@
             font-weight: bold;
             margin-top: 1.5rem;
             margin-bottom: 1rem;
+            line-height: 1.2;
         }
 
-        h1 {
-            font-size: 2rem;
-            background-color: var(--head1-bg);
-            padding: 0.625rem;
-            border-radius: 0.3125rem;
-        }
+        h1 { font-size: 1.8rem; background-color: var(--head1-bg); padding: 0.625rem; border-radius: 0.3125rem; }
+        h2 { font-size: 1.6rem; color: var(--head2); background-color: var(--head2-bg); padding: 0.5rem; border-radius: 0.25rem; }
+        h3 { font-size: 1.4rem; color: var(--head3); background-color: var(--head3-bg); padding: 0.375rem; border-radius: 0.1875rem; }
+        h4 { font-size: 1.2rem; color: var(--head4); background-color: var(--head4-bg); padding: 0.25rem; border-radius: 0.125rem; }
 
-        h2 {
-            font-size: 1.75rem;
-            color: var(--head2);
-            background-color: var(--head2-bg);
-            padding: 0.5rem;
-            border-radius: 0.25rem;
-        }
+        a { color: var(--blue); text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
-        h3 {
-            font-size: 1.5rem;
-            color: var(--head3);
-            background-color: var(--head3-bg);
-            padding: 0.375rem;
-            border-radius: 0.1875rem;
-        }
+        p { margin-bottom: 1rem; }
 
-        h4 {
-            font-size: 1.25rem;
-            color: var(--head4);
-            background-color: var(--head4-bg);
-            padding: 0.25rem;
-            border-radius: 0.125rem;
-        }
-
-        a {
-            color: var(--blue);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        p {
-            margin-bottom: 1rem;
-        }
-
-        ul, ol {
-            margin-bottom: 1rem;
-            padding-left: 1.25rem;
-        }
-
-        li {
-            margin-bottom: 0.3125rem;
-        }
-
-        pre {
-            background-color: var(--bg3);
-            color: var(--cblk);
-            padding: 0.625rem;
-            border-radius: 0.3125rem;
-            overflow-x: auto;
-            font-size: 0.875rem;
-        }
+        ul, ol { margin-bottom: 1rem; padding-left: 1.25rem; }
+        li { margin-bottom: 0.3125rem; }
 
         code {
-            background-color: var(--blue-bg-s);
             color: var(--type);
             padding: 0.125rem 0.25rem;
             border-radius: 0.1875rem;
             font-size: 0.875rem;
+            font-family: 'Courier New', Courier, monospace;
         }
 
         blockquote {
@@ -170,11 +128,14 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 1.25rem;
+            overflow-x: auto;
+            display: block;
         }
 
         th, td {
             padding: 0.5rem;
             border: 1px solid var(--border);
+            min-width: 100px;
         }
 
         th {
@@ -189,21 +150,29 @@
             margin-bottom: 1rem;
         }
 
-        .fixed-header {
+        .site-header {
+            background-color: var(--bg2);
+            box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+            padding: 0.625rem 0;
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            background-color: var(--bg2);
-            padding: 0.625rem 1.25rem;
-            box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+            right: 0;
             z-index: 1000;
+            height: 60px; /* Altura fija del header */
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 75rem;
+            margin: 0 auto;
+            padding: 0 1rem;
+            height: 100%;
         }
 
-        .fixed-header a {
+        .site-header a {
             color: var(--blue);
             text-decoration: none;
             font-size: 1.25rem;
@@ -213,20 +182,9 @@
         .main-container {
             display: flex;
             flex-direction: column;
-            margin-top: 3.75rem;
-            padding: 1.25rem;
             max-width: 75rem;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .content {
-            background-color: var(--bg2);
-            padding: 1.25rem;
-            border-radius: 0.5rem;
-            max-width: 50rem;
-            width: 100%;
-            align-self: center;
+            margin: 1rem auto 0;
+            padding: 0 1rem;
         }
 
         .table-of-contents {
@@ -235,8 +193,6 @@
             border-radius: 0.3125rem;
             margin-bottom: 1.25rem;
             width: 100%;
-            max-width: 50rem;
-            align-self: center;
         }
 
         .table-of-contents h2 {
@@ -263,27 +219,57 @@
             text-decoration: underline;
         }
 
-        @media (min-width: 48em) {
-            html {
-                font-size: 18px;
-            }
+        .content {
+            background-color: var(--bg2);
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+        }
 
-            body {
-                overflow-y: hidden; /* Previene el scroll vertical en el body */
+        pre {
+            border-radius: 0.3125rem;
+            overflow-x: auto;
+            color: var(--cblk);
+            padding: 0.625rem;
+            font-size: 0.875rem;
+            background-color: var(--bg3);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .sourceCode .kw { color: var(--keyword); }
+        .sourceCode .dt { color: var(--type); }
+        .sourceCode .dv, .sourceCode .bn, .sourceCode .fl { color: var(--const); }
+        .sourceCode .ch, .sourceCode .st { color: var(--str); }
+        .sourceCode .co, .sourceCode .do, .sourceCode .an, .sourceCode .cv, .sourceCode .in { color: var(--comment); font-style: italic; }
+        .sourceCode .ot, .sourceCode .fu, .sourceCode .ex { color: var(--func); }
+        .sourceCode .al, .sourceCode .er { color: var(--err); }
+        .sourceCode .va { color: var(--var); }
+        .sourceCode .cf { color: var(--keyword); }
+        .sourceCode .op, .sourceCode .bu { color: var(--base); }
+        .sourceCode .pp { color: var(--meta); }
+        .sourceCode .at { color: var(--var); }
+
+        theme-toggler {
+            position: static;
+        }
+
+        @media (min-width: 48em) {
+            html { font-size: 18px; }
+
+            .header-content, .main-container {
+                max-width: calc(15.625rem + 50rem);
             }
 
             .main-container {
                 flex-direction: row;
                 justify-content: flex-start;
-                align-items: stretch;
-                height: calc(100vh - 3.75rem); /* Altura total menos el header */
-                overflow: hidden;
+                align-items: flex-start;
             }
 
             .table-of-contents {
                 position: sticky;
-                top: 3.75rem; /* Altura del header */
-                height: calc(100vh - 6rem);
+                top: 70px; /* 60px del header + 10px de espacio */
+                height: calc(100vh - 70px);
                 overflow-y: auto;
                 width: 15.625rem;
                 margin-right: 1.25rem;
@@ -293,32 +279,23 @@
             .content {
                 flex-grow: 1;
                 overflow-y: auto;
-                height: 100%;
-                padding-right: 1.25rem; /* Añade un poco de padding a la derecha */
+                padding-right: 1.25rem;
             }
-        }
-
-        theme-toggler {
-            position: static;
         }
     </style>
     <script type="module" src="../../html/js/atomic/organism/ThemeToogler.js"></script>
 </head>
 <body>
-<div class="fixed-header">
-    <a href="/" id="home-link">Pascualmg.dev</a>
-    <theme-toggler></theme-toggler>
-</div>
+<header class="site-header">
+    <div class="header-content">
+        <a href="/" id="home-link">Pascualmg.dev</a>
+        <theme-toggler></theme-toggler>
+    </div>
+</header>
 
 <div class="main-container">
         <nav class="table-of-contents">
         <h2>Tabla de Contenidos</h2>
-        <ul>
-        <li><a
-        href="#el-tema-del-tema-un-viaje-por-el-mundo-de-los-colores-en-web-components"
-        id="toc-el-tema-del-tema-un-viaje-por-el-mundo-de-los-colores-en-web-components">El
-        tema del tema: Un viaje por el mundo de los colores en Web
-        Components</a>
         <ul>
         <li><a href="#el-problema-cuando-los-colores-se-vuelven-un-caos"
         id="toc-el-problema-cuando-los-colores-se-vuelven-un-caos">El
@@ -335,12 +312,9 @@
         finales: El poder de pensar diferente</a></li>
         <li><a href="#próximos-pasos" id="toc-próximos-pasos"><span
         class="todo TODO">TODO</span> Próximos pasos</a></li>
-        </ul></li>
-        <li><a
-        href="#reutilización-de-componentes-web-la-magia-del-themetoggler-en-este-mismo-post-que-estas-leyendo"
-        id="toc-reutilización-de-componentes-web-la-magia-del-themetoggler-en-este-mismo-post-que-estas-leyendo">Reutilización
-        de componentes web: La magia del ThemeToggler en este mismo post
-        que estas leyendo</a>
+        <li><a href="#themetoggler-en-este-mismo-post-que-estas-leyendo"
+        id="toc-themetoggler-en-este-mismo-post-que-estas-leyendo">ThemeToggler
+        en este mismo post que estas leyendo</a>
         <ul>
         <li><a href="#cómo-lo-he-integrado"
         id="toc-cómo-lo-he-integrado">Cómo lo he integrado ?</a></li>
@@ -357,16 +331,11 @@
     
     <div class="content">
         <header>
-            <h1>El tema del tema: Manejo de colores en Web
-Components</h1>
+            <h1>El tema del tema: KISS con Web Components</h1>
             <p class="author">Pascual M.G.</p>
             <p class="date">&lt;2024-07-04 Thu&gt;</p>
         </header>
 
-        <h1
-        id="el-tema-del-tema-un-viaje-por-el-mundo-de-los-colores-en-web-components">El
-        tema del tema: Un viaje por el mundo de los colores en Web
-        Components</h1>
         <p>¡Hola, compañeros desarrolladores! ¿Alguna vez os habéis
         encontrado luchando con la gestión de temas de colores en
         vuestros proyectos web? Si es así, ¡no estáis solos! Este
@@ -560,9 +529,8 @@ Components</h1>
         similares en vuestros proyectos? ¡Me encantaría escuchar
         vuestras experiencias y pensamientos en los comentarios!</p>
         <h1
-        id="reutilización-de-componentes-web-la-magia-del-themetoggler-en-este-mismo-post-que-estas-leyendo">Reutilización
-        de componentes web: La magia del ThemeToggler en este mismo post
-        que estas leyendo</h1>
+        id="themetoggler-en-este-mismo-post-que-estas-leyendo">ThemeToggler
+        en este mismo post que estas leyendo</h1>
         <p>¡Y aquí es donde la magia realmente sucede! Después de todo
         nuestro trabajo en la plantilla y el diseño, hemos logrado algo
         verdaderamente emocionante: la integración perfecta de nuestro

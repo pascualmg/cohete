@@ -69,6 +69,11 @@
 
         html {
             font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
         }
 
         body {
@@ -79,6 +84,7 @@
             margin: 0;
             padding: 0;
             font-size: 1rem;
+            padding-top: 60px; /* Altura del header */
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -86,67 +92,28 @@
             font-weight: bold;
             margin-top: 1.5rem;
             margin-bottom: 1rem;
+            line-height: 1.2;
         }
 
-        h1 {
-            font-size: 2rem;
-            background-color: var(--head1-bg);
-            padding: 0.625rem;
-            border-radius: 0.3125rem;
-        }
+        h1 { font-size: 1.8rem; background-color: var(--head1-bg); padding: 0.625rem; border-radius: 0.3125rem; }
+        h2 { font-size: 1.6rem; color: var(--head2); background-color: var(--head2-bg); padding: 0.5rem; border-radius: 0.25rem; }
+        h3 { font-size: 1.4rem; color: var(--head3); background-color: var(--head3-bg); padding: 0.375rem; border-radius: 0.1875rem; }
+        h4 { font-size: 1.2rem; color: var(--head4); background-color: var(--head4-bg); padding: 0.25rem; border-radius: 0.125rem; }
 
-        h2 {
-            font-size: 1.75rem;
-            color: var(--head2);
-            background-color: var(--head2-bg);
-            padding: 0.5rem;
-            border-radius: 0.25rem;
-        }
+        a { color: var(--blue); text-decoration: none; }
+        a:hover { text-decoration: underline; }
 
-        h3 {
-            font-size: 1.5rem;
-            color: var(--head3);
-            background-color: var(--head3-bg);
-            padding: 0.375rem;
-            border-radius: 0.1875rem;
-        }
+        p { margin-bottom: 1rem; }
 
-        h4 {
-            font-size: 1.25rem;
-            color: var(--head4);
-            background-color: var(--head4-bg);
-            padding: 0.25rem;
-            border-radius: 0.125rem;
-        }
-
-        a {
-            color: var(--blue);
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        p {
-            margin-bottom: 1rem;
-        }
-
-        ul, ol {
-            margin-bottom: 1rem;
-            padding-left: 1.25rem;
-        }
-
-        li {
-            margin-bottom: 0.3125rem;
-        }
-
+        ul, ol { margin-bottom: 1rem; padding-left: 1.25rem; }
+        li { margin-bottom: 0.3125rem; }
 
         code {
             color: var(--type);
             padding: 0.125rem 0.25rem;
             border-radius: 0.1875rem;
             font-size: 0.875rem;
+            font-family: 'Courier New', Courier, monospace;
         }
 
         blockquote {
@@ -161,11 +128,14 @@
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 1.25rem;
+            overflow-x: auto;
+            display: block;
         }
 
         th, td {
             padding: 0.5rem;
             border: 1px solid var(--border);
+            min-width: 100px;
         }
 
         th {
@@ -184,6 +154,12 @@
             background-color: var(--bg2);
             box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
             padding: 0.625rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 60px; /* Altura fija del header */
         }
 
         .header-content {
@@ -192,7 +168,8 @@
             align-items: center;
             max-width: 75rem;
             margin: 0 auto;
-            padding: 0 1.25rem;
+            padding: 0 1rem;
+            height: 100%;
         }
 
         .site-header a {
@@ -206,8 +183,8 @@
             display: flex;
             flex-direction: column;
             max-width: 75rem;
-            margin: 0 auto;
-            padding: 1.25rem;
+            margin: 1rem auto 0;
+            padding: 0 1rem;
         }
 
         .table-of-contents {
@@ -248,9 +225,39 @@
             border-radius: 0.5rem;
         }
 
+        pre {
+            border-radius: 0.3125rem;
+            overflow-x: auto;
+            color: var(--cblk);
+            padding: 0.625rem;
+            font-size: 0.875rem;
+            background-color: var(--bg3);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .sourceCode .kw { color: var(--keyword); }
+        .sourceCode .dt { color: var(--type); }
+        .sourceCode .dv, .sourceCode .bn, .sourceCode .fl { color: var(--const); }
+        .sourceCode .ch, .sourceCode .st { color: var(--str); }
+        .sourceCode .co, .sourceCode .do, .sourceCode .an, .sourceCode .cv, .sourceCode .in { color: var(--comment); font-style: italic; }
+        .sourceCode .ot, .sourceCode .fu, .sourceCode .ex { color: var(--func); }
+        .sourceCode .al, .sourceCode .er { color: var(--err); }
+        .sourceCode .va { color: var(--var); }
+        .sourceCode .cf { color: var(--keyword); }
+        .sourceCode .op, .sourceCode .bu { color: var(--base); }
+        .sourceCode .pp { color: var(--meta); }
+        .sourceCode .at { color: var(--var); }
+
+        theme-toggler {
+            position: static;
+        }
+
         @media (min-width: 48em) {
-            html {
-                font-size: 18px;
+            html { font-size: 18px; }
+
+            .header-content, .main-container {
+                max-width: calc(15.625rem + 50rem);
             }
 
             .main-container {
@@ -261,8 +268,8 @@
 
             .table-of-contents {
                 position: sticky;
-                top: 1.25rem;
-                height: calc(100vh - 1.25rem);
+                top: 70px; /* 60px del header + 10px de espacio */
+                height: calc(100vh - 70px);
                 overflow-y: auto;
                 width: 15.625rem;
                 margin-right: 1.25rem;
@@ -275,45 +282,6 @@
                 padding-right: 1.25rem;
             }
         }
-
-        theme-toggler {
-            position: static;
-        }
-
-
-         /* Estilos para bloques de código */
-         pre {
-             border-radius: 0.3125rem;
-             overflow-x: auto;
-             color: var(--cblk);
-             padding: 0.625rem;
-             font-size: 0.875rem;
-         }
-        /* Ajustes de color para el resaltado de sintaxis */
-        .sourceCode .kw { color: var(--keyword); } /* Keyword */
-        .sourceCode .dt { color: var(--type); } /* DataType */
-        .sourceCode .dv { color: var(--const); } /* DecVal */
-        .sourceCode .bn { color: var(--const); } /* BaseN */
-        .sourceCode .fl { color: var(--const); } /* Float */
-        .sourceCode .ch { color: var(--str); } /* Char */
-        .sourceCode .st { color: var(--str); } /* String */
-        .sourceCode .co { color: var(--comment); font-style: italic; } /* Comment */
-        .sourceCode .ot { color: var(--func); } /* Other */
-        .sourceCode .al { color: var(--err); } /* Alert */
-        .sourceCode .fu { color: var(--func); } /* Function */
-        .sourceCode .er { color: var(--err); } /* Error */
-        .sourceCode .va { color: var(--var); } /* Variable */
-        .sourceCode .cf { color: var(--keyword); } /* ControlFlow */
-        .sourceCode .op { color: var(--base); } /* Operator */
-        .sourceCode .bu { color: var(--base); } /* BuiltIn */
-        .sourceCode .ex { color: var(--func); } /* Extension */
-        .sourceCode .pp { color: var(--meta); } /* Preprocessor */
-        .sourceCode .at { color: var(--var); } /* Attribute */
-        .sourceCode .do { color: var(--comment); font-style: italic; } /* Documentation */
-        .sourceCode .an { color: var(--comment); font-style: italic; } /* Annotation */
-        .sourceCode .cv { color: var(--comment); font-style: italic; } /* CommentVar */
-        .sourceCode .in { color: var(--comment); font-style: italic; } /* Information */
-
     </style>
     <script type="module" src="../../html/js/atomic/organism/ThemeToogler.js"></script>
 </head>

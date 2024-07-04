@@ -1,10 +1,8 @@
-#+TITLE: El tema del tema: Manejo de colores en Web Components
+#+TITLE: El tema del tema: KISS con Web Components
 #+AUTHOR: Pascual M.G.
 #+DATE: <2024-07-04 Thu>
-#+OPTIONS: toc:nil num:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="spacemacs.css">
 
-* El tema del tema: Un viaje por el mundo de los colores en Web Components
 
 ¡Hola, compañeros desarrolladores! ¿Alguna vez os habéis encontrado luchando con la gestión de temas de colores en vuestros proyectos web? Si es así, ¡no estáis solos! Este quebradero de cabeza es tan común como frustrante. Pero no temáis, porque hoy vamos a sumergirnos en una solución que, aunque simple, es sorprendentemente efectiva.
 
@@ -153,7 +151,7 @@ Y ahora, ¡a por ese modo "disco" para los viernes por la noche! 🕺💃
 ¿Qué opináis de esta aproximación? ¿Habéis usado técnicas similares en vuestros proyectos? ¡Me encantaría escuchar vuestras experiencias y pensamientos en los comentarios!
 
 
-* Reutilización de componentes web: La magia del ThemeToggler en este mismo post que estas leyendo
+* ThemeToggler en este mismo post que estas leyendo
 
 ¡Y aquí es donde la magia realmente sucede! Después de todo nuestro trabajo en la plantilla y el diseño, hemos logrado algo verdaderamente emocionante: la integración perfecta de nuestro componente ThemeToggler en la plantilla generada por Pandoc. Os voy a contar cómo llegamos aquí y por qué esto es tan genial.
 Hasta ahora la plantilla de Pandoc tenia un tema "fijo" ahora eso ha cambiado, ahora el tema es dinámico y se puede cambiar en tiempo real.

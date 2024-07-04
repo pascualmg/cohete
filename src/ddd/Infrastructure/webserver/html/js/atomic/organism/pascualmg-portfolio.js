@@ -52,7 +52,7 @@ class PortfolioElement extends HTMLElement {
          {"name": "github", "url": "https://github.com/pascualmg"},
          {"name": "twitter", "url": "https://twitter.com/pascualmg"}
          ]'>
-         </social-links>
+  </social-links>
 
 <experience-timeline data='[
   {
@@ -248,7 +248,7 @@ class PortfolioElement extends HTMLElement {
   }
 ]'></experience-timeline>
 
-          <technologies-list images='[
+ <technologies-list images='[
     {"src": "https://raw.githubusercontent.com/NixOS/nixos-artwork/53ea652ec7d8af5d21fd2b79b6c49cb39078ddfb/logo/nixos.svg", "alt": "nixos"},
     {"src": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Haskell-logo2.svg", "alt": "haskell"},
     {"src": "https://chuidiang.org/images/f/f3/Logo_php.png", "alt": "php"},
@@ -266,8 +266,6 @@ class PortfolioElement extends HTMLElement {
 <!--                    host="pascualmg.dev"-->
 <!--                    port="8001"-->
 <!--            ></chat-box>-->
-
-
         `;
   }
 }
