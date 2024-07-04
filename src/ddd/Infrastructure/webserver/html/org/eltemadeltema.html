@@ -249,8 +249,12 @@
         .sourceCode .pp { color: var(--meta); }
         .sourceCode .at { color: var(--var); }
 
+        /* allways show this button */
         theme-toggler {
-            position: static;
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 2;
         }
 
         @media (min-width: 48em) {
@@ -297,15 +301,11 @@
         }
     </style>
     <script type="module" src="../../html/js/atomic/organism/ThemeToogler.js"></script>
+    <script type="module" src="../../html/js/atomic/molecule/PortfolioHeader.js"></script>
 </head>
 <body>
-<header class="site-header">
-    <div class="header-content">
-        <a href="/" id="home-link">Pascualmg.dev</a>
-        <theme-toggler></theme-toggler>
-    </div>
-</header>
-
+<portfolio-header> </portfolio-header>
+<theme-toggler></theme-toggler>
 <div class="main-container">
         <nav class="table-of-contents">
         <h2>Tabla de Contenidos</h2>
@@ -317,28 +317,21 @@
         href="#la-solución-simpleza-y-elegancia-con-web-components"
         id="toc-la-solución-simpleza-y-elegancia-con-web-components">La
         solución: Simpleza y elegancia con Web Components</a></li>
-        <li><a href="#las-ventajas-por-qué-esto-mola-tanto"
-        id="toc-las-ventajas-por-qué-esto-mola-tanto">Las ventajas: ¿Por
-        qué esto mola tanto?</a></li>
+        <li><a href="#que-ventajas-tiene-esta-solución"
+        id="toc-que-ventajas-tiene-esta-solución">Que ventajas tiene
+        esta solución?</a></li>
         <li><a href="#reflexiones-finales-el-poder-de-pensar-diferente"
         id="toc-reflexiones-finales-el-poder-de-pensar-diferente">Reflexiones
         finales: El poder de pensar diferente</a></li>
         <li><a href="#próximos-pasos" id="toc-próximos-pasos"><span
         class="todo TODO">TODO</span> Próximos pasos</a></li>
-        <li><a href="#themetoggler-en-este-mismo-post-que-estas-leyendo"
-        id="toc-themetoggler-en-este-mismo-post-que-estas-leyendo">ThemeToggler
-        en este mismo post que estas leyendo</a>
-        <ul>
         <li><a href="#cómo-lo-he-integrado"
-        id="toc-cómo-lo-he-integrado">Cómo lo he integrado ?</a></li>
-        <li><a href="#por-qué-es-esto-tan-genial"
-        id="toc-por-qué-es-esto-tan-genial">¿Por qué es esto tan
-        genial?</a></li>
-        <li><a href="#con-que-motivación"
-        id="toc-con-que-motivación">¿Con que motivación?</a></li>
+        id="toc-cómo-lo-he-integrado">¿ Cómo lo he integrado ?</a></li>
+        <li><a href="#que-permite-esto-que-hemos-conseguido"
+        id="toc-que-permite-esto-que-hemos-conseguido">¿Que permite esto
+        que hemos conseguido?</a></li>
         <li><a href="#conclusión"
         id="toc-conclusión">Conclusión</a></li>
-        </ul></li>
         </ul>
     </nav>
     
@@ -349,12 +342,12 @@
             <p class="date">&lt;2024-07-04 Thu&gt;</p>
         </header>
 
-        <p>¡Hola, compañeros desarrolladores! ¿Alguna vez os habéis
-        encontrado luchando con la gestión de temas de colores en
-        vuestros proyectos web? Si es así, ¡no estáis solos! Este
-        quebradero de cabeza es tan común como frustrante. Pero no
-        temáis, porque hoy vamos a sumergirnos en una solución que,
-        aunque simple, es sorprendentemente efectiva.</p>
+        <p>¡Hola geeks! ¿Alguna vez os habéis encontrado luchando con la
+        gestión de temas de colores en vuestros proyectos web? Si es
+        así, ¡no estáis solos! Este quebradero de cabeza es tan común
+        como frustrante. Pero no temáis, porque hoy vamos a sumergirnos
+        en una solución que, aunque simple, es sorprendentemente
+        efectiva.</p>
         <h2 id="el-problema-cuando-los-colores-se-vuelven-un-caos">El
         problema: Cuando los colores se vuelven un caos</h2>
         <p>Imaginad que estáis construyendo una aplicación web compleja.
@@ -383,14 +376,14 @@
         <h2 id="la-solución-simpleza-y-elegancia-con-web-components">La
         solución: Simpleza y elegancia con Web Components</h2>
         <p>Entonces, ¿qué hacemos? Bueno, en mi caso, como estoy usando
-        Web Components personalizados (porque soy un poco rebelde y me
-        gusta hacer las cosas a mi manera), se me ocurrió una idea: ¿Y
-        si usamos las propias capacidades del navegador para manejar
-        nuestros temas?</p>
+        Web Components personalizados (porque soy mas bien de backend y
+        me gusta explorar tecnologías del front ), se me ocurrió una
+        idea: ¿Y si usamos las propias capacidades del navegador para
+        manejar nuestros temas?</p>
         <p>Así nació mi solución, que se basa en tres principios
         simples:</p>
         <ol>
-        <li>Un componente "cerebro" que define todas las variables de
+        <li>Un componente "core" que define todas las variables de
         color.</li>
         <li>Variables CSS a nivel :root que todos los componentes pueden
         usar.</li>
@@ -399,8 +392,8 @@
         </ol>
         <p>Suena simple, ¿verdad? Pero como dicen, la belleza está en la
         simplicidad. Veamos cómo funciona esto en la práctica.</p>
-        <h3 id="el-componente-cerebro-themeswitcher">El componente
-        "cerebro": ThemeSwitcher</h3>
+        <h3 id="el-componente-core-themeswitcher">El componente "core":
+        ThemeSwitcher</h3>
         <p>Este es el corazón de nuestra solución. Es un Web Component
         que se encarga de definir y aplicar nuestro tema de colores.
         Aquí tenéis un vistazo rápido a cómo podría verse:</p>
@@ -469,6 +462,17 @@
         <p>¿Veis cómo el botón no sabe realmente qué color es
         "–primary-color"? Solo sabe que debe usarlo para su fondo. Esto
         es lo que quiero decir con "agnóstico de color".</p>
+        <p>Por el momento nada mas que colores , pero se puede extender
+        a tipografía, espaciado, etc.</p>
+        <p>Si estas pensando que eso hace dependiente al componente de
+        las variables globales… tienes razón, pero es un compromiso que
+        estoy dispuesto a aceptar por la simplicidad y eficiencia que
+        ofrece. Y si quieres que el componente sea agnóstico de color,
+        puedes pasarle las variables como propiedades.</p>
+        <p>Defines en el componente un atributo que se llama color y lo
+        usas en el componente en lugar de las variables CSS. Es una de
+        tantas posibilidades, pero aquí nos centraremos solo en la base
+        de la solución.</p>
         <h3 id="poniendo-todo-junto">Poniendo todo junto</h3>
         <p>Ahora, en nuestro HTML, podríamos tener algo así:</p>
         <div class="sourceCode" id="cb3"><pre
@@ -493,8 +497,8 @@
         <p>Y voilà! Tenemos una aplicación con temas cambiables, sin
         necesidad de CSS gigante, sin preprocesadores, y sin bibliotecas
         pesadas de JavaScript.</p>
-        <h2 id="las-ventajas-por-qué-esto-mola-tanto">Las ventajas: ¿Por
-        qué esto mola tanto?</h2>
+        <h2 id="que-ventajas-tiene-esta-solución">Que ventajas tiene
+        esta solución?</h2>
         <ol>
         <li><strong>Rendimiento</strong>: Las variables CSS son rápidas.
         Muy rápidas. Cambiar el tema es prácticamente instantáneo.</li>
@@ -523,38 +527,41 @@
         límite cuando empiezas a pensar en términos de componentes y
         propiedades dinámicas.</p>
         <p>Así que la próxima vez que os enfrentéis a un problema que
-        parece complicado, recordad: a veces, la solución más elegante
-        es también la más simple. No tengáis miedo de cuestionar las
-        convenciones y buscar nuevas formas de abordar viejos
-        problemas.</p>
-        <p>Y ahora, ¡a por ese modo "disco" para los viernes por la
-        noche! 🕺💃</p>
+        parece complicado esto me recuerda que a veces, la solución más
+        elegante es también la más simple. Creo que si podemos debemos
+        cuestionar las convenciones y buscar nuevas formas de abordar
+        esos viejos problemas.</p>
+        <p>y ahora</p>
         <h2 id="próximos-pasos"><span class="todo TODO">TODO</span>
         Próximos pasos</h2>
         <ul>
-        <li>Implementar una interfaz de usuario para cambiar temas</li>
+        <li>Implementar una interfaz de usuario para cambiar temas ,
+        done en este mismo post</li>
         <li>Explorar cómo manejar preferencias de usuario (por ejemplo,
         guardar el tema preferido en localStorage)</li>
         <li>Investigar cómo esta técnica podría aplicarse a otros
         aspectos del diseño, como la tipografía o el espaciado</li>
+        <li>En el back Crear un controller especifico que use el wrapper
+        PHP de pandoc para renderizar el contenido de los post en HTML ,
+        ya que se guardan en texto plano formato .org</li>
         </ul>
         <p>¿Qué opináis de esta aproximación? ¿Habéis usado técnicas
         similares en vuestros proyectos? ¡Me encantaría escuchar
-        vuestras experiencias y pensamientos en los comentarios!</p>
-        <h1
-        id="themetoggler-en-este-mismo-post-que-estas-leyendo">ThemeToggler
-        en este mismo post que estas leyendo</h1>
+        vuestras experiencias dejadme un comentario !</p>
+        <p>*Actualizacion: aplicacion de esta teoría.</p>
+        <p>Se me ha ocurrido usar ThemeToggler en este mismo post que
+        estas leyendo, se puede ?</p>
         <p>¡Y aquí es donde la magia realmente sucede! Después de todo
         nuestro trabajo en la plantilla y el diseño, hemos logrado algo
         verdaderamente emocionante: la integración perfecta de nuestro
         componente ThemeToggler en la plantilla generada por Pandoc. Os
-        voy a contar cómo llegamos aquí y por qué esto es tan genial.
-        Hasta ahora la plantilla de Pandoc tenia un tema "fijo" ahora
-        eso ha cambiado, ahora el tema es dinámico y se puede cambiar en
-        tiempo real. Puedes verlo y probarlo en la parte superior
-        derecha de esta página , y a partir de ahora en toda la SPA de
-        este blog.</p>
-        <h2 id="cómo-lo-he-integrado">Cómo lo he integrado ?</h2>
+        voy a contar cómo llegamos aquí , si es que aún no lo has visto
+        en la parte superior derecha de esta página. Hasta ahora la
+        plantilla de Pandoc tenia un tema "fijo" ahora eso ha cambiado,
+        ahora el tema es dinámico y se puede cambiar en tiempo real.
+        Puedes verlo y probarlo en la parte superior derecha de esta
+        página , y a partir de ahora en toda la SPA de este blog.</p>
+        <h2 id="cómo-lo-he-integrado">¿ Cómo lo he integrado ?</h2>
         <ol>
         <li><p><strong>Creación del componente</strong>: Primero,
         desarrollamos nuestro ThemeToggler como un Web Component
@@ -578,8 +585,8 @@
         <div class="sourceCode" id="cb6"><pre
         class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> <span class="at">--template</span><span class="op">=</span>/home/passh/src/php/cohete/src/ddd/Infrastructure/webserver/html/org/template.html <span class="at">--toc</span> <span class="at">--toc-depth</span><span class="op">=</span>2 eltemadeltema.org <span class="at">-o</span> eltemadeltema.html</span></code></pre></div></li>
         </ol>
-        <h2 id="por-qué-es-esto-tan-genial">¿Por qué es esto tan
-        genial?</h2>
+        <h2 id="que-permite-esto-que-hemos-conseguido">¿Que permite esto
+        que hemos conseguido?</h2>
         <ol>
         <li><p><strong>Reutilización de código</strong>: Estamos
         reutilizando nuestro ThemeToggler en múltiples páginas sin tener
@@ -598,14 +605,7 @@
         actualizar o modificar el ThemeToggler sin tener que tocar el
         resto de nuestra plantilla o contenido.</p></li>
         </ol>
-        <h2 id="con-que-motivación">¿Con que motivación?</h2>
-        <p>Mientras trabajaba en el diseño de la plantilla, me di cuenta
-        de que quería algo que:</p>
-        <ol>
-        <li>Fuera fácil de integrar en cualquier página.</li>
-        <li>No dependiera de un framework específico.</li>
-        <li>Pudiera manejar su propio estado y lógica.</li>
-        </ol>
+        <h2 id="conclusión">Conclusión</h2>
         <p>Los Web Components ofrecen todas estas ventajas. Además, al
         ser una tecnología nativa del navegador, se alinean
         perfectamente con mi filosofía de mantener las cosas simples y
@@ -615,7 +615,6 @@
         Esto significa que cada vez que genero una nueva página de mi
         blog, automáticamente tiene la funcionalidad de cambio de tema,
         sin necesidad de código adicional.</p>
-        <h2 id="conclusión">Conclusión</h2>
         <p>Esta integración demuestra el poder de pensar en componentes
         y de utilizar tecnologías web nativas. No solo hemos creado una
         solución elegante para el cambio de temas, sino que también

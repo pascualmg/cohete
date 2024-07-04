@@ -249,8 +249,12 @@
         .sourceCode .pp { color: var(--meta); }
         .sourceCode .at { color: var(--var); }
 
+        /* allways show this button */
         theme-toggler {
-            position: static;
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 2;
         }
 
         @media (min-width: 48em) {
@@ -297,15 +301,11 @@
         }
     </style>
     <script type="module" src="../../html/js/atomic/organism/ThemeToogler.js"></script>
+    <script type="module" src="../../html/js/atomic/molecule/PortfolioHeader.js"></script>
 </head>
 <body>
-<header class="site-header">
-    <div class="header-content">
-        <a href="/" id="home-link">Pascualmg.dev</a>
-        <theme-toggler></theme-toggler>
-    </div>
-</header>
-
+<portfolio-header> </portfolio-header>
+<theme-toggler></theme-toggler>
 <div class="main-container">
     $if(toc)$
     <nav class="table-of-contents">

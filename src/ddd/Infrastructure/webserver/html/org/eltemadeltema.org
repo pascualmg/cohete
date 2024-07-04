@@ -4,7 +4,7 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="spacemacs.css">
 
 
-¡Hola, compañeros desarrolladores! ¿Alguna vez os habéis encontrado luchando con la gestión de temas de colores en vuestros proyectos web? Si es así, ¡no estáis solos! Este quebradero de cabeza es tan común como frustrante. Pero no temáis, porque hoy vamos a sumergirnos en una solución que, aunque simple, es sorprendentemente efectiva.
+¡Hola geeks! ¿Alguna vez os habéis encontrado luchando con la gestión de temas de colores en vuestros proyectos web? Si es así, ¡no estáis solos! Este quebradero de cabeza es tan común como frustrante. Pero no temáis, porque hoy vamos a sumergirnos en una solución que, aunque simple, es sorprendentemente efectiva.
 
 ** El problema: Cuando los colores se vuelven un caos
 
@@ -20,17 +20,17 @@ Pero cada una de estas soluciones tiene sus propios problemas. Las clases CSS se
 
 ** La solución: Simpleza y elegancia con Web Components
 
-Entonces, ¿qué hacemos? Bueno, en mi caso, como estoy usando Web Components personalizados (porque soy un poco rebelde y me gusta hacer las cosas a mi manera), se me ocurrió una idea: ¿Y si usamos las propias capacidades del navegador para manejar nuestros temas?
+Entonces, ¿qué hacemos? Bueno, en mi caso, como estoy usando Web Components personalizados (porque soy mas bien de backend y me gusta explorar tecnologías del front ), se me ocurrió una idea: ¿Y si usamos las propias capacidades del navegador para manejar nuestros temas?
 
 Así nació mi solución, que se basa en tres principios simples:
 
-1. Un componente "cerebro" que define todas las variables de color.
+1. Un componente "core" que define todas las variables de color.
 2. Variables CSS a nivel :root que todos los componentes pueden usar.
 3. Componentes individuales que son "agnósticos" respecto al color real que están usando.
 
 Suena simple, ¿verdad? Pero como dicen, la belleza está en la simplicidad. Veamos cómo funciona esto en la práctica.
 
-*** El componente "cerebro": ThemeSwitcher
+*** El componente "core": ThemeSwitcher
 
 Este es el corazón de nuestra solución. Es un Web Component que se encarga de definir y aplicar nuestro tema de colores. Aquí tenéis un vistazo rápido a cómo podría verse:
 
@@ -98,6 +98,13 @@ customElements.define('my-button', MyButton);
 
 ¿Veis cómo el botón no sabe realmente qué color es "--primary-color"? Solo sabe que debe usarlo para su fondo. Esto es lo que quiero decir con "agnóstico de color".
 
+Por el momento nada mas que colores , pero se puede extender a tipografía, espaciado, etc.
+
+Si estas pensando que eso hace dependiente al componente de las variables globales... tienes razón, pero es un compromiso que estoy dispuesto a aceptar por la simplicidad y eficiencia que ofrece.
+Y si quieres que el componente sea agnóstico de color, puedes pasarle las variables como propiedades.
+
+Defines en el componente un atributo que se llama color y lo usas en el componente en lugar de las variables CSS. Es una de tantas posibilidades, pero aquí nos centraremos solo en la base de la solución.
+
 *** Poniendo todo junto
 
 Ahora, en nuestro HTML, podríamos tener algo así:
@@ -125,7 +132,7 @@ Ahora, en nuestro HTML, podríamos tener algo así:
 
 Y voilà! Tenemos una aplicación con temas cambiables, sin necesidad de CSS gigante, sin preprocesadores, y sin bibliotecas pesadas de JavaScript.
 
-** Las ventajas: ¿Por qué esto mola tanto?
+** Que ventajas tiene esta solución?
 
 1. *Rendimiento*: Las variables CSS son rápidas. Muy rápidas. Cambiar el tema es prácticamente instantáneo.
 2. *Mantenibilidad*: Todos los colores están definidos en un solo lugar. ¿Necesitas cambiar un color? Solo tienes que hacerlo una vez.
@@ -139,25 +146,29 @@ Lo que me encanta de esta solución es cómo toma algo que tradicionalmente se h
 
 Y lo mejor es que esto es solo el principio. Podrías expandir este concepto para manejar no solo colores, sino también tipografía, espaciado, o incluso animaciones. El cielo es el límite cuando empiezas a pensar en términos de componentes y propiedades dinámicas.
 
-Así que la próxima vez que os enfrentéis a un problema que parece complicado, recordad: a veces, la solución más elegante es también la más simple. No tengáis miedo de cuestionar las convenciones y buscar nuevas formas de abordar viejos problemas.
+Así que la próxima vez que os enfrentéis a un problema que parece complicado esto me recuerda que a veces, la solución más elegante es también la más simple. Creo que si podemos debemos cuestionar las convenciones y buscar nuevas formas de abordar esos viejos problemas.
 
-Y ahora, ¡a por ese modo "disco" para los viernes por la noche! 🕺💃
+y ahora
 
 ** TODO Próximos pasos
-- Implementar una interfaz de usuario para cambiar temas
+- Implementar una interfaz de usuario para cambiar temas , done en este mismo post
 - Explorar cómo manejar preferencias de usuario (por ejemplo, guardar el tema preferido en localStorage)
 - Investigar cómo esta técnica podría aplicarse a otros aspectos del diseño, como la tipografía o el espaciado
+- En el back Crear un controller especifico que use el wrapper PHP de pandoc para renderizar el contenido de los post en HTML , ya que se guardan en texto plano formato .org
 
-¿Qué opináis de esta aproximación? ¿Habéis usado técnicas similares en vuestros proyectos? ¡Me encantaría escuchar vuestras experiencias y pensamientos en los comentarios!
+¿Qué opináis de esta aproximación? ¿Habéis usado técnicas similares en vuestros proyectos? ¡Me encantaría escuchar vuestras experiencias dejadme un comentario !
 
 
-* ThemeToggler en este mismo post que estas leyendo
+*Actualizacion: aplicacion de esta teoría.
 
-¡Y aquí es donde la magia realmente sucede! Después de todo nuestro trabajo en la plantilla y el diseño, hemos logrado algo verdaderamente emocionante: la integración perfecta de nuestro componente ThemeToggler en la plantilla generada por Pandoc. Os voy a contar cómo llegamos aquí y por qué esto es tan genial.
+ Se me ha ocurrido usar ThemeToggler en este mismo post que estas leyendo, se puede ?
+
+¡Y aquí es donde la magia realmente sucede! Después de todo nuestro trabajo en la plantilla y el diseño, hemos logrado algo verdaderamente emocionante: la integración perfecta de nuestro componente ThemeToggler en la plantilla generada por Pandoc.
+ Os voy a contar cómo llegamos aquí , si es que aún no lo has visto en la parte superior derecha de esta página.
 Hasta ahora la plantilla de Pandoc tenia un tema "fijo" ahora eso ha cambiado, ahora el tema es dinámico y se puede cambiar en tiempo real.
 Puedes verlo y probarlo en la parte superior derecha de esta página , y a partir de ahora en toda la SPA de este blog.
 
-** Cómo lo he integrado ?
+** ¿ Cómo lo he integrado ?
 
 1. *Creación del componente*: Primero, desarrollamos nuestro ThemeToggler como un Web Component independiente. Este componente encapsula toda la lógica para cambiar entre temas de color.
     https://github.com/pascualmg/cohete/blob/main/src/ddd/Infrastructure/webserver/html/js/atomic/organism/ThemeToogler.js
@@ -179,7 +190,7 @@ Puedes verlo y probarlo en la parte superior derecha de esta página , y a parti
    pandoc --template=/home/passh/src/php/cohete/src/ddd/Infrastructure/webserver/html/org/template.html --toc --toc-depth=2 eltemadeltema.org -o eltemadeltema.html
    #+END_SRC
 
-** ¿Por qué es esto tan genial?
+** ¿Que permite esto que hemos conseguido?
 
 1. *Reutilización de código*: Estamos reutilizando nuestro ThemeToggler en múltiples páginas sin tener que copiar y pegar código.
 
@@ -191,19 +202,12 @@ Puedes verlo y probarlo en la parte superior derecha de esta página , y a parti
 
 5. *Flexibilidad*: Podemos fácilmente actualizar o modificar el ThemeToggler sin tener que tocar el resto de nuestra plantilla o contenido.
 
-** ¿Con que motivación?
 
- Mientras trabajaba en el diseño de la plantilla, me di cuenta de que quería algo que:
-
-1. Fuera fácil de integrar en cualquier página.
-2. No dependiera de un framework específico.
-3. Pudiera manejar su propio estado y lógica.
+** Conclusión
 
 Los Web Components ofrecen todas estas ventajas. Además, al ser una tecnología nativa del navegador, se alinean perfectamente con mi filosofía de mantener las cosas simples y eficientes.
 
 La verdadera revelación vino cuando me di cuenta de que podía incluir este componente directamente en mi plantilla de Pandoc. Esto significa que cada vez que genero una nueva página de mi blog, automáticamente tiene la funcionalidad de cambio de tema, sin necesidad de código adicional.
-
-** Conclusión
 
 Esta integración demuestra el poder de pensar en componentes y de utilizar tecnologías web nativas. No solo hemos creado una solución elegante para el cambio de temas, sino que también hemos establecido un patrón que podemos seguir para futuros componentes.
 

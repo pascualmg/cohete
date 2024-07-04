@@ -5,6 +5,8 @@ class ThemeToggler extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this.currentThemeIndex = 0;
+        this.defaultTheme = 'linkedin';
+
     }
 
     connectedCallback() {
@@ -15,7 +17,8 @@ class ThemeToggler extends HTMLElement {
         if (!this.themeSwitcher) {
             console.error("No se puede localizar el theme switcher");
         }
-        this.updateTheme();
+
+        this.themeSwitcher.setAttribute('theme', this.defaultTheme);
 
         this.shadowRoot.querySelector('button').addEventListener('click', () => this.nextTheme());
     }
