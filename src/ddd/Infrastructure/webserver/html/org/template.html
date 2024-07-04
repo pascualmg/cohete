@@ -141,17 +141,8 @@
             margin-bottom: 0.3125rem;
         }
 
-        pre {
-            background-color: var(--bg3);
-            color: var(--cblk);
-            padding: 0.625rem;
-            border-radius: 0.3125rem;
-            overflow-x: auto;
-            font-size: 0.875rem;
-        }
 
         code {
-            background-color: var(--blue-bg-s);
             color: var(--type);
             padding: 0.125rem 0.25rem;
             border-radius: 0.1875rem;
@@ -189,21 +180,22 @@
             margin-bottom: 1rem;
         }
 
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+        .site-header {
             background-color: var(--bg2);
-            padding: 0.625rem 1.25rem;
             box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
-            z-index: 1000;
+            padding: 0.625rem 0;
+        }
+
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            max-width: 75rem;
+            margin: 0 auto;
+            padding: 0 1.25rem;
         }
 
-        .fixed-header a {
+        .site-header a {
             color: var(--blue);
             text-decoration: none;
             font-size: 1.25rem;
@@ -213,20 +205,9 @@
         .main-container {
             display: flex;
             flex-direction: column;
-            margin-top: 3.75rem;
-            padding: 1.25rem;
             max-width: 75rem;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .content {
-            background-color: var(--bg2);
+            margin: 0 auto;
             padding: 1.25rem;
-            border-radius: 0.5rem;
-            max-width: 50rem;
-            width: 100%;
-            align-self: center;
         }
 
         .table-of-contents {
@@ -235,8 +216,6 @@
             border-radius: 0.3125rem;
             margin-bottom: 1.25rem;
             width: 100%;
-            max-width: 50rem;
-            align-self: center;
         }
 
         .table-of-contents h2 {
@@ -263,27 +242,27 @@
             text-decoration: underline;
         }
 
+        .content {
+            background-color: var(--bg2);
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+        }
+
         @media (min-width: 48em) {
             html {
                 font-size: 18px;
             }
 
-            body {
-                overflow-y: hidden; /* Previene el scroll vertical en el body */
-            }
-
             .main-container {
                 flex-direction: row;
                 justify-content: flex-start;
-                align-items: stretch;
-                height: calc(100vh - 3.75rem); /* Altura total menos el header */
-                overflow: hidden;
+                align-items: flex-start;
             }
 
             .table-of-contents {
                 position: sticky;
-                top: 3.75rem; /* Altura del header */
-                height: calc(100vh - 6rem);
+                top: 1.25rem;
+                height: calc(100vh - 1.25rem);
                 overflow-y: auto;
                 width: 15.625rem;
                 margin-right: 1.25rem;
@@ -293,22 +272,58 @@
             .content {
                 flex-grow: 1;
                 overflow-y: auto;
-                height: 100%;
-                padding-right: 1.25rem; /* Añade un poco de padding a la derecha */
+                padding-right: 1.25rem;
             }
         }
 
         theme-toggler {
             position: static;
         }
+
+
+         /* Estilos para bloques de código */
+         pre {
+             border-radius: 0.3125rem;
+             overflow-x: auto;
+             color: var(--cblk);
+             padding: 0.625rem;
+             font-size: 0.875rem;
+         }
+        /* Ajustes de color para el resaltado de sintaxis */
+        .sourceCode .kw { color: var(--keyword); } /* Keyword */
+        .sourceCode .dt { color: var(--type); } /* DataType */
+        .sourceCode .dv { color: var(--const); } /* DecVal */
+        .sourceCode .bn { color: var(--const); } /* BaseN */
+        .sourceCode .fl { color: var(--const); } /* Float */
+        .sourceCode .ch { color: var(--str); } /* Char */
+        .sourceCode .st { color: var(--str); } /* String */
+        .sourceCode .co { color: var(--comment); font-style: italic; } /* Comment */
+        .sourceCode .ot { color: var(--func); } /* Other */
+        .sourceCode .al { color: var(--err); } /* Alert */
+        .sourceCode .fu { color: var(--func); } /* Function */
+        .sourceCode .er { color: var(--err); } /* Error */
+        .sourceCode .va { color: var(--var); } /* Variable */
+        .sourceCode .cf { color: var(--keyword); } /* ControlFlow */
+        .sourceCode .op { color: var(--base); } /* Operator */
+        .sourceCode .bu { color: var(--base); } /* BuiltIn */
+        .sourceCode .ex { color: var(--func); } /* Extension */
+        .sourceCode .pp { color: var(--meta); } /* Preprocessor */
+        .sourceCode .at { color: var(--var); } /* Attribute */
+        .sourceCode .do { color: var(--comment); font-style: italic; } /* Documentation */
+        .sourceCode .an { color: var(--comment); font-style: italic; } /* Annotation */
+        .sourceCode .cv { color: var(--comment); font-style: italic; } /* CommentVar */
+        .sourceCode .in { color: var(--comment); font-style: italic; } /* Information */
+
     </style>
     <script type="module" src="../../html/js/atomic/organism/ThemeToogler.js"></script>
 </head>
 <body>
-<div class="fixed-header">
-    <a href="/" id="home-link">Pascualmg.dev</a>
-    <theme-toggler></theme-toggler>
-</div>
+<header class="site-header">
+    <div class="header-content">
+        <a href="/" id="home-link">Pascualmg.dev</a>
+        <theme-toggler></theme-toggler>
+    </div>
+</header>
 
 <div class="main-container">
     $if(toc)$
