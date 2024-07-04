@@ -83,8 +83,7 @@
             line-height: 1.6;
             margin: 0;
             font-size: 1rem;
-            /* Altura del header */
-            padding: 40px 0 0;
+            padding: 60px 0 0;
         }
 
         h1, h2, h3, h4, h5, h6 {
@@ -153,13 +152,13 @@
         .site-header {
             background-color: var(--bg2);
             box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
-            padding: 0.625rem 0;
+            padding: 0.3125rem 0;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            height: 60px; /* Altura fija del header */
+            height: 50px;
             width: 100%;
         }
 
@@ -167,37 +166,32 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 75rem;
+            max-width: 100%;
             margin: 0 auto;
-            padding: 0 1rem;
+            padding: 0 0.5rem;
             height: 100%;
         }
 
         .site-header a {
             color: var(--blue);
             text-decoration: none;
-            font-size: 1.25rem;
+            font-size: 1rem;
             font-weight: bold;
-        }
-
-        .header-content, .main-container {
-            max-width: 100%;
-            box-sizing: border-box;
         }
 
         .main-container {
             display: flex;
             flex-direction: column;
-            max-width: 75rem;
+            max-width: 100%;
             margin: 1rem auto 0;
-            padding: 0 1rem;
+            padding: 0 0.5rem;
         }
 
         .table-of-contents {
             background-color: var(--bg3);
             padding: 0.9375rem;
             border-radius: 0.3125rem;
-            margin-bottom: 1.25rem;
+            margin-bottom: 1rem;
             width: 100%;
         }
 
@@ -227,7 +221,7 @@
 
         .content {
             background-color: var(--bg2);
-            padding: 1.25rem;
+            padding: 0.625rem;
             border-radius: 0.5rem;
         }
 
@@ -262,8 +256,21 @@
         @media (min-width: 48em) {
             html { font-size: 18px; }
 
+            body {
+                padding: 60px 0 0;
+            }
+
+            .site-header {
+                height: 60px;
+            }
+
+            .site-header a {
+                font-size: 1.25rem;
+            }
+
             .header-content, .main-container {
                 max-width: calc(15.625rem + 50rem);
+                padding: 0 1rem;
             }
 
             .main-container {
@@ -274,7 +281,7 @@
 
             .table-of-contents {
                 position: sticky;
-                top: 70px; /* 60px del header + 10px de espacio */
+                top: 70px;
                 height: calc(100vh - 70px);
                 overflow-y: auto;
                 width: 15.625rem;
@@ -285,7 +292,7 @@
             .content {
                 flex-grow: 1;
                 overflow-y: auto;
-                padding-right: 1.25rem;
+                padding: 1.25rem;
             }
         }
     </style>
