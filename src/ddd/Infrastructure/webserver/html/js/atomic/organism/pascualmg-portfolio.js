@@ -198,10 +198,10 @@ class PortfolioElement extends HTMLElement {
     "endDate": "2013-01-04",
     "projects": [
       {
-        "name": "Implementación de Sistema de Auditoría con Qlick",
+        "name": "Implementación de Sistema de Auditoría con Qlik",
         "role": "Analista y Desarrollador",
         "highlights": [
-          "Desarrollé e implementé un sistema de tracking usando Qlick",
+          "Desarrollé e implementé un sistema de tracking usando Qlik",
           "Diseñé un dashboard para monitorear en tiempo real las actividades de los operadores",
           "Establecí KPIs para medir la eficiencia y calidad del servicio al cliente"
         ],
