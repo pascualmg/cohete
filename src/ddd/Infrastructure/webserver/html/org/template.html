@@ -94,18 +94,58 @@
             line-height: 1.2;
         }
 
-        h1 { font-size: 1.8rem; background-color: var(--head1-bg); padding: 0.625rem; border-radius: 0.3125rem; }
-        h2 { font-size: 1.6rem; color: var(--head2); background-color: var(--head2-bg); padding: 0.5rem; border-radius: 0.25rem; }
-        h3 { font-size: 1.4rem; color: var(--head3); background-color: var(--head3-bg); padding: 0.375rem; border-radius: 0.1875rem; }
-        h4 { font-size: 1.2rem; color: var(--head4); background-color: var(--head4-bg); padding: 0.25rem; border-radius: 0.125rem; }
+        h1 {
+            font-size: 1.8rem;
+            background-color: var(--head1-bg);
+            padding: 0.625rem;
+            border-radius: 0.3125rem;
+        }
 
-        a { color: var(--blue); text-decoration: none; }
-        a:hover { text-decoration: underline; }
+        h2 {
+            font-size: 1.6rem;
+            color: var(--head2);
+            background-color: var(--head2-bg);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
 
-        p { margin-bottom: 1rem; }
+        h3 {
+            font-size: 1.4rem;
+            color: var(--head3);
+            background-color: var(--head3-bg);
+            padding: 0.375rem;
+            border-radius: 0.1875rem;
+        }
 
-        ul, ol { margin-bottom: 1rem; padding-left: 1.25rem; }
-        li { margin-bottom: 0.3125rem; }
+        h4 {
+            font-size: 1.2rem;
+            color: var(--head4);
+            background-color: var(--head4-bg);
+            padding: 0.25rem;
+            border-radius: 0.125rem;
+        }
+
+        a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 1.25rem;
+        }
+
+        li {
+            margin-bottom: 0.3125rem;
+        }
 
         code {
             color: var(--type);
@@ -147,29 +187,6 @@
             max-width: 100%;
             height: auto;
             margin-bottom: 1rem;
-        }
-
-        .site-header {
-            background-color: var(--bg2);
-            box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
-            padding: 0.3125rem 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            height: 50px;
-            width: 100%;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 100%;
-            margin: 0 auto;
-            padding: 0 0.5rem;
-            height: 100%;
         }
 
         .site-header a {
@@ -232,24 +249,69 @@
             padding: 0.625rem;
             font-size: 0.875rem;
             background-color: var(--bg3);
-            white-space: pre-wrap;
-            word-wrap: break-word;
+            white-space: pre;
+            word-wrap: normal;
         }
 
-        .sourceCode .kw { color: var(--keyword); }
-        .sourceCode .dt { color: var(--type); }
-        .sourceCode .dv, .sourceCode .bn, .sourceCode .fl { color: var(--const); }
-        .sourceCode .ch, .sourceCode .st { color: var(--str); }
-        .sourceCode .co, .sourceCode .do, .sourceCode .an, .sourceCode .cv, .sourceCode .in { color: var(--comment); font-style: italic; }
-        .sourceCode .ot, .sourceCode .fu, .sourceCode .ex { color: var(--func); }
-        .sourceCode .al, .sourceCode .er { color: var(--err); }
-        .sourceCode .va { color: var(--var); }
-        .sourceCode .cf { color: var(--keyword); }
-        .sourceCode .op, .sourceCode .bu { color: var(--base); }
-        .sourceCode .pp { color: var(--meta); }
-        .sourceCode .at { color: var(--var); }
+        pre code {
+            display: block;
+            overflow-x: auto;
+            padding: 1em;
+            background: none;
+            white-space: pre;
+            word-wrap: normal;
+        }
 
-        /* allways show this button */
+
+        .sourceCode .kw {
+            color: var(--keyword);
+        }
+
+        .sourceCode .dt {
+            color: var(--type);
+        }
+
+        .sourceCode .dv, .sourceCode .bn, .sourceCode .fl {
+            color: var(--const);
+        }
+
+        .sourceCode .ch, .sourceCode .st {
+            color: var(--str);
+        }
+
+        .sourceCode .co, .sourceCode .do, .sourceCode .an, .sourceCode .cv, .sourceCode .in {
+            color: var(--comment);
+            font-style: italic;
+        }
+
+        .sourceCode .ot, .sourceCode .fu, .sourceCode .ex {
+            color: var(--func);
+        }
+
+        .sourceCode .al, .sourceCode .er {
+            color: var(--err);
+        }
+
+        .sourceCode .va {
+            color: var(--var);
+        }
+
+        .sourceCode .cf {
+            color: var(--keyword);
+        }
+
+        .sourceCode .op, .sourceCode .bu {
+            color: var(--base);
+        }
+
+        .sourceCode .pp {
+            color: var(--meta);
+        }
+
+        .sourceCode .at {
+            color: var(--var);
+        }
+
         theme-toggler {
             position: fixed;
             bottom: 1rem;
@@ -258,23 +320,12 @@
         }
 
         @media (min-width: 48em) {
-            html { font-size: 18px; }
+            html {
+                font-size: 18px;
+            }
 
             body {
                 padding: 60px 0 0;
-            }
-
-            .site-header {
-                height: 60px;
-            }
-
-            .site-header a {
-                font-size: 1.25rem;
-            }
-
-            .header-content, .main-container {
-                max-width: calc(15.625rem + 50rem);
-                padding: 0 1rem;
             }
 
             .main-container {
@@ -304,7 +355,7 @@
     <script type="module" src="../../html/js/atomic/molecule/PortfolioHeader.js"></script>
 </head>
 <body>
-<portfolio-header> </portfolio-header>
+<portfolio-header></portfolio-header>
 <theme-toggler></theme-toggler>
 <div class="main-container">
     $if(toc)$

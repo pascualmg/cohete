@@ -26,12 +26,6 @@ class ThemeToggler extends HTMLElement {
     render() {
         this.shadowRoot.innerHTML = `
         <style>
-            :host {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                z-index: 2;
-            }
 
             button {
                 border-radius: 15px;
