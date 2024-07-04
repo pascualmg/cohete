@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$title$</title>
+    <style>
+        :root {
+            --act1: #222226;
+            --act2: #5d4d7a;
+            --base: #b2b2b2;
+            --base-dim: #686868;
+            --bg1: #292b2e;
+            --bg2: #212026;
+            --bg3: #100a14;
+            --bg4: #0a0814;
+            --bg-alt: #42444a;
+            --border: #5d4d7a;
+            --cblk: #cbc1d5;
+            --cblk-bg: #2f2b33;
+            --cblk-ln: #827591;
+            --cblk-ln-bg: #373040;
+            --cursor: #e3dedd;
+            --const: #a45bad;
+            --comment: #2aa1ae;
+            --comment-light: #2aa1ae;
+            --comment-bg: #292e34;
+            --comp: #c56ec3;
+            --err: #e0211d;
+            --func: #bc6ec5;
+            --head1: #4f97d7;
+            --head1-bg: #293239;
+            --head2: #2d9574;
+            --head2-bg: #293235;
+            --head3: #67b11d;
+            --head3-bg: #293235;
+            --head4: #b1951d;
+            --head4-bg: #32322c;
+            --highlight: #444155;
+            --highlight-dim: #3b314d;
+            --keyword: #4f97d7;
+            --lnum: #44505c;
+            --mat: #86dc2f;
+            --meta: #9f8766;
+            --str: #2d9574;
+            --suc: #86dc2f;
+            --ttip: #9a9aba;
+            --ttip-sl: #5e5079;
+            --ttip-bg: #34323e;
+            --type: #ce537a;
+            --var: #7590db;
+            --war: #dc752f;
+            --aqua: #2d9574;
+            --aqua-bg: #293235;
+            --green: #67b11d;
+            --green-bg: #293235;
+            --green-bg-s: #29422d;
+            --cyan: #28def0;
+            --red: #f2241f;
+            --red-bg: #3c2a2c;
+            --red-bg-s: #512e31;
+            --blue: #4f97d7;
+            --blue-bg: #293239;
+            --blue-bg-s: #2d4252;
+            --magenta: #a31db1;
+            --yellow: #b1951d;
+            --yellow-bg: #32322c;
+        }
+
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--bg1);
+            color: var(--base);
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            font-size: 1rem;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--head1);
+            font-weight: bold;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            background-color: var(--head1-bg);
+            padding: 0.625rem;
+            border-radius: 0.3125rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--head2);
+            background-color: var(--head2-bg);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--head3);
+            background-color: var(--head3-bg);
+            padding: 0.375rem;
+            border-radius: 0.1875rem;
+        }
+
+        h4 {
+            font-size: 1.25rem;
+            color: var(--head4);
+            background-color: var(--head4-bg);
+            padding: 0.25rem;
+            border-radius: 0.125rem;
+        }
+
+        a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 1.25rem;
+        }
+
+        li {
+            margin-bottom: 0.3125rem;
+        }
+
+        pre {
+            background-color: var(--bg3);
+            color: var(--cblk);
+            padding: 0.625rem;
+            border-radius: 0.3125rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+
+        code {
+            background-color: var(--blue-bg-s);
+            color: var(--type);
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.1875rem;
+            font-size: 0.875rem;
+        }
+
+        blockquote {
+            border-left: 0.25rem solid var(--green);
+            margin-left: 0;
+            padding-left: 0.625rem;
+            color: var(--comment);
+            font-style: italic;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.25rem;
+        }
+
+        th, td {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--bg2);
+            color: var(--base);
+            font-weight: bold;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg2);
+            padding: 0.625rem 1.25rem;
+            box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .fixed-header a {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            margin-top: 3.75rem;
+            padding: 1.25rem;
+            max-width: 75rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content {
+            background-color: var(--bg2);
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            max-width: 50rem;
+            width: 100%;
+            align-self: center;
+        }
+
+        .table-of-contents {
+            background-color: var(--bg3);
+            padding: 0.9375rem;
+            border-radius: 0.3125rem;
+            margin-bottom: 1.25rem;
+            width: 100%;
+            max-width: 50rem;
+            align-self: center;
+        }
+
+        .table-of-contents h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .table-of-contents ul {
+            list-style-type: none;
+            padding-left: 1.25rem;
+        }
+
+        .table-of-contents li {
+            margin-bottom: 0.3125rem;
+        }
+
+        .table-of-contents a {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 0.9375rem;
+        }
+
+        .table-of-contents a:hover {
+            text-decoration: underline;
+        }
+
+        @media (min-width: 48em) {
+            html {
+                font-size: 18px;
+            }
+
+            body {
+                overflow-y: hidden; /* Previene el scroll vertical en el body */
+            }
+
+            .main-container {
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: stretch;
+                height: calc(100vh - 3.75rem); /* Altura total menos el header */
+                overflow: hidden;
+            }
+
+            .table-of-contents {
+                position: sticky;
+                top: 3.75rem; /* Altura del header */
+                height: calc(100vh - 6rem);
+                overflow-y: auto;
+                width: 15.625rem;
+                margin-right: 1.25rem;
+                flex-shrink: 0;
+            }
+
+            .content {
+                flex-grow: 1;
+                overflow-y: auto;
+                height: 100%;
+                padding-right: 1.25rem; /* Añade un poco de padding a la derecha */
+            }
+        }
+
+        theme-toggler {
+            position: static;
+        }
+    </style>
+    <script type="module" src="../../html/js/atomic/organism/ThemeToogler.js"></script>
+</head>
+<body>
+<div class="fixed-header">
+    <a href="/" id="home-link">Pascualmg.dev</a>
+    <theme-toggler></theme-toggler>
+</div>
+
+<div class="main-container">
+    $if(toc)$
+    <nav class="table-of-contents">
+        <h2>Tabla de Contenidos</h2>
+        $toc$
+    </nav>
+    $endif$
+
+    <div class="content">
+        <header>
+            $if(title)$<h1>$title$</h1>$endif$
+            $for(author)$<p class="author">$author$</p>$endfor$
+            $if(date)$<p class="date">$date$</p>$endif$
+        </header>
+
+        $body$
+
+        <footer>
+            $if(author)$<p>Autor: $for(author)$$author$$sep$, $endfor$</p>$endif$
+            $if(date)$<p>Última actualización: $date$</p>$endif$
+        </footer>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const homeLink = document.getElementById('home-link');
+        const currentDomain = window.location.hostname;
+        if (currentDomain === 'localhost' || currentDomain === '127.0.0.1') {
+            homeLink.href = '/';
+        } else {
+            homeLink.href = 'https://' + currentDomain;
+        }
+    });
+
+    window.addEventListener('WebComponentsReady', function () {
+        const themeToggler = document.querySelector('theme-toggler');
+        if (themeToggler) {
+            console.log('ThemeToggler cargado y listo para usar');
+        }
+    });
+</script>
+</body>
+</html>

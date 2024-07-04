@@ -1,375 +1,683 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-<!-- 2024-06-04 Tue 16:12 -->
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>&lrm;</title>
-<meta name="author" content="Pascual M.G." />
-<meta name="generator" content="Org Mode" />
-<style type="text/css">
-  #content { max-width: 60em; margin: auto; }
-  .title  { text-align: center;
-             margin-bottom: .2em; }
-  .subtitle { text-align: center;
-              font-size: medium;
-              font-weight: bold;
-              margin-top:0; }
-  .todo   { font-family: monospace; color: red; }
-  .done   { font-family: monospace; color: green; }
-  .priority { font-family: monospace; color: orange; }
-  .tag    { background-color: #eee; font-family: monospace;
-            padding: 2px; font-size: 80%; font-weight: normal; }
-  .timestamp { color: #bebebe; }
-  .timestamp-kwd { color: #5f9ea0; }
-  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
-  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
-  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
-  .underline { text-decoration: underline; }
-  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
-  p.verse { margin-left: 3%; }
-  pre {
-    border: 1px solid #e6e6e6;
-    border-radius: 3px;
-    background-color: #f2f2f2;
-    padding: 8pt;
-    font-family: monospace;
-    overflow: auto;
-    margin: 1.2em;
-  }
-  pre.src {
-    position: relative;
-    overflow: auto;
-  }
-  pre.src:before {
-    display: none;
-    position: absolute;
-    top: -8px;
-    right: 12px;
-    padding: 3px;
-    color: #555;
-    background-color: #f2f2f299;
-  }
-  pre.src:hover:before { display: inline; margin-top: 14px;}
-  /* Languages per Org manual */
-  pre.src-asymptote:before { content: 'Asymptote'; }
-  pre.src-awk:before { content: 'Awk'; }
-  pre.src-authinfo::before { content: 'Authinfo'; }
-  pre.src-C:before { content: 'C'; }
-  /* pre.src-C++ doesn't work in CSS */
-  pre.src-clojure:before { content: 'Clojure'; }
-  pre.src-css:before { content: 'CSS'; }
-  pre.src-D:before { content: 'D'; }
-  pre.src-ditaa:before { content: 'ditaa'; }
-  pre.src-dot:before { content: 'Graphviz'; }
-  pre.src-calc:before { content: 'Emacs Calc'; }
-  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
-  pre.src-fortran:before { content: 'Fortran'; }
-  pre.src-gnuplot:before { content: 'gnuplot'; }
-  pre.src-haskell:before { content: 'Haskell'; }
-  pre.src-hledger:before { content: 'hledger'; }
-  pre.src-java:before { content: 'Java'; }
-  pre.src-js:before { content: 'Javascript'; }
-  pre.src-latex:before { content: 'LaTeX'; }
-  pre.src-ledger:before { content: 'Ledger'; }
-  pre.src-lisp:before { content: 'Lisp'; }
-  pre.src-lilypond:before { content: 'Lilypond'; }
-  pre.src-lua:before { content: 'Lua'; }
-  pre.src-matlab:before { content: 'MATLAB'; }
-  pre.src-mscgen:before { content: 'Mscgen'; }
-  pre.src-ocaml:before { content: 'Objective Caml'; }
-  pre.src-octave:before { content: 'Octave'; }
-  pre.src-org:before { content: 'Org mode'; }
-  pre.src-oz:before { content: 'OZ'; }
-  pre.src-plantuml:before { content: 'Plantuml'; }
-  pre.src-processing:before { content: 'Processing.js'; }
-  pre.src-python:before { content: 'Python'; }
-  pre.src-R:before { content: 'R'; }
-  pre.src-ruby:before { content: 'Ruby'; }
-  pre.src-sass:before { content: 'Sass'; }
-  pre.src-scheme:before { content: 'Scheme'; }
-  pre.src-screen:before { content: 'Gnu Screen'; }
-  pre.src-sed:before { content: 'Sed'; }
-  pre.src-sh:before { content: 'shell'; }
-  pre.src-sql:before { content: 'SQL'; }
-  pre.src-sqlite:before { content: 'SQLite'; }
-  /* additional languages in org.el's org-babel-load-languages alist */
-  pre.src-forth:before { content: 'Forth'; }
-  pre.src-io:before { content: 'IO'; }
-  pre.src-J:before { content: 'J'; }
-  pre.src-makefile:before { content: 'Makefile'; }
-  pre.src-maxima:before { content: 'Maxima'; }
-  pre.src-perl:before { content: 'Perl'; }
-  pre.src-picolisp:before { content: 'Pico Lisp'; }
-  pre.src-scala:before { content: 'Scala'; }
-  pre.src-shell:before { content: 'Shell Script'; }
-  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
-  /* additional language identifiers per "defun org-babel-execute"
-       in ob-*.el */
-  pre.src-cpp:before  { content: 'C++'; }
-  pre.src-abc:before  { content: 'ABC'; }
-  pre.src-coq:before  { content: 'Coq'; }
-  pre.src-groovy:before  { content: 'Groovy'; }
-  /* additional language identifiers from org-babel-shell-names in
-     ob-shell.el: ob-shell is the only babel language using a lambda to put
-     the execution function name together. */
-  pre.src-bash:before  { content: 'bash'; }
-  pre.src-csh:before  { content: 'csh'; }
-  pre.src-ash:before  { content: 'ash'; }
-  pre.src-dash:before  { content: 'dash'; }
-  pre.src-ksh:before  { content: 'ksh'; }
-  pre.src-mksh:before  { content: 'mksh'; }
-  pre.src-posh:before  { content: 'posh'; }
-  /* Additional Emacs modes also supported by the LaTeX listings package */
-  pre.src-ada:before { content: 'Ada'; }
-  pre.src-asm:before { content: 'Assembler'; }
-  pre.src-caml:before { content: 'Caml'; }
-  pre.src-delphi:before { content: 'Delphi'; }
-  pre.src-html:before { content: 'HTML'; }
-  pre.src-idl:before { content: 'IDL'; }
-  pre.src-mercury:before { content: 'Mercury'; }
-  pre.src-metapost:before { content: 'MetaPost'; }
-  pre.src-modula-2:before { content: 'Modula-2'; }
-  pre.src-pascal:before { content: 'Pascal'; }
-  pre.src-ps:before { content: 'PostScript'; }
-  pre.src-prolog:before { content: 'Prolog'; }
-  pre.src-simula:before { content: 'Simula'; }
-  pre.src-tcl:before { content: 'tcl'; }
-  pre.src-tex:before { content: 'TeX'; }
-  pre.src-plain-tex:before { content: 'Plain TeX'; }
-  pre.src-verilog:before { content: 'Verilog'; }
-  pre.src-vhdl:before { content: 'VHDL'; }
-  pre.src-xml:before { content: 'XML'; }
-  pre.src-nxml:before { content: 'XML'; }
-  /* add a generic configuration mode; LaTeX export needs an additional
-     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
-  pre.src-conf:before { content: 'Configuration File'; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El tema del tema: Manejo de colores en Web Components</title>
+    <style>
+        :root {
+            --act1: #222226;
+            --act2: #5d4d7a;
+            --base: #b2b2b2;
+            --base-dim: #686868;
+            --bg1: #292b2e;
+            --bg2: #212026;
+            --bg3: #100a14;
+            --bg4: #0a0814;
+            --bg-alt: #42444a;
+            --border: #5d4d7a;
+            --cblk: #cbc1d5;
+            --cblk-bg: #2f2b33;
+            --cblk-ln: #827591;
+            --cblk-ln-bg: #373040;
+            --cursor: #e3dedd;
+            --const: #a45bad;
+            --comment: #2aa1ae;
+            --comment-light: #2aa1ae;
+            --comment-bg: #292e34;
+            --comp: #c56ec3;
+            --err: #e0211d;
+            --func: #bc6ec5;
+            --head1: #4f97d7;
+            --head1-bg: #293239;
+            --head2: #2d9574;
+            --head2-bg: #293235;
+            --head3: #67b11d;
+            --head3-bg: #293235;
+            --head4: #b1951d;
+            --head4-bg: #32322c;
+            --highlight: #444155;
+            --highlight-dim: #3b314d;
+            --keyword: #4f97d7;
+            --lnum: #44505c;
+            --mat: #86dc2f;
+            --meta: #9f8766;
+            --str: #2d9574;
+            --suc: #86dc2f;
+            --ttip: #9a9aba;
+            --ttip-sl: #5e5079;
+            --ttip-bg: #34323e;
+            --type: #ce537a;
+            --var: #7590db;
+            --war: #dc752f;
+            --aqua: #2d9574;
+            --aqua-bg: #293235;
+            --green: #67b11d;
+            --green-bg: #293235;
+            --green-bg-s: #29422d;
+            --cyan: #28def0;
+            --red: #f2241f;
+            --red-bg: #3c2a2c;
+            --red-bg-s: #512e31;
+            --blue: #4f97d7;
+            --blue-bg: #293239;
+            --blue-bg-s: #2d4252;
+            --magenta: #a31db1;
+            --yellow: #b1951d;
+            --yellow-bg: #32322c;
+        }
 
-  table { border-collapse:collapse; }
-  caption.t-above { caption-side: top; }
-  caption.t-bottom { caption-side: bottom; }
-  td, th { vertical-align:top;  }
-  th.org-right  { text-align: center;  }
-  th.org-left   { text-align: center;   }
-  th.org-center { text-align: center; }
-  td.org-right  { text-align: right;  }
-  td.org-left   { text-align: left;   }
-  td.org-center { text-align: center; }
-  dt { font-weight: bold; }
-  .footpara { display: inline; }
-  .footdef  { margin-bottom: 1em; }
-  .figure { padding: 1em; }
-  .figure p { text-align: center; }
-  .equation-container {
-    display: table;
-    text-align: center;
-    width: 100%;
-  }
-  .equation {
-    vertical-align: middle;
-  }
-  .equation-label {
-    display: table-cell;
-    text-align: right;
-    vertical-align: middle;
-  }
-  .inlinetask {
-    padding: 10px;
-    border: 2px solid gray;
-    margin: 10px;
-    background: #ffffcc;
-  }
-  #org-div-home-and-up
-   { text-align: right; font-size: 70%; white-space: nowrap; }
-  textarea { overflow-x: auto; }
-  .linenr { font-size: smaller }
-  .code-highlighted { background-color: #ffff00; }
-  .org-info-js_info-navigation { border-style: none; }
-  #org-info-js_console-label
-    { font-size: 10px; font-weight: bold; white-space: nowrap; }
-  .org-info-js_search-highlight
-    { background-color: #ffff00; color: #000000; font-weight: bold; }
-  .org-svg { }
-</style>
-<link rel="stylesheet" type="text/css" href="spacemacs.css">
+        html {
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--bg1);
+            color: var(--base);
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            font-size: 1rem;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--head1);
+            font-weight: bold;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            background-color: var(--head1-bg);
+            padding: 0.625rem;
+            border-radius: 0.3125rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: var(--head2);
+            background-color: var(--head2-bg);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            color: var(--head3);
+            background-color: var(--head3-bg);
+            padding: 0.375rem;
+            border-radius: 0.1875rem;
+        }
+
+        h4 {
+            font-size: 1.25rem;
+            color: var(--head4);
+            background-color: var(--head4-bg);
+            padding: 0.25rem;
+            border-radius: 0.125rem;
+        }
+
+        a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 1.25rem;
+        }
+
+        li {
+            margin-bottom: 0.3125rem;
+        }
+
+        pre {
+            background-color: var(--bg3);
+            color: var(--cblk);
+            padding: 0.625rem;
+            border-radius: 0.3125rem;
+            overflow-x: auto;
+            font-size: 0.875rem;
+        }
+
+        code {
+            background-color: var(--blue-bg-s);
+            color: var(--type);
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.1875rem;
+            font-size: 0.875rem;
+        }
+
+        blockquote {
+            border-left: 0.25rem solid var(--green);
+            margin-left: 0;
+            padding-left: 0.625rem;
+            color: var(--comment);
+            font-style: italic;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.25rem;
+        }
+
+        th, td {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+        }
+
+        th {
+            background-color: var(--bg2);
+            color: var(--base);
+            font-weight: bold;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg2);
+            padding: 0.625rem 1.25rem;
+            box-shadow: 0 0.125rem 0.3125rem rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .fixed-header a {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            margin-top: 3.75rem;
+            padding: 1.25rem;
+            max-width: 75rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content {
+            background-color: var(--bg2);
+            padding: 1.25rem;
+            border-radius: 0.5rem;
+            max-width: 50rem;
+            width: 100%;
+            align-self: center;
+        }
+
+        .table-of-contents {
+            background-color: var(--bg3);
+            padding: 0.9375rem;
+            border-radius: 0.3125rem;
+            margin-bottom: 1.25rem;
+            width: 100%;
+            max-width: 50rem;
+            align-self: center;
+        }
+
+        .table-of-contents h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .table-of-contents ul {
+            list-style-type: none;
+            padding-left: 1.25rem;
+        }
+
+        .table-of-contents li {
+            margin-bottom: 0.3125rem;
+        }
+
+        .table-of-contents a {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 0.9375rem;
+        }
+
+        .table-of-contents a:hover {
+            text-decoration: underline;
+        }
+
+        @media (min-width: 48em) {
+            html {
+                font-size: 18px;
+            }
+
+            body {
+                overflow-y: hidden; /* Previene el scroll vertical en el body */
+            }
+
+            .main-container {
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: stretch;
+                height: calc(100vh - 3.75rem); /* Altura total menos el header */
+                overflow: hidden;
+            }
+
+            .table-of-contents {
+                position: sticky;
+                top: 3.75rem; /* Altura del header */
+                height: calc(100vh - 6rem);
+                overflow-y: auto;
+                width: 15.625rem;
+                margin-right: 1.25rem;
+                flex-shrink: 0;
+            }
+
+            .content {
+                flex-grow: 1;
+                overflow-y: auto;
+                height: 100%;
+                padding-right: 1.25rem; /* Añade un poco de padding a la derecha */
+            }
+        }
+
+        theme-toggler {
+            position: static;
+        }
+    </style>
+    <script type="module" src="../../html/js/atomic/organism/ThemeToogler.js"></script>
 </head>
 <body>
-<div id="content" class="content">
-<div id="table-of-contents" role="doc-toc">
-<h2>Table of Contents</h2>
-<div id="text-table-of-contents" role="doc-toc">
-<ul>
-<li><a href="#org41949c9">1. El tema del tema</a>
-<ul>
-<li><a href="#org02589b7">1.1. El problema</a></li>
-<li><a href="#org838b215">1.2. La solución</a></li>
-<li><a href="#orgde72bf8">1.3. Ahora que sabemos como hacerlo , que colores usamos ?</a>
-<ul>
-<li><a href="#org25bd53d">1.3.1. <span class="todo TODO">TODO</span> IA al rescate</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
+<div class="fixed-header">
+    <a href="/" id="home-link">Pascualmg.dev</a>
+    <theme-toggler></theme-toggler>
 </div>
 
-<div id="outline-container-org41949c9" class="outline-2">
-<h2 id="org41949c9"><span class="section-number-2">1.</span> El tema del tema</h2>
-<div class="outline-text-2" id="text-1">
-<p>
-Siempre he visto que era un verdadero quebradero de cabeza , el mantener un tema de colores para una web , en mi caso como no uso ningún framework web, sino que estoy usando custom web components he ideado una forma a mi entender bastante sencilla que para el problema que se prentende solucionar, usando unicamente las capacidades del propio navegador . 
-</p>
+<div class="main-container">
+        <nav class="table-of-contents">
+        <h2>Tabla de Contenidos</h2>
+        <ul>
+        <li><a
+        href="#el-tema-del-tema-un-viaje-por-el-mundo-de-los-colores-en-web-components"
+        id="toc-el-tema-del-tema-un-viaje-por-el-mundo-de-los-colores-en-web-components">El
+        tema del tema: Un viaje por el mundo de los colores en Web
+        Components</a>
+        <ul>
+        <li><a href="#el-problema-cuando-los-colores-se-vuelven-un-caos"
+        id="toc-el-problema-cuando-los-colores-se-vuelven-un-caos">El
+        problema: Cuando los colores se vuelven un caos</a></li>
+        <li><a
+        href="#la-solución-simpleza-y-elegancia-con-web-components"
+        id="toc-la-solución-simpleza-y-elegancia-con-web-components">La
+        solución: Simpleza y elegancia con Web Components</a></li>
+        <li><a href="#las-ventajas-por-qué-esto-mola-tanto"
+        id="toc-las-ventajas-por-qué-esto-mola-tanto">Las ventajas: ¿Por
+        qué esto mola tanto?</a></li>
+        <li><a href="#reflexiones-finales-el-poder-de-pensar-diferente"
+        id="toc-reflexiones-finales-el-poder-de-pensar-diferente">Reflexiones
+        finales: El poder de pensar diferente</a></li>
+        <li><a href="#próximos-pasos" id="toc-próximos-pasos"><span
+        class="todo TODO">TODO</span> Próximos pasos</a></li>
+        </ul></li>
+        <li><a
+        href="#reutilización-de-componentes-web-la-magia-del-themetoggler-en-este-mismo-post-que-estas-leyendo"
+        id="toc-reutilización-de-componentes-web-la-magia-del-themetoggler-en-este-mismo-post-que-estas-leyendo">Reutilización
+        de componentes web: La magia del ThemeToggler en este mismo post
+        que estas leyendo</a>
+        <ul>
+        <li><a href="#cómo-lo-he-integrado"
+        id="toc-cómo-lo-he-integrado">Cómo lo he integrado ?</a></li>
+        <li><a href="#por-qué-es-esto-tan-genial"
+        id="toc-por-qué-es-esto-tan-genial">¿Por qué es esto tan
+        genial?</a></li>
+        <li><a href="#con-que-motivación"
+        id="toc-con-que-motivación">¿Con que motivación?</a></li>
+        <li><a href="#conclusión"
+        id="toc-conclusión">Conclusión</a></li>
+        </ul></li>
+        </ul>
+    </nav>
+    
+    <div class="content">
+        <header>
+            <h1>El tema del tema: Manejo de colores en Web
+Components</h1>
+            <p class="author">Pascual M.G.</p>
+            <p class="date">&lt;2024-07-04 Thu&gt;</p>
+        </header>
+
+        <h1
+        id="el-tema-del-tema-un-viaje-por-el-mundo-de-los-colores-en-web-components">El
+        tema del tema: Un viaje por el mundo de los colores en Web
+        Components</h1>
+        <p>¡Hola, compañeros desarrolladores! ¿Alguna vez os habéis
+        encontrado luchando con la gestión de temas de colores en
+        vuestros proyectos web? Si es así, ¡no estáis solos! Este
+        quebradero de cabeza es tan común como frustrante. Pero no
+        temáis, porque hoy vamos a sumergirnos en una solución que,
+        aunque simple, es sorprendentemente efectiva.</p>
+        <h2 id="el-problema-cuando-los-colores-se-vuelven-un-caos">El
+        problema: Cuando los colores se vuelven un caos</h2>
+        <p>Imaginad que estáis construyendo una aplicación web compleja.
+        Tenéis decenas, quizás cientos de componentes. Botones,
+        formularios, paneles, modales… y todos necesitan seguir un
+        esquema de colores coherente. Ahora, añadid a eso la necesidad
+        de tener múltiples temas (modo claro, modo oscuro, ¡tal vez
+        incluso un modo "disco" para los viernes por la noche!). De
+        repente, lo que parecía un simple juego de colores se convierte
+        en un problema logístico de proporciones épicas.</p>
+        <p>Tradicionalmente, muchos desarrolladores han recurrido a
+        soluciones como:</p>
+        <ol>
+        <li>Clases CSS gigantes que definen cada color para cada
+        elemento.</li>
+        <li>Preprocesadores CSS con variables que se compilan en
+        diferentes hojas de estilo.</li>
+        <li>Bibliotecas de JavaScript que manipulan dinámicamente los
+        estilos.</li>
+        </ol>
+        <p>Pero cada una de estas soluciones tiene sus propios
+        problemas. Las clases CSS se vuelven inmanejables, los
+        preprocesadores requieren una compilación adicional, y las
+        bibliotecas de JavaScript pueden ser pesadas y afectar el
+        rendimiento.</p>
+        <h2 id="la-solución-simpleza-y-elegancia-con-web-components">La
+        solución: Simpleza y elegancia con Web Components</h2>
+        <p>Entonces, ¿qué hacemos? Bueno, en mi caso, como estoy usando
+        Web Components personalizados (porque soy un poco rebelde y me
+        gusta hacer las cosas a mi manera), se me ocurrió una idea: ¿Y
+        si usamos las propias capacidades del navegador para manejar
+        nuestros temas?</p>
+        <p>Así nació mi solución, que se basa en tres principios
+        simples:</p>
+        <ol>
+        <li>Un componente "cerebro" que define todas las variables de
+        color.</li>
+        <li>Variables CSS a nivel :root que todos los componentes pueden
+        usar.</li>
+        <li>Componentes individuales que son "agnósticos" respecto al
+        color real que están usando.</li>
+        </ol>
+        <p>Suena simple, ¿verdad? Pero como dicen, la belleza está en la
+        simplicidad. Veamos cómo funciona esto en la práctica.</p>
+        <h3 id="el-componente-cerebro-themeswitcher">El componente
+        "cerebro": ThemeSwitcher</h3>
+        <p>Este es el corazón de nuestra solución. Es un Web Component
+        que se encarga de definir y aplicar nuestro tema de colores.
+        Aquí tenéis un vistazo rápido a cómo podría verse:</p>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ThemeSwitcher <span class="kw">extends</span> <span class="bu">HTMLElement</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>() {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span>()<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">themes</span> <span class="op">=</span> {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;light&#39;</span><span class="op">:</span> {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;--primary-color&#39;</span><span class="op">:</span> <span class="st">&#39;#4a90e2&#39;</span><span class="op">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;--background-color&#39;</span><span class="op">:</span> <span class="st">&#39;#f4f4f4&#39;</span><span class="op">,</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                <span class="co">// ... más colores ...</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>            }<span class="op">,</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;dark&#39;</span><span class="op">:</span> {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;--primary-color&#39;</span><span class="op">:</span> <span class="st">&#39;#bb86fc&#39;</span><span class="op">,</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;--background-color&#39;</span><span class="op">:</span> <span class="st">&#39;#121212&#39;</span><span class="op">,</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                <span class="co">// ... más colores ...</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">connectedCallback</span>() {</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">applyTheme</span>(<span class="st">&#39;light&#39;</span>)<span class="op">;</span> <span class="co">// Tema por defecto</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">applyTheme</span>(themeName) {</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> theme <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">themes</span>[themeName]<span class="op">;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="bu">Object</span><span class="op">.</span><span class="fu">entries</span>(theme)<span class="op">.</span><span class="fu">forEach</span>(([property<span class="op">,</span> value]) <span class="kw">=&gt;</span> {</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>            <span class="bu">document</span><span class="op">.</span><span class="at">documentElement</span><span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="fu">setProperty</span>(property<span class="op">,</span> value)<span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        })<span class="op">;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>customElements<span class="op">.</span><span class="fu">define</span>(<span class="st">&#39;theme-switcher&#39;</span><span class="op">,</span> ThemeSwitcher)<span class="op">;</span></span></code></pre></div>
+        <p>Este componente hace algo muy simple pero poderoso: define
+        nuestros temas como objetos JavaScript y luego aplica esos temas
+        estableciendo variables CSS en el elemento raíz del
+        documento.</p>
+        <h3
+        id="los-componentes-agnósticos-usando-las-variables-de-color">Los
+        componentes "agnósticos": Usando las variables de color</h3>
+        <p>Ahora, ¿cómo usan nuestros otros componentes estos colores?
+        Fácil, simplemente hacen referencia a las variables CSS. Por
+        ejemplo, un componente de botón podría verse así:</p>
+        <div class="sourceCode" id="cb2"><pre
+        class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MyButton <span class="kw">extends</span> <span class="bu">HTMLElement</span> {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">constructor</span>() {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">super</span>()<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">attachShadow</span>({<span class="dt">mode</span><span class="op">:</span> <span class="st">&#39;open&#39;</span>})<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">shadowRoot</span><span class="op">.</span><span class="at">innerHTML</span> <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;style&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="vs">                button {</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="vs">                    background-color: var(--primary-color);</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="vs">                    color: var(--text-color);</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="vs">                    border: none;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="vs">                    padding: 10px 20px;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="vs">                    cursor: pointer;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="vs">                }</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;/style&gt;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;button&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/button&gt;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="vs">        `</span><span class="op">;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>customElements<span class="op">.</span><span class="fu">define</span>(<span class="st">&#39;my-button&#39;</span><span class="op">,</span> MyButton)<span class="op">;</span></span></code></pre></div>
+        <p>¿Veis cómo el botón no sabe realmente qué color es
+        "–primary-color"? Solo sabe que debe usarlo para su fondo. Esto
+        es lo que quiero decir con "agnóstico de color".</p>
+        <h3 id="poniendo-todo-junto">Poniendo todo junto</h3>
+        <p>Ahora, en nuestro HTML, podríamos tener algo así:</p>
+        <div class="sourceCode" id="cb3"><pre
+        class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">html</span><span class="ot"> lang</span><span class="op">=</span><span class="st">&quot;es&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">meta</span><span class="ot"> charset</span><span class="op">=</span><span class="st">&quot;UTF-8&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">title</span><span class="dt">&gt;</span>Mi Aplicación Temática<span class="dt">&lt;/</span><span class="kw">title</span><span class="dt">&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> type=</span><span class="st">&quot;module&quot;</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;theme-switcher.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> type=</span><span class="st">&quot;module&quot;</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;my-button.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">theme-switcher</span><span class="ot"> id</span><span class="op">=</span><span class="st">&quot;themeSwitcher&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">theme-switcher</span><span class="dt">&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">my-button</span><span class="dt">&gt;</span>¡Haz clic!<span class="dt">&lt;/</span><span class="kw">my-button</span><span class="dt">&gt;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> switcher <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;themeSwitcher&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Cambiamos al tema oscuro</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        switcher<span class="op">.</span><span class="fu">applyTheme</span>(<span class="st">&#39;dark&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span></code></pre></div>
+        <p>Y voilà! Tenemos una aplicación con temas cambiables, sin
+        necesidad de CSS gigante, sin preprocesadores, y sin bibliotecas
+        pesadas de JavaScript.</p>
+        <h2 id="las-ventajas-por-qué-esto-mola-tanto">Las ventajas: ¿Por
+        qué esto mola tanto?</h2>
+        <ol>
+        <li><strong>Rendimiento</strong>: Las variables CSS son rápidas.
+        Muy rápidas. Cambiar el tema es prácticamente instantáneo.</li>
+        <li><strong>Mantenibilidad</strong>: Todos los colores están
+        definidos en un solo lugar. ¿Necesitas cambiar un color? Solo
+        tienes que hacerlo una vez.</li>
+        <li><strong>Flexibilidad</strong>: Añadir nuevos temas es tan
+        simple como añadir un nuevo objeto al componente
+        ThemeSwitcher.</li>
+        <li><strong>Compatibilidad</strong>: Esto funciona con cualquier
+        framework (o sin framework). Los Web Components son estándar
+        web.</li>
+        <li><strong>Escalabilidad</strong>: Ya tengas 10 o 1000
+        componentes, el sistema funciona igual de bien.</li>
+        </ol>
+        <h2
+        id="reflexiones-finales-el-poder-de-pensar-diferente">Reflexiones
+        finales: El poder de pensar diferente</h2>
+        <p>Lo que me encanta de esta solución es cómo toma algo que
+        tradicionalmente se ha visto como un problema de CSS y lo
+        convierte en un problema de componentes. Es un cambio de
+        perspectiva que abre nuevas posibilidades.</p>
+        <p>Y lo mejor es que esto es solo el principio. Podrías expandir
+        este concepto para manejar no solo colores, sino también
+        tipografía, espaciado, o incluso animaciones. El cielo es el
+        límite cuando empiezas a pensar en términos de componentes y
+        propiedades dinámicas.</p>
+        <p>Así que la próxima vez que os enfrentéis a un problema que
+        parece complicado, recordad: a veces, la solución más elegante
+        es también la más simple. No tengáis miedo de cuestionar las
+        convenciones y buscar nuevas formas de abordar viejos
+        problemas.</p>
+        <p>Y ahora, ¡a por ese modo "disco" para los viernes por la
+        noche! 🕺💃</p>
+        <h2 id="próximos-pasos"><span class="todo TODO">TODO</span>
+        Próximos pasos</h2>
+        <ul>
+        <li>Implementar una interfaz de usuario para cambiar temas</li>
+        <li>Explorar cómo manejar preferencias de usuario (por ejemplo,
+        guardar el tema preferido en localStorage)</li>
+        <li>Investigar cómo esta técnica podría aplicarse a otros
+        aspectos del diseño, como la tipografía o el espaciado</li>
+        </ul>
+        <p>¿Qué opináis de esta aproximación? ¿Habéis usado técnicas
+        similares en vuestros proyectos? ¡Me encantaría escuchar
+        vuestras experiencias y pensamientos en los comentarios!</p>
+        <h1
+        id="reutilización-de-componentes-web-la-magia-del-themetoggler-en-este-mismo-post-que-estas-leyendo">Reutilización
+        de componentes web: La magia del ThemeToggler en este mismo post
+        que estas leyendo</h1>
+        <p>¡Y aquí es donde la magia realmente sucede! Después de todo
+        nuestro trabajo en la plantilla y el diseño, hemos logrado algo
+        verdaderamente emocionante: la integración perfecta de nuestro
+        componente ThemeToggler en la plantilla generada por Pandoc. Os
+        voy a contar cómo llegamos aquí y por qué esto es tan genial.
+        Hasta ahora la plantilla de Pandoc tenia un tema "fijo" ahora
+        eso ha cambiado, ahora el tema es dinámico y se puede cambiar en
+        tiempo real. Puedes verlo y probarlo en la parte superior
+        derecha de esta página , y a partir de ahora en toda la SPA de
+        este blog.</p>
+        <h2 id="cómo-lo-he-integrado">Cómo lo he integrado ?</h2>
+        <ol>
+        <li><p><strong>Creación del componente</strong>: Primero,
+        desarrollamos nuestro ThemeToggler como un Web Component
+        independiente. Este componente encapsula toda la lógica para
+        cambiar entre temas de color. <a
+        href="https://github.com/pascualmg/cohete/blob/main/src/ddd/Infrastructure/webserver/html/js/atomic/organism/ThemeToogler.js">https://github.com/pascualmg/cohete/blob/main/src/ddd/Infrastructure/webserver/html/js/atomic/organism/ThemeToogler.js</a></p></li>
+        <li><p><strong>Diseño de la plantilla</strong>: Luego, diseñamos
+        nuestra plantilla HTML para Pandoc, incluyendo un espacio para
+        nuestro ThemeToggler en el header fijo.</p></li>
+        <li><p><strong>Importación del componente</strong>: En la
+        plantilla, añadimos una línea para importar nuestro
+        ThemeToggler:</p>
+        <div class="sourceCode" id="cb4"><pre
+        class="sourceCode html"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> type=</span><span class="st">&quot;module&quot;</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;../../html/js/atomic/organism/ThemeToogler.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span></code></pre></div></li>
+        <li><p><strong>Uso del componente</strong>: Colocamos la
+        etiqueta del componente en nuestra plantilla:</p>
+        <div class="sourceCode" id="cb5"><pre
+        class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">theme-toggler</span><span class="dt">&gt;&lt;/</span><span class="kw">theme-toggler</span><span class="dt">&gt;</span></span></code></pre></div></li>
+        <li><p><strong>Generación del HTML</strong>: Finalmente, usamos
+        Pandoc para generar nuestro HTML final:</p>
+        <div class="sourceCode" id="cb6"><pre
+        class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> <span class="at">--template</span><span class="op">=</span>/home/passh/src/php/cohete/src/ddd/Infrastructure/webserver/html/org/template.html <span class="at">--toc</span> <span class="at">--toc-depth</span><span class="op">=</span>2 eltemadeltema.org <span class="at">-o</span> eltemadeltema.html</span></code></pre></div></li>
+        </ol>
+        <h2 id="por-qué-es-esto-tan-genial">¿Por qué es esto tan
+        genial?</h2>
+        <ol>
+        <li><p><strong>Reutilización de código</strong>: Estamos
+        reutilizando nuestro ThemeToggler en múltiples páginas sin tener
+        que copiar y pegar código.</p></li>
+        <li><p><strong>Encapsulación</strong>: Toda la lógica del cambio
+        de tema está contenida en el componente, manteniendo nuestra
+        plantilla limpia y fácil de mantener.</p></li>
+        <li><p><strong>Nativo y ligero</strong>: Al usar Web Components
+        nativos, no dependemos de frameworks pesados. Esto hace que
+        nuestras páginas sean más rápidas y eficientes.</p></li>
+        <li><p><strong>Compatibilidad</strong>: Los Web Components son
+        compatibles con la mayoría de los navegadores modernos, lo que
+        significa que nuestro ThemeToggler funcionará en casi cualquier
+        lugar.</p></li>
+        <li><p><strong>Flexibilidad</strong>: Podemos fácilmente
+        actualizar o modificar el ThemeToggler sin tener que tocar el
+        resto de nuestra plantilla o contenido.</p></li>
+        </ol>
+        <h2 id="con-que-motivación">¿Con que motivación?</h2>
+        <p>Mientras trabajaba en el diseño de la plantilla, me di cuenta
+        de que quería algo que:</p>
+        <ol>
+        <li>Fuera fácil de integrar en cualquier página.</li>
+        <li>No dependiera de un framework específico.</li>
+        <li>Pudiera manejar su propio estado y lógica.</li>
+        </ol>
+        <p>Los Web Components ofrecen todas estas ventajas. Además, al
+        ser una tecnología nativa del navegador, se alinean
+        perfectamente con mi filosofía de mantener las cosas simples y
+        eficientes.</p>
+        <p>La verdadera revelación vino cuando me di cuenta de que podía
+        incluir este componente directamente en mi plantilla de Pandoc.
+        Esto significa que cada vez que genero una nueva página de mi
+        blog, automáticamente tiene la funcionalidad de cambio de tema,
+        sin necesidad de código adicional.</p>
+        <h2 id="conclusión">Conclusión</h2>
+        <p>Esta integración demuestra el poder de pensar en componentes
+        y de utilizar tecnologías web nativas. No solo hemos creado una
+        solución elegante para el cambio de temas, sino que también
+        hemos establecido un patrón que podemos seguir para futuros
+        componentes.</p>
+        <p>Imaginad las posibilidades: podríamos crear componentes para
+        comentarios, para compartir en redes sociales, para
+        visualización de datos, y más. Todos estos podrían integrarse
+        fácilmente en nuestra plantilla Pandoc, permitiéndonos crear
+        páginas ricas en funcionalidades con un esfuerzo mínimo.</p>
+        <p>Este enfoque nos permite mantener la simplicidad y eficiencia
+        de Markdown y Pandoc para el contenido, mientras aprovechamos
+        toda la potencia de los Web Components para funcionalidades
+        avanzadas. Es lo mejor de ambos mundos, y personalmente, estoy
+        emocionado por explorar más esta dirección en el futuro.</p>
+        <p>¿Qué opináis? ¿Veis otras formas en las que podríamos
+        aprovechar los Web Components en nuestro flujo de trabajo con
+        Pandoc?</p>
+
+        <footer>
+            <p>Autor: Pascual M.G.</p>
+            <p>Última actualización: &lt;2024-07-04 Thu&gt;</p>
+        </footer>
+    </div>
 </div>
 
-<div id="outline-container-org02589b7" class="outline-3">
-<h3 id="org02589b7"><span class="section-number-3">1.1.</span> El problema</h3>
-<div class="outline-text-3" id="text-1-1">
-<p>
-Al organizar el código siguiendo la metodología atomic
-</p>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const homeLink = document.getElementById('home-link');
+        const currentDomain = window.location.hostname;
+        if (currentDomain === 'localhost' || currentDomain === '127.0.0.1') {
+            homeLink.href = '/';
+        } else {
+            homeLink.href = 'https://' + currentDomain;
+        }
+    });
 
-<ul class="org-ul">
-<li>Organism</li>
-<li>Molecule</li>
-<li>Atom</li>
-</ul>
-
-<p>
-Siendo esta una organización jerárquica, se hace patente , que si cada uno de los componentes es responsable de su estilo, este tiene que ser coherente y comun a todos ellos.
-p
-</p>
-</div>
-</div>
-<div id="outline-container-org838b215" class="outline-3">
-<h3 id="org838b215"><span class="section-number-3">1.2.</span> La solución</h3>
-<div class="outline-text-3" id="text-1-2">
-<p>
-Para conseguir esto , he pensado en  hacerlo también con un componente , un organismo concretamente. Estableciendo de forma global en <b><b>:root</b></b>  js las variables de color , siendo cada componente el que , si quiere haga uso de ella , permaneciendo el valor HEX del mismo agnóstico dentro del mismo componente.
-</p>
-
-<p>
-Si, quizá estés pensando , en que entonces todos los componentes , tienen que conocer el nombre de las variables del tema, eso es correcto pero solo si estos quieren usarlo. La ventaja es que aqui el framework es el propio navegador , el que se encargará de cambiar los colores automáticamente con solo cambiar el valor de la propiedad del componente del tema. Magia sí! pero blanca.
-</p>
-</div>
-</div>
-
-<div id="outline-container-orgde72bf8" class="outline-3">
-<h3 id="orgde72bf8"><span class="section-number-3">1.3.</span> Ahora que sabemos como hacerlo , que colores usamos ?</h3>
-<div class="outline-text-3" id="text-1-3">
-<p>
-creo que los mas chulos , los del tema de  <a href="https://github.com/nashamri/spacemacs-theme">spacemacs</a> 😎 , concretamente el tema dark que es una delicia (dejadle una 🌟! se lo merece)  y por supuesto los que no pueden faltar , los solarized <a href="https://ethanschoonover.com/solarized/">solarized</a>.
-</p>
-</div>
-
-<div id="outline-container-org25bd53d" class="outline-4">
-<h4 id="org25bd53d"><span class="section-number-4">1.3.1.</span> <span class="todo TODO">TODO</span> IA al rescate</h4>
-<div class="outline-text-4" id="text-1-3-1">
-<p>
-Extraer el esquema de colores de una función en lisp es algo muy tedioso para un humano , aqui es donde un LLM nos puede sacar del apuro no sin antes pelearse un poco con el claro.
-</p>
-
-<div class="org-src-container">
-<pre class="src src-json">{
-  <span style="color: #51afef;">"dark"</span>: {
-    <span style="color: #51afef;">"act1"</span>: <span style="color: #98be65;">"#222226"</span>,
-    <span style="color: #51afef;">"act2"</span>: <span style="color: #98be65;">"#5d4d7a"</span>,
-    <span style="color: #51afef;">"base"</span>: <span style="color: #98be65;">"#b2b2b2"</span>,
-    <span style="color: #51afef;">"base-dim"</span>: <span style="color: #98be65;">"#686868"</span>,
-    <span style="color: #51afef;">"bg1"</span>: <span style="color: #98be65;">"#292b2e"</span>,
-    <span style="color: #51afef;">"bg2"</span>: <span style="color: #98be65;">"#212026"</span>,
-    <span style="color: #51afef;">"bg3"</span>: <span style="color: #98be65;">"#100a14"</span>,
-    <span style="color: #51afef;">"bg4"</span>: <span style="color: #98be65;">"#0a0814"</span>,
-    <span style="color: #51afef;">"bg-alt"</span>: <span style="color: #98be65;">"#42444a"</span>,
-    <span style="color: #51afef;">"border"</span>: <span style="color: #98be65;">"#5d4d7a"</span>,
-    <span style="color: #51afef;">"cblk"</span>: <span style="color: #98be65;">"#cbc1d5"</span>,
-    <span style="color: #51afef;">"cblk-bg"</span>: <span style="color: #98be65;">"#2f2b33"</span>,
-    <span style="color: #51afef;">"cblk-ln"</span>: <span style="color: #98be65;">"#827591"</span>,
-    <span style="color: #51afef;">"cblk-ln-bg"</span>: <span style="color: #98be65;">"#373040"</span>,
-    <span style="color: #51afef;">"cursor"</span>: <span style="color: #98be65;">"#e3dedd"</span>,
-    <span style="color: #51afef;">"const"</span>: <span style="color: #98be65;">"#a45bad"</span>,
-    <span style="color: #51afef;">"comment"</span>: <span style="color: #98be65;">"#2aa1ae"</span>,
-    <span style="color: #51afef;">"comment-light"</span>: <span style="color: #98be65;">"#2aa1ae"</span>,
-    <span style="color: #51afef;">"comment-bg"</span>: <span style="color: #98be65;">"#292e34"</span>,
-    <span style="color: #51afef;">"comp"</span>: <span style="color: #98be65;">"#c56ec3"</span>,
-    <span style="color: #51afef;">"err"</span>: <span style="color: #98be65;">"#e0211d"</span>,
-    <span style="color: #51afef;">"func"</span>: <span style="color: #98be65;">"#bc6ec5"</span>,
-    <span style="color: #51afef;">"head1"</span>: <span style="color: #98be65;">"#4f97d7"</span>,
-    <span style="color: #51afef;">"head1-bg"</span>: <span style="color: #98be65;">"#293239"</span>,
-    <span style="color: #51afef;">"head2"</span>: <span style="color: #98be65;">"#2d9574"</span>,
-    <span style="color: #51afef;">"head2-bg"</span>: <span style="color: #98be65;">"#293235"</span>,
-    <span style="color: #51afef;">"head3"</span>: <span style="color: #98be65;">"#67b11d"</span>,
-    <span style="color: #51afef;">"head3-bg"</span>: <span style="color: #98be65;">"#293235"</span>,
-    <span style="color: #51afef;">"head4"</span>: <span style="color: #98be65;">"#b1951d"</span>,
-    <span style="color: #51afef;">"head4-bg"</span>: <span style="color: #98be65;">"#32322c"</span>,
-    <span style="color: #51afef;">"highlight"</span>: <span style="color: #98be65;">"#444155"</span>,
-    <span style="color: #51afef;">"highlight-dim"</span>: <span style="color: #98be65;">"#3b314d"</span>,
-    <span style="color: #51afef;">"keyword"</span>: <span style="color: #98be65;">"#4f97d7"</span>,
-    <span style="color: #51afef;">"lnum"</span>: <span style="color: #98be65;">"#44505c"</span>,
-    <span style="color: #51afef;">"mat"</span>: <span style="color: #98be65;">"#86dc2f"</span>,
-    <span style="color: #51afef;">"meta"</span>: <span style="color: #98be65;">"#9f8766"</span>,
-    <span style="color: #51afef;">"str"</span>: <span style="color: #98be65;">"#2d9574"</span>,
-    <span style="color: #51afef;">"suc"</span>: <span style="color: #98be65;">"#86dc2f"</span>,
-    <span style="color: #51afef;">"ttip"</span>: <span style="color: #98be65;">"#9a9aba"</span>,
-    <span style="color: #51afef;">"ttip-sl"</span>: <span style="color: #98be65;">"#5e5079"</span>,
-    <span style="color: #51afef;">"ttip-bg"</span>: <span style="color: #98be65;">"#34323e"</span>,
-    <span style="color: #51afef;">"type"</span>: <span style="color: #98be65;">"#ce537a"</span>,
-    <span style="color: #51afef;">"var"</span>: <span style="color: #98be65;">"#7590db"</span>,
-    <span style="color: #51afef;">"war"</span>: <span style="color: #98be65;">"#dc752f"</span>,
-    <span style="color: #51afef;">"aqua"</span>: <span style="color: #98be65;">"#2d9574"</span>,
-    <span style="color: #51afef;">"aqua-bg"</span>: <span style="color: #98be65;">"#293235"</span>,
-    <span style="color: #51afef;">"green"</span>: <span style="color: #98be65;">"#67b11d"</span>,
-    <span style="color: #51afef;">"green-bg"</span>: <span style="color: #98be65;">"#293235"</span>,
-    <span style="color: #51afef;">"green-bg-s"</span>: <span style="color: #98be65;">"#29422d"</span>,
-    <span style="color: #51afef;">"cyan"</span>: <span style="color: #98be65;">"#28def0"</span>,
-    <span style="color: #51afef;">"red"</span>: <span style="color: #98be65;">"#f2241f"</span>,
-    <span style="color: #51afef;">"red-bg"</span>: <span style="color: #98be65;">"#3c2a2c"</span>,
-    <span style="color: #51afef;">"red-bg-s"</span>: <span style="color: #98be65;">"#512e31"</span>,
-    <span style="color: #51afef;">"blue"</span>: <span style="color: #98be65;">"#4f97d7"</span>,
-    <span style="color: #51afef;">"blue-bg"</span>: <span style="color: #98be65;">"#293239"</span>,
-    <span style="color: #51afef;">"blue-bg-s"</span>: <span style="color: #98be65;">"#2d4252"</span>,
-    <span style="color: #51afef;">"magenta"</span>: <span style="color: #98be65;">"#a31db1"</span>,
-    <span style="color: #51afef;">"yellow"</span>: <span style="color: #98be65;">"#b1951d"</span>,
-    <span style="color: #51afef;">"yellow-bg"</span>: <span style="color: #98be65;">"#32322c"</span>
-  }
-}
-</pre>
-</div>
-
-<p>
-y ya solamente queda montarlo en el html
-</p>
-
-<div class="org-src-container">
-<pre class="src src-html">&lt;<span style="color: #51afef;">!DOCTYPE</span> html&gt;
-&lt;<span style="color: #c678dd;">html</span> <span style="color: #dcaeea;">lang</span>=<span style="color: #98be65;">"en"</span>&gt;
-&lt;<span style="color: #c678dd;">head</span>&gt;
-    &lt;<span style="color: #c678dd;">meta</span> <span style="color: #dcaeea;">charset</span>=<span style="color: #98be65;">"UTF-8"</span>&gt;
-    &lt;<span style="color: #c678dd;">title</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Pascualmg Portfolio</span>&lt;/<span style="color: #c678dd;">title</span>&gt;
-    &lt;<span style="color: #c678dd;">script</span> <span style="color: #dcaeea;">type</span>=<span style="color: #98be65;">"module"</span> <span style="color: #dcaeea;">src</span>=<span style="color: #98be65;">"js/atomic/organism/pascualmg-portfolio.js"</span>&gt;&lt;/<span style="color: #c678dd;">script</span>&gt;
-    &lt;<span style="color: #c678dd;">script</span> <span style="color: #dcaeea;">type</span>=<span style="color: #98be65;">"module"</span> <span style="color: #dcaeea;">src</span>=<span style="color: #98be65;">"js/atomic/organism/themeSwitcher.js"</span>&gt;&lt;/<span style="color: #c678dd;">script</span>&gt;
-&lt;/<span style="color: #c678dd;">head</span>&gt;
-&lt;<span style="color: #c678dd;">body</span>&gt;
-&lt;<span style="color: #c678dd;">theme-switcher</span> <span style="color: #dcaeea;">theme</span>=<span style="color: #98be65;">"spacemacs-dark"</span>&gt;&lt;/<span style="color: #c678dd;">theme-switcher</span>&gt;
-&lt;<span style="color: #c678dd;">pascualmg-portfolio</span> <span style="color: #dcaeea;">theme</span>=<span style="color: #98be65;">"light"</span>&gt;&lt;/<span style="color: #c678dd;">pascualmg-portfolio</span>&gt;
-&lt;/<span style="color: #c678dd;">body</span>&gt;
-&lt;/<span style="color: #c678dd;">html</span>&gt;
-</pre>
-</div>
-</div>
-
-<ol class="org-ol">
-<li><a id="org9936bdf"></a><span class="todo TODO">TODO</span> quitar el attr theme al componente del portfolio<br /></li>
-</ol>
-</div>
-</div>
-</div>
-</div>
-<div id="postamble" class="status">
-<p class="author">Author: Pascual M.G.</p>
-<p class="date">Created: 2024-06-04 Tue 16:12</p>
-</div>
+    window.addEventListener('WebComponentsReady', function () {
+        const themeToggler = document.querySelector('theme-toggler');
+        if (themeToggler) {
+            console.log('ThemeToggler cargado y listo para usar');
+        }
+    });
+</script>
 </body>
 </html>

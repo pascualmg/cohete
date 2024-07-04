@@ -1,112 +1,216 @@
+#+TITLE: El tema del tema: Manejo de colores en Web Components
+#+AUTHOR: Pascual M.G.
+#+DATE: <2024-07-04 Thu>
+#+OPTIONS: toc:nil num:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="spacemacs.css">
 
-* El tema del tema
-Siempre he visto que era un verdadero quebradero de cabeza , el mantener un tema de colores para una web , en mi caso como no uso ningún framework web, sino que estoy usando custom web components he ideado una forma a mi entender bastante sencilla que para el problema que se prentende solucionar, creo que es suficiente.
+* El tema del tema: Un viaje por el mundo de los colores en Web Components
 
-** El problema
+¡Hola, compañeros desarrolladores! ¿Alguna vez os habéis encontrado luchando con la gestión de temas de colores en vuestros proyectos web? Si es así, ¡no estáis solos! Este quebradero de cabeza es tan común como frustrante. Pero no temáis, porque hoy vamos a sumergirnos en una solución que, aunque simple, es sorprendentemente efectiva.
 
-Al organizar el código siguiendo la metodología atomic
+** El problema: Cuando los colores se vuelven un caos
 
-+ Organism
-+ Molecule
-+ Atom
+Imaginad que estáis construyendo una aplicación web compleja. Tenéis decenas, quizás cientos de componentes. Botones, formularios, paneles, modales... y todos necesitan seguir un esquema de colores coherente. Ahora, añadid a eso la necesidad de tener múltiples temas (modo claro, modo oscuro, ¡tal vez incluso un modo "disco" para los viernes por la noche!). De repente, lo que parecía un simple juego de colores se convierte en un problema logístico de proporciones épicas.
 
-Siendo esta una organización gerárquica, se hace patente , que si cada uno de los componentes es responsable de su estilo, este tiene que ser coherente para todos ellos .
+Tradicionalmente, muchos desarrolladores han recurrido a soluciones como:
 
-** La solución
+1. Clases CSS gigantes que definen cada color para cada elemento.
+2. Preprocesadores CSS con variables que se compilan en diferentes hojas de estilo.
+3. Bibliotecas de JavaScript que manipulan dinámicamente los estilos.
 
-Para conseguir esto , he pensado en  hacerlo también con un componente , un organismo concretamente. Estableciendo de forma global en **:root**  js las variables de color , siendo cada componente el que , si quiere haga uso de ella , permaneciendo el valor HEX del mismo agnóstico dentro del mismo componente.
+Pero cada una de estas soluciones tiene sus propios problemas. Las clases CSS se vuelven inmanejables, los preprocesadores requieren una compilación adicional, y las bibliotecas de JavaScript pueden ser pesadas y afectar el rendimiento.
 
-Si, quizá estés pensando , en que entonces todos los componentes , tienen que conocer el nombre de las variables del tema, eso es correcto pero solo si estos quieren usarlo. La ventaja es que aqui el framework es el propio navegador , el que se encargará de cambiar los colores automáticamente con solo cambiar el valor de la propiedad del componente del tema. Magia sí! pero blanca.
+** La solución: Simpleza y elegancia con Web Components
 
-** Ahora que sabemos como hacerlo , que colores usamos ?
- creo que los mas chulos , los del tema de  [[https://github.com/nashamri/spacemacs-theme][spacemacs]] 😎 , concretamente el tema dark que es una delicia (dejadle una 🌟! se lo merece)  y por supuesto los que no pueden faltar , los solarized [[https://ethanschoonover.com/solarized/][solarized]].
+Entonces, ¿qué hacemos? Bueno, en mi caso, como estoy usando Web Components personalizados (porque soy un poco rebelde y me gusta hacer las cosas a mi manera), se me ocurrió una idea: ¿Y si usamos las propias capacidades del navegador para manejar nuestros temas?
 
-*** TODO IA al rescate
-Extraer el esquema de colores de una función en lisp es algo muy tedioso para un humano , aqui es donde un LLM nos puede sacar del apuro no sin antes pelearse un poco con el claro.
+Así nació mi solución, que se basa en tres principios simples:
 
-#+BEGIN_SRC json
-{
-  "dark": {
-    "act1": "#222226",
-    "act2": "#5d4d7a",
-    "base": "#b2b2b2",
-    "base-dim": "#686868",
-    "bg1": "#292b2e",
-    "bg2": "#212026",
-    "bg3": "#100a14",
-    "bg4": "#0a0814",
-    "bg-alt": "#42444a",
-    "border": "#5d4d7a",
-    "cblk": "#cbc1d5",
-    "cblk-bg": "#2f2b33",
-    "cblk-ln": "#827591",
-    "cblk-ln-bg": "#373040",
-    "cursor": "#e3dedd",
-    "const": "#a45bad",
-    "comment": "#2aa1ae",
-    "comment-light": "#2aa1ae",
-    "comment-bg": "#292e34",
-    "comp": "#c56ec3",
-    "err": "#e0211d",
-    "func": "#bc6ec5",
-    "head1": "#4f97d7",
-    "head1-bg": "#293239",
-    "head2": "#2d9574",
-    "head2-bg": "#293235",
-    "head3": "#67b11d",
-    "head3-bg": "#293235",
-    "head4": "#b1951d",
-    "head4-bg": "#32322c",
-    "highlight": "#444155",
-    "highlight-dim": "#3b314d",
-    "keyword": "#4f97d7",
-    "lnum": "#44505c",
-    "mat": "#86dc2f",
-    "meta": "#9f8766",
-    "str": "#2d9574",
-    "suc": "#86dc2f",
-    "ttip": "#9a9aba",
-    "ttip-sl": "#5e5079",
-    "ttip-bg": "#34323e",
-    "type": "#ce537a",
-    "var": "#7590db",
-    "war": "#dc752f",
-    "aqua": "#2d9574",
-    "aqua-bg": "#293235",
-    "green": "#67b11d",
-    "green-bg": "#293235",
-    "green-bg-s": "#29422d",
-    "cyan": "#28def0",
-    "red": "#f2241f",
-    "red-bg": "#3c2a2c",
-    "red-bg-s": "#512e31",
-    "blue": "#4f97d7",
-    "blue-bg": "#293239",
-    "blue-bg-s": "#2d4252",
-    "magenta": "#a31db1",
-    "yellow": "#b1951d",
-    "yellow-bg": "#32322c"
-  }
+1. Un componente "cerebro" que define todas las variables de color.
+2. Variables CSS a nivel :root que todos los componentes pueden usar.
+3. Componentes individuales que son "agnósticos" respecto al color real que están usando.
+
+Suena simple, ¿verdad? Pero como dicen, la belleza está en la simplicidad. Veamos cómo funciona esto en la práctica.
+
+*** El componente "cerebro": ThemeSwitcher
+
+Este es el corazón de nuestra solución. Es un Web Component que se encarga de definir y aplicar nuestro tema de colores. Aquí tenéis un vistazo rápido a cómo podría verse:
+
+#+BEGIN_SRC javascript
+class ThemeSwitcher extends HTMLElement {
+    constructor() {
+        super();
+        this.themes = {
+            'light': {
+                '--primary-color': '#4a90e2',
+                '--background-color': '#f4f4f4',
+                // ... más colores ...
+            },
+            'dark': {
+                '--primary-color': '#bb86fc',
+                '--background-color': '#121212',
+                // ... más colores ...
+            }
+        };
+    }
+
+    connectedCallback() {
+        this.applyTheme('light'); // Tema por defecto
+    }
+
+    applyTheme(themeName) {
+        const theme = this.themes[themeName];
+        Object.entries(theme).forEach(([property, value]) => {
+            document.documentElement.style.setProperty(property, value);
+        });
+    }
 }
+
+customElements.define('theme-switcher', ThemeSwitcher);
 #+END_SRC
 
-y ya solamente queda montarlo en el html
+Este componente hace algo muy simple pero poderoso: define nuestros temas como objetos JavaScript y luego aplica esos temas estableciendo variables CSS en el elemento raíz del documento.
+
+*** Los componentes "agnósticos": Usando las variables de color
+
+Ahora, ¿cómo usan nuestros otros componentes estos colores? Fácil, simplemente hacen referencia a las variables CSS. Por ejemplo, un componente de botón podría verse así:
+
+#+BEGIN_SRC javascript
+class MyButton extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({mode: 'open'});
+        this.shadowRoot.innerHTML = `
+            <style>
+                button {
+                    background-color: var(--primary-color);
+                    color: var(--text-color);
+                    border: none;
+                    padding: 10px 20px;
+                    cursor: pointer;
+                }
+            </style>
+            <button><slot></slot></button>
+        `;
+    }
+}
+
+customElements.define('my-button', MyButton);
+#+END_SRC
+
+¿Veis cómo el botón no sabe realmente qué color es "--primary-color"? Solo sabe que debe usarlo para su fondo. Esto es lo que quiero decir con "agnóstico de color".
+
+*** Poniendo todo junto
+
+Ahora, en nuestro HTML, podríamos tener algo así:
 
 #+BEGIN_SRC html
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Pascualmg Portfolio</title>
-    <script type="module" src="js/atomic/organism/pascualmg-portfolio.js"></script>
-    <script type="module" src="js/atomic/organism/themeSwitcher.js"></script>
+    <title>Mi Aplicación Temática</title>
+    <script type="module" src="theme-switcher.js"></script>
+    <script type="module" src="my-button.js"></script>
 </head>
 <body>
-<theme-switcher theme="spacemacs-dark"></theme-switcher>
-<pascualmg-portfolio theme="light"></pascualmg-portfolio>
+    <theme-switcher id="themeSwitcher"></theme-switcher>
+    <my-button>¡Haz clic!</my-button>
+    <script>
+        const switcher = document.getElementById('themeSwitcher');
+        // Cambiamos al tema oscuro
+        switcher.applyTheme('dark');
+    </script>
 </body>
 </html>
 #+END_SRC
 
-**** TODO quitar el attr theme al componente del portfolio
+Y voilà! Tenemos una aplicación con temas cambiables, sin necesidad de CSS gigante, sin preprocesadores, y sin bibliotecas pesadas de JavaScript.
+
+** Las ventajas: ¿Por qué esto mola tanto?
+
+1. *Rendimiento*: Las variables CSS son rápidas. Muy rápidas. Cambiar el tema es prácticamente instantáneo.
+2. *Mantenibilidad*: Todos los colores están definidos en un solo lugar. ¿Necesitas cambiar un color? Solo tienes que hacerlo una vez.
+3. *Flexibilidad*: Añadir nuevos temas es tan simple como añadir un nuevo objeto al componente ThemeSwitcher.
+4. *Compatibilidad*: Esto funciona con cualquier framework (o sin framework). Los Web Components son estándar web.
+5. *Escalabilidad*: Ya tengas 10 o 1000 componentes, el sistema funciona igual de bien.
+
+** Reflexiones finales: El poder de pensar diferente
+
+Lo que me encanta de esta solución es cómo toma algo que tradicionalmente se ha visto como un problema de CSS y lo convierte en un problema de componentes. Es un cambio de perspectiva que abre nuevas posibilidades.
+
+Y lo mejor es que esto es solo el principio. Podrías expandir este concepto para manejar no solo colores, sino también tipografía, espaciado, o incluso animaciones. El cielo es el límite cuando empiezas a pensar en términos de componentes y propiedades dinámicas.
+
+Así que la próxima vez que os enfrentéis a un problema que parece complicado, recordad: a veces, la solución más elegante es también la más simple. No tengáis miedo de cuestionar las convenciones y buscar nuevas formas de abordar viejos problemas.
+
+Y ahora, ¡a por ese modo "disco" para los viernes por la noche! 🕺💃
+
+** TODO Próximos pasos
+- Implementar una interfaz de usuario para cambiar temas
+- Explorar cómo manejar preferencias de usuario (por ejemplo, guardar el tema preferido en localStorage)
+- Investigar cómo esta técnica podría aplicarse a otros aspectos del diseño, como la tipografía o el espaciado
+
+¿Qué opináis de esta aproximación? ¿Habéis usado técnicas similares en vuestros proyectos? ¡Me encantaría escuchar vuestras experiencias y pensamientos en los comentarios!
+
+
+* Reutilización de componentes web: La magia del ThemeToggler en este mismo post que estas leyendo
+
+¡Y aquí es donde la magia realmente sucede! Después de todo nuestro trabajo en la plantilla y el diseño, hemos logrado algo verdaderamente emocionante: la integración perfecta de nuestro componente ThemeToggler en la plantilla generada por Pandoc. Os voy a contar cómo llegamos aquí y por qué esto es tan genial.
+Hasta ahora la plantilla de Pandoc tenia un tema "fijo" ahora eso ha cambiado, ahora el tema es dinámico y se puede cambiar en tiempo real.
+Puedes verlo y probarlo en la parte superior derecha de esta página , y a partir de ahora en toda la SPA de este blog.
+
+** Cómo lo he integrado ?
+
+1. *Creación del componente*: Primero, desarrollamos nuestro ThemeToggler como un Web Component independiente. Este componente encapsula toda la lógica para cambiar entre temas de color.
+    https://github.com/pascualmg/cohete/blob/main/src/ddd/Infrastructure/webserver/html/js/atomic/organism/ThemeToogler.js
+
+2. *Diseño de la plantilla*: Luego, diseñamos nuestra plantilla HTML para Pandoc, incluyendo un espacio para nuestro ThemeToggler en el header fijo.
+
+3. *Importación del componente*: En la plantilla, añadimos una línea para importar nuestro ThemeToggler:
+   #+BEGIN_SRC html
+   <script type="module" src="../../html/js/atomic/organism/ThemeToogler.js"></script>
+   #+END_SRC
+
+4. *Uso del componente*: Colocamos la etiqueta del componente en nuestra plantilla:
+   #+BEGIN_SRC html
+   <theme-toggler></theme-toggler>
+   #+END_SRC
+
+5. *Generación del HTML*: Finalmente, usamos Pandoc para generar nuestro HTML final:
+   #+BEGIN_SRC bash
+   pandoc --template=/home/passh/src/php/cohete/src/ddd/Infrastructure/webserver/html/org/template.html --toc --toc-depth=2 eltemadeltema.org -o eltemadeltema.html
+   #+END_SRC
+
+** ¿Por qué es esto tan genial?
+
+1. *Reutilización de código*: Estamos reutilizando nuestro ThemeToggler en múltiples páginas sin tener que copiar y pegar código.
+
+2. *Encapsulación*: Toda la lógica del cambio de tema está contenida en el componente, manteniendo nuestra plantilla limpia y fácil de mantener.
+
+3. *Nativo y ligero*: Al usar Web Components nativos, no dependemos de frameworks pesados. Esto hace que nuestras páginas sean más rápidas y eficientes.
+
+4. *Compatibilidad*: Los Web Components son compatibles con la mayoría de los navegadores modernos, lo que significa que nuestro ThemeToggler funcionará en casi cualquier lugar.
+
+5. *Flexibilidad*: Podemos fácilmente actualizar o modificar el ThemeToggler sin tener que tocar el resto de nuestra plantilla o contenido.
+
+** ¿Con que motivación?
+
+ Mientras trabajaba en el diseño de la plantilla, me di cuenta de que quería algo que:
+
+1. Fuera fácil de integrar en cualquier página.
+2. No dependiera de un framework específico.
+3. Pudiera manejar su propio estado y lógica.
+
+Los Web Components ofrecen todas estas ventajas. Además, al ser una tecnología nativa del navegador, se alinean perfectamente con mi filosofía de mantener las cosas simples y eficientes.
+
+La verdadera revelación vino cuando me di cuenta de que podía incluir este componente directamente en mi plantilla de Pandoc. Esto significa que cada vez que genero una nueva página de mi blog, automáticamente tiene la funcionalidad de cambio de tema, sin necesidad de código adicional.
+
+** Conclusión
+
+Esta integración demuestra el poder de pensar en componentes y de utilizar tecnologías web nativas. No solo hemos creado una solución elegante para el cambio de temas, sino que también hemos establecido un patrón que podemos seguir para futuros componentes.
+
+Imaginad las posibilidades: podríamos crear componentes para comentarios, para compartir en redes sociales, para visualización de datos, y más. Todos estos podrían integrarse fácilmente en nuestra plantilla Pandoc, permitiéndonos crear páginas ricas en funcionalidades con un esfuerzo mínimo.
+
+Este enfoque nos permite mantener la simplicidad y eficiencia de Markdown y Pandoc para el contenido, mientras aprovechamos toda la potencia de los Web Components para funcionalidades avanzadas. Es lo mejor de ambos mundos, y personalmente, estoy emocionado por explorar más esta dirección en el futuro.
+
+¿Qué opináis? ¿Veis otras formas en las que podríamos aprovechar los Web Components en nuestro flujo de trabajo con Pandoc?
