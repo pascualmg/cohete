@@ -377,10 +377,10 @@
         <li><a href="#próximos-pasos" id="toc-próximos-pasos"><span
         class="todo TODO">TODO</span> Próximos pasos</a></li>
         <li><a href="#cómo-lo-he-integrado"
-        id="toc-cómo-lo-he-integrado">¿ Cómo lo he integrado ?</a></li>
-        <li><a href="#que-permite-esto-que-hemos-conseguido"
-        id="toc-que-permite-esto-que-hemos-conseguido">¿Que permite esto
-        que hemos conseguido?</a></li>
+        id="toc-cómo-lo-he-integrado">¿Cómo lo he integrado?</a></li>
+        <li><a href="#aprovechando-al-máximo-nuestro-themetoogler"
+        id="toc-aprovechando-al-máximo-nuestro-themetoogler">Aprovechando
+        al máximo nuestro ThemeToogler</a></li>
         <li><a href="#conclusión"
         id="toc-conclusión">Conclusión</a></li>
         </ul>
@@ -392,12 +392,24 @@
             
         </header>
 
-        <p>¡Hola geeks! ¿Alguna vez os habéis encontrado luchando con la
-        gestión de temas de colores en vuestros proyectos web? Si es
-        así, ¡no estáis solos! Este quebradero de cabeza es tan común
-        como frustrante. Pero no temáis, porque hoy vamos a sumergirnos
-        en una solución que, aunque simple, es sorprendentemente
-        efectiva.</p>
+        <p>Claro, aquí te dejo el post completo en formato de texto
+        plano con la sintaxis de .org. Recuerda copiar todo el
+        contenido, incluyendo las líneas de código, y pegarlo en tu
+        editor favorito:</p>
+        <p>```</p>
+        <p>¡Hola! ¿Alguna vez os habéis encontrado luchando con la
+        gestión de temas de colores en vuestros proyectos web? Este
+        quebradero de cabeza es tan común como frustrante. Durante el
+        desarrollo de mi Portfolio que he decido craftear desde cero,
+        desde el back hasta el front, todo , vi que de alguna forma
+        tendría que dar a esto solución y esto es lo que se me ha
+        ocurrido, aunque simple, es sorprendentemente efectiva. Si
+        estáis pensando que hace un back y no un front, es cierto, pero
+        me gusta explorar tecnologías , sean del sitio que sean si son
+        la ?? como creo que son los Web Components, me gusta investigar
+        y aprender. Creo este post por que me ha parecido interesante
+        compartirlo, y si a alguien le sirve de ayuda, pues mejor que
+        mejor.</p>
         <h2 id="el-problema-cuando-los-colores-se-vuelven-un-caos">El
         problema: Cuando los colores se vuelven un caos</h2>
         <p>Imaginad que estáis construyendo una aplicación web compleja.
@@ -405,9 +417,9 @@
         formularios, paneles, modales… y todos necesitan seguir un
         esquema de colores coherente. Ahora, añadid a eso la necesidad
         de tener múltiples temas (modo claro, modo oscuro, ¡tal vez
-        incluso un modo "disco" para los viernes por la noche!). De
-        repente, lo que parecía un simple juego de colores se convierte
-        en un problema logístico de proporciones épicas.</p>
+        incluso un modo "Con tus colores del IDE " o "Pepa PIG"! quien
+        sabe). De repente, lo que parecía un simple juego de colores se
+        convierte en un problema logístico de proporciones épicas.</p>
         <p>Tradicionalmente, muchos desarrolladores han recurrido a
         soluciones como:</p>
         <ol>
@@ -454,19 +466,19 @@
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">themes</span> <span class="op">=</span> {</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;light&#39;</span><span class="op">:</span> {</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;--primary-color&#39;</span><span class="op">:</span> <span class="st">&#39;#4a90e2&#39;</span><span class="op">,</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;--background-color&#39;</span><span class="op">:</span> <span class="st">&#39;#f4f4f4&#39;</span><span class="op">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;--background-color&#39;</span><span class="op">:</span> <span class="st">&#39;#f4f4f4&#39;</span><span class="op">,</span>  </span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                <span class="co">// ... más colores ...</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>            }<span class="op">,</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">&#39;dark&#39;</span><span class="op">:</span> {</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;--primary-color&#39;</span><span class="op">:</span> <span class="st">&#39;#bb86fc&#39;</span><span class="op">,</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                <span class="st">&#39;--background-color&#39;</span><span class="op">:</span> <span class="st">&#39;#121212&#39;</span><span class="op">,</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                <span class="co">// ... más colores ...</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                <span class="co">// ... más colores ...  </span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>            }</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        }<span class="op">;</span></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">connectedCallback</span>() {</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">applyTheme</span>(<span class="st">&#39;light&#39;</span>)<span class="op">;</span> <span class="co">// Tema por defecto</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="fu">applyTheme</span>(<span class="st">&#39;light&#39;</span>)<span class="op">;</span> <span class="co">// Tema por defecto  </span></span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">applyTheme</span>(themeName) {</span>
@@ -540,11 +552,11 @@
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">script</span><span class="dt">&gt;</span></span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> switcher <span class="op">=</span> <span class="bu">document</span><span class="op">.</span><span class="fu">getElementById</span>(<span class="st">&#39;themeSwitcher&#39;</span>)<span class="op">;</span></span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Cambiamos al tema oscuro</span></span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        switcher<span class="op">.</span><span class="fu">applyTheme</span>(<span class="st">&#39;dark&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        switcher<span class="op">.</span><span class="fu">applyTheme</span>(<span class="st">&#39;dark&#39;</span>)<span class="op">;</span>  </span>
 <span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span></code></pre></div>
-        <p>Y voilà! Tenemos una aplicación con temas cambiables, sin
+        <p>Y toma! Tenemos una aplicación con temas cambiables, sin
         necesidad de CSS gigante, sin preprocesadores, y sin bibliotecas
         pesadas de JavaScript.</p>
         <h2 id="que-ventajas-tiene-esta-solución">Que ventajas tiene
@@ -577,16 +589,15 @@
         límite cuando empiezas a pensar en términos de componentes y
         propiedades dinámicas.</p>
         <p>Así que la próxima vez que os enfrentéis a un problema que
-        parece complicado esto me recuerda que a veces, la solución más
-        elegante es también la más simple. Creo que si podemos debemos
-        cuestionar las convenciones y buscar nuevas formas de abordar
-        esos viejos problemas.</p>
+        parece complicado, esto me recuerda que a veces, la solución más
+        elegante es también la más simple. Creo que debemos cuestionar
+        las convenciones y buscar nuevas formas de abordar esos viejos
+        problemas.</p>
         <p>y ahora</p>
         <h2 id="próximos-pasos"><span class="todo TODO">TODO</span>
         Próximos pasos</h2>
         <ul>
-        <li>Implementar una interfaz de usuario para cambiar temas ,
-        done en este mismo post</li>
+        <li>Implementar una interfaz de usuario para cambiar temas</li>
         <li>Explorar cómo manejar preferencias de usuario (por ejemplo,
         guardar el tema preferido en localStorage)</li>
         <li>Investigar cómo esta técnica podría aplicarse a otros
@@ -598,9 +609,10 @@
         <p>¿Qué opináis de esta aproximación? ¿Habéis usado técnicas
         similares en vuestros proyectos? ¡Me encantaría escuchar
         vuestras experiencias dejadme un comentario !</p>
-        <p>*Actualizacion: aplicacion de esta teoría.</p>
-        <p>Se me ha ocurrido usar ThemeToggler en este mismo post que
-        estas leyendo, se puede ?</p>
+        <p>**Actualizacion: Ya que estamos lo vamos a hacer.</p>
+        <p>Se me ha ocurrido usar y hacer un ThemeToggler en este mismo
+        post que estas leyendo. Es ese boton que hay por ahi :D Por
+        supuesto se usa para todos los componentes de mi SPA.</p>
         <p>¡Y aquí es donde la magia realmente sucede! Después de todo
         nuestro trabajo en la plantilla y el diseño, hemos logrado algo
         verdaderamente emocionante: la integración perfecta de nuestro
@@ -610,14 +622,15 @@
         plantilla de Pandoc tenia un tema "fijo" ahora eso ha cambiado,
         ahora el tema es dinámico y se puede cambiar en tiempo real.
         Puedes verlo y probarlo en la parte superior derecha de esta
-        página , y a partir de ahora en toda la SPA de este blog.</p>
-        <h2 id="cómo-lo-he-integrado">¿ Cómo lo he integrado ?</h2>
+        página, y a partir de ahora en toda la SPA de este blog.</p>
+        <h2 id="cómo-lo-he-integrado">¿Cómo lo he integrado?</h2>
         <ol>
         <li><p><strong>Creación del componente</strong>: Primero,
         desarrollamos nuestro ThemeToggler como un Web Component
         independiente. Este componente encapsula toda la lógica para
         cambiar entre temas de color. <a
-        href="https://github.com/pascualmg/cohete/blob/main/src/ddd/Infrastructure/webserver/html/js/atomic/organism/ThemeToogler.js">https://github.com/pascualmg/cohete/blob/main/src/ddd/Infrastructure/webserver/html/js/atomic/organism/ThemeToogler.js</a></p></li>
+        href="https://github.com/pascualmg/cohete/blob/main/src/ddd/Infrastructure/webserver/html/js/atomic/organism/ThemeToogler.js">Código
+        fuente del ThemeToggler</a></p></li>
         <li><p><strong>Diseño de la plantilla</strong>: Luego, diseñamos
         nuestra plantilla HTML para Pandoc, incluyendo un espacio para
         nuestro ThemeToggler en el header fijo.</p></li>
@@ -635,9 +648,36 @@
         <div class="sourceCode" id="cb6"><pre
         class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pandoc</span> <span class="at">--template</span><span class="op">=</span>/home/passh/src/php/cohete/src/ddd/Infrastructure/webserver/html/org/template.html <span class="at">--toc</span> <span class="at">--toc-depth</span><span class="op">=</span>2 eltemadeltema.org <span class="at">-o</span> eltemadeltema.html</span></code></pre></div></li>
         </ol>
-        <h2 id="que-permite-esto-que-hemos-conseguido">¿Que permite esto
-        que hemos conseguido?</h2>
+        <h2
+        id="aprovechando-al-máximo-nuestro-themetoogler">Aprovechando al
+        máximo nuestro ThemeToogler</h2>
+        <p>En esta última actualización, quería remarcar un par de
+        puntos sobre nuestro componente ThemeToogler:</p>
         <ol>
+        <li><p><strong>Flexibilidad en el diseño</strong>: Aunque aquí
+        hemos implementado el ThemeToogler como un simple botón, las
+        posibilidades son infinitas. Podríamos hacerlo como un menú
+        desplegable, un conjunto de botones de radio, o incluso un
+        selector de colores completamente personalizable. La belleza de
+        los Web Components es que encapsulan su funcionalidad, por lo
+        que podemos cambiar su apariencia y comportamiento sin afectar
+        al resto de nuestro código.</p></li>
+        <li><p><strong>Posibilidades de automatización</strong>: Con un
+        pequeño ajuste, podríamos hacer que nuestro ThemeToogler cambie
+        automáticamente según diferentes criterios. Por ejemplo, podría
+        cambiar a un tema oscuro durante las horas nocturnas, o podría
+        detectar la preferencia de tema del sistema operativo del
+        usuario y ajustarse en consecuencia. Todo esto se podría lograr
+        sin cambiar ningún otro componente, gracias a la naturaleza
+        modular de los Web Components.</p></li>
+        <li><p><strong>Integración inmediata</strong>: Una de las
+        mejores partes de todo esto es que, a partir de ahora, todos los
+        nuevos componentes que cree para mi sitio web y mi portfolio
+        heredarán automáticamente esta funcionalidad de cambio de tema.
+        No necesitaré escribir ningún código adicional o hacer ninguna
+        configuración especial. Simplemente funcionará, porque los
+        colores se definen a nivel global y todos los componentes los
+        respetan.</p></li>
         <li><p><strong>Reutilización de código</strong>: Estamos
         reutilizando nuestro ThemeToggler en múltiples páginas sin tener
         que copiar y pegar código.</p></li>
@@ -652,37 +692,15 @@
         significa que nuestro ThemeToggler funcionará en casi cualquier
         lugar.</p></li>
         <li><p><strong>Flexibilidad</strong>: Podemos fácilmente
-        actualizar o modificar el ThemeToggler sin tener que tocar el
+        actualizar o modificar el ThemeToogler sin tener que tocar el
         resto de nuestra plantilla o contenido.</p></li>
         </ol>
         <h2 id="conclusión">Conclusión</h2>
         <p>Los Web Components ofrecen todas estas ventajas. Además, al
         ser una tecnología nativa del navegador, se alinean
         perfectamente con mi filosofía de mantener las cosas simples y
-        eficientes.</p>
-        <p>La verdadera revelación vino cuando me di cuenta de que podía
-        incluir este componente directamente en mi plantilla de Pandoc.
-        Esto significa que cada vez que genero una nueva página de mi
-        blog, automáticamente tiene la funcionalidad de cambio de tema,
-        sin necesidad de código adicional.</p>
-        <p>Esta integración demuestra el poder de pensar en componentes
-        y de utilizar tecnologías web nativas. No solo hemos creado una
-        solución elegante para el cambio de temas, sino que también
-        hemos establecido un patrón que podemos seguir para futuros
-        componentes.</p>
-        <p>Imaginad las posibilidades: podríamos crear componentes para
-        comentarios, para compartir en redes sociales, para
-        visualización de datos, y más. Todos estos podrían integrarse
-        fácilmente en nuestra plantilla Pandoc, permitiéndonos crear
-        páginas ricas en funcionalidades con un esfuerzo mínimo.</p>
-        <p>Este enfoque nos permite mantener la simplicidad y eficiencia
-        de Markdown y Pandoc para el contenido, mientras aprovechamos
-        toda la potencia de los Web Components para funcionalidades
-        avanzadas. Es lo mejor de ambos mundos, y personalmente, estoy
-        emocionado por explorar más esta dirección en el futuro.</p>
-        <p>¿Qué opináis? ¿Veis otras formas en las que podríamos
-        aprovechar los Web Components en nuestro flujo de trabajo con
-        Pandoc?</p>
+        eficientes en mis proyectos.</p>
+        <h3 id="jappy-coding">Jappy Coding 🚀 !!!</h3>
 
         <footer>
             <p>Autor: Pascual M.G.</p>
