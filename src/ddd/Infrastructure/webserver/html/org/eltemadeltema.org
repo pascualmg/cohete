@@ -1,6 +1,3 @@
-Claro, aquí te dejo el post completo en formato de texto plano con la sintaxis de .org. Recuerda copiar todo el contenido, incluyendo las líneas de código, y pegarlo en tu editor favorito:
-
-```
 #+TITLE: El tema del tema: KISS con Web Components
 #+AUTHOR: Pascual M.G.
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="spacemacs.css">
