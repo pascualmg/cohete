@@ -18,7 +18,7 @@ class ThemeToggler extends HTMLElement {
             console.error("No se puede localizar el theme switcher");
         }
 
-        this.themeSwitcher.setAttribute('theme', this.defaultTheme);
+        this.updateTheme(this.defaultTheme)
 
         this.shadowRoot.querySelector('button').addEventListener('click', () => this.nextTheme());
     }
@@ -86,8 +86,8 @@ class ThemeToggler extends HTMLElement {
     }
 
 
-    updateTheme() {
-        const theme = this.themes[this.currentThemeIndex];
+    updateTheme(theme) {
+        theme = theme || this.themes[this.currentThemeIndex];
         if (this.themeSwitcher) {
             this.themeSwitcher.setAttribute('theme', theme);
             this.shadowRoot.querySelector('button').textContent = theme + ' theme';

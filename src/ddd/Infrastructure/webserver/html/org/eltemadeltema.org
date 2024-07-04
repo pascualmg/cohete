@@ -1,6 +1,5 @@
 #+TITLE: El tema del tema: KISS con Web Components
 #+AUTHOR: Pascual M.G.
-#+DATE: <2024-07-04 Thu>
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="spacemacs.css">
 
 
