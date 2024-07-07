@@ -1,202 +1,77 @@
-#+TITLE: Cohete: Revolucionando el desarrollo PHP con asincronía y simplicidad
+#+TITLE: Historia de un ma(u)rciano asíncrono, PHP y un cohete 🚀
 #+AUTHOR: Pascual M.G.
-#+DATE: [2024-07-07 Sun]
+#+DATE: [2024-07-07 Dom]
 
-* Introducción: El nacimiento de una nueva era en PHP
+* Introducción: De la frustración a la inspiración
 
-En un ecosistema de desarrollo web cada vez más complejo, nace Cohete 🚀. No es solo otro framework; es una revolución silenciosa en el mundo PHP. Soy Pascual, y hoy quiero llevarte en un viaje a través de Cohete, un microframework que está redefiniendo lo que significa ser "potente" y "eficiente" en el desarrollo web moderno.
+¡Hola a todos! Soy Pascual, un desarrollador PHP apasionado y autodidacta. Hoy quiero compartir con vosotros un proyecto muy personal que ha surgido de mis propias luchas y aspiraciones como desarrollador web: Cohete.
 
-* ¿Qué es Cohete?
+* El nacimiento de Cohete: Una búsqueda de simplicidad y eficiencia
 
-Cohete es un microframework PHP asíncrono que desafía las convenciones establecidas. Construido sobre ReactPHP y RxPHP, Cohete ofrece:
+En mi día a día como desarrollador, a menudo me sentía frustrado con la complejidad innecesaria de muchos frameworks PHP. Tenía la sensación de que pasaba más tiempo luchando contra el framework que resolviendo problemas reales. Este "ma(u)rciano" sabía que tenía que haber una manera mejor.
 
-- Rendimiento asíncrono de alta velocidad
-- Implementación simplificada de Domain-Driven Design (DDD)
-- Mínima huella de memoria
-- Curva de aprendizaje suave
-- Transición flexible de síncrono a asíncrono
+Así que me propuse crear una herramienta que me permitiera desarrollar aplicaciones web de alto rendimiento de una manera más simple y eficiente. Y así nació Cohete, mi humilde intento de optimizar el desarrollo web asíncrono en PHP.
 
-Todo esto en un paquete sorprendentemente ligero y maduro.
+* Explorando nuevos horizontes: Asincronía y DDD
 
-* ¿Por qué crear otro framework?
+Cohete es el resultado de mi inmersión en el fascinante mundo de la programación asíncrona y el Diseño Dirigido por Dominio (DDD). He combinado el poder de ReactPHP y RxPHP con una implementación intuitiva de DDD para crear un microframework que permita a los desarrolladores escribir código asíncrono de manera clara y concisa.
 
-Tras años de luchar contra frameworks gigantescos, me di cuenta de que a menudo pasaba más tiempo peleando con el framework que resolviendo problemas reales. Cohete nació de la idea de que un framework debería ser un aliado, no un obstáculo.
-
-* ¿Por qué Cohete merece tu atención?
-
-1. *DDD sin complicaciones*: Cohete utiliza DDD como su núcleo, el enfoque más utilizado en la industria. No necesitas reaprender todo, solo adaptar lo que ya sabes a un contexto asíncrono.
-
-2. *Flexibilidad única*: Puedes comenzar con repositorios síncronos y migrar gradualmente a asíncronos, e incluso a RxPHP con observables. Tú eliges el ritmo de adopción.
-
-3. *Plantilla lista para usar*: El core de Cohete ya está en un estado maduro. No empiezas desde cero, sino con una base sólida y probada.
-
-4. *Rendimiento excepcional*: Diseñado para manejar cargas pesadas con eficiencia, perfecto para APIs de alto rendimiento y microservicios.
-
-5. *Código limpio*: Sin capas innecesarias o configuraciones complejas. Solo lo que necesitas para crear aplicaciones potentes.
-
-6. *Versatilidad full-stack*: Capaz de manejar tanto el backend como aspectos del frontend, demostrando su adaptabilidad a diferentes necesidades de proyecto.
-
-* Cohete en acción: DDD y asincronía en armonía
-
-Veamos un ejemplo de cómo Cohete implementa DDD en un contexto asíncrono:
+Imagina poder expresar operaciones asíncronas y manejar errores de manera elegante con código como este:
 
 #+BEGIN_SRC php
-// Domain/User/User.php
-class User
-{
-    private $id;
-    private $name;
-
-    public function __construct(UserId $id, string $name)
-    {
-        $this->id = $id;
-        $this->name = $name;
-    }
-
-    // ...
-}
-
-// Application/User/GetUserQuery.php
-class GetUserQuery
-{
-    public function handle(UserId $id): Promise
-    {
-        return $this->userRepository->findAsync($id)
-            ->then(function ($user) {
-                return $user ?? throw new UserNotFoundException();
-            });
-    }
-}
-
-// Infrastructure/Http/UserController.php
-class UserController extends Controller
-{
-    public function getUser(string $id): Promise
-    {
-        $query = new GetUserQuery($this->userRepository);
-        return $query->handle(new UserId($id))
-            ->then(fn($user) => $this->json($user))
-            ->catch(fn($error) => $this->json(['error' => $error->getMessage()], 404));
-    }
+public function handle(UserId $id): Promise {
+    return $this->userRepository->findAsync($id)
+        ->then(fn($user) => $user ?? throw new UserNotFoundException());
 }
 #+END_SRC
 
-Este ejemplo muestra cómo Cohete permite implementar DDD con operaciones asíncronas de forma clara y directa.
+En Cohete, he tratado de encapsular los conceptos de asincronía y DDD de una manera que resulte natural y fácil de entender para los desarrolladores PHP.
 
-* El estado actual de Cohete: Madurez y versatilidad
+* Flexibilidad y facilidad de uso: Pilares de Cohete
 
-Cohete no es un proyecto en fase inicial. Ha alcanzado varios hitos importantes:
+Uno de mis principales objetivos con Cohete es ofrecer flexibilidad y facilidad de uso. Quería crear un framework que se adaptara a diferentes niveles de experiencia y permitiera a los desarrolladores adoptar la programación asíncrona a su propio ritmo.
 
-1. *Backend robusto*: El núcleo de Cohete está completamente funcional y optimizado para operaciones asíncronas.
+Con Cohete, puedes comenzar con repositorios síncronos y migrar gradualmente a asíncronos a medida que te sientas más cómodo. Y como Cohete se basa en conceptos familiares de PHP, la curva de aprendizaje es suave.
 
-2. *Frontend integrado*: He implementado una parte del frontend, que se sirve directamente a través de un controlador del backend. Esta aproximación demuestra la versatilidad de Cohete y su capacidad para manejar diferentes aspectos de una aplicación web.
+* El estado actual de Cohete: Un trabajo en progreso emocionante
 
-3. *Renderización de contenido*: Estoy trabajando en la integración de archivos .org directamente en el repositorio. Estos se renderizarán utilizando una plantilla estándar que he preparado, demostrando cómo Cohete puede manejar diferentes formatos de contenido de manera eficiente.
+Cohete comenzó como un proyecto personal, pero ha evolucionado hasta convertirse en una herramienta que considero madura y lista para ser probada en el mundo real. Hasta ahora, he logrado:
 
-4. *Blog de ejemplo en desarrollo*: Estoy creando un pequeño blog de ejemplo que mostrará:
-   - Cómo trabajar con repositorios síncronos
-   - Cómo migrar fácilmente a repositorios asíncronos
-   - Cómo incorporar RxPHP y observables para operaciones más complejas
+- Implementar un backend robusto y optimizado
+- Integrar una parte del frontend
+- Habilitar la renderización de contenido desde archivos .org (como este artículo)
+- Desarrollar un blog de ejemplo para mostrar las capacidades de Cohete
 
-Este enfoque integral no solo demuestra las capacidades de Cohete como framework backend, sino también su flexibilidad para integrarse con diferentes tecnologías frontend y sistemas de gestión de contenido.
+Pero esto es solo el comienzo. Este "ma(u)rciano" tiene grandes planes para seguir mejorando y expandiendo Cohete:
 
-* Resultados reales: Cohete en producción
+- Finalizar el blog de ejemplo para inspirar a otros desarrolladores
+- Optimizar la renderización de archivos .org para una mejor experiencia de usuario
+- Crear una documentación completa y fácil de seguir
+- Investigar integraciones con tecnologías frontend populares
+- Explorar el uso de WebSockets para aplicaciones en tiempo real aún más potentes
 
-Recientemente, implementé Cohete en un proyecto de procesamiento de pagos. Los resultados fueron impresionantes:
+* Una invitación abierta: Prueba Cohete y comparte tu opinión
 
-- 1000+ transacciones por segundo
-- Latencia media de respuesta: 45ms
-- 40% menos uso de CPU comparado con el framework anterior
+Si eres un desarrollador web apasionado, siempre buscando formas de mejorar y simplificar tu flujo de trabajo, me encantaría que le dieras una oportunidad a Cohete.
 
-Estos números demuestran que Cohete no solo es una idea prometedora, sino una solución probada y lista para cargas de trabajo del mundo real.
+Puedes explorar el repositorio de Cohete en [[https://github.com/pascualmg/cohete][GitHub]] y echarle un vistazo a mi página web [[https://pascualmg.dev]] para más información.
 
-* Próximos pasos en el desarrollo de Cohete
+Pero más que nada, me gustaría invitarte a probar Cohete y compartir tu experiencia conmigo. Tu feedback, ideas y sugerencias son invaluables para mí. Quiero saber qué funciona, qué no, y cómo puedo hacer Cohete aún mejor.
 
-1. *Finalización del blog de ejemplo*: Esto servirá como una demostración completa de las capacidades de Cohete, desde el manejo de datos hasta la presentación de contenido.
+Ya seas un desarrollador experimentado buscando simplificar tu stack, un líder técnico interesado en mejorar la eficiencia de tu equipo, o un entusiasta curioso sobre nuevos enfoques en el desarrollo web, tu opinión es importante para mí.
 
-2. *Optimización de la renderización de .org*: Mejorar el proceso de conversión de archivos .org a HTML utilizando la plantilla estándar.
+* Conclusión: Un viaje de descubrimiento y crecimiento
 
-3. *Documentación extensa*: Crear guías detalladas sobre cómo utilizar Cohete tanto para el backend como para servir contenido frontend.
+Para mí, Cohete es más que un microframework; es un reflejo de mi viaje como desarrollador. Es el resultado de mis luchas, mis aprendizajes y mi pasión por crear herramientas que hagan la vida de los desarrolladores un poco más fácil.
 
-4. *Ejemplos de integración*: Desarrollar más ejemplos que muestren cómo Cohete puede integrarse con diferentes tecnologías y frameworks frontend.
+Al compartir Cohete contigo, espero inspirarte a cuestionar el status quo, a buscar soluciones creativas y a nunca dejar de aprender y crecer.
 
-5. *Exploración de WebSockets*: Investigar la integración de WebSockets para aplicaciones en tiempo real aún más potentes.
+Entiendo que sin departamentos genuinos de I+D en las empresas o una valoración real de los esfuerzos innovadores, puede ser un reto lograr algo como Cohete. Pero espero que, como mínimo, este proyecto pueda ayudar a abrir algunos ojos a las posibilidades de simplificar y mejorar el desarrollo web en PHP.
 
-* Llamamiento a la colaboración: ¡Únete a la revolución Cohete!
+Cohete es un proyecto en el que he estado trabajando mientras busco nuevas oportunidades laborales. Sería increíblemente afortunado si mi próxima empresa valorara y fomentara esta actitud hacia la innovación y la mejora continua. Mientras tanto, este "ma(u)rciano" seguirá dedicando su tiempo y esfuerzo a proyectos como Cohete, con la esperanza de marcar una diferencia en el mundo del desarrollo web.
 
-Cohete ha demostrado su potencial, pero imagina lo que podríamos lograr con más mentes brillantes trabajando juntas. Estoy buscando colaboradores apasionados que quieran ser parte de este viaje.
+Así que, ¿estás listo para ser parte de este viaje? Prueba Cohete, comparte tu experiencia, y trabajemos juntos para hacer del desarrollo web en PHP una aventura más simple y gratificante.
 
-** ¿Por qué unirte al proyecto Cohete?
+Estoy ansioso por escuchar tus pensamientos y trabajar juntos para dar forma al futuro del desarrollo web asíncrono en PHP. ¡Gracias por ser parte de esta emocionante aventura!
 
-1. *Innovación práctica*: Trabaja en la vanguardia de PHP asíncrono con un enfoque en soluciones del mundo real.
-2. *Aprendizaje valioso*: Profundiza en DDD, ReactPHP, RxPHP y programación asíncrona.
-3. *Impacto significativo*: Tu código podría influir en cómo se desarrollan aplicaciones PHP en el futuro.
-4. *Evolución gradual*: Perfecto para desarrolladores que quieren adentrarse en la programación asíncrona sin abandonar las prácticas familiares de DDD.
-
-** Áreas de colaboración
-
-- Optimización de rendimiento
-- Ampliación de ejemplos y casos de uso
-- Desarrollo de plugins y extensiones
-- Mejora de la documentación
-- Creación de tutoriales para la transición síncrona a asíncrona
-
-* Cómo empezar con Cohete
-
-¿Listo para despegar? Empezar con Cohete es tan sencillo como:
-
-#+BEGIN_SRC bash
-make nix-install
-nix develop
-make run
-#+END_SRC
-
-Tres comandos, y estás listo para explorar el potencial de Cohete.
-
-* Cohete vs. la industria: Ventajas y desventajas
-
-Para ofrecer una perspectiva equilibrada, es importante considerar cómo se posiciona Cohete en el panorama actual del desarrollo. Aquí presento una tabla comparativa de las ventajas y desventajas de Cohete frente a las prácticas y herramientas predominantes en la industria:
-
-| Aspecto                   | Ventajas de Cohete                                    | Desventajas / Desafíos                                 |
-|---------------------------+------------------------------------------------------+--------------------------------------------------------|
-| Rendimiento               | - Alta eficiencia en operaciones asíncronas           | - Puede requerir ajustes para aplicaciones muy simples |
-|                           | - Menor consumo de recursos                           |                                                        |
-|---------------------------+------------------------------------------------------+--------------------------------------------------------|
-| Curva de aprendizaje      | - Más sencillo que frameworks complejos               | - Requiere comprensión de programación asíncrona       |
-|                           | - Familiar para usuarios de DDD                       | - Menos recursos de aprendizaje disponibles            |
-|---------------------------+------------------------------------------------------+--------------------------------------------------------|
-| Flexibilidad              | - Transición suave de síncrono a asíncrono            | - Menos plugins/extensiones que frameworks establecidos|
-|                           | - Adaptable a diferentes tipos de proyectos           |                                                        |
-|---------------------------+------------------------------------------------------+--------------------------------------------------------|
-| Madurez del ecosistema    | - Core maduro y probado en producción                 | - Ecosistema más pequeño que frameworks populares      |
-|                           | - Diseñado con las mejores prácticas actuales         | - Menor cantidad de bibliotecas de terceros específicas|
-|---------------------------+------------------------------------------------------+--------------------------------------------------------|
-| Escalabilidad             | - Excelente para APIs y microservicios de alto        | - Podría requerir más configuración para aplicaciones  |
-|                           |   rendimiento                                         |   monolíticas muy grandes                              |
-|---------------------------+------------------------------------------------------+--------------------------------------------------------|
-| Adopción en la industria  | - Potencial para ser pionero en nuevas técnicas       | - Menor adopción inicial que frameworks establecidos   |
-|                           | - Atractivo para empresas que buscan eficiencia       | - Posible resistencia al cambio en equipos tradicionales|
-|---------------------------+------------------------------------------------------+--------------------------------------------------------|
-| Mantenimiento a largo     | - Código base más pequeño y limpio                    | - Depende de una comunidad en crecimiento para soporte |
-| plazo                     | - Menos probabilidad de "code rot"                    |   a largo plazo                                        |
-|---------------------------+------------------------------------------------------+--------------------------------------------------------|
-| Integración con           | - Diseñado para integrarse bien con tecnologías       | - Puede requerir más trabajo para integrarse con       |
-| tecnologías existentes    |   modernas (ReactPHP, RxPHP)
-
-Esta comparación muestra que Cohete ofrece ventajas significativas en términos de rendimiento, flexibilidad y mantenimiento a largo plazo, especialmente para proyectos que requieren alta eficiencia y escalabilidad. Sin embargo, también enfrenta desafíos típicos de las tecnologías emergentes, como un ecosistema inicial más pequeño y la necesidad de educación en nuevos paradigmas.
-
-La elección entre Cohete y soluciones más establecidas dependerá de las necesidades específicas del proyecto, la disposición del equipo para adoptar nuevas tecnologías y la importancia de la eficiencia y la escalabilidad en el contexto del proyecto.
-
-
-
-* Conclusión: El futuro del desarrollo PHP está aquí
-
-Cohete no es solo otro framework; es una nueva forma de pensar sobre el desarrollo en PHP. Combina lo mejor de las prácticas establecidas (DDD) con las tecnologías del futuro (programación asíncrona), todo en un paquete que permite una adopción gradual y sin dolor.
-
-Es una solución integral para el desarrollo web moderno, capaz de manejar desde APIs de alto rendimiento hasta aplicaciones web completas, demostrando que la simplicidad y la potencia pueden coexistir.
-
-Si eres un desarrollador PHP que busca estar a la vanguardia sin sacrificar la estabilidad y las buenas prácticas, Cohete es tu plataforma de lanzamiento ideal.
-
-¿Listo para ser parte de la próxima evolución del desarrollo PHP? Visita nuestro repositorio en GitHub [enlace] y únete a la conversación. Juntos, podemos llevar PHP al siguiente nivel.
-
-#PHP #OpenSource #Cohete #DDD #DesarrolloAsíncrono #FullStack #InnovaciónTecnológica
+#PHP #Cohete #AsyncPHP #Microframework #DDD #DesarrolloWeb #OpenSource #Aprendizaje
