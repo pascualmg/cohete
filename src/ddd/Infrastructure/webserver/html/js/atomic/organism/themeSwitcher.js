@@ -156,6 +156,7 @@ class ThemeSwitcher extends HTMLElement {
 
         for (let colorName in themeColors) {
             document.documentElement.style.setProperty(`--${colorName}`, themeColors[colorName]);
+            document.documentElement.style.transition = 'background-color 0.3s ease-in-out';
         }
         document.documentElement.style.backgroundColor = themeColors['bg1'];
     }

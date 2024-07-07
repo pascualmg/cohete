@@ -52,7 +52,7 @@ class ThemeToggler extends HTMLElement {
                 :host {
                     border-radius: 10px;
                     position: fixed;
-                    top: 20px;
+                    bottom: 20px;
                     right: 20px;
                  
                 }
