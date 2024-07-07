@@ -2,6 +2,7 @@ import './pascualmg-portfolio.js';
 import './ThemeToogler.js';
 import './ChatBox.js';
 import '../molecule/SocialLinks.js';
+import './PascualmgBlog.js'
 
 class PascualmgSpa extends HTMLElement {
     constructor() {
@@ -121,7 +122,7 @@ class PascualmgSpa extends HTMLElement {
             <aside class="sidebar" id="sidebar">
                 <ul>
                     <li data-custom-component-name="pascualmg-portfolio">Sobre mi</li>
-                    <li data-custom-component-name="Foo">Parte 2</li>
+                    <li data-custom-component-name="pascualmg-blog">Blog</li>
                     <li data-custom-component-name="chat-box">chat</li>
                 </ul>
             </aside>
