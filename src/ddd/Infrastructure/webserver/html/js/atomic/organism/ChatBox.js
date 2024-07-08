@@ -1,16 +1,17 @@
 class ChatBox extends HTMLElement {
-
     constructor() {
         super();
         this.attachShadow({mode: 'open'});
-        this.webSocket = null
+        this.webSocket = null;
     }
 
     connectedCallback() {
-        const host = this.getAttribute("host") || '0.0.0.0'
-        const port = this.getAttribute("port") || '8001'
-        const uri = `wss://${host}:${port}`
-        const group = this.getAttribute("group") || 'general'
+        const host = this.getAttribute("host") || window.location.hostname;
+        const port = this.getAttribute("port") || 8001;
+        const uri = `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${host}:${port}`;
+        const group = this.getAttribute("group") || 'general';
+
+        console.log('Attempting to connect to WebSocket at:', uri);
 
         this.render(group);
         this.elements = {
@@ -22,24 +23,29 @@ class ChatBox extends HTMLElement {
             'closeButton': this.shadowRoot.querySelector('.button-round.right')
         };
 
-        const removeElement = function setHidden(elem) {
-           return function () {
-               elem.remove()
-           }
-        }(this)
+        const removeElement = (function setHidden(elem) {
+            return function () {
+                elem.remove();
+            }
+        })(this);
 
         this.closeButtonClick$()
-            .subscribe(removeElement)
+            .subscribe(removeElement);
 
         this.SocketMessage$(uri)
-            .subscribe(this.renderIncomingMessage(this.elements.chatBox))
+            .subscribe(
+                this.renderIncomingMessage(this.elements.chatBox),
+                error => console.error('WebSocket error:', error),
+                () => console.log('WebSocket connection closed')
+            );
 
         this.userInput$()
-            .subscribe(this.sendMessageToChat(this.webSocket))
+            .subscribe(this.sendMessageToChat(this.webSocket));
     }
 
     renderIncomingMessage(chatBox) {
         return (messageEvent) => {
+            console.log('Received message:', messageEvent);
             const {
                 msg = "",
                 uuid = ""
@@ -55,27 +61,19 @@ class ChatBox extends HTMLElement {
     sendMessageToChat(webSocket) {
         return (value) => {
             try {
-                webSocket.send(value)
+                console.log('Sending message:', value);
+                webSocket.send(value);
                 this.elements.messageInput.value = '';
 
                 const divWithMessage = document.createElement('div');
                 divWithMessage.textContent = value;
-                this.elements.chatBox.appendChild(
-                    divWithMessage
-                )
+                this.elements.chatBox.appendChild(divWithMessage);
             } catch (e) {
-                console.error(e);
+                console.error('Error sending message:', e);
             }
         }
     }
 
-    /**
-     * Returns an observable that emits an object whenever the Enter key is pressed on the message input field.
-     * The emitted object contains the trimmed value of the input field and the key that triggered the event.
-     * Only emits when the value is not empty.
-     *
-     * @return {Observable} An observable that emits an object when the Enter key is pressed on the message input field.
-     */
     userInput$() {
         return rxjs.fromEvent(this.elements.messageInput, 'keypress')
             .pipe(
@@ -88,172 +86,152 @@ class ChatBox extends HTMLElement {
             );
     }
 
-    /**
-     * Renders the chat interface with the given group name.
-     *
-     * @param {string} group - The name of the chat group.
-     */
     render(group) {
         this.shadowRoot.innerHTML = `
-<style>
-    .chat-container {
-        position: fixed;  
-        bottom: 1%;
-        right: 1%;
-        height: 500px;
-        width: 500px;
-        display: flex;
-        flex-direction: column;
-        padding: 5px;
-        background-color: var(--bg2);
-        color: var(--cblk);
-        border-radius: 10px;
-        border: 1px solid var(--border);
+        <style>
+            .chat-container {
+                position: fixed;  
+                bottom: 1%;
+                right: 1%;
+                height: 500px;
+                width: 500px;
+                display: flex;
+                flex-direction: column;
+                padding: 5px;
+                background-color: var(--bg2);
+                color: var(--cblk);
+                border-radius: 10px;
+                border: 1px solid var(--border);
+            }
+
+            .scrollable {
+                overflow-y: auto;
+                flex-grow: 1;
+            }
+
+            .rounded-div {
+                border: 1px solid var(--border);
+                border-radius: 10px;
+                padding: 10px;
+                margin: 2px 0;
+                background-color: var(--bg2);
+                color: var(--cblk);
+                font-size: xx-large;
+            }
+
+            .user-input-section {
+                margin-top: 100px;
+            }
+
+            .message-input {
+                width: 98%;
+                padding: 5px;
+                border-radius: 5px;
+                border: none;
+                background-color: var(--act1);
+                color: var(--cblk);
+                font-size: xxx-large;
+            }
+
+            .button-round {
+                background: var(--bg4);
+                position: absolute;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                border: none;
+            }
+
+            .button-round.left {
+                left: 20px;
+            }
+
+            .button-round.right {
+                right: 20px;
+                font-size: 1.2em;
+                color: var(--bg1);
+                text-align: center;
+                cursor: pointer;
+            }
+
+            .chat-box-bar {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+                height: 70px;
+            }
+        </style>
+
+        <div class="chat-container">
+            <div class="chat-box-bar">
+                <button class="button-round right">X</button>
+                <button class="button-round left" disabled></button>
+            </div>
+            <div class="scrollable rounded-div"></div>
+            <div class="user-input-section">
+                <label for="messageInput"></label>
+                <input class="message-input" type="text" placeholder="Write a message group ${group}"/>
+            </div>
+        </div>
+        `;
     }
 
-    .scrollable {
-        overflow-y: auto;
-        flex-grow: 1;
-    }
-
-    .rounded-div {
-        border: 1px solid var(--border);
-        border-radius: 10px;
-        padding: 10px;
-        margin: 2px 0;
-        background-color: var(--bg2);
-        color: var(--cblk);
-        font-size: xx-large;
-    }
-
-    .user-input-section {
-        margin-top: 100px;
-    }
-
-    .message-input {
-        width: 98%;
-        padding: 5px;
-        border-radius: 5px;
-        border: none;
-        background-color: var(--act1);
-        color: var(--cblk);
-        font-size: xxx-large;
-    }
-
-    .button-round {
-        background: var(--bg4);
-        position: absolute;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        border: none;
-    }
-
-    .button-round.left {
-        left: 20px;
-    }
-
-    .button-round.right {
-        right: 20px;
-        font-size: 1.2em;
-        color: var(--bg1);
-        text-align: center;
-        cursor: pointer;
-    }
-    
-
-    .chat-box-bar {
-        display: flex;
-        justify-content: space-between;
-        padding: 10px;
-        height: 70px;
-    }
-</style>
-
-<div class="chat-container">
-    <div class="chat-box-bar">
-        <button class="button-round right">X</button>
-        <button class="button-round left" disabled></button>
-    </div>
-    <div class="scrollable rounded-div"></div>
-    <div class="user-input-section">
-        <label for="messageInput"></label>
-        <input class="message-input" type="text" placeholder="Write a message group "/>
-    </div>
-</div>
-    `;
-
-    }
-
-    closeButtonClick$()  {
+    closeButtonClick$() {
         return rxjs.fromEvent(
             this.elements.closeButton,
             'click'
-        )
-    }
-    /**
-     * Sets the background color of the connected button element.
-     *
-     * @param {boolean} boolean - The boolean value to determine the background color of the connected button.
-     *                            True sets the color to green, while false sets it to red.
-     *
-     * @return {void}
-     */
-    connectedButton(boolean) {
-        this.elements.connectedButton.style.backgroundColor = boolean ? "green" : "red"
+        );
     }
 
-    /**
-     * Creates and returns an Observable that receives incoming messages from a WebSocket.
-     *
-     * @param {string} url - The URL of the WebSocket server.
-     * @returns {Observable} - An Observable that emits incoming messages from the WebSocket.
-     */
+    connectedButton(boolean) {
+        this.elements.connectedButton.style.backgroundColor = boolean ? "green" : "red";
+    }
+
     SocketMessage$(url) {
         return new rxjs.Observable(subscriber => {
-            /** lo crea y lo deja disponible en la class
-             *  para poder usarlo enviando los mensajes.
-             */
             this.webSocket = new WebSocket(url);
 
             this.webSocket.onopen = () => {
-                console.log('WebSocket Client Connected');
+                console.log('WebSocket Client Connected to:', url);
                 this.connectedButton(true);
             }
 
             this.webSocket.onmessage = event => {
-                console.log(event)
-                subscriber.next(event)
+                console.log('WebSocket message received:', event);
+                subscriber.next(event);
             };
 
             this.webSocket.onerror = error => {
+                console.error('WebSocket error:', error);
                 subscriber.error(error);
             };
 
             this.webSocket.onclose = event => {
+                console.log('WebSocket closed:', event);
                 if (!event.wasClean) {
                     subscriber.error('WebSocket connection lost');
+                } else {
+                    subscriber.complete();
                 }
             };
 
-            return () => this.webSocket.close(1000, 'Closing connection normally');
+            return () => {
+                console.log('Closing WebSocket connection');
+                this.webSocket.close(1000, 'Closing connection normally');
+            };
         }).pipe(
             rxjs.operators.retryWhen((errors) => errors.pipe(
-                // Log the error to console
-                rxjs.operators.tap(val => console.error(`WebSocket connection failed with error: ${val}`)),
-                // Retry every 2 seconds, up to a maximum of 10 attempts
+                rxjs.operators.tap(val => console.error(`WebSocket connection failed with error:`, val)),
                 rxjs.operators.switchMap((error, index) =>
                     (index < 10) ?
-                        rxjs.of(error).pipe(rxjs.delay(2000))
-                        : rxjs.throwError(error))
+                        rxjs.of(error).pipe(rxjs.operators.delay(2000))
+                        : rxjs.throwError(() => new Error(`Failed to connect after 10 attempts: ${error}`))
+                )
             ))
         );
     }
 }
 
-window
-    .customElements
-    .define('chat-box', ChatBox)
-;
+window.customElements.define('chat-box', ChatBox);
 
-export default ChatBox
+export default ChatBox;
