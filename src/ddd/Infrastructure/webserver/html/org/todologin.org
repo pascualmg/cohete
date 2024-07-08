@@ -1,0 +1,220 @@
+#+TITLE: Implementación de Autenticación con Google para Web Components y ReactPHP
+#+AUTHOR: Tu Nombre
+#+DATE: [2024-07-08 Mon]
+
+* Introducción
+
+Este documento describe cómo implementar la autenticación con Google en una aplicación que utiliza Web Components en el frontend y ReactPHP en el backend. El proceso utiliza el flujo de autenticación de Google y JWT (JSON Web Tokens) para manejar las sesiones de usuario.
+
+* Arquitectura General
+
+1. El usuario inicia sesión con Google a través de un Web Component.
+2. Google proporciona un token de ID después de una autenticación exitosa.
+3. El frontend envía este token al backend ReactPHP.
+4. El backend verifica el token con Google y, si es válido, genera un JWT.
+5. El JWT se devuelve al frontend y se almacena para futuras peticiones.
+6. Las peticiones subsiguientes incluyen el JWT para autenticación.
+
+* Implementación del Frontend (Web Components)
+
+** Componente de Login con Google
+
+#+BEGIN_SRC javascript
+class GoogleLogin extends HTMLElement {
+    constructor() {
+        super();
+        this.attachShadow({ mode: 'open' });
+    }
+
+    connectedCallback() {
+        this.render();
+        this.loadGoogleScript();
+    }
+
+    render() {
+        this.shadowRoot.innerHTML = `
+            <div id="googleSignInButton"></div>
+        `;
+    }
+
+    loadGoogleScript() {
+        const script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gsi/client';
+        script.async = true;
+        script.defer = true;
+        script.onload = () => this.initializeGoogleSignIn();
+        document.body.appendChild(script);
+    }
+
+    initializeGoogleSignIn() {
+        window.google.accounts.id.initialize({
+            client_id: 'TU_GOOGLE_CLIENT_ID', // Reemplaza con tu Client ID
+            callback: this.handleCredentialResponse.bind(this)
+        });
+        window.google.accounts.id.renderButton(
+            this.shadowRoot.getElementById('googleSignInButton'),
+            { theme: 'outline', size: 'large' }
+        );
+    }
+
+    handleCredentialResponse(response) {
+        fetch('http://tu-api.com/auth/google', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token: response.credential })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.jwt) {
+                localStorage.setItem('jwt', data.jwt);
+                this.dispatchEvent(new CustomEvent('login-success', { 
+                    bubbles: true, 
+                    composed: true, 
+                    detail: { jwt: data.jwt } 
+                }));
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+}
+
+customElements.define('google-login', GoogleLogin);
+#+END_SRC
+
+** Uso del Componente de Login
+
+#+BEGIN_SRC html
+<google-login></google-login>
+<script>
+    document.addEventListener('login-success', (event) => {
+        console.log('Login exitoso, JWT:', event.detail.jwt);
+        // Aquí puedes manejar el estado de login en tu aplicación
+    });
+</script>
+#+END_SRC
+
+** Realizar Peticiones Autenticadas
+
+Para hacer peticiones autenticadas después del login:
+
+#+BEGIN_SRC javascript
+fetch('http://tu-api.com/algun-endpoint', {
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    }
+})
+.then(response => response.json())
+.then(data => console.log(data))
+.catch(error => console.error('Error:', error));
+#+END_SRC
+
+* Implementación del Backend (ReactPHP)
+
+** Servidor ReactPHP con Autenticación
+
+#+BEGIN_SRC php
+<?php
+
+use React\Http\Message\Response;
+use React\Http\Message\ServerRequest;
+use Firebase\JWT\JWT;
+use Google_Client;
+
+$http = new React\Http\HttpServer(function (ServerRequest $request) {
+    if ($request->getMethod() === 'POST' && $request->getUri()->getPath() === '/auth/google') {
+        $body = json_decode((string) $request->getBody(), true);
+        $googleToken = $body['token'] ?? null;
+
+        if ($googleToken) {
+            $payload = verifyGoogleToken($googleToken);
+            if ($payload) {
+                $jwt = generateJWT($payload['sub'], $payload['email']);
+                return Response::json(['jwt' => $jwt]);
+            }
+            return new Response(401, ['Content-Type' => 'application/json'], json_encode(['error' => 'Token inválido']));
+        }
+        return new Response(400, ['Content-Type' => 'application/json'], json_encode(['error' => 'Token no proporcionado']));
+    }
+
+    // Ejemplo de ruta protegida
+    if ($request->getUri()->getPath() === '/ruta-protegida') {
+        $user = getAuthenticatedUser($request);
+        if ($user) {
+            return Response::json(['message' => 'Acceso permitido', 'userId' => $user->sub]);
+        }
+        return new Response(401, ['Content-Type' => 'application/json'], json_encode(['error' => 'No autorizado']));
+    }
+
+    // Otros endpoints...
+});
+
+$socket = new React\Socket\SocketServer('0.0.0.0:8080');
+$http->listen($socket);
+
+echo "Servidor corriendo en http://127.0.0.1:8080\n";
+
+function verifyGoogleToken($token) {
+    $client = new Google_Client(['client_id' => 'TU_GOOGLE_CLIENT_ID']); // Reemplaza con tu Client ID
+    try {
+        return $client->verifyIdToken($token);
+    } catch (Exception $e) {
+        return null;
+    }
+}
+
+function generateJWT($googleUserId, $email) {
+    $key = "tu_clave_secreta"; // Reemplaza con una clave secreta segura
+    $payload = [
+        "sub" => $googleUserId,
+        "email" => $email,
+        "iat" => time(),
+        "exp" => time() + (60 * 60) // El token expira en 1 hora
+    ];
+    return JWT::encode($payload, $key, 'HS256');
+}
+
+function getAuthenticatedUser(ServerRequest $request) {
+    $authHeader = $request->getHeaderLine('Authorization');
+    if (preg_match('/Bearer\s(\S+)/', $authHeader, $matches)) {
+        $jwt = $matches[1];
+        try {
+            $key = "tu_clave_secreta"; // La misma clave usada para generar el token
+            return JWT::decode($jwt, new Key($key, 'HS256'));
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+    return null;
+}
+#+END_SRC
+
+* Flujo de Autenticación
+
+1. El usuario hace clic en el botón de login de Google en el Web Component.
+2. Google maneja la autenticación y devuelve un token de ID.
+3. El Web Component envía este token al backend ReactPHP.
+4. El backend verifica el token con Google.
+5. Si el token es válido, el backend genera un JWT y lo devuelve al frontend.
+6. El frontend almacena el JWT en localStorage.
+7. Para futuras peticiones, el frontend incluye el JWT en el header de autorización.
+8. El backend verifica el JWT en cada petición a rutas protegidas.
+
+* Consideraciones de Seguridad
+
+- Mantén tu Client ID de Google y la clave secreta para JWT seguros.
+- Implementa HTTPS en tu servidor para proteger las comunicaciones.
+- Considera la implementación de refresh tokens para manejar la expiración de JWTs.
+- Valida y sanitiza todas las entradas de usuario en el backend.
+
+* Próximos Pasos
+
+1. Implementa el manejo de errores y casos edge en el frontend y backend.
+2. Añade funcionalidades para refrescar el token JWT cuando esté cerca de expirar.
+3. Implementa logout y revocación de tokens.
+4. Considera la implementación de un sistema de roles o permisos basado en la información del usuario de Google.
+
+* Conclusión
+
+Esta implementación te permite utilizar la autenticación de Google en tu aplicación de Web Components y ReactPHP sin necesidad de mantener una base de datos de usuarios completa. Utiliza el ID de Google como identificador único para tus usuarios en tu sistema, simplificando la gestión de usuarios mientras mantienes un alto nivel de seguridad.
