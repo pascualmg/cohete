@@ -19,7 +19,7 @@ $httpServer = new Ratchet\Http\HttpServer($wsServer);
 
 $ioServer = IoServer::factory(
     $httpServer,
-    443,
+    8001,
     '0.0.0.0'
 );
 
