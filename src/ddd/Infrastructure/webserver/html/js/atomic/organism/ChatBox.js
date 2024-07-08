@@ -7,7 +7,7 @@ class ChatBox extends HTMLElement {
 
     connectedCallback() {
         const host = this.getAttribute("host") || window.location.hostname;
-        const port = this.getAttribute("port") || 8001;
+        const port = this.getAttribute("port") || 443;
         const uri = `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${host}:${port}`;
         const group = this.getAttribute("group") || 'general';
 
