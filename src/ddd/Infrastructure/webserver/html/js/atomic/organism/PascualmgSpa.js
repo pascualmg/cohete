@@ -133,13 +133,13 @@ class PascualmgSpa extends HTMLElement {
 
             <footer class="footer">
                 <social-links links='[
-                    {"name": "twitter", "url": "https://twitter.com/pascualmg"},
-                    {"name": "github", "url": "https://github.com/pascualmg"},
-                    {"name": "linkedin", "url": "https://www.linkedin.com/in/pascual-mu%C3%B1oz-gali%C3%A1n-7b4b3896/"},
-                    {"name": "facebook", "url": "https://www.facebook.com/pascualmg"},
-                    {"name": "email", "url": "mailto:info@pascualmg.dev"},
-                    {"name": "phone", "url": "tel:+34693000983"}
-                    ]'></social-links>
+                           {"name": "phone", "url": "tel:+34693000983"},
+                           {"name": "email", "url": "mailto:info@pascualmg.dev"},
+                           {"name": "linkedin", "url": "https://www.linkedin.com/in/pascual-mu%C3%B1oz-gali%C3%A1n-7b4b3896/"},
+                           {"name": "github", "url": "https://github.com/pascualmg"},
+                           {"name": "twitter", "url": "https://twitter.com/pascualmg"}
+                           ]'>
+                </social-links>
             </footer>
         `;
 
