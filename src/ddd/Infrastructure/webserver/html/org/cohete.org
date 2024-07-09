@@ -1,49 +1,37 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="spacemacs.css">
 
-#+TITLE: Revolucionando el Desarrollo Web Asíncrono en PHP: Mi Viaje con Cohete 🚀
+#+TITLE: Descubriendo el Desarrollo Web Asíncrono en PHP: Una Aventura de Aprendizaje 🚀
 
-* El Comienzo: Una Chispa de Innovación
+* El Comienzo de la Aventura
 
-¡Hola a todos! Soy Pascual, un desarrollador PHP apasionado por la innovación y la eficiencia. Hoy, quiero compartir con ustedes un proyecto muy personal nacido de mis propias luchas y aspiraciones como desarrollador web.
+Como desarrollador PHP, siempre estoy buscando  o aprendiendo cosas que me parecen interesantes. A lo largo de mi carrera, a menudo me he sentido frustrado por la complejidad innecesaria de muchos frameworks, deseando encontrar una manera de enfocarme en resolver problemas reales, en lugar de luchar contra las herramientas.
 
-A lo largo de mi carrera, a menudo me sentía frustrado por la complejidad innecesaria de muchos frameworks PHP. Sentía que pasaba más tiempo luchando contra el framework que resolviendo problemas reales. Como desarrollador, sabía que tenía que haber una mejor manera.
+Mi curiosidad se avivó aún más con la reciente actualización del framework Symfony, que introdujo la posibilidad de cambiar los "runtimes", permitiendo opciones como la ejecución asíncrona. Esto me impulsó a investigar más a fondo.
 
-Así comenzó mi viaje para crear un microframework diseñado para optimizar y simplificar el desarrollo web asíncrono en PHP.
+* Descubriendo RxPHP y la Programación Reactiva
 
-* Los Pilares: Asincronía y DDDD
+En un momento de mi carrera me vi metido en el desarrollo de un front , para el cual el gran Guillermo Cuenca me introdujo en el mundo de la programación reactiva con JS y descubrí su potencial.
+ Tras pasar un tiempo me topé con los videos de [[https://www.youtube.com/watch?v=mJFbYHYxSDg][Sergey Zhuk]] sobre RxPHP y la programación reactiva. Estos conceptos me fascinaron y comencé a explorar más a fondo.
+Recursos como [[https://rxmarbles.com/][RxMarbles]] y [[https://reactivex.io/learnrx/][LearnRx]] me ayudaron a comprender mejor los principios de la programación reactiva y cómo podría aplicarlos en PHP.
+ Sería posible aplicar estos conceptos en PHP? Me pregunté.
 
-En el núcleo de esta innovadora herramienta se encuentra la combinación de dos poderosos conceptos: la programación asíncrona y el Domain Driven Design for the Developer (DDDD). Si no le sobra una "D" es por que en esa ultima le doy todo el protagonismo al desarrollador que suele ser el que más sufre en el desarrollo de software.
 
-Mi inmersión en el mundo de la asincronía, impulsada por ReactPHP y RxPHP, me abrió los ojos a nuevas posibilidades. Vi cómo podíamos aprovechar la naturaleza asíncrona de PHP para crear aplicaciones web altamente eficientes y receptivas.
+Vi el potencial de crear aplicaciones web altamente eficientes y receptivas aprovechando la naturaleza asíncrona de PHP. Sin embargo, noté que no había muchas opciones para comenzar fácilmente con estas tecnologías en PHP sin tener que configurar todo desde cero.
 
-Al mismo tiempo, el DDD me proporcionó un marco para modelar y estructurar el código de una manera que refleje el dominio del negocio. Quería que este microframework permitiera a los desarrolladores expresar su dominio de manera clara y concisa.
+* Creando una Solución
 
-Por supuesto , usar DDD es totalmente opcional y realmente es a modo de ejemplo o sugerencia , puedes hacer lo que quieras con el código, pero si te gusta el DDD sin duda con este esquema te sentirás como en casa.
+Inspirado por este desafío, decidí crear [[https://github.com/pascualmg/cohete][un microframework]] que combinara la programación asíncrona con el Diseño Guiado por el Dominio para Desarrolladores (DDDD).
+Aunque esta última parte , es meramente organizativa y nada tiene que ver con el core , que está totalmente separado.
 
-Imagina poder escribir código asíncrono que se lea casi como prosa:
+Mi objetivo era proporcionar una manera fácil para que los programadores de backend en PHP pudieran comenzar a utilizar estas tecnologías sin tener que preocuparse por la configuración inicial.
 
-#+BEGIN_SRC php
-public function handle(UserId $id): Promise {
-    return $this->userRepository->findAsync($id)
-        ->then(fn($user) => $user ?? throw new UserNotFoundException());
-}
-#+END_SRC
+Una de las grandes ventajas de este microframework es que el código del núcleo es super sencillo. Esto te da un control casi total sobre el código de tu framework y facilita su comprensión y extensión.
 
-Con Cohete, he trabajado para encapsular los conceptos de asincronía y DDD en una forma que se sienta natural e intuitiva para los desarrolladores PHP.
+Además, es poco opinionado y se puede ampliar fácilmente según tus necesidades. Incluso puedes construir tu propio kernel desde cero si lo deseas fácilmente.
 
-* Flexibilidad y Simplicidad: Las Virtudes de Este Microframework
+* Un Vistazo al Código
 
-Al diseñar esta herramienta, dos objetivos principales guiaron mi proceso: flexibilidad y simplicidad.
-
-Quería crear un framework que se adaptara a desarrolladores con diferentes niveles de experiencia. Ya seas un novato en la programación asíncrona o un veterano, Cohete te permite adoptar la asincronía a tu propio ritmo.
-
-Puedes comenzar con repositorios síncronos y, a medida que te sientas más cómodo, migrar gradualmente a repositorios asíncronos. Este microframework se basa en conceptos familiares de PHP, lo que hace que la curva de aprendizaje sea suave.
-
-Además, me esforcé por mantener la simplicidad en el centro de Cohete. Quería que los desarrolladores se centraran en resolver problemas de negocio, no en luchar contra el framework.
-
-* Cohete en Acción: Creando un Post
-
-Veamos este microframework en acción a través de un ejemplo práctico. Imaginemos que queremos crear un endpoint para publicar un nuevo post en un blog.
+Veamos un ejemplo práctico. Imaginemos que queremos crear un endpoint para publicar un nuevo post en un blog.
 
 Primero, definimos la ruta en nuestro archivo de configuración:
 
@@ -57,7 +45,7 @@ Primero, definimos la ruta en nuestro archivo de configuración:
 ]
 #+END_SRC
 
-Luego, implementamos el controlador `CreatePostController`:
+Luego, implementamos el =CreatePostController=:
 
 #+BEGIN_SRC php
 class CreatePostController implements HttpRequestHandler
@@ -80,60 +68,15 @@ class CreatePostController implements HttpRequestHandler
 }
 #+END_SRC
 
-Aquí es donde la magia de ReactPHP brilla. El método `save` del repositorio devuelve una `Promise`. Si el post se guarda con éxito, la promesa se resuelve, y si algo sale mal, se rechaza.
+Aquí es donde brilla la magia de ReactPHP. El método =save= del repositorio devuelve una =Promise=. Si el post se guarda con éxito, la promesa se resuelve, y si algo sale mal, se rechaza.
 
-Lo fascinante es que, mientras se resuelve la promesa, el servidor puede continuar procesando otras solicitudes de manera concurrente. Este es el poder de la programación asíncrona en acción.
+Lo fascinante es que, mientras se resuelve la promesa, el servidor puede continuar procesando otras solicitudes de manera concurrente. De hecho, en pruebas en producción, este microframework ha podido manejar fácilmente registros de 40k mientras atiende otras peticiones simultáneamente. Este es el poder de la programación asíncrona en acción.
 
-* El Presente y Futuro: Un Viaje en Curso
+* Te apetece probarlo?
 
-Cohete comenzó como un proyecto personal, pero ha evolucionado hasta convertirse en una herramienta madura y lista para ser probada en el mundo real.
+Animo a todos los backend de PHP a probar esta nueva tecnología y experimentar los beneficios de la programación asíncrona.
 
-He logrado implementar un backend robusto y optimizado, integrar una parte del frontend, habilitar la renderización de contenido desde archivos .org y desarrollar un blog de ejemplo para mostrar las capacidades de este microframework.
+Puedes explorar el código fuente en  [[https://github.com/pascualmg/cohete][GitHub]]
+y conocer más sobre mi trabajo en [[https://pascualmg.dev]] , servidor donde se ha puesto en producción este framework para pruebas reales y donde estoy creando un pequeño Portfolio además de ser también mi laboratorio de pruebas :)
 
-Pero este es solo el comienzo del viaje. Tengo una visión ambiciosa para el futuro de esta innovadora herramienta:
-
-- Finalizar el blog de ejemplo para inspirar y guiar a otros desarrolladores
-- Optimizar la renderización de archivos .org para una experiencia de usuario aún mejor
-- Crear una documentación completa y accesible para facilitar la adopción
-- Explorar integraciones con populares tecnologías frontend para un stack completo
-- Aprovechar WebSockets para habilitar aplicaciones en tiempo real aún más potentes
-
-* Una Invitación Abierta: Únete a la Aventura
-
-Si eres un desarrollador web apasionado, siempre en busca de formas de mejorar y simplificar tu flujo de trabajo, te invito a probar Cohete.
-
-Puedes explorar el código fuente en [[https://github.com/pascualmg/cohete][GitHub]] y conocer más sobre mi trabajo en [[https://pascualmg.dev]].
-
-Pero más que nada, me encantaría que te unas a esta aventura. Prueba este innovador microframework en tus propios proyectos, experimenta con sus características y comparte tu experiencia conmigo. Tu retroalimentación, ideas y sugerencias son invaluables para dar forma al futuro de esta herramienta.
-
-Ya seas un desarrollador experimentado buscando simplificar tu stack, un líder técnico buscando mejorar la eficiencia de tu equipo, o simplemente alguien curioso sobre nuevos enfoques en el desarrollo web, tu perspectiva es valiosa.
-
-* Reflexiones de un Desarrollador en Evolución
-
-Para mí, Cohete es más que un microframework; es un testimonio de mi crecimiento como desarrollador. Refleja las lecciones aprendidas de mis luchas, los conocimientos adquiridos de la experimentación incesante y la pasión por crear herramientas que faciliten la vida de los desarrolladores.
-
-Al compartir este proyecto contigo, espero inspirarte a desafiar el status quo, a buscar soluciones creativas y a nunca dejar de aprender.
-
-Reconozco que sin verdaderos departamentos de I+D en las empresas o una apreciación real por los esfuerzos de innovación, lograr algo como Cohete puede ser un desafío. Pero espero que, al menos, esta iniciativa pueda abrir algunos ojos a las posibilidades de simplificar y mejorar el desarrollo web en PHP.
-
-Este microframework es un proyecto en el que he estado trabajando mientras busco nuevas oportunidades profesionales. Sería increíblemente afortunado si mi próxima empresa valorara y fomentara esta mentalidad de innovación y mejora continua. Mientras tanto, seguiré dedicando mi tiempo y esfuerzo a proyectos como este, con la esperanza de hacer una diferencia en el mundo del desarrollo web.
-
-* El Camino por Delante: Una Invitación a la Innovación
-
-El desarrollo de Cohete ha sido un viaje de descubrimiento y crecimiento. Ha requerido pensar fuera de la caja, cuestionar las convenciones establecidas y estar dispuesto a experimentar con nuevas ideas.
-
-Pero este es solo el comienzo. Hay mucho más por explorar en el mundo del desarrollo web asíncrono en PHP. Desde mejorar el rendimiento hasta crear experiencias de usuario más fluidas, las posibilidades son infinitas.
-
-Y ahí es donde entras tú. Ya seas un desarrollador experimentado o alguien que recién comienza, tienes un papel que desempeñar en este viaje de innovación.
-
-Tal vez tengas ideas para nuevas características o mejoras. Tal vez hayas enfrentado desafíos similares en tus propios proyectos y tengas perspectivas valiosas para compartir. O tal vez simplemente estés curioso y quieras aprender más.
-
-Sea cual sea tu situación, te invito a unirte a la comunidad en crecimiento de desarrolladores que están explorando el futuro del desarrollo web asíncrono en PHP.
-
-Juntos, podemos desafiar los límites de lo que es posible. Podemos crear herramientas y frameworks que no solo hagan nuestras vidas como desarrolladores más fáciles, sino que también nos permitan crear aplicaciones web más potentes, eficientes y receptivas.
-
-Así que, ¿estás listo para unirte a este viaje? Prueba Cohete, comparte tus experiencias y trabajemos juntos para hacer del desarrollo web en PHP una aventura más simple y gratificante.
-
-Estoy emocionado de escuchar tus ideas y colaborar para dar forma al futuro del desarrollo web asíncrono. ¡Gracias por ser parte de esta emocionante aventura!
-
-#PHP #AsyncPHP #Microframework #DDD #DesarrolloWeb #OpenSource #Innovación #Colaboración #ComunidadPHP
+#PHP #AsyncPHP #Microframework #DDD #DesarrolloWeb #OpenSource #ReactPHP #RxPHP #ReactiveProgramming
