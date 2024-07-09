@@ -123,7 +123,7 @@ class PascualmgSpa extends HTMLElement {
                 <ul>
                     <li data-custom-component-name="pascualmg-portfolio">Sobre mi</li>
                     <li data-custom-component-name="pascualmg-blog">Blog</li>
-                    <li data-custom-component-name="chat-box">chat</li>
+<!--                    <li data-custom-component-name="chat-box">chat</li>-->
                 </ul>
             </aside>
 
