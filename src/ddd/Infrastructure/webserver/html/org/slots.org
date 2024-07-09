@@ -11,7 +11,7 @@ Este artículo explora tres técnicas de parametrización para Web Components, c
 
 * 1. Parametrización mediante Slots
 
-Los slots en Web Components permiten insertar contenido externo en ubicaciones predefinidas dentro del Shadow DOM del componente.
+Los slots en Web Components permiten insertar contenido externo en ubicaciones predefinidas dentro del Shadow DOM del componente. Esta técnica es particularmente poderosa para componentes de interfaz de usuario que requieren alta flexibilidad en su contenido.
 
 ** Implementación con ExperienceTimeline
 
@@ -45,17 +45,91 @@ class ExperienceTimeline extends HTMLElement {
 customElements.define('experience-timeline', ExperienceTimeline);
 #+END_SRC
 
+** Caso de Estudio Avanzado: YastModal
+
+Para ilustrar mejor la potencia de los slots, consideremos un componente modal reutilizable, `YastModal`:
+
+#+BEGIN_SRC javascript
+class YastModal extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this._isOpen = false;
+  }
+
+  static get observedAttributes() {
+    return ['button-text'];
+  }
+
+  connectedCallback() {
+    this.buttonText = this.getAttribute('button-text') || 'Pulsa aquí';
+    this.render();
+    this.shadowRoot.querySelector('button').addEventListener('click', () => this.toggleModal());
+    this.shadowRoot.querySelector('.modal-background').addEventListener('click', () => this.toggleModal());
+  }
+
+  toggleModal() {
+    this._isOpen = !this._isOpen;
+    this.shadowRoot.querySelector('.modal-container').style.display = this._isOpen ? 'flex' : 'none';
+  }
+
+  render() {
+    this.shadowRoot.innerHTML = `
+      <style>
+        /* Estilos omitidos para brevedad */
+      </style>
+      <button>${this.buttonText}</button>
+      <div class="modal-container">
+        <div class="modal-content">
+          <button class="close-button" onclick="this.getRootNode().host.toggleModal()">&times;</button>
+          <slot name="content"></slot>
+        </div>
+      </div>
+    `;
+  }
+}
+
+customElements.define('yast-modal', YastModal);
+#+END_SRC
+
+Uso del componente YastModal:
+
+#+BEGIN_SRC html
+<yast-modal button-text="Abrir Modal de Experiencia">
+  <div slot="content">
+    <experience-timeline>
+      <h2 slot="company">Innovatech Solutions</h2>
+      <p slot="position">Arquitecto de Software Senior</p>
+      <span slot="duration">2020 - Presente</span>
+      <ul slot="projects">
+        <li>Migración de Microservicios</li>
+        <li>Implementación de CI/CD</li>
+      </ul>
+    </experience-timeline>
+  </div>
+</yast-modal>
+#+END_SRC
+
 ** Análisis
 
 Ventajas:
-- Flexibilidad en la estructura del contenido
-- Control granular sobre el marcado interno
-- Facilita la internacionalización
+- Flexibilidad Extrema: Los slots permiten insertar cualquier contenido HTML, incluyendo otros Web Components, dentro del componente principal.
+- Composición de Componentes: Facilita la creación de componentes complejos mediante la composición de componentes más simples.
+- Separación de Responsabilidades: El componente contenedor (como YastModal) se encarga de la funcionalidad y estructura general, mientras que el contenido específico queda bajo el control del desarrollador que lo utiliza.
+- Reutilización Eficiente: Un único componente como YastModal puede servir para múltiples propósitos en una aplicación, cada uno con contenido diferente.
+- Rendimiento: El contenido de los slots no necesita ser procesado por el componente contenedor, lo que puede resultar en un mejor rendimiento comparado con otras técnicas de parametrización para contenido complejo.
+- Interactividad Dinámica: El contenido de los slots puede incluir su propia lógica y eventos, permitiendo interacciones ricas sin complicar la implementación del componente principal.
 
 Desventajas:
-- Requiere conocimiento de la estructura interna del componente
-- Puede volverse complejo con numerosos slots anidados
-- Limitado para datos estructurados complejos
+- Complejidad Estructural: Para componentes con muchos slots, la estructura HTML puede volverse compleja.
+- Acoplamiento Estructural: El usuario del componente necesita conocer los nombres y propósitos de los slots disponibles.
+- Limitaciones en Datos Estructurados: Para pasar datos estructurados complejos, otras técnicas como la parametrización JSON pueden ser más apropiadas.
+
+** Conclusión Parcial
+
+Los slots brillan especialmente en componentes de UI que requieren alta flexibilidad en su contenido, como modales, diálogos, o layouts complejos. Proporcionan una manera poderosa de crear componentes altamente reutilizables y adaptables a diferentes contextos de uso.
+
+Sin embargo, para componentes que principalmente manejan datos estructurados complejos o requieren una configuración extensa, otras técnicas de parametrización como atributos/propiedades o JSON pueden ser más adecuadas. La elección de la técnica dependerá siempre del caso de uso específico y de las necesidades de flexibilidad y estructura del componente.
 
 * 2. Parametrización mediante Atributos y Propiedades
 
@@ -64,9 +138,9 @@ Esta técnica utiliza atributos HTML y propiedades JavaScript para configurar el
 ** Implementación con ExperienceTimeline
 
 #+BEGIN_SRC html
-<experience-timeline 
-  company="Innovatech Solutions" 
-  position="Arquitecto de Software Senior" 
+<experience-timeline
+  company="Innovatech Solutions"
+  position="Arquitecto de Software Senior"
   duration="2020 - Presente"
   projects='["Migración de Microservicios", "Implementación de CI/CD"]'>
 </experience-timeline>
@@ -214,7 +288,7 @@ Tras analizar estas tres técnicas, la parametrización mediante JSON emerge com
 
 La capacidad de encapsular configuraciones complejas en un único atributo transforma la manera en que diseñamos e interactuamos con nuestros componentes. El ejemplo del ExperienceTimeline demuestra cómo un componente puede adaptarse a diferentes escenarios y requisitos de datos sin necesidad de modificar su implementación interna.
 
-Sin embargo, la elección de la técnica de parametrización debe basarse en las necesidades específicas de cada proyecto y componente. Los slots y los atributos siguen siendo valiosos en escenarios más simples o cuando se requiere un control más granular sobre el marcado.
+Sin embargo, la elección de la técnica de parametrización debe basarse en las necesidades específicas de cada proyecto y componente. Los slots siguen siendo valiosos en escenarios donde se requiere máxima flexibilidad en el contenido y estructura de la UI, como vimos con el ejemplo de YastModal. Los atributos y propiedades son útiles para configuraciones simples y directas.
 
 La parametrización efectiva de Web Components es crucial para crear bibliotecas de componentes flexibles y mantenibles. El enfoque JSON, en particular, ofrece un camino prometedor hacia componentes más adaptables y reutilizables, facilitando la creación de interfaces de usuario complejas y dinámicas.
 
@@ -232,7 +306,4 @@ Aunque aún no he tenido la oportunidad de implementar Web Components a gran esc
 
 Seguiré investigando y compartiendo mis hallazgos. Si algún otro desarrollador está interesado en discutir sobre Web Components, su lugar en el ecosistema de desarrollo moderno, o tiene ideas para su implementación, no duden en contactarme. Siempre es enriquecedor conectar con otros profesionales que comparten esta pasión por la innovación en el desarrollo web.
 
-Espero que este artículo haya sido útil y que, tal vez, inspire a otros a explorar el potencial de los Web Components. Quién sabe, quizás en futuros proyectos podamos aplicar estas técnicas y ver cómo transforman nuestra forma de crear interfaces web.
-
-Pascual Muñoz Galián
-[Insertar información de contacto profesional]
+Espero que este artículo haya sido útil y que, tal vez, inspire a otros a explorar el potencial de los Web Components.

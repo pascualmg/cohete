@@ -371,7 +371,12 @@ Análisis Comparativo</title>
         <li><a href="#implementación-con-experiencetimeline"
         id="toc-implementación-con-experiencetimeline">Implementación
         con ExperienceTimeline</a></li>
+        <li><a href="#caso-de-estudio-avanzado-yastmodal"
+        id="toc-caso-de-estudio-avanzado-yastmodal">Caso de Estudio
+        Avanzado: YastModal</a></li>
         <li><a href="#análisis" id="toc-análisis">Análisis</a></li>
+        <li><a href="#conclusión-parcial"
+        id="toc-conclusión-parcial">Conclusión Parcial</a></li>
         </ul></li>
         <li><a href="#parametrización-mediante-atributos-y-propiedades"
         id="toc-parametrización-mediante-atributos-y-propiedades">2.
@@ -423,7 +428,9 @@ Un Análisis Comparativo</h1>
         mediante Slots</h1>
         <p>Los slots en Web Components permiten insertar contenido
         externo en ubicaciones predefinidas dentro del Shadow DOM del
-        componente.</p>
+        componente. Esta técnica es particularmente poderosa para
+        componentes de interfaz de usuario que requieren alta
+        flexibilidad en su contenido.</p>
         <h2 id="implementación-con-experiencetimeline">Implementación
         con ExperienceTimeline</h2>
         <div class="sourceCode" id="cb1"><pre
@@ -452,62 +459,156 @@ Un Análisis Comparativo</h1>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>customElements<span class="op">.</span><span class="fu">define</span>(<span class="st">&#39;experience-timeline&#39;</span><span class="op">,</span> ExperienceTimeline)<span class="op">;</span></span></code></pre></div>
+        <h2 id="caso-de-estudio-avanzado-yastmodal">Caso de Estudio
+        Avanzado: YastModal</h2>
+        <p>Para ilustrar mejor la potencia de los slots, consideremos un
+        componente modal reutilizable, `YastModal`:</p>
+        <div class="sourceCode" id="cb3"><pre
+        class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> YastModal <span class="kw">extends</span> <span class="bu">HTMLElement</span> {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>() {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">super</span>()<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">attachShadow</span>({ <span class="dt">mode</span><span class="op">:</span> <span class="st">&#39;open&#39;</span> })<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">_isOpen</span> <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">static</span> <span class="kw">get</span> <span class="fu">observedAttributes</span>() {</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="st">&#39;button-text&#39;</span>]<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">connectedCallback</span>() {</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">buttonText</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;button-text&#39;</span>) <span class="op">||</span> <span class="st">&#39;Pulsa aquí&#39;</span><span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">render</span>()<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">shadowRoot</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">&#39;button&#39;</span>)<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> () <span class="kw">=&gt;</span> <span class="kw">this</span><span class="op">.</span><span class="fu">toggleModal</span>())<span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">shadowRoot</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">&#39;.modal-background&#39;</span>)<span class="op">.</span><span class="fu">addEventListener</span>(<span class="st">&#39;click&#39;</span><span class="op">,</span> () <span class="kw">=&gt;</span> <span class="kw">this</span><span class="op">.</span><span class="fu">toggleModal</span>())<span class="op">;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">toggleModal</span>() {</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">_isOpen</span> <span class="op">=</span> <span class="op">!</span><span class="kw">this</span><span class="op">.</span><span class="at">_isOpen</span><span class="op">;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">shadowRoot</span><span class="op">.</span><span class="fu">querySelector</span>(<span class="st">&#39;.modal-container&#39;</span>)<span class="op">.</span><span class="at">style</span><span class="op">.</span><span class="at">display</span> <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">_isOpen</span> <span class="op">?</span> <span class="st">&#39;flex&#39;</span> <span class="op">:</span> <span class="st">&#39;none&#39;</span><span class="op">;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render</span>() {</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">shadowRoot</span><span class="op">.</span><span class="at">innerHTML</span> <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;style&gt;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="vs">        /* Estilos omitidos para brevedad */</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/style&gt;</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;button&gt;</span><span class="sc">${</span><span class="kw">this</span><span class="op">.</span><span class="at">buttonText</span><span class="sc">}</span><span class="vs">&lt;/button&gt;</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;div class=&quot;modal-container&quot;&gt;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class=&quot;modal-content&quot;&gt;</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;button class=&quot;close-button&quot; onclick=&quot;this.getRootNode().host.toggleModal()&quot;&gt;&amp;times;&lt;/button&gt;</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;slot name=&quot;content&quot;&gt;&lt;/slot&gt;</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/div&gt;</span></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/div&gt;</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">;</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>customElements<span class="op">.</span><span class="fu">define</span>(<span class="st">&#39;yast-modal&#39;</span><span class="op">,</span> YastModal)<span class="op">;</span></span></code></pre></div>
+        <p>Uso del componente YastModal:</p>
+        <div class="sourceCode" id="cb4"><pre
+        class="sourceCode html"><code class="sourceCode html"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">yast-modal</span><span class="ot"> button-text</span><span class="op">=</span><span class="st">&quot;Abrir Modal de Experiencia&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">div</span><span class="ot"> slot</span><span class="op">=</span><span class="st">&quot;content&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">experience-timeline</span><span class="dt">&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">h2</span><span class="ot"> slot</span><span class="op">=</span><span class="st">&quot;company&quot;</span><span class="dt">&gt;</span>Innovatech Solutions<span class="dt">&lt;/</span><span class="kw">h2</span><span class="dt">&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">p</span><span class="ot"> slot</span><span class="op">=</span><span class="st">&quot;position&quot;</span><span class="dt">&gt;</span>Arquitecto de Software Senior<span class="dt">&lt;/</span><span class="kw">p</span><span class="dt">&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> slot</span><span class="op">=</span><span class="st">&quot;duration&quot;</span><span class="dt">&gt;</span>2020 - Presente<span class="dt">&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;</span><span class="kw">ul</span><span class="ot"> slot</span><span class="op">=</span><span class="st">&quot;projects&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Migración de Microservicios<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&lt;</span><span class="kw">li</span><span class="dt">&gt;</span>Implementación de CI/CD<span class="dt">&lt;/</span><span class="kw">li</span><span class="dt">&gt;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&lt;/</span><span class="kw">ul</span><span class="dt">&gt;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">experience-timeline</span><span class="dt">&gt;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;/</span><span class="kw">div</span><span class="dt">&gt;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">yast-modal</span><span class="dt">&gt;</span></span></code></pre></div>
         <h2 id="análisis">Análisis</h2>
         <p>Ventajas:</p>
         <ul>
-        <li>Flexibilidad en la estructura del contenido</li>
-        <li>Control granular sobre el marcado interno</li>
-        <li>Facilita la internacionalización</li>
+        <li>Flexibilidad Extrema: Los slots permiten insertar cualquier
+        contenido HTML, incluyendo otros Web Components, dentro del
+        componente principal.</li>
+        <li>Composición de Componentes: Facilita la creación de
+        componentes complejos mediante la composición de componentes más
+        simples.</li>
+        <li>Separación de Responsabilidades: El componente contenedor
+        (como YastModal) se encarga de la funcionalidad y estructura
+        general, mientras que el contenido específico queda bajo el
+        control del desarrollador que lo utiliza.</li>
+        <li>Reutilización Eficiente: Un único componente como YastModal
+        puede servir para múltiples propósitos en una aplicación, cada
+        uno con contenido diferente.</li>
+        <li>Rendimiento: El contenido de los slots no necesita ser
+        procesado por el componente contenedor, lo que puede resultar en
+        un mejor rendimiento comparado con otras técnicas de
+        parametrización para contenido complejo.</li>
+        <li>Interactividad Dinámica: El contenido de los slots puede
+        incluir su propia lógica y eventos, permitiendo interacciones
+        ricas sin complicar la implementación del componente
+        principal.</li>
         </ul>
         <p>Desventajas:</p>
         <ul>
-        <li>Requiere conocimiento de la estructura interna del
-        componente</li>
-        <li>Puede volverse complejo con numerosos slots anidados</li>
-        <li>Limitado para datos estructurados complejos</li>
+        <li>Complejidad Estructural: Para componentes con muchos slots,
+        la estructura HTML puede volverse compleja.</li>
+        <li>Acoplamiento Estructural: El usuario del componente necesita
+        conocer los nombres y propósitos de los slots disponibles.</li>
+        <li>Limitaciones en Datos Estructurados: Para pasar datos
+        estructurados complejos, otras técnicas como la parametrización
+        JSON pueden ser más apropiadas.</li>
         </ul>
+        <h2 id="conclusión-parcial">Conclusión Parcial</h2>
+        <p>Los slots brillan especialmente en componentes de UI que
+        requieren alta flexibilidad en su contenido, como modales,
+        diálogos, o layouts complejos. Proporcionan una manera poderosa
+        de crear componentes altamente reutilizables y adaptables a
+        diferentes contextos de uso.</p>
+        <p>Sin embargo, para componentes que principalmente manejan
+        datos estructurados complejos o requieren una configuración
+        extensa, otras técnicas de parametrización como
+        atributos/propiedades o JSON pueden ser más adecuadas. La
+        elección de la técnica dependerá siempre del caso de uso
+        específico y de las necesidades de flexibilidad y estructura del
+        componente.</p>
         <h1 id="parametrización-mediante-atributos-y-propiedades">2.
         Parametrización mediante Atributos y Propiedades</h1>
         <p>Esta técnica utiliza atributos HTML y propiedades JavaScript
         para configurar el componente.</p>
         <h2 id="implementación-con-experiencetimeline-1">Implementación
         con ExperienceTimeline</h2>
-        <div class="sourceCode" id="cb3"><pre
-        class="sourceCode html"><code class="sourceCode html"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">experience-timeline</span><span class="ot"> </span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ot">  company</span><span class="op">=</span><span class="st">&quot;Innovatech Solutions&quot;</span><span class="ot"> </span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ot">  position</span><span class="op">=</span><span class="st">&quot;Arquitecto de Software Senior&quot;</span><span class="ot"> </span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ot">  duration</span><span class="op">=</span><span class="st">&quot;2020 - Presente&quot;</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="ot">  projects</span><span class="op">=</span><span class="st">&#39;[&quot;Migración de Microservicios&quot;, &quot;Implementación de CI/CD&quot;]&#39;</span><span class="dt">&gt;</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">experience-timeline</span><span class="dt">&gt;</span></span></code></pre></div>
-        <div class="sourceCode" id="cb4"><pre
-        class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExperienceTimeline <span class="kw">extends</span> <span class="bu">HTMLElement</span> {</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">static</span> <span class="kw">get</span> <span class="fu">observedAttributes</span>() {</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="st">&#39;company&#39;</span><span class="op">,</span> <span class="st">&#39;position&#39;</span><span class="op">,</span> <span class="st">&#39;duration&#39;</span><span class="op">,</span> <span class="st">&#39;projects&#39;</span>]<span class="op">;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">attributeChangedCallback</span>(name<span class="op">,</span> oldValue<span class="op">,</span> newValue) {</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">render</span>()<span class="op">;</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render</span>() {</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> company <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;company&#39;</span>)<span class="op">;</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> position <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;position&#39;</span>)<span class="op">;</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> duration <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;duration&#39;</span>)<span class="op">;</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> projects <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(<span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;projects&#39;</span>) <span class="op">||</span> <span class="st">&#39;[]&#39;</span>)<span class="op">;</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">innerHTML</span> <span class="op">=</span> <span class="vs">`</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;div class=&quot;timeline-entry&quot;&gt;</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;h2&gt;</span><span class="sc">${</span>company<span class="sc">}</span><span class="vs">&lt;/h2&gt;</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;p&gt;</span><span class="sc">${</span>position<span class="sc">}</span><span class="vs">&lt;/p&gt;</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;span&gt;</span><span class="sc">${</span>duration<span class="sc">}</span><span class="vs">&lt;/span&gt;</span></span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;ul&gt;</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="vs">          </span><span class="sc">${</span>projects<span class="op">.</span><span class="fu">map</span>(project <span class="kw">=&gt;</span> <span class="vs">`&lt;li&gt;</span><span class="sc">${</span>project<span class="sc">}</span><span class="vs">&lt;/li&gt;`</span>)<span class="op">.</span><span class="fu">join</span>(<span class="st">&#39;&#39;</span>)<span class="sc">}</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/ul&gt;</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/div&gt;</span></span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">;</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>customElements<span class="op">.</span><span class="fu">define</span>(<span class="st">&#39;experience-timeline&#39;</span><span class="op">,</span> ExperienceTimeline)<span class="op">;</span></span></code></pre></div>
+        <div class="sourceCode" id="cb5"><pre
+        class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">experience-timeline</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ot">  company</span><span class="op">=</span><span class="st">&quot;Innovatech Solutions&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ot">  position</span><span class="op">=</span><span class="st">&quot;Arquitecto de Software Senior&quot;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ot">  duration</span><span class="op">=</span><span class="st">&quot;2020 - Presente&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ot">  projects</span><span class="op">=</span><span class="st">&#39;[&quot;Migración de Microservicios&quot;, &quot;Implementación de CI/CD&quot;]&#39;</span><span class="dt">&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">experience-timeline</span><span class="dt">&gt;</span></span></code></pre></div>
+        <div class="sourceCode" id="cb6"><pre
+        class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExperienceTimeline <span class="kw">extends</span> <span class="bu">HTMLElement</span> {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">static</span> <span class="kw">get</span> <span class="fu">observedAttributes</span>() {</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [<span class="st">&#39;company&#39;</span><span class="op">,</span> <span class="st">&#39;position&#39;</span><span class="op">,</span> <span class="st">&#39;duration&#39;</span><span class="op">,</span> <span class="st">&#39;projects&#39;</span>]<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">attributeChangedCallback</span>(name<span class="op">,</span> oldValue<span class="op">,</span> newValue) {</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">render</span>()<span class="op">;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render</span>() {</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> company <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;company&#39;</span>)<span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> position <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;position&#39;</span>)<span class="op">;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> duration <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;duration&#39;</span>)<span class="op">;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> projects <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(<span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;projects&#39;</span>) <span class="op">||</span> <span class="st">&#39;[]&#39;</span>)<span class="op">;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">innerHTML</span> <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;div class=&quot;timeline-entry&quot;&gt;</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;h2&gt;</span><span class="sc">${</span>company<span class="sc">}</span><span class="vs">&lt;/h2&gt;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;p&gt;</span><span class="sc">${</span>position<span class="sc">}</span><span class="vs">&lt;/p&gt;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;span&gt;</span><span class="sc">${</span>duration<span class="sc">}</span><span class="vs">&lt;/span&gt;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;ul&gt;</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="vs">          </span><span class="sc">${</span>projects<span class="op">.</span><span class="fu">map</span>(project <span class="kw">=&gt;</span> <span class="vs">`&lt;li&gt;</span><span class="sc">${</span>project<span class="sc">}</span><span class="vs">&lt;/li&gt;`</span>)<span class="op">.</span><span class="fu">join</span>(<span class="st">&#39;&#39;</span>)<span class="sc">}</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/ul&gt;</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/div&gt;</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">;</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>customElements<span class="op">.</span><span class="fu">define</span>(<span class="st">&#39;experience-timeline&#39;</span><span class="op">,</span> ExperienceTimeline)<span class="op">;</span></span></code></pre></div>
         <h2 id="análisis-1">Análisis</h2>
         <p>Ventajas:</p>
         <ul>
@@ -530,75 +631,75 @@ Un Análisis Comparativo</h1>
         <h2
         id="implementación-avanzada-con-experiencetimeline">Implementación
         Avanzada con ExperienceTimeline</h2>
-        <div class="sourceCode" id="cb5"><pre
-        class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">experience-timeline</span><span class="ot"> data</span><span class="op">=</span><span class="st">&#39;{</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;company&quot;: &quot;Innovatech Solutions&quot;,</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;position&quot;: &quot;Arquitecto de Software Senior&quot;,</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;duration&quot;: &quot;2020 - Presente&quot;,</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;projects&quot;: [</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="st">    {</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;name&quot;: &quot;Migración de Microservicios&quot;,</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;role&quot;: &quot;Líder Técnico&quot;,</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;technologies&quot;: [&quot;Docker&quot;, &quot;Kubernetes&quot;, &quot;gRPC&quot;],</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;achievements&quot;: [</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="st">        &quot;Reducción del 40% en costos de infraestructura&quot;,</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="st">        &quot;Mejora del 60% en tiempos de despliegue&quot;</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="st">      ]</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="st">    },</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="st">    {</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;name&quot;: &quot;Implementación de CI/CD&quot;,</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;role&quot;: &quot;Arquitecto DevOps&quot;,</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;technologies&quot;: [&quot;Jenkins&quot;, &quot;GitLab CI&quot;, &quot;Ansible&quot;],</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;achievements&quot;: [</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="st">        &quot;Automatización del 95% del proceso de despliegue&quot;,</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="st">        &quot;Reducción del tiempo de entrega de 1 semana a 1 día&quot;</span></span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="st">      ]</span></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="st">  ]</span></span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="st">}&#39;</span><span class="dt">&gt;</span></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">experience-timeline</span><span class="dt">&gt;</span></span></code></pre></div>
-        <div class="sourceCode" id="cb6"><pre
-        class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExperienceTimeline <span class="kw">extends</span> <span class="bu">HTMLElement</span> {</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">connectedCallback</span>() {</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">render</span>()<span class="op">;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render</span>() {</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> data<span class="op">;</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> {</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      data <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(<span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;data&#39;</span>) <span class="op">||</span> <span class="st">&#39;{}&#39;</span>)<span class="op">;</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">catch</span> (e) {</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;Error parsing JSON data:&#39;</span><span class="op">,</span> e)<span class="op">;</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>      data <span class="op">=</span> {}<span class="op">;</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> { company<span class="op">,</span> position<span class="op">,</span> duration<span class="op">,</span> projects <span class="op">=</span> [] } <span class="op">=</span> data<span class="op">;</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">innerHTML</span> <span class="op">=</span> <span class="vs">`</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;div class=&quot;timeline-entry&quot;&gt;</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class=&quot;company&quot;&gt;</span><span class="sc">${</span>company<span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class=&quot;position&quot;&gt;</span><span class="sc">${</span>position<span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class=&quot;duration&quot;&gt;</span><span class="sc">${</span>duration<span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class=&quot;projects&quot;&gt;</span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="vs">          </span><span class="sc">${</span>projects<span class="op">.</span><span class="fu">map</span>(project <span class="kw">=&gt;</span> <span class="vs">`</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;div class=&quot;project&quot;&gt;</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;div class=&quot;project-name&quot;&gt;</span><span class="sc">${</span>project<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;div class=&quot;project-role&quot;&gt;</span><span class="sc">${</span>project<span class="op">.</span><span class="at">role</span><span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;div class=&quot;technologies&quot;&gt;</span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="vs">                </span><span class="sc">${</span>project<span class="op">.</span><span class="at">technologies</span><span class="op">.</span><span class="fu">map</span>(tech <span class="kw">=&gt;</span> <span class="vs">`&lt;span class=&quot;tech&quot;&gt;</span><span class="sc">${</span>tech<span class="sc">}</span><span class="vs">&lt;/span&gt;`</span>)<span class="op">.</span><span class="fu">join</span>(<span class="st">&#39;&#39;</span>)<span class="sc">}</span></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;/div&gt;</span></span>
-<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;ul class=&quot;achievements&quot;&gt;</span></span>
-<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="vs">                </span><span class="sc">${</span>project<span class="op">.</span><span class="at">achievements</span><span class="op">.</span><span class="fu">map</span>(achievement <span class="kw">=&gt;</span> <span class="vs">`&lt;li&gt;</span><span class="sc">${</span>achievement<span class="sc">}</span><span class="vs">&lt;/li&gt;`</span>)<span class="op">.</span><span class="fu">join</span>(<span class="st">&#39;&#39;</span>)<span class="sc">}</span></span>
-<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;/ul&gt;</span></span>
-<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;/div&gt;</span></span>
-<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="vs">          `</span>)<span class="op">.</span><span class="fu">join</span>(<span class="st">&#39;&#39;</span>)<span class="sc">}</span></span>
-<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/div&gt;</span></span>
-<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/div&gt;</span></span>
-<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">;</span></span>
-<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>customElements<span class="op">.</span><span class="fu">define</span>(<span class="st">&#39;experience-timeline&#39;</span><span class="op">,</span> ExperienceTimeline)<span class="op">;</span></span></code></pre></div>
+        <div class="sourceCode" id="cb7"><pre
+        class="sourceCode html"><code class="sourceCode html"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">experience-timeline</span><span class="ot"> data</span><span class="op">=</span><span class="st">&#39;{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;company&quot;: &quot;Innovatech Solutions&quot;,</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;position&quot;: &quot;Arquitecto de Software Senior&quot;,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;duration&quot;: &quot;2020 - Presente&quot;,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="st">  &quot;projects&quot;: [</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="st">    {</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;name&quot;: &quot;Migración de Microservicios&quot;,</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;role&quot;: &quot;Líder Técnico&quot;,</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;technologies&quot;: [&quot;Docker&quot;, &quot;Kubernetes&quot;, &quot;gRPC&quot;],</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;achievements&quot;: [</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="st">        &quot;Reducción del 40% en costos de infraestructura&quot;,</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="st">        &quot;Mejora del 60% en tiempos de despliegue&quot;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="st">      ]</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="st">    },</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="st">    {</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;name&quot;: &quot;Implementación de CI/CD&quot;,</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;role&quot;: &quot;Arquitecto DevOps&quot;,</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;technologies&quot;: [&quot;Jenkins&quot;, &quot;GitLab CI&quot;, &quot;Ansible&quot;],</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="st">      &quot;achievements&quot;: [</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="st">        &quot;Automatización del 95% del proceso de despliegue&quot;,</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="st">        &quot;Reducción del tiempo de entrega de 1 semana a 1 día&quot;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="st">      ]</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="st">    }</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="st">  ]</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="st">}&#39;</span><span class="dt">&gt;</span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">experience-timeline</span><span class="dt">&gt;</span></span></code></pre></div>
+        <div class="sourceCode" id="cb8"><pre
+        class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ExperienceTimeline <span class="kw">extends</span> <span class="bu">HTMLElement</span> {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">connectedCallback</span>() {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">render</span>()<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">render</span>() {</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> data<span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">try</span> {</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      data <span class="op">=</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">parse</span>(<span class="kw">this</span><span class="op">.</span><span class="fu">getAttribute</span>(<span class="st">&#39;data&#39;</span>) <span class="op">||</span> <span class="st">&#39;{}&#39;</span>)<span class="op">;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">catch</span> (e) {</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="bu">console</span><span class="op">.</span><span class="fu">error</span>(<span class="st">&#39;Error parsing JSON data:&#39;</span><span class="op">,</span> e)<span class="op">;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      data <span class="op">=</span> {}<span class="op">;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> { company<span class="op">,</span> position<span class="op">,</span> duration<span class="op">,</span> projects <span class="op">=</span> [] } <span class="op">=</span> data<span class="op">;</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">innerHTML</span> <span class="op">=</span> <span class="vs">`</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;div class=&quot;timeline-entry&quot;&gt;</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class=&quot;company&quot;&gt;</span><span class="sc">${</span>company<span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class=&quot;position&quot;&gt;</span><span class="sc">${</span>position<span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class=&quot;duration&quot;&gt;</span><span class="sc">${</span>duration<span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;div class=&quot;projects&quot;&gt;</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="vs">          </span><span class="sc">${</span>projects<span class="op">.</span><span class="fu">map</span>(project <span class="kw">=&gt;</span> <span class="vs">`</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;div class=&quot;project&quot;&gt;</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;div class=&quot;project-name&quot;&gt;</span><span class="sc">${</span>project<span class="op">.</span><span class="at">name</span><span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;div class=&quot;project-role&quot;&gt;</span><span class="sc">${</span>project<span class="op">.</span><span class="at">role</span><span class="sc">}</span><span class="vs">&lt;/div&gt;</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;div class=&quot;technologies&quot;&gt;</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a><span class="vs">                </span><span class="sc">${</span>project<span class="op">.</span><span class="at">technologies</span><span class="op">.</span><span class="fu">map</span>(tech <span class="kw">=&gt;</span> <span class="vs">`&lt;span class=&quot;tech&quot;&gt;</span><span class="sc">${</span>tech<span class="sc">}</span><span class="vs">&lt;/span&gt;`</span>)<span class="op">.</span><span class="fu">join</span>(<span class="st">&#39;&#39;</span>)<span class="sc">}</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;/div&gt;</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;ul class=&quot;achievements&quot;&gt;</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="vs">                </span><span class="sc">${</span>project<span class="op">.</span><span class="at">achievements</span><span class="op">.</span><span class="fu">map</span>(achievement <span class="kw">=&gt;</span> <span class="vs">`&lt;li&gt;</span><span class="sc">${</span>achievement<span class="sc">}</span><span class="vs">&lt;/li&gt;`</span>)<span class="op">.</span><span class="fu">join</span>(<span class="st">&#39;&#39;</span>)<span class="sc">}</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;/ul&gt;</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;/div&gt;</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="vs">          `</span>)<span class="op">.</span><span class="fu">join</span>(<span class="st">&#39;&#39;</span>)<span class="sc">}</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/div&gt;</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/div&gt;</span></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="vs">    `</span><span class="op">;</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>customElements<span class="op">.</span><span class="fu">define</span>(<span class="st">&#39;experience-timeline&#39;</span><span class="op">,</span> ExperienceTimeline)<span class="op">;</span></span></code></pre></div>
         <h2 id="análisis-2">Análisis</h2>
         <p>Ventajas:</p>
         <ul>
@@ -635,9 +736,11 @@ Un Análisis Comparativo</h1>
         modificar su implementación interna.</p>
         <p>Sin embargo, la elección de la técnica de parametrización
         debe basarse en las necesidades específicas de cada proyecto y
-        componente. Los slots y los atributos siguen siendo valiosos en
-        escenarios más simples o cuando se requiere un control más
-        granular sobre el marcado.</p>
+        componente. Los slots siguen siendo valiosos en escenarios donde
+        se requiere máxima flexibilidad en el contenido y estructura de
+        la UI, como vimos con el ejemplo de YastModal. Los atributos y
+        propiedades son útiles para configuraciones simples y
+        directas.</p>
         <p>La parametrización efectiva de Web Components es crucial para
         crear bibliotecas de componentes flexibles y mantenibles. El
         enfoque JSON, en particular, ofrece un camino prometedor hacia
@@ -683,12 +786,8 @@ Un Análisis Comparativo</h1>
         comparten esta pasión por la innovación en el desarrollo
         web.</p>
         <p>Espero que este artículo haya sido útil y que, tal vez,
-        inspire a otros a explorar el potencial de los Web Components.
-        Quién sabe, quizás en futuros proyectos podamos aplicar estas
-        técnicas y ver cómo transforman nuestra forma de crear
-        interfaces web.</p>
-        <p>Pascual Muñoz Galián [Insertar información de contacto
-        profesional]</p>
+        inspire a otros a explorar el potencial de los Web
+        Components.</p>
 
         <footer>
             <p>Autor: Pascual Muñoz Galián</p>

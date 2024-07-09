@@ -4,6 +4,8 @@ import PortFolioHeader from "../molecule/PortfolioHeader.js"
 import ThemeToggler from "./ThemeToogler.js"
 import ExperienceTimeline from "../molecule/ExperienceTimeline.js"
 import SocialLinks from "../molecule/SocialLinks.js"
+import AboutThisPortfolio from "../molecule/AboutThisPortfolio.js";
+import YastModal from "../atom/YastModal.js";
 
 class PortfolioElement extends HTMLElement {
   constructor() {
@@ -45,6 +47,7 @@ class PortfolioElement extends HTMLElement {
                 }
             </style>
            <portfolio-header></portfolio-header>
+          
   <social-links links='[
          {"name": "phone", "url": "tel:+34693000983"},
          {"name": "email", "url": "mailto:info@pascualmg.dev"},
@@ -247,6 +250,10 @@ class PortfolioElement extends HTMLElement {
     ]
   }
 ]'></experience-timeline>
+           
+<yast-modal button-text="Sobre este Portfolio">
+        <about-this-portfolio slot="content"></about-this-portfolio>
+</yast-modal> 
 
  <technologies-list images='[
     {"src": "https://raw.githubusercontent.com/NixOS/nixos-artwork/53ea652ec7d8af5d21fd2b79b6c49cb39078ddfb/logo/nixos.svg", "alt": "nixos"},
