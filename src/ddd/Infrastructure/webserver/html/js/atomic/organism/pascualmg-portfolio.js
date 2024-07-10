@@ -56,8 +56,8 @@ class PortfolioElement extends HTMLElement {
          {"name": "twitter", "url": "https://twitter.com/pascualmg"}
          ]'>
   </social-links>
-
-<experience-timeline data='[
+<yast-modal>
+<experience-timeline slot="content" data='[
   {
     "company": "GRUPO EUROFORMAC",
     "position": "PHP Software Engineer y Formador",
@@ -250,6 +250,7 @@ class PortfolioElement extends HTMLElement {
     ]
   }
 ]'></experience-timeline>
+</yast-modal>
            
 <yast-modal button-text="Sobre este Portfolio">
         <about-this-portfolio slot="content"></about-this-portfolio>

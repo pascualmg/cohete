@@ -77,6 +77,6 @@ Lo fascinante es que, mientras se resuelve la promesa, el servidor puede continu
 Animo a todos los backend de PHP a probar esta nueva tecnología y experimentar los beneficios de la programación asíncrona.
 
 Puedes explorar el código fuente en  [[https://github.com/pascualmg/cohete][GitHub]]
-y conocer más sobre mi trabajo en [[https://pascualmg.dev]] , servidor donde se ha puesto en producción este framework para pruebas reales y donde estoy creando un pequeño Portfolio además de ser también mi laboratorio de pruebas :)
+y conocer más sobre mi trabajo en [[https://pascualmg.dev/html/pascualmgPorfolio.html] , servidor donde se ha puesto en producción este framework para pruebas reales y donde estoy creando un pequeño Portfolio además de ser también mi laboratorio de pruebas :)
 
 #PHP #AsyncPHP #Microframework #DDD #DesarrolloWeb #OpenSource #ReactPHP #RxPHP #ReactiveProgramming
