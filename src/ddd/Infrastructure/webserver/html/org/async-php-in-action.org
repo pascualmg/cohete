@@ -1,0 +1,173 @@
+#+TITLE: PHP Asíncrono en Acción
+
+* Introducción
+
+En el mundo del desarrollo web, la eficiencia y la capacidad de respuesta son cruciales. PHP, tradicionalmente conocido por su modelo de ejecución síncrona, está evolucionando. En este artículo, exploraremos un ejemplo práctico de PHP asíncrono, demostrando cómo podemos crear aplicaciones de alto rendimiento utilizando técnicas avanzadas y frameworks modernos.
+
+* Preparación del Entorno
+
+Antes de sumergirnos en el código, asegurémonos de tener todo configurado correctamente:
+
+** Configuración del archivo .env
+
+En tu archivo .env, añade la siguiente línea:
+
+ROUTES_PATH=/ruta/a/tu/archivo/routes.json
+
+Asegúrate de reemplazar "/ruta/a/tu/archivo" con la ruta real en tu sistema.
+
+** Iniciar el entorno de desarrollo
+
+Abre tu terminal y ejecuta:
+
+nix develop
+
+Nota: Asegúrate de tener Nix instalado en tu sistema con las características experimentales 'nix-command' y 'flakes' activadas.
+
+* Definición de Rutas
+
+Vamos a definir la ruta para nuestro nuevo endpoint. Abre tu archivo routes.json y añade lo siguiente:
+
+[
+  {
+    "method": "POST",
+    "path": "/post",
+    "handler": "\\TuNamespace\\Infrastructure\\HttpServer\\RequestHandler\\CreatePostController"
+  }
+]
+
+Recuerda reemplazar "TuNamespace" con el namespace apropiado para tu proyecto.
+
+* Implementación del Controlador
+
+Aquí está el código para nuestro CreatePostController:
+
+<?php
+
+namespace TuNamespace\Infrastructure\HttpServer\RequestHandler;
+
+use Psr\Http\Message\ServerRequestInterface;
+use React\Promise\PromiseInterface;
+use TuNamespace\Domain\Entity\Post;
+use TuNamespace\Domain\ValueObject\Uuid;
+use TuNamespace\Infrastructure\HttpServer\JsonResponse;
+
+class CreatePostController implements HttpRequestHandler
+{
+    public function __construct(
+        private readonly PostRepository $postRepository
+    ) {}
+
+    public function __invoke(ServerRequestInterface $request): PromiseInterface
+    {
+        $payload = json_decode($request->getBody()->getContents(), true);
+
+        $post = new Post(
+            id: Uuid::from($payload['id']),
+            headline: $payload['headline'],
+            articleBody: $payload['articleBody'],
+            image: $payload['image'],
+            author: $payload['author'],
+            datePublished: new \DateTimeImmutable($payload['datePublished'])
+        );
+
+        return $this->postRepository->save($post)->then(
+            static fn (bool $success) => JsonResponse::create(201, ['success' => $success]),
+            static fn (\Exception $error) => JsonResponse::withError($error)
+        );
+    }
+}
+
+Este controlador demuestra el poder de la programación asíncrona en PHP.
+
+* Entendiendo el Flujo Asíncrono
+
+Analicemos los puntos clave de nuestro código asíncrono:
+
+1. `$this->postRepository->save($post)` devuelve una Promise, no el resultado inmediato.
+2. El método `then()` nos permite definir qué hacer cuando la operación se complete o falle.
+3. Mientras se procesa la operación de guardado, el servidor puede atender otras solicitudes.
+
+Este enfoque permite que nuestras aplicaciones manejen cargas de trabajo más pesadas de manera eficiente.
+
+* Probando el Nuevo Endpoint
+
+Para probar nuestro nuevo endpoint, podemos usar el siguiente comando curl:
+
+curl --location --request POST 'http://localhost:8000/post' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "id": "d32ea57f-6f8b-472b-bac8-845445b548e5",
+    "headline": "Explorando PHP Asíncrono",
+    "articleBody": "Descubriendo las ventajas de la programación asíncrona en PHP...",
+    "image": "https://ejemplo.com/imagen.jpg",
+    "author": "Desarrollador Curioso",
+    "datePublished": "2023-07-11 15:30:00"
+}'
+
+* Implementación de Tests
+
+Un aspecto crucial de cualquier desarrollo robusto es la implementación de tests. En este proyecto, hemos logrado implementar tanto tests unitarios como tests de comportamiento con Behat, incluso en un entorno asíncrono.
+
+** Tests Unitarios
+
+Los tests unitarios nos permiten verificar el comportamiento de componentes individuales de nuestro sistema. Aquí un ejemplo simplificado de cómo podríamos testear nuestro CreatePostController:
+
+#+BEGIN_SRC php
+use PHPUnit\Framework\TestCase;
+use React\Promise\Promise;
+
+class CreatePostControllerTest extends TestCase
+{
+    public function testInvoke()
+    {
+        $postRepository = $this->createMock(PostRepository::class);
+        $postRepository->method('save')->willReturn(new Promise(function ($resolve) {
+            $resolve(true);
+        }));
+
+        $controller = new CreatePostController($postRepository);
+
+        $request = $this->createMock(ServerRequestInterface::class);
+        $request->method('getBody')->willReturn('{"id":"test-id","headline":"Test Headline"}');
+
+        $promise = $controller($request);
+
+        $promise->then(function ($response) {
+            $this->assertInstanceOf(JsonResponse::class, $response);
+            $this->assertEquals(201, $response->getStatusCode());
+        });
+    }
+}
+#+END_SRC
+
+** Tests de Comportamiento con Behat
+
+Behat nos permite escribir tests que describen el comportamiento de nuestro sistema desde una perspectiva de alto nivel. Hemos logrado implementar estos tests incluso con la naturaleza asíncrona de nuestro sistema. Aquí un ejemplo de un escenario Behat:
+
+#+BEGIN_SRC gherkin
+Feature: Create Post
+  In order to share content
+  As an API client
+  I need to be able to create new posts
+
+  Scenario: Successfully creating a new post
+    Given I have valid post data
+    When I send a POST request to "/post" with the post data
+    Then the response status code should be 201
+    And the response should confirm the post was created
+#+END_SRC
+
+La implementación de estos tests con Behat requiere algunos ajustes para manejar la naturaleza asíncrona de nuestras operaciones, pero hemos demostrado que es completamente viable y efectivo.
+
+* Conclusión
+
+A lo largo de este artículo, hemos explorado cómo implementar PHP asíncrono en una aplicación real. Hemos creado un endpoint eficiente capaz de manejar múltiples solicitudes de manera concurrente, demostrando el potencial de PHP para aplicaciones de alto rendimiento.
+
+Lo que hace que este enfoque sea particularmente poderoso es que hemos logrado mantener buenas prácticas de desarrollo, incluyendo la implementación de tests unitarios y de comportamiento. Esto demuestra que la programación asíncrona en PHP no solo es posible, sino que también es viable para proyectos del mundo real que requieren un alto nivel de calidad y confiabilidad.
+
+Ya existe una versión en producción de este sistema, la cual incluye datos de prueba (fixtures). Puedes ver un ejemplo de cómo funciona en https://pascualmg.dev/post. Actualmente, los posts que se muestran son estáticos, pero en el futuro, este endpoint se utilizará para obtener y mostrar posts dinámicos.
+
+Te animo a explorar la versión en producción y a considerar cómo podrías aplicar técnicas similares en tus propios proyectos. La combinación de programación asíncrona con prácticas sólidas de testing abre nuevas posibilidades para crear aplicaciones PHP de alto rendimiento y alta calidad.
+
+#PHPAsíncrono #DesarrolloWeb #ReactPHP #Rendimiento #Testing #Behat #OpenSource

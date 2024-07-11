@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Asíncrono en Acción</title>
+    <style>
+        :root {
+            --act1: #222226;
+            --act2: #5d4d7a;
+            --base: #b2b2b2;
+            --base-dim: #686868;
+            --bg1: #292b2e;
+            --bg2: #212026;
+            --bg3: #100a14;
+            --bg4: #0a0814;
+            --bg-alt: #42444a;
+            --border: #5d4d7a;
+            --cblk: #cbc1d5;
+            --cblk-bg: #2f2b33;
+            --cblk-ln: #827591;
+            --cblk-ln-bg: #373040;
+            --cursor: #e3dedd;
+            --const: #a45bad;
+            --comment: #2aa1ae;
+            --comment-light: #2aa1ae;
+            --comment-bg: #292e34;
+            --comp: #c56ec3;
+            --err: #e0211d;
+            --func: #bc6ec5;
+            --head1: #4f97d7;
+            --head1-bg: #293239;
+            --head2: #2d9574;
+            --head2-bg: #293235;
+            --head3: #67b11d;
+            --head3-bg: #293235;
+            --head4: #b1951d;
+            --head4-bg: #32322c;
+            --highlight: #444155;
+            --highlight-dim: #3b314d;
+            --keyword: #4f97d7;
+            --lnum: #44505c;
+            --mat: #86dc2f;
+            --meta: #9f8766;
+            --str: #2d9574;
+            --suc: #86dc2f;
+            --ttip: #9a9aba;
+            --ttip-sl: #5e5079;
+            --ttip-bg: #34323e;
+            --type: #ce537a;
+            --var: #7590db;
+            --war: #dc752f;
+            --aqua: #2d9574;
+            --aqua-bg: #293235;
+            --green: #67b11d;
+            --green-bg: #293235;
+            --green-bg-s: #29422d;
+            --cyan: #28def0;
+            --red: #f2241f;
+            --red-bg: #3c2a2c;
+            --red-bg-s: #512e31;
+            --blue: #4f97d7;
+            --blue-bg: #293239;
+            --blue-bg-s: #2d4252;
+            --magenta: #a31db1;
+            --yellow: #b1951d;
+            --yellow-bg: #32322c;
+        }
+
+        html {
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            background-color: var(--bg1);
+            color: var(--base);
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            font-size: 1rem;
+            padding: 60px 0 0;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--head1);
+            font-weight: bold;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            background-color: var(--head1-bg);
+            padding: 0.625rem;
+            border-radius: 0.3125rem;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: var(--head2);
+            background-color: var(--head2-bg);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: var(--head3);
+            background-color: var(--head3-bg);
+            padding: 0.375rem;
+            border-radius: 0.1875rem;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            color: var(--head4);
+            background-color: var(--head4-bg);
+            padding: 0.25rem;
+            border-radius: 0.125rem;
+        }
+
+        a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 1.25rem;
+        }
+
+        li {
+            margin-bottom: 0.3125rem;
+        }
+
+        code {
+            color: var(--type);
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.1875rem;
+            font-size: 0.875rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        blockquote {
+            border-left: 0.25rem solid var(--green);
+            margin-left: 0;
+            padding-left: 0.625rem;
+            color: var(--comment);
+            font-style: italic;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.25rem;
+            overflow-x: auto;
+            display: block;
+        }
+
+        th, td {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            min-width: 100px;
+        }
+
+        th {
+            background-color: var(--bg2);
+            color: var(--base);
+            font-weight: bold;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .site-header a {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+            margin: 1rem auto 0;
+            padding: 0 0.5rem;
+        }
+
+        .table-of-contents {
+            background-color: var(--bg3);
+            padding: 0.9375rem;
+            border-radius: 0.3125rem;
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+
+        .table-of-contents h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .table-of-contents ul {
+            list-style-type: none;
+            padding-left: 1.25rem;
+        }
+
+        .table-of-contents li {
+            margin-bottom: 0.3125rem;
+        }
+
+        .table-of-contents a {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 0.9375rem;
+        }
+
+        .table-of-contents a:hover {
+            text-decoration: underline;
+        }
+
+        .content {
+            background-color: var(--bg2);
+            padding: 0.625rem;
+            border-radius: 0.5rem;
+        }
+
+        pre {
+            border-radius: 0.3125rem;
+            overflow-x: auto;
+            color: var(--cblk);
+            padding: 0.625rem;
+            font-size: 0.875rem;
+            background-color: var(--bg3);
+            white-space: pre;
+            word-wrap: normal;
+        }
+
+        pre code {
+            display: block;
+            overflow-x: auto;
+            padding: 1em;
+            background: none;
+            white-space: pre;
+            word-wrap: normal;
+        }
+
+
+        .sourceCode .kw {
+            color: var(--keyword);
+        }
+
+        .sourceCode .dt {
+            color: var(--type);
+        }
+
+        .sourceCode .dv, .sourceCode .bn, .sourceCode .fl {
+            color: var(--const);
+        }
+
+        .sourceCode .ch, .sourceCode .st {
+            color: var(--str);
+        }
+
+        .sourceCode .co, .sourceCode .do, .sourceCode .an, .sourceCode .cv, .sourceCode .in {
+            color: var(--comment);
+            font-style: italic;
+        }
+
+        .sourceCode .ot, .sourceCode .fu, .sourceCode .ex {
+            color: var(--func);
+        }
+
+        .sourceCode .al, .sourceCode .er {
+            color: var(--err);
+        }
+
+        .sourceCode .va {
+            color: var(--var);
+        }
+
+        .sourceCode .cf {
+            color: var(--keyword);
+        }
+
+        .sourceCode .op, .sourceCode .bu {
+            color: var(--base);
+        }
+
+        .sourceCode .pp {
+            color: var(--meta);
+        }
+
+        .sourceCode .at {
+            color: var(--var);
+        }
+
+        theme-toggler {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 2;
+        }
+
+        @media (min-width: 48em) {
+            html {
+                font-size: 18px;
+            }
+
+            body {
+                padding: 60px 0 0;
+            }
+
+            .main-container {
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+
+            .table-of-contents {
+                position: sticky;
+                top: 70px;
+                height: calc(100vh - 70px);
+                overflow-y: auto;
+                width: 15.625rem;
+                margin-right: 1.25rem;
+                flex-shrink: 0;
+            }
+
+            .content {
+                flex-grow: 1;
+                overflow-y: auto;
+                padding: 1.25rem;
+            }
+        }
+    </style>
+    <script type="module" src="../../html/js/atomic/organism/ThemeToogler.js"></script>
+    <script type="module" src="../../html/js/atomic/molecule/PortfolioHeader.js"></script>
+</head>
+<body>
+<portfolio-header></portfolio-header>
+<theme-toggler></theme-toggler>
+<div class="main-container">
+        <nav class="table-of-contents">
+        <h2>Tabla de Contenidos</h2>
+        <ul>
+        <li><a href="#introducción"
+        id="toc-introducción">Introducción</a></li>
+        <li><a href="#preparación-del-entorno"
+        id="toc-preparación-del-entorno">Preparación del Entorno</a>
+        <ul>
+        <li><a href="#configuración-del-archivo-.env"
+        id="toc-configuración-del-archivo-.env">Configuración del
+        archivo .env</a></li>
+        <li><a href="#iniciar-el-entorno-de-desarrollo"
+        id="toc-iniciar-el-entorno-de-desarrollo">Iniciar el entorno de
+        desarrollo</a></li>
+        </ul></li>
+        <li><a href="#definición-de-rutas"
+        id="toc-definición-de-rutas">Definición de Rutas</a></li>
+        <li><a href="#implementación-del-controlador"
+        id="toc-implementación-del-controlador">Implementación del
+        Controlador</a></li>
+        <li><a href="#entendiendo-el-flujo-asíncrono"
+        id="toc-entendiendo-el-flujo-asíncrono">Entendiendo el Flujo
+        Asíncrono</a></li>
+        <li><a href="#probando-el-nuevo-endpoint"
+        id="toc-probando-el-nuevo-endpoint">Probando el Nuevo
+        Endpoint</a></li>
+        <li><a href="#implementación-de-tests"
+        id="toc-implementación-de-tests">Implementación de Tests</a>
+        <ul>
+        <li><a href="#tests-unitarios" id="toc-tests-unitarios">Tests
+        Unitarios</a></li>
+        <li><a href="#tests-de-comportamiento-con-behat"
+        id="toc-tests-de-comportamiento-con-behat">Tests de
+        Comportamiento con Behat</a></li>
+        </ul></li>
+        <li><a href="#conclusión"
+        id="toc-conclusión">Conclusión</a></li>
+        </ul>
+    </nav>
+    
+    <div class="content">
+        <header>
+            <h1>PHP Asíncrono en Acción</h1>
+            
+        </header>
+
+        <h1 id="introducción">Introducción</h1>
+        <p>En el mundo del desarrollo web, la eficiencia y la capacidad
+        de respuesta son cruciales. PHP, tradicionalmente conocido por
+        su modelo de ejecución síncrona, está evolucionando. En este
+        artículo, exploraremos un ejemplo práctico de PHP asíncrono,
+        demostrando cómo podemos crear aplicaciones de alto rendimiento
+        utilizando técnicas avanzadas y frameworks modernos.</p>
+        <h1 id="preparación-del-entorno">Preparación del Entorno</h1>
+        <p>Antes de sumergirnos en el código, asegurémonos de tener todo
+        configurado correctamente:</p>
+        <h2 id="configuración-del-archivo-.env">Configuración del
+        archivo .env</h2>
+        <p>En tu archivo .env, añade la siguiente línea:</p>
+        <p>ROUTES<sub>PATH</sub>=/ruta/a/tu/archivo/routes.json</p>
+        <p>Asegúrate de reemplazar "/ruta/a/tu/archivo" con la ruta real
+        en tu sistema.</p>
+        <h2 id="iniciar-el-entorno-de-desarrollo">Iniciar el entorno de
+        desarrollo</h2>
+        <p>Abre tu terminal y ejecuta:</p>
+        <p>nix develop</p>
+        <p>Nota: Asegúrate de tener Nix instalado en tu sistema con las
+        características experimentales 'nix-command' y 'flakes'
+        activadas.</p>
+        <h1 id="definición-de-rutas">Definición de Rutas</h1>
+        <p>Vamos a definir la ruta para nuestro nuevo endpoint. Abre tu
+        archivo routes.json y añade lo siguiente:</p>
+        <p>[ { "method": "POST", "path": "/post", "handler": "\\\\\" }
+        ]</p>
+        <p>Recuerda reemplazar "TuNamespace" con el namespace apropiado
+        para tu proyecto.</p>
+        <h1 id="implementación-del-controlador">Implementación del
+        Controlador</h1>
+        <p>Aquí está el código para nuestro CreatePostController:</p>
+        <p>&lt;?php</p>
+        <p>namespace TuNamespace;</p>
+        <p>use Psr; use React; use TuNamespace; use TuNamespace; use
+        TuNamespace;</p>
+        <p>class CreatePostController implements HttpRequestHandler {
+        public function _<sub>construct</sub>( private readonly
+        PostRepository $postRepository ) {}</p>
+        <p>public function _<sub>invoke</sub>(ServerRequestInterface
+        $request): PromiseInterface { $payload =
+        json<sub>decode</sub>($request-&gt;getBody()-&gt;getContents(),
+        true);</p>
+        <p>$post = new Post( id: Uuid::from($payload['id']), headline:
+        $payload['headline'], articleBody: $payload['articleBody'],
+        image: $payload['image'], author: $payload['author'],
+        datePublished: new ($payload['datePublished']) );</p>
+        <p>return $this-&gt;postRepository-&gt;save($post)-&gt;then(
+        static fn (bool $success) =&gt; JsonResponse::create(201,
+        ['success' =&gt; $success]), static fn ( $error) =&gt;
+        JsonResponse::withError($error) ); } }</p>
+        <p>Este controlador demuestra el poder de la programación
+        asíncrona en PHP.</p>
+        <h1 id="entendiendo-el-flujo-asíncrono">Entendiendo el Flujo
+        Asíncrono</h1>
+        <p>Analicemos los puntos clave de nuestro código asíncrono:</p>
+        <ol>
+        <li>`$this-&gt;postRepository-&gt;save($post)` devuelve una
+        Promise, no el resultado inmediato.</li>
+        <li>El método `then()` nos permite definir qué hacer cuando la
+        operación se complete o falle.</li>
+        <li>Mientras se procesa la operación de guardado, el servidor
+        puede atender otras solicitudes.</li>
+        </ol>
+        <p>Este enfoque permite que nuestras aplicaciones manejen cargas
+        de trabajo más pesadas de manera eficiente.</p>
+        <h1 id="probando-el-nuevo-endpoint">Probando el Nuevo
+        Endpoint</h1>
+        <p>Para probar nuestro nuevo endpoint, podemos usar el siguiente
+        comando curl:</p>
+        <p>curl –location –request POST '<a
+        href="http://localhost:8000/post">http://localhost:8000/post</a>'
+        \ –header 'Content-Type: application/json' \ –data-raw '{ "id":
+        "d32ea57f-6f8b-472b-bac8-845445b548e5", "headline": "Explorando
+        PHP Asíncrono", "articleBody": "Descubriendo las ventajas de la
+        programación asíncrona en PHP…", "image": "<a
+        href="https://ejemplo.com/imagen.jpg">https://ejemplo.com/imagen.jpg</a>",
+        "author": "Desarrollador Curioso", "datePublished": "2023-07-11
+        15:30:00" }'</p>
+        <h1 id="implementación-de-tests">Implementación de Tests</h1>
+        <p>Un aspecto crucial de cualquier desarrollo robusto es la
+        implementación de tests. En este proyecto, hemos logrado
+        implementar tanto tests unitarios como tests de comportamiento
+        con Behat, incluso en un entorno asíncrono.</p>
+        <h2 id="tests-unitarios">Tests Unitarios</h2>
+        <p>Los tests unitarios nos permiten verificar el comportamiento
+        de componentes individuales de nuestro sistema. Aquí un ejemplo
+        simplificado de cómo podríamos testear nuestro
+        CreatePostController:</p>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode php"><code class="sourceCode php"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">P</span>HPUnit\<span class="cn">F</span>ramework\<span class="cn">T</span>estCase<span class="ot">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">R</span>eact\<span class="cn">P</span>romise\<span class="cn">P</span>romise<span class="ot">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="cn">C</span>reatePostControllerTest <span class="kw">extends</span> <span class="cn">T</span>estCase</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> testInvoke()</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">$postRepository</span> <span class="op">=</span> <span class="va">$this</span>-&gt;createMock(<span class="cn">P</span>ostRepository::<span class="kw">class</span>)<span class="ot">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">$postRepository</span>-&gt;method(<span class="st">&#39;save&#39;</span>)-&gt;willReturn(<span class="kw">new</span> <span class="cn">P</span>romise(<span class="kw">function</span> (<span class="va">$resolve</span>) {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>            <span class="va">$resolve</span>(<span class="kw">true</span>)<span class="ot">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        }))<span class="ot">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">$controller</span> <span class="op">=</span> <span class="kw">new</span> <span class="cn">C</span>reatePostController(<span class="va">$postRepository</span>)<span class="ot">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">$request</span> <span class="op">=</span> <span class="va">$this</span>-&gt;createMock(<span class="cn">S</span>erverRequestInterface::<span class="kw">class</span>)<span class="ot">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">$request</span>-&gt;method(<span class="st">&#39;getBody&#39;</span>)-&gt;willReturn(<span class="st">&#39;{&quot;id&quot;:&quot;test-id&quot;,&quot;headline&quot;:&quot;Test Headline&quot;}&#39;</span>)<span class="ot">;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">$promise</span> <span class="op">=</span> <span class="va">$controller</span>(<span class="va">$request</span>)<span class="ot">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">$promise</span>-&gt;then(<span class="kw">function</span> (<span class="va">$response</span>) {</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="va">$this</span>-&gt;assertInstanceOf(<span class="cn">J</span>sonResponse::<span class="kw">class</span><span class="ot">,</span> <span class="va">$response</span>)<span class="ot">;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="va">$this</span>-&gt;assertEquals(<span class="dv">201</span><span class="ot">,</span> <span class="va">$response</span>-&gt;getStatusCode())<span class="ot">;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        })<span class="ot">;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+        <h2 id="tests-de-comportamiento-con-behat">Tests de
+        Comportamiento con Behat</h2>
+        <p>Behat nos permite escribir tests que describen el
+        comportamiento de nuestro sistema desde una perspectiva de alto
+        nivel. Hemos logrado implementar estos tests incluso con la
+        naturaleza asíncrona de nuestro sistema. Aquí un ejemplo de un
+        escenario Behat:</p>
+        <pre class="gherkin"><code>Feature: Create Post
+  In order to share content
+  As an API client
+  I need to be able to create new posts
+
+  Scenario: Successfully creating a new post
+    Given I have valid post data
+    When I send a POST request to &quot;/post&quot; with the post data
+    Then the response status code should be 201
+    And the response should confirm the post was created
+</code></pre>
+        <p>La implementación de estos tests con Behat requiere algunos
+        ajustes para manejar la naturaleza asíncrona de nuestras
+        operaciones, pero hemos demostrado que es completamente viable y
+        efectivo.</p>
+        <h1 id="conclusión">Conclusión</h1>
+        <p>A lo largo de este artículo, hemos explorado cómo implementar
+        PHP asíncrono en una aplicación real. Hemos creado un endpoint
+        eficiente capaz de manejar múltiples solicitudes de manera
+        concurrente, demostrando el potencial de PHP para aplicaciones
+        de alto rendimiento.</p>
+        <p>Lo que hace que este enfoque sea particularmente poderoso es
+        que hemos logrado mantener buenas prácticas de desarrollo,
+        incluyendo la implementación de tests unitarios y de
+        comportamiento. Esto demuestra que la programación asíncrona en
+        PHP no solo es posible, sino que también es viable para
+        proyectos del mundo real que requieren un alto nivel de calidad
+        y confiabilidad.</p>
+        <p>Ya existe una versión en producción de este sistema, la cual
+        incluye datos de prueba (fixtures). Puedes ver un ejemplo de
+        cómo funciona en <a
+        href="https://pascualmg.dev/post">https://pascualmg.dev/post</a>.
+        Actualmente, los posts que se muestran son estáticos, pero en el
+        futuro, este endpoint se utilizará para obtener y mostrar posts
+        dinámicos.</p>
+        <p>Te animo a explorar la versión en producción y a considerar
+        cómo podrías aplicar técnicas similares en tus propios
+        proyectos. La combinación de programación asíncrona con
+        prácticas sólidas de testing abre nuevas posibilidades para
+        crear aplicaciones PHP de alto rendimiento y alta calidad.</p>
+        <p>#PHPAsíncrono #DesarrolloWeb #ReactPHP #Rendimiento #Testing
+        #Behat #OpenSource</p>
+
+        <footer>
+            
+            
+            <a href="https://pascualmg.dev/html/pascualmgPorfolio.html" target="_blank">Mi portfolio</a>
+        </footer>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const homeLink = document.getElementById('home-link');
+        const currentDomain = window.location.hostname;
+        if (currentDomain === 'localhost' || currentDomain === '127.0.0.1') {
+            homeLink.href = '/';
+        } else {
+            homeLink.href = 'https://' + currentDomain;
+        }
+    });
+
+    window.addEventListener('WebComponentsReady', function () {
+        const themeToggler = document.querySelector('theme-toggler');
+        if (themeToggler) {
+            console.log('ThemeToggler cargado y listo para usar');
+        }
+    });
+</script>
+</body>
+</html>
