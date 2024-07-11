@@ -262,7 +262,6 @@
             word-wrap: normal;
         }
 
-
         .sourceCode .kw {
             color: var(--keyword);
         }
@@ -319,6 +318,36 @@
             z-index: 2;
         }
 
+        .author-section {
+            background-color: var(--bg3);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .author-section h2 {
+            color: var(--head2);
+            margin-top: 0;
+        }
+
+        .portfolio-button {
+            display: inline-block;
+            background-color: var(--blue);
+            color: var(--bg1);
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.3125rem;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .portfolio-button:hover {
+            background-color: var(--cyan);
+            text-decoration: none;
+        }
+
         @media (min-width: 48em) {
             html {
                 font-size: 18px;
@@ -373,10 +402,14 @@
 
         $body$
 
+        <section class="author-section">
+            <h2>Sobre el autor</h2>
+            <p>$if(author)$$for(author)$$author$$sep$, $endfor$$endif$ es un apasionado desarrollador web con experiencia en PHP asíncrono y otras tecnologías modernas.</p>
+            <a href="https://pascualmg.dev/html/pascualmgPorfolio.html" class="portfolio-button" target="_blank">Visita mi Portfolio</a>
+        </section>
+
         <footer>
-            $if(author)$<p>Autor: $for(author)$$author$$sep$, $endfor$</p>$endif$
             $if(date)$<p>Última actualización: $date$</p>$endif$
-            <a href="https://pascualmg.dev/html/pascualmgPorfolio.html" target="_blank">Mi portfolio</a>
         </footer>
     </div>
 </div>
