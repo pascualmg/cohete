@@ -35,7 +35,7 @@ class ExperienceTimeline extends HTMLElement {
                 .timeline::before {
                     content: '';
                     position: absolute;
-                    top: 0;
+                    top: 20px;
                     bottom: 0;
                     left: 11px;
                     width: var(--timeline-width);

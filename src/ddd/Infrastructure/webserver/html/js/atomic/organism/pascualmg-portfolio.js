@@ -6,6 +6,7 @@ import ExperienceTimeline from "../molecule/ExperienceTimeline.js"
 import SocialLinks from "../molecule/SocialLinks.js"
 import AboutThisPortfolio from "../molecule/AboutThisPortfolio.js";
 import YastModal from "../atom/YastModal.js";
+import SoftSkills from "../molecule/SoftSkills.js";
 
 class PortfolioElement extends HTMLElement {
   constructor() {
@@ -45,6 +46,14 @@ class PortfolioElement extends HTMLElement {
                     border-radius: 10px;
                     border: 1px solid var(--border);
                 }
+ 
+                .about-this-portfolio-container {
+                    display: flex;
+                    justify-content: center;
+                    margin: 20px;
+                }
+                
+                
             </style>
            <portfolio-header></portfolio-header>
           
@@ -251,11 +260,23 @@ class PortfolioElement extends HTMLElement {
   }
 ]'></experience-timeline>
 
-           
-<yast-modal button-text="Sobre este Portfolio">
-        <about-this-portfolio slot="content"></about-this-portfolio>
-</yast-modal> 
+ <soft-skills
+        skills='[
+          "Trabajo muy bien en equipo.",
+          "Tengo una alta disposición para aprender nuevos lenguajes y tecnologías.",
+          "Buen comunicador con compañeros y clientes no técnicos",
+          "Capacidad para encontrar formas creativas de resolver problemas técnicos y adaptarse a nuevos desafíos",
+          "Autodidacta y entusiasta de la programación",
+          "Creador de mi propio framework para crear API RESTful asíncronas con ReactPHP."
+        ]'
 
+      ></soft-skills>
+
+<div class="about-this-portfolio-container">
+<yast-modal button-text="Que tiene de especial este Portfolio" class="custom-button">
+    <about-this-portfolio slot="content"></about-this-portfolio>
+</yast-modal>
+</div>
  <technologies-list images='[
     {"src": "https://raw.githubusercontent.com/NixOS/nixos-artwork/53ea652ec7d8af5d21fd2b79b6c49cb39078ddfb/logo/nixos.svg", "alt": "nixos"},
     {"src": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Haskell-logo2.svg", "alt": "haskell"},
@@ -267,7 +288,6 @@ class PortfolioElement extends HTMLElement {
     {"src": "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg", "alt": "html5"},
     {"src": "https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg", "alt": "css3"}
 ]'></technologies-list>
-            </technologies-list>
         `;
   }
 }
