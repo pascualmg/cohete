@@ -437,25 +437,42 @@
         <h1 id="implementación-del-controlador">Implementación del
         Controlador</h1>
         <p>Aquí está el código para nuestro CreatePostController:</p>
-        <p>&lt;?php</p>
-        <p>namespace TuNamespace;</p>
-        <p>use Psr; use React; use TuNamespace; use TuNamespace; use
-        TuNamespace;</p>
-        <p>class CreatePostController implements HttpRequestHandler {
-        public function _<sub>construct</sub>( private readonly
-        PostRepository $postRepository ) {}</p>
-        <p>public function _<sub>invoke</sub>(ServerRequestInterface
-        $request): PromiseInterface { $payload =
-        json<sub>decode</sub>($request-&gt;getBody()-&gt;getContents(),
-        true);</p>
-        <p>$post = new Post( id: Uuid::from($payload['id']), headline:
-        $payload['headline'], articleBody: $payload['articleBody'],
-        image: $payload['image'], author: $payload['author'],
-        datePublished: new ($payload['datePublished']) );</p>
-        <p>return $this-&gt;postRepository-&gt;save($post)-&gt;then(
-        static fn (bool $success) =&gt; JsonResponse::create(201,
-        ['success' =&gt; $success]), static fn ( $error) =&gt;
-        JsonResponse::withError($error) ); } }</p>
+        <div class="sourceCode" id="cb1"><pre
+        class="sourceCode php"><code class="sourceCode php"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;?php</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">namespace</span> <span class="cn">T</span>uNamespace\<span class="cn">I</span>nfrastructure\<span class="cn">H</span>ttpServer\<span class="cn">R</span>equestHandler<span class="ot">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">P</span>sr\<span class="cn">H</span>ttp\<span class="cn">M</span>essage\<span class="cn">S</span>erverRequestInterface<span class="ot">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">R</span>eact\<span class="cn">P</span>romise\<span class="cn">P</span>romiseInterface<span class="ot">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">T</span>uNamespace\<span class="cn">D</span>omain\<span class="cn">E</span>ntity\<span class="cn">P</span>ost<span class="ot">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">T</span>uNamespace\<span class="cn">D</span>omain\<span class="cn">V</span>alueObject\<span class="cn">U</span>uid<span class="ot">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">T</span>uNamespace\<span class="cn">I</span>nfrastructure\<span class="cn">H</span>ttpServer\<span class="cn">J</span>sonResponse<span class="ot">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="cn">C</span>reatePostController <span class="kw">implements</span> <span class="cn">H</span>ttpRequestHandler</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> <span class="bu">__construct</span>(</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="kw">private</span> <span class="dt">readonly</span> <span class="cn">P</span>ostRepository <span class="va">$postRepository</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    ) {}</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> <span class="bu">__invoke</span>(<span class="cn">S</span>erverRequestInterface <span class="va">$request</span>)<span class="ot">:</span> <span class="cn">P</span>romiseInterface</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">$payload</span> <span class="op">=</span> <span class="fu">json_decode</span>(<span class="va">$request</span>-&gt;getBody()-&gt;getContents()<span class="ot">,</span> <span class="kw">true</span>)<span class="ot">;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">$post</span> <span class="op">=</span> <span class="kw">new</span> <span class="cn">P</span>ost(</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            id<span class="ot">:</span> <span class="cn">U</span>uid::from(<span class="va">$payload</span>[<span class="st">&#39;id&#39;</span>])<span class="ot">,</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>            headline<span class="ot">:</span> <span class="va">$payload</span>[<span class="st">&#39;headline&#39;</span>]<span class="ot">,</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>            articleBody<span class="ot">:</span> <span class="va">$payload</span>[<span class="st">&#39;articleBody&#39;</span>]<span class="ot">,</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>            image<span class="ot">:</span> <span class="va">$payload</span>[<span class="st">&#39;image&#39;</span>]<span class="ot">,</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>            author<span class="ot">:</span> <span class="va">$payload</span>[<span class="st">&#39;author&#39;</span>]<span class="ot">,</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>            datePublished<span class="ot">:</span> <span class="kw">new</span> \<span class="bu">DateTimeImmutable</span>(<span class="va">$payload</span>[<span class="st">&#39;datePublished&#39;</span>])</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        )<span class="ot">;</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">$this</span>-&gt;postRepository-&gt;save(<span class="va">$post</span>)-&gt;then(</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>            <span class="kw">static</span> <span class="kw">fn</span> (<span class="dt">bool</span> <span class="va">$success</span>) =&gt; <span class="cn">J</span>sonResponse::create(<span class="dv">201</span><span class="ot">,</span> [<span class="st">&#39;success&#39;</span> =&gt; <span class="va">$success</span>])<span class="ot">,</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>            <span class="kw">static</span> <span class="kw">fn</span> (\<span class="bu">Exception</span> <span class="va">$error</span>) =&gt; <span class="cn">J</span>sonResponse::withError(<span class="va">$error</span>)</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        )<span class="ot">;</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
         <p>Este controlador demuestra el poder de la programación
         asíncrona en PHP.</p>
         <h1 id="entendiendo-el-flujo-asíncrono">Entendiendo el Flujo
@@ -475,7 +492,7 @@
         Endpoint</h1>
         <p>Para probar nuestro nuevo endpoint, podemos usar el siguiente
         comando curl:</p>
-        <p>curl –location –request POST '<a
+        <p>+BEGIN<sub>SRC</sub> shell curl –location –request POST '<a
         href="http://localhost:8000/post">http://localhost:8000/post</a>'
         \ –header 'Content-Type: application/json' \ –data-raw '{ "id":
         "d32ea57f-6f8b-472b-bac8-845445b548e5", "headline": "Explorando
@@ -483,7 +500,7 @@
         programación asíncrona en PHP…", "image": "<a
         href="https://ejemplo.com/imagen.jpg">https://ejemplo.com/imagen.jpg</a>",
         "author": "Desarrollador Curioso", "datePublished": "2023-07-11
-        15:30:00" }'</p>
+        15:30:00" }' +END<sub>SRC</sub></p>
         <h1 id="implementación-de-tests">Implementación de Tests</h1>
         <p>Un aspecto crucial de cualquier desarrollo robusto es la
         implementación de tests. En este proyecto, hemos logrado
@@ -494,32 +511,22 @@
         de componentes individuales de nuestro sistema. Aquí un ejemplo
         simplificado de cómo podríamos testear nuestro
         CreatePostController:</p>
-        <div class="sourceCode" id="cb1"><pre
-        class="sourceCode php"><code class="sourceCode php"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">P</span>HPUnit\<span class="cn">F</span>ramework\<span class="cn">T</span>estCase<span class="ot">;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">use</span> <span class="cn">R</span>eact\<span class="cn">P</span>romise\<span class="cn">P</span>romise<span class="ot">;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> <span class="cn">C</span>reatePostControllerTest <span class="kw">extends</span> <span class="cn">T</span>estCase</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> <span class="kw">function</span> testInvoke()</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">$postRepository</span> <span class="op">=</span> <span class="va">$this</span>-&gt;createMock(<span class="cn">P</span>ostRepository::<span class="kw">class</span>)<span class="ot">;</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">$postRepository</span>-&gt;method(<span class="st">&#39;save&#39;</span>)-&gt;willReturn(<span class="kw">new</span> <span class="cn">P</span>romise(<span class="kw">function</span> (<span class="va">$resolve</span>) {</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>            <span class="va">$resolve</span>(<span class="kw">true</span>)<span class="ot">;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        }))<span class="ot">;</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">$controller</span> <span class="op">=</span> <span class="kw">new</span> <span class="cn">C</span>reatePostController(<span class="va">$postRepository</span>)<span class="ot">;</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">$request</span> <span class="op">=</span> <span class="va">$this</span>-&gt;createMock(<span class="cn">S</span>erverRequestInterface::<span class="kw">class</span>)<span class="ot">;</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">$request</span>-&gt;method(<span class="st">&#39;getBody&#39;</span>)-&gt;willReturn(<span class="st">&#39;{&quot;id&quot;:&quot;test-id&quot;,&quot;headline&quot;:&quot;Test Headline&quot;}&#39;</span>)<span class="ot">;</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">$promise</span> <span class="op">=</span> <span class="va">$controller</span>(<span class="va">$request</span>)<span class="ot">;</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">$promise</span>-&gt;then(<span class="kw">function</span> (<span class="va">$response</span>) {</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>            <span class="va">$this</span>-&gt;assertInstanceOf(<span class="cn">J</span>sonResponse::<span class="kw">class</span><span class="ot">,</span> <span class="va">$response</span>)<span class="ot">;</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>            <span class="va">$this</span>-&gt;assertEquals(<span class="dv">201</span><span class="ot">,</span> <span class="va">$response</span>-&gt;getStatusCode())<span class="ot">;</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        })<span class="ot">;</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+        <div class="sourceCode" id="cb2"><pre
+        class="sourceCode php"><code class="sourceCode php"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">function</span> test_given_valid_command_when_create_then_service_is_invoked() <span class="ot">:</span> <span class="dt">void</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>   {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>       <span class="va">$createPostCommand</span> <span class="op">=</span> <span class="kw">new</span> <span class="cn">C</span>reatePostCommand(</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>           <span class="dt">(string)</span><span class="cn">U</span>uidValueObject::v4()<span class="ot">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;headline&quot;</span><span class="ot">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;articlebody&quot;</span><span class="ot">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;me&quot;</span><span class="ot">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;2024-04-01T21:46:50+00:00&quot;</span><span class="ot">,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>       )<span class="ot">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>       <span class="va">$this</span>-&gt;postCreator-&gt;expects(<span class="va">$this</span>-&gt;once())-&gt;method(<span class="st">&#39;__invoke&#39;</span>)<span class="ot">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>       (<span class="va">$this</span>-&gt;createPostCommandHandler)(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">$createPostCommand</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>       )<span class="ot">;</span></span></code></pre></div>
         <h2 id="tests-de-comportamiento-con-behat">Tests de
         Comportamiento con Behat</h2>
         <p>Behat nos permite escribir tests que describen el

@@ -42,6 +42,7 @@ Recuerda reemplazar "TuNamespace" con el namespace apropiado para tu proyecto.
 
 Aquí está el código para nuestro CreatePostController:
 
+#+BEGIN_SRC php
 <?php
 
 namespace TuNamespace\Infrastructure\HttpServer\RequestHandler;
@@ -77,6 +78,7 @@ class CreatePostController implements HttpRequestHandler
         );
     }
 }
+#+END_SRC
 
 Este controlador demuestra el poder de la programación asíncrona en PHP.
 
@@ -94,6 +96,7 @@ Este enfoque permite que nuestras aplicaciones manejen cargas de trabajo más pe
 
 Para probar nuestro nuevo endpoint, podemos usar el siguiente comando curl:
 
++BEGIN_SRC shell
 curl --location --request POST 'http://localhost:8000/post' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -104,6 +107,7 @@ curl --location --request POST 'http://localhost:8000/post' \
     "author": "Desarrollador Curioso",
     "datePublished": "2023-07-11 15:30:00"
 }'
++END_SRC
 
 * Implementación de Tests
 
@@ -114,31 +118,21 @@ Un aspecto crucial de cualquier desarrollo robusto es la implementación de test
 Los tests unitarios nos permiten verificar el comportamiento de componentes individuales de nuestro sistema. Aquí un ejemplo simplificado de cómo podríamos testear nuestro CreatePostController:
 
 #+BEGIN_SRC php
-use PHPUnit\Framework\TestCase;
-use React\Promise\Promise;
-
-class CreatePostControllerTest extends TestCase
-{
-    public function testInvoke()
+ public function test_given_valid_command_when_create_then_service_is_invoked() : void
     {
-        $postRepository = $this->createMock(PostRepository::class);
-        $postRepository->method('save')->willReturn(new Promise(function ($resolve) {
-            $resolve(true);
-        }));
+        $createPostCommand = new CreatePostCommand(
+            (string)UuidValueObject::v4(),
+            "headline",
+            "articlebody",
+            "me",
+            "2024-04-01T21:46:50+00:00",
+        );
 
-        $controller = new CreatePostController($postRepository);
+        $this->postCreator->expects($this->once())->method('__invoke');
 
-        $request = $this->createMock(ServerRequestInterface::class);
-        $request->method('getBody')->willReturn('{"id":"test-id","headline":"Test Headline"}');
-
-        $promise = $controller($request);
-
-        $promise->then(function ($response) {
-            $this->assertInstanceOf(JsonResponse::class, $response);
-            $this->assertEquals(201, $response->getStatusCode());
-        });
-    }
-}
+        ($this->createPostCommandHandler)(
+         $createPostCommand
+        );
 #+END_SRC
 
 ** Tests de Comportamiento con Behat
