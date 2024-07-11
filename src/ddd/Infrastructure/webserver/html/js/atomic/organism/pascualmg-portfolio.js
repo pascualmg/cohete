@@ -69,7 +69,7 @@ class PortfolioElement extends HTMLElement {
 <experience-timeline  data='[
   {
     "company": "GRUPO EUROFORMAC",
-    "position": "PHP Software Engineer y Formador",
+    "position": "PHP Software Engineer",
     "startDate": "2024-06-14",
     "endDate": "2024-06-28",
     "projects": [
