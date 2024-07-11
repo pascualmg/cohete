@@ -12,9 +12,9 @@ Antes de sumergirnos en el código, asegurémonos de tener todo configurado corr
 
 En tu archivo .env, añade la siguiente línea:
 
-+BEGIN_SRC shell
-ROUTES_PATH=/ruta/a/tu/archivo/routes.json
-+END_SRC
+#+BEGIN_SRC shell
+    ROUTES_PATH=/ruta/a/tu/archivo/routes.json
+#+END_SRC
 
 Asegúrate de reemplazar "/ruta/a/tu/archivo" con la ruta real en tu sistema.
 
@@ -22,9 +22,9 @@ Asegúrate de reemplazar "/ruta/a/tu/archivo" con la ruta real en tu sistema.
 
 Abre tu terminal y ejecuta:
 
-+BEGIN_SRC shell
+#+BEGIN_SRC shell
 nix develop
-+END_SRC
+#+END_SRC
 
 Nota: Asegúrate de tener Nix instalado en tu sistema con las características experimentales 'nix-command' y 'flakes' activadas.
 
@@ -32,7 +32,7 @@ Nota: Asegúrate de tener Nix instalado en tu sistema con las características e
 
 Vamos a definir la ruta para nuestro nuevo endpoint. Abre tu archivo routes.json y añade lo siguiente:
 
-+BEGIN_SRC json
+#+BEGIN_SRC json
 [
   {
     "method": "POST",
@@ -40,7 +40,7 @@ Vamos a definir la ruta para nuestro nuevo endpoint. Abre tu archivo routes.json
     "handler": "\\TuNamespace\\Infrastructure\\HttpServer\\RequestHandler\\CreatePostController"
   }
 ]
-+END_SRC
+#+END_SRC
 
 * Implementación del Controlador
 
@@ -100,7 +100,7 @@ Este enfoque permite que nuestras aplicaciones manejen cargas de trabajo más pe
 
 Para probar nuestro nuevo endpoint, podemos usar el siguiente comando curl:
 
-+BEGIN_SRC shell
+#+BEGIN_SRC shell
 curl --location --request POST 'http://localhost:8000/post' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -111,7 +111,7 @@ curl --location --request POST 'http://localhost:8000/post' \
     "author": "Desarrollador Curioso",
     "datePublished": "2023-07-11 15:30:00"
 }'
-+END_SRC
+#+END_SRC
 
 * Implementación de Tests
 
