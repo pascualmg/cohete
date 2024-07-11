@@ -38,8 +38,8 @@ class YastModal extends HTMLElement {
           padding: 10px 20px;
           font-size: 16px;
           cursor: pointer;
-          background-color: #3498db;
-          color: white;
+          background-color: var(--blue-bg);
+          color: var(--blue);
           border: none;
           border-radius: 5px;
           transition: background-color 0.3s;
