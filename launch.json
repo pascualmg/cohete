@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug PHP Bootstrap (Nix Flake)",
+            "type": "php",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/bootstrap.php",
+            "cwd": "${workspaceFolder}",
+            "port": 9003,
+            "runtimeArgs": [
+                "-dxdebug.mode=debug",
+                "-dxdebug.start_with_request=yes",
+                "-dxdebug.client_port=9003"
+            ]
+        }
+    ]
+}
