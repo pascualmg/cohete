@@ -100,6 +100,7 @@ class AboutThisPortfolio extends HTMLElement {
         <li>Implementación de backend personalizada para una creación verdaderamente integral</li>
         <li>Demuestra dominio tanto en tecnologías de backend como de frontend</li>
         <li>Diseñado con un enfoque en la accesibilidad y el rendimiento</li>
+        <li>Da igual los años y los frameworks que se pasen o se pongan de moda, en esos días estos comonentes seguirán funcionando igual de bien :) </li>
       </ul>
       <div class="tech-stack">
         <span class="tech-item">Web Components</span>
@@ -109,9 +110,8 @@ class AboutThisPortfolio extends HTMLElement {
         <span class="tech-item">Diseño Responsivo</span>
       </div>
       <p class="cta">
-        ¿Curioso sobre cómo funciona todo esto? ¡Abre las herramientas de desarrollo de tu navegador y explora el código! Me encantaría conocer tus pensamientos y feedback. 
+        ¡Abre las herramientas de desarrollo de tu navegador y explora el código! Me encantaría conocer tus pensamientos y feedback.
         <br><br>
-        Si eres reclutador o colega desarrollador, no dudes en contactarme para discutir más sobre las decisiones técnicas y el proceso de desarrollo.
       </p>
     `;
     }

@@ -256,17 +256,30 @@ class ExperienceTimeline extends HTMLElement {
         `;
     }
 
+    calculateDuration(startDate, endDate) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const diffTime = Math.abs(end - start);
+        const diffYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365));
+        const diffMonths = Math.floor((diffTime % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+
+        if (diffYears === 0 && diffMonths === 0) {
+            return '';
+        }
+        return `(${diffYears} años, ${diffMonths} meses)`;
+    }
+
     renderExperience(exp) {
         return `
-      <div class="experience">
-        <div class="company">${exp.company}</div>
-        <div class="position">${exp.position}</div>
-        <div class="date">${exp.startDate || ''} - ${exp.endDate} (${exp.duration})</div>
-        <div class="projects">
-          ${exp.projects.map(proj => this.renderProject(proj)).join('')}
-        </div>
-      </div>
-    `;
+            <div class="experience">
+                <div class="company">${exp.company}</div>
+                <div class="position">${exp.position}</div>
+                <div class="date">${exp.startDate || ''} - ${exp.endDate} ${(this.calculateDuration(exp.startDate, exp.endDate))}</div>
+                <div class="projects">
+                    ${exp.projects.map(proj => this.renderProject(proj)).join('')}
+                </div>
+            </div>
+        `;
     }
 
     renderProject(proj) {

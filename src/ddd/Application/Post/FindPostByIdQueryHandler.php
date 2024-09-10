@@ -16,7 +16,7 @@ class FindPostByIdQueryHandler
 
     public function __invoke(FindPostByIdQuery $findPostByIdQuery): PromiseInterface //of a post
     {
-        return $this->postRepository->findById($findPostByIdQuery->postId());
+        return $this->postRepository->findById($findPostByIdQuery->postId);
     }
 
 }

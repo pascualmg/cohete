@@ -2,16 +2,12 @@
 
 namespace pascualmg\cohete\ddd\Application\Post;
 
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
+
 class FindPostByIdQuery
 {
     public function __construct(
-        private readonly int $postId
+        public readonly PostId $postId
     ) {
     }
-
-    public function postId(): int
-    {
-        return $this->postId;
-    }
-
 }
