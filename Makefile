@@ -28,5 +28,8 @@ rabbitmq:
 mysql:
 	docker-compose -f src/ddd/Infrastructure/db/docker-compose.yml up -d
 
+behat:
+	./vendor/bin/behat
+
 
 .PHONY: run watch install-nix run-prod fix migrate fixtures test_ab mysql
