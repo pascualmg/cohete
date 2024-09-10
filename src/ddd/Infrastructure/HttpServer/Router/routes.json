@@ -31,7 +31,7 @@
   },
  {
     "method": "GET",
-    "path": "/post/{id:[0-9]+}",
+    "path": "/post/{id}",
     "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\FindPostByIdController"
   },
   {
