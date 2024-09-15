@@ -58,5 +58,3 @@ Donde:
 - ddd/Infrastructure/HttpServer/Kernel/Kernel.php: este archivo es el núcleo de la aplicación. Aquí es donde se manejan las peticiones HTTP de forma asíncrona.
 - ddd/Infrastructure/HttpServer/ReactHttpServer.php: este archivo es un ejemplo completo de cómo luce un servidor http reactivo.
 - bootstrap.php: es el punto de entrada del proyecto, aquí se inicializan todas las configuraciones y se arranca el servidor.
-
-* README generado por un humano y revisado por una IA.
