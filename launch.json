@@ -2,6 +2,34 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Debug Current PHP File with external console",
+            "type": "php",
+            "request": "launch",
+            "program": "${file}",
+            "cwd": "${fileDirname}",
+            "port": 9003,
+            "runtimeArgs": [
+                "-dxdebug.mode=debug",
+                "-dxdebug.start_with_request=yes",
+                "-dxdebug.client_port=9003"
+            ],
+            "externalConsole": true,
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Debug Current PHP File",
+            "type": "php",
+            "request": "launch",
+            "program": "${file}",
+            "cwd": "${fileDirname}",
+            "port": 9003,
+            "runtimeArgs": [
+                "-dxdebug.mode=debug",
+                "-dxdebug.start_with_request=yes",
+                "-dxdebug.client_port=9003"
+            ]
+        },
+        {
             "name": "Debug PHP Bootstrap",
             "type": "php",
             "request": "launch",
@@ -12,7 +40,9 @@
                 "-dxdebug.mode=debug",
                 "-dxdebug.start_with_request=yes",
                 "-dxdebug.client_port=9003"
-            ]
+            ],
+            "externalConsole": true,
+            "console": "integratedTerminal"
         }
     ]
 }
