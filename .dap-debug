@@ -1,0 +1,26 @@
+(after! dap-mode
+  (dap-register-debug-template
+   "PHP Debug Current Script"
+   (list :type "php"
+         :cwd nil
+         :request "launch"
+         :name "PHP Debug Current Script"
+         :args nil
+         :program "${file}"
+         :stopOnEntry t)))
+
+(defun dap-debug-php-current-script ()
+  "Debug the current PHP script."
+  (interactive)
+  (dap-debug
+   (list :type "php"
+         :cwd nil
+         :request "launch"
+         :name "PHP Debug Current Script"
+         :args nil
+         :program (buffer-file-name)
+         :stopOnEntry t)))
+
+(map! :leader
+      (:prefix ("d" . "debug")
+       :desc "Debug PHP current script" "p" #'dap-debug-php-current-script))

@@ -40,9 +40,7 @@
                 "-dxdebug.mode=debug",
                 "-dxdebug.start_with_request=yes",
                 "-dxdebug.client_port=9003"
-            ],
-            "externalConsole": true,
-            "console": "integratedTerminal"
+            ]
         }
     ]
 }
