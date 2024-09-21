@@ -48,11 +48,6 @@
          buildInputs = [
              php
              php.packages.composer
-         # php.packages.phpstan # Probably not required in prod
-         # php.packages.psalm # Probably not required in prod
-         # pkgs.phpunit # Probably not required in prod
-                    # self'.packages.satis # Adjust according to your needs
-                    # php.packages.php-cs-fixer # Probably not required in prod
          ];
            # Esta shellHook ejecutará 'make run' al ingresar al shell
          shellHook = ''
