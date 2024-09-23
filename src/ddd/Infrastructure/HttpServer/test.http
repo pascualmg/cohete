@@ -34,7 +34,7 @@ Content-Type: application/json
 {
   "id": "0000ce1a-b329-3459-b82f-9efb54a69ef5",
   "headline": "Sample Headline",
-  "articleBody": "Sample Article Body",
+  "articleBody": "",
   "image": "image url",
   "author": "Author Name",
   "datePublished": "2024-02-26T00:57:49+00:00"
