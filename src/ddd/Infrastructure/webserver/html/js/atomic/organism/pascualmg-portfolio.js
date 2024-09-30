@@ -68,6 +68,23 @@ class PortfolioElement extends HTMLElement {
 
 <experience-timeline  data='[
   {
+    "company": "Estamos Trabajando en ello! Enseguida os cuento...",
+    "position": "Software Engineer",
+    "projects": [
+      {
+        "name": "????????????",
+        "role": "PHP Backend Developer",
+        "highlights": [
+          "Seguro que van a ser muy interesantes"
+        ],
+        "technologies": ["PHP", "SYMPHONY"],
+        "achievements": [
+            "Por el momento nada :) pero, seguro que pronto habrá mucho que contar"
+        ]
+      }
+    ]
+  },
+  {
     "company": "GRUPO EUROFORMAC",
     "position": "PHP Software Engineer",
     "startDate": "2024-06-14",
