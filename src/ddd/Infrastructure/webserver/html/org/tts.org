@@ -1,0 +1,222 @@
+#+TITLE: TTS decente en linux en menos de 15 minutos.
+#+AUTHOR: Pascual Muñoz Galián
+#+EMAIL: info@pascualmg.dev
+#+OPTIONS: toc:2 num:t
+#+STARTUP: showall
+
+:PROPERTIES:
+:ID:       2bba6c10-8e31-4993-9bdb-a8970a11459f
+:CATEGORY: Linux
+:TAGS: TTS, Python, Productividad
+:END:
+
+* Introducción
+¿Alguna vez has deseado que tu Linux hablara con la fluidez de un asistente virtual de última generación? En este artículo, te mostraré cómo implementar un sistema Text-to-Speech (TTS) en Linux que no solo funciona, sino que suena increíblemente bien. En menos de 15 minutos, transformaremos tu sistema en un asistente vocal multilingüe y altamente personalizable.
+
+* Otra vez intentando configurar el TTS en Linux...
+No sé el tiempo que hace que llevo probando los diferentes sistemas de TTS que han ido saliendo para Linux... quizá 20 veces sean pocas, y ninguna de ellas ha pasado de quedar en largas horas de configuraciones, instalaciones, para luego obtener un resultado que podemos dejar en poco satisfactorio :) .
+
+¿Alguna vez has pensado "oye, ¿por qué mi Linux no puede leerme cosas en voz alta como el Mac?" Bueno, prepárate, porque hoy vamos a hacer que tu Linux no solo hable, sino que lo haga mejor que muchos asistentes virtuales que conoces. Y lo mejor es que va a sonar muchísimo mejor que esas opciones típicas de Linux que... bueno, digamos que tienen margen de mejora.
+
+* Text-to-Speech (sin parecer un robot de los 80)
+Imagina poder seleccionar cualquier texto en tu pantalla y que tu ordenador lo lea en voz alta, y que encima suene bien. Sí, has leído bien, que suene bien en Linux. Esto nos va a permitir:
+
+- Escuchar documentos mientras hacemos otras cosas (multitarea nivel experto)
+- Revisar textos y código de una forma totalmente nueva
+- Presumir de que nuestro Linux puede hacer cosas que ni siquiera algunos chatbots web pueden
+- Practicar la pronunciación en diferentes idiomas (¡novedad!)
+- Integración con Wayland y Emacs para una experiencia aún más fluida (¡nueva característica!)
+
+* La "Recipe": Ingredientes y preparación
+** Dependencias necesarias
+Primero, vamos a instalar unas cosillas. Abre tu terminal y escribe:
+
+#+BEGIN_SRC sh :results none
+sudo apt-get update
+sudo apt-get install xsel wl-clipboard mpg321 sox libsox-fmt-mp3
+pip install gtts langdetect
+#+END_SRC
+
+Por supuesto, has de tener Python instalado en tu sistema. Si no lo tienes, instálalo así:
+
+#+BEGIN_SRC sh :results none
+sudo apt-get install python3
+#+END_SRC
+
+O si eres más chulo, con Nix:
+
+#+BEGIN_SRC sh :results none
+nix profile install nixpkgs#python3
+#+END_SRC
+
+** El Script de Python que hará la magia
+Ahora viene lo bueno. Vamos a crear un script de Python que hará toda la magia. No te preocupes si Python no es lo tuyo, tampoco es lo mío, pero me gusta trastear y funciona :). Solo copia y pega:
+
+#+BEGIN_SRC python :results none
+import os
+import sys
+import signal
+import subprocess
+import argparse
+from gtts import gTTS
+import gtts.lang
+from langdetect import detect
+
+# Configuración por defecto
+DEFAULT_SPEED = 1.25
+DEFAULT_CLIPBOARD_TOOL = 'xsel'
+
+def kill_previous_instances():
+    os.system("pkill mpg321")
+
+def list_languages():
+    print("Idiomas disponibles:")
+    for lang, name in gtts.lang.tts_langs().items():
+        print(f"{lang}: {name}")
+
+def get_clipboard_content(tool):
+    if tool == 'xsel':
+        return subprocess.getoutput("xsel -o")
+    elif tool == 'wl-clipboard':
+        return subprocess.getoutput("wl-paste")
+    elif tool == 'emacs':
+        return subprocess.getoutput("emacsclient --eval '(car kill-ring)'")
+    else:
+        raise ValueError(f"Herramienta de portapapeles no soportada: {tool}")
+
+def speak(text, speed=DEFAULT_SPEED):
+    kill_previous_instances()
+
+    detected_lang = detect(text)
+    tts = gTTS(text=text, lang=detected_lang, tld='es')
+    tts.save("output.mp3")
+
+    cmd = f"sox output.mp3 output_speed.mp3 tempo {speed} && mpg321 output_speed.mp3"
+    process = subprocess.Popen(cmd, shell=True)
+    process.wait()
+
+    os.remove("output.mp3")
+    os.remove("output_speed.mp3")
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description='Text-to-Speech avanzado para Linux')
+    parser.add_argument('--speed', type=float, default=DEFAULT_SPEED, help='Velocidad de reproducción')
+    parser.add_argument('--list-languages', action='store_true', help='Listar idiomas disponibles')
+    parser.add_argument('--clipboard', choices=['xsel', 'wl-clipboard', 'emacs'],
+                        default=DEFAULT_CLIPBOARD_TOOL, help='Herramienta de portapapeles a usar')
+    parser.add_argument('text', nargs='*', help='Texto a leer (opcional si se usa entrada estándar o portapapeles)')
+    args = parser.parse_args()
+
+    def signal_handler(sig, frame):
+        kill_previous_instances()
+        for file in ["output.mp3", "output_speed.mp3"]:
+            if os.path.exists(file):
+                os.remove(file)
+        sys.exit(0)
+
+    signal.signal(signal.SIGINT, signal_handler)
+
+    if args.list_languages:
+        list_languages()
+    else:
+        if args.text:
+            input_text = " ".join(args.text)
+        elif not sys.stdin.isatty():
+            input_text = sys.stdin.read().strip()
+        else:
+            input_text = get_clipboard_content(args.clipboard)
+
+        if input_text:
+            speak(input_text, args.speed)
+        else:
+            print("Sin texto para leer. Usa --help para ver las opciones.")
+#+END_SRC
+
+Guarda este script como ~/tts.py y dale permisos de ejecución:
+
+#+BEGIN_SRC sh :results none
+chmod +x ~/tts.py
+#+END_SRC
+
+* ¡A probarlo!
+Ahora viene lo bueno. Puedes usar este script de varias maneras:
+
+** Desde la terminal (modo hacker profesional)
+#+BEGIN_SRC sh :results none
+echo "Ahora puedo hablar en múltiples idiomas y detectarlos automáticamente" | python3 ~/tts.py
+#+END_SRC
+
+** Usando xsel (X11)
+#+BEGIN_SRC sh :results none
+python3 ~/tts.py --clipboard xsel
+#+END_SRC
+
+** Usando wl-clipboard (Wayland)
+#+BEGIN_SRC sh :results none
+python3 ~/tts.py --clipboard wl-clipboard
+#+END_SRC
+
+** Usando Emacs
+#+BEGIN_SRC sh :results none
+python3 ~/tts.py --clipboard emacs
+#+END_SRC
+
+** Ajustando la velocidad
+#+BEGIN_SRC sh :results none
+python3 ~/tts.py --speed 2.0 "Texto a leer rápidamente"
+#+END_SRC
+
+** Listando idiomas disponibles
+#+BEGIN_SRC sh :results none
+python3 ~/tts.py --list-languages
+#+END_SRC
+
+* Modo pro: Integración con gestores de ventanas
+** XMonad (X11)
+#+BEGIN_SRC haskell :results none
+, ((mod4Mask, xK_t), spawn "python3 ~/tts.py --clipboard xsel --speed 1.5")
+, ((mod4Mask .|. shiftMask, xK_t), spawn "python3 ~/tts.py --clipboard xsel --speed 2.0")
+#+END_SRC
+
+** Sway (Wayland)
+#+BEGIN_SRC conf :results none
+bindsym $mod+t exec python3 ~/tts.py --clipboard wl-clipboard --speed 1.5
+bindsym $mod+Shift+t exec python3 ~/tts.py --clipboard wl-clipboard --speed 2.0
+#+END_SRC
+
+** Emacs
+#+BEGIN_SRC elisp :results none
+(defun tts-speak ()
+  (interactive)
+  (shell-command "python3 ~/tts.py --clipboard emacs"))
+
+(global-set-key (kbd "C-c t") 'tts-speak)
+#+END_SRC
+
+¿Quieres una configuración de XMonad lista para usar con TTS y muchas otras mejoras? Echa un vistazo a mi repositorio en GitHub: https://github.com/pascualmg/xmonad
+
+* Opiniones del QA (me) tras unos días usándolo
+Estoy bastante contento con esta solución =hand-crafted=, y sinceramente sorprendido. Por fin estoy cómodo con el TTS en Linux. Está muy bien eso de ponerse a consultar algo con la IA, y en vez de estar leyendo el output a tu prompt, estar ya en el IDE reflexionando con lo que comenta. O estar editando un archivo de configuración mientras escuchas su manual, por ejemplo. Los casos de uso son cualquier cosa que se te ocurra.
+
+** Pros
+- Copiar el texto, pulsar tecla WIN+t (o lo que tu quieras) y escuchar con la voz de Google con autodetección del idioma y el acento correcto.
+- Solución simple, al ser un script hace que su uso sea muy versátil y configurable.
+
+** Contras
+- Genera archivos temporales en el proceso, que luego son eliminados.
+- Requiere de acceso a internet y consume datos, esto más que un contra es un requisito.
+- Con textos muy grandes, tarda algunos segundos en empezar a leer.
+
+** Futuras Mejoras
+- Si se envía a leer otro texto mientras está leyendo ya uno, automáticamente para de leer el anterior y así se evita que se solapen, pero habría que incluir una opción más al comando explícita para detenerlo. =--stop= que sería muy útil.
+- Sería ideal que se usara algún sistema de notificación de X11 para indicar al usuario que se ha recibido la petición de lectura, ya que como se comentaba antes, en textos largos está bien saber que se está procesando correctamente antes de que comience a leer.
+
+* Conclusión
+** ¡Anímate a probarlo en menos de 15 minutos lo tienes funcionando!
+Te animo a que pruebes esta solución. Te sorprenderá lo útil que puede ser tener un asistente de voz de calidad en tu sistema Linux. La mayoría de los chatbots web aún no disponen de esta característica, y seguro que más de una vez te ha hecho falta. ¿Por qué conformarse con menos cuando puedes tener un Linux que no solo funciona genial, sino que también habla de maravilla?
+
+
+Con este script de TTS, hemos logrado darle voz a nuestro sistema Linux de una manera elegante y eficiente. No solo hemos superado las limitaciones de los sistemas TTS tradicionales en Linux, sino que hemos creado una herramienta versátil que se adapta a diferentes entornos de trabajo y necesidades.
+
+Te invito a que pruebes esta solución y si te gusta o tienes alguna mejora no dudes en compartirla!
+

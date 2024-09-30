@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTS decente en linux en menos de 15 minutos.</title>
+    <style>
+        :root {
+            --act1: #222226;
+            --act2: #5d4d7a;
+            --base: #b2b2b2;
+            --base-dim: #686868;
+            --bg1: #292b2e;
+            --bg2: #212026;
+            --bg3: #100a14;
+            --bg4: #0a0814;
+            --bg-alt: #42444a;
+            --border: #5d4d7a;
+            --cblk: #cbc1d5;
+            --cblk-bg: #2f2b33;
+            --cblk-ln: #827591;
+            --cblk-ln-bg: #373040;
+            --cursor: #e3dedd;
+            --const: #a45bad;
+            --comment: #2aa1ae;
+            --comment-light: #2aa1ae;
+            --comment-bg: #292e34;
+            --comp: #c56ec3;
+            --err: #e0211d;
+            --func: #bc6ec5;
+            --head1: #4f97d7;
+            --head1-bg: #293239;
+            --head2: #2d9574;
+            --head2-bg: #293235;
+            --head3: #67b11d;
+            --head3-bg: #293235;
+            --head4: #b1951d;
+            --head4-bg: #32322c;
+            --highlight: #444155;
+            --highlight-dim: #3b314d;
+            --keyword: #4f97d7;
+            --lnum: #44505c;
+            --mat: #86dc2f;
+            --meta: #9f8766;
+            --str: #2d9574;
+            --suc: #86dc2f;
+            --ttip: #9a9aba;
+            --ttip-sl: #5e5079;
+            --ttip-bg: #34323e;
+            --type: #ce537a;
+            --var: #7590db;
+            --war: #dc752f;
+            --aqua: #2d9574;
+            --aqua-bg: #293235;
+            --green: #67b11d;
+            --green-bg: #293235;
+            --green-bg-s: #29422d;
+            --cyan: #28def0;
+            --red: #f2241f;
+            --red-bg: #3c2a2c;
+            --red-bg-s: #512e31;
+            --blue: #4f97d7;
+            --blue-bg: #293239;
+            --blue-bg-s: #2d4252;
+            --magenta: #a31db1;
+            --yellow: #b1951d;
+            --yellow-bg: #32322c;
+        }
+
+        html {
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            background-color: var(--bg1);
+            color: var(--base);
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            font-size: 1rem;
+            padding: 60px 0 0;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--head1);
+            font-weight: bold;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            background-color: var(--head1-bg);
+            padding: 0.625rem;
+            border-radius: 0.3125rem;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            color: var(--head2);
+            background-color: var(--head2-bg);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            color: var(--head3);
+            background-color: var(--head3-bg);
+            padding: 0.375rem;
+            border-radius: 0.1875rem;
+        }
+
+        h4 {
+            font-size: 1.2rem;
+            color: var(--head4);
+            background-color: var(--head4-bg);
+            padding: 0.25rem;
+            border-radius: 0.125rem;
+        }
+
+        a {
+            color: var(--blue);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul, ol {
+            margin-bottom: 1rem;
+            padding-left: 1.25rem;
+        }
+
+        li {
+            margin-bottom: 0.3125rem;
+        }
+
+        code {
+            color: var(--type);
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.1875rem;
+            font-size: 0.875rem;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        blockquote {
+            border-left: 0.25rem solid var(--green);
+            margin-left: 0;
+            padding-left: 0.625rem;
+            color: var(--comment);
+            font-style: italic;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.25rem;
+            overflow-x: auto;
+            display: block;
+        }
+
+        th, td {
+            padding: 0.5rem;
+            border: 1px solid var(--border);
+            min-width: 100px;
+        }
+
+        th {
+            background-color: var(--bg2);
+            color: var(--base);
+            font-weight: bold;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 1rem;
+        }
+
+        .site-header a {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+            margin: 1rem auto 0;
+            padding: 0 0.5rem;
+        }
+
+        .table-of-contents {
+            background-color: var(--bg3);
+            padding: 0.9375rem;
+            border-radius: 0.3125rem;
+            margin-bottom: 1rem;
+            width: 100%;
+        }
+
+        .table-of-contents h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .table-of-contents ul {
+            list-style-type: none;
+            padding-left: 1.25rem;
+        }
+
+        .table-of-contents li {
+            margin-bottom: 0.3125rem;
+        }
+
+        .table-of-contents a {
+            color: var(--blue);
+            text-decoration: none;
+            font-size: 0.9375rem;
+        }
+
+        .table-of-contents a:hover {
+            text-decoration: underline;
+        }
+
+        .content {
+            background-color: var(--bg2);
+            padding: 0.625rem;
+            border-radius: 0.5rem;
+        }
+
+        pre {
+            border-radius: 0.3125rem;
+            overflow-x: auto;
+            color: var(--cblk);
+            padding: 0.625rem;
+            font-size: 0.875rem;
+            background-color: var(--bg3);
+            white-space: pre;
+            word-wrap: normal;
+        }
+
+        pre code {
+            display: block;
+            overflow-x: auto;
+            padding: 1em;
+            background: none;
+            white-space: pre;
+            word-wrap: normal;
+        }
+
+        .sourceCode .kw {
+            color: var(--keyword);
+        }
+
+        .sourceCode .dt {
+            color: var(--type);
+        }
+
+        .sourceCode .dv, .sourceCode .bn, .sourceCode .fl {
+            color: var(--const);
+        }
+
+        .sourceCode .ch, .sourceCode .st {
+            color: var(--str);
+        }
+
+        .sourceCode .co, .sourceCode .do, .sourceCode .an, .sourceCode .cv, .sourceCode .in {
+            color: var(--comment);
+            font-style: italic;
+        }
+
+        .sourceCode .ot, .sourceCode .fu, .sourceCode .ex {
+            color: var(--func);
+        }
+
+        .sourceCode .al, .sourceCode .er {
+            color: var(--err);
+        }
+
+        .sourceCode .va {
+            color: var(--var);
+        }
+
+        .sourceCode .cf {
+            color: var(--keyword);
+        }
+
+        .sourceCode .op, .sourceCode .bu {
+            color: var(--base);
+        }
+
+        .sourceCode .pp {
+            color: var(--meta);
+        }
+
+        .sourceCode .at {
+            color: var(--var);
+        }
+
+        theme-toggler {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 2;
+        }
+
+        .author-section {
+            background-color: var(--bg3);
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .author-section h2 {
+            color: var(--head2);
+            margin-top: 0;
+        }
+
+        .portfolio-button {
+            display: inline-block;
+            background-color: var(--blue);
+            color: var(--bg1);
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.3125rem;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .portfolio-button:hover {
+            background-color: var(--cyan);
+            text-decoration: none;
+        }
+
+        @media (min-width: 48em) {
+            html {
+                font-size: 18px;
+            }
+
+            body {
+                padding: 60px 0 0;
+            }
+
+            .main-container {
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+
+            .table-of-contents {
+                position: sticky;
+                top: 70px;
+                height: calc(100vh - 70px);
+                overflow-y: auto;
+                width: 15.625rem;
+                margin-right: 1.25rem;
+                flex-shrink: 0;
+            }
+
+            .content {
+                flex-grow: 1;
+                overflow-y: auto;
+                padding: 1.25rem;
+            }
+        }
+    </style>
+    <script type="module" src="../../html/js/atomic/organism/ThemeToogler.js"></script>
+</head>
+<body>
+<theme-toggler></theme-toggler>
+<div class="main-container">
+    
+    <div class="content">
+        <header>
+            <h1>TTS decente en linux en menos de 15 minutos.</h1>
+            
+        </header>
+
+        <h1 id="introducción">Introducción</h1>
+        <p>¿Alguna vez has deseado que tu Linux hablara con la fluidez
+        de un asistente virtual de última generación? En este artículo,
+        te mostraré cómo implementar un sistema Text-to-Speech (TTS) en
+        Linux que no solo funciona, sino que suena increíblemente bien.
+        En menos de 15 minutos, transformaremos tu sistema en un
+        asistente vocal multilingüe y altamente personalizable.</p>
+        <h1 id="otra-vez-intentando-configurar-el-tts-en-linux">Otra vez
+        intentando configurar el TTS en Linux…</h1>
+        <p>No sé el tiempo que hace que llevo probando los diferentes
+        sistemas de TTS que han ido saliendo para Linux… quizá 20 veces
+        sean pocas, y ninguna de ellas ha pasado de quedar en largas
+        horas de configuraciones, instalaciones, para luego obtener un
+        resultado que podemos dejar en poco satisfactorio :) .</p>
+        <p>¿Alguna vez has pensado "oye, ¿por qué mi Linux no puede
+        leerme cosas en voz alta como el Mac?" Bueno, prepárate, porque
+        hoy vamos a hacer que tu Linux no solo hable, sino que lo haga
+        mejor que muchos asistentes virtuales que conoces. Y lo mejor es
+        que va a sonar muchísimo mejor que esas opciones típicas de
+        Linux que… bueno, digamos que tienen margen de mejora.</p>
+        <h1
+        id="text-to-speech-sin-parecer-un-robot-de-los-80">Text-to-Speech
+        (sin parecer un robot de los 80)</h1>
+        <p>Imagina poder seleccionar cualquier texto en tu pantalla y
+        que tu ordenador lo lea en voz alta, y que encima suene bien.
+        Sí, has leído bien, que suene bien en Linux. Esto nos va a
+        permitir:</p>
+        <ul>
+        <li>Escuchar documentos mientras hacemos otras cosas (multitarea
+        nivel experto)</li>
+        <li>Revisar textos y código de una forma totalmente nueva</li>
+        <li>Presumir de que nuestro Linux puede hacer cosas que ni
+        siquiera algunos chatbots web pueden</li>
+        <li>Practicar la pronunciación en diferentes idiomas
+        (¡novedad!)</li>
+        <li>Integración con Wayland y Emacs para una experiencia aún más
+        fluida (¡nueva característica!)</li>
+        </ul>
+        <h1 id="la-recipe-ingredientes-y-preparación">La "Recipe":
+        Ingredientes y preparación</h1>
+        <h2 id="dependencias-necesarias">Dependencias necesarias</h2>
+        <p>Primero, vamos a instalar unas cosillas. Abre tu terminal y
+        escribe:</p>
+        <div class="sourceCode" id="cb1" data-org-language="sh"
+        data-results="none"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get update</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install xsel wl-clipboard mpg321 sox libsox-fmt-mp3</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install gtts langdetect</span></code></pre></div>
+        <p>Por supuesto, has de tener Python instalado en tu sistema. Si
+        no lo tienes, instálalo así:</p>
+        <div class="sourceCode" id="cb2" data-org-language="sh"
+        data-results="none"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt-get install python3</span></code></pre></div>
+        <p>O si eres más chulo, con Nix:</p>
+        <div class="sourceCode" id="cb3" data-org-language="sh"
+        data-results="none"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nix</span> profile install nixpkgs#python3</span></code></pre></div>
+        <h2 id="el-script-de-python-que-hará-la-magia">El Script de
+        Python que hará la magia</h2>
+        <p>Ahora viene lo bueno. Vamos a crear un script de Python que
+        hará toda la magia. No te preocupes si Python no es lo tuyo,
+        tampoco es lo mío, pero me gusta trastear y funciona :). Solo
+        copia y pega:</p>
+        <div class="sourceCode" id="cb4" data-results="none"><pre
+        class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> signal</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> subprocess</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> argparse</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> gtts <span class="im">import</span> gTTS</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> gtts.lang</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> langdetect <span class="im">import</span> detect</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuración por defecto</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>DEFAULT_SPEED <span class="op">=</span> <span class="fl">1.25</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>DEFAULT_CLIPBOARD_TOOL <span class="op">=</span> <span class="st">&#39;xsel&#39;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> kill_previous_instances():</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    os.system(<span class="st">&quot;pkill mpg321&quot;</span>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> list_languages():</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Idiomas disponibles:&quot;</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> lang, name <span class="kw">in</span> gtts.lang.tts_langs().items():</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f&quot;</span><span class="sc">{</span>lang<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_clipboard_content(tool):</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> tool <span class="op">==</span> <span class="st">&#39;xsel&#39;</span>:</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> subprocess.getoutput(<span class="st">&quot;xsel -o&quot;</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> tool <span class="op">==</span> <span class="st">&#39;wl-clipboard&#39;</span>:</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> subprocess.getoutput(<span class="st">&quot;wl-paste&quot;</span>)</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> tool <span class="op">==</span> <span class="st">&#39;emacs&#39;</span>:</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> subprocess.getoutput(<span class="st">&quot;emacsclient --eval &#39;(car kill-ring)&#39;&quot;</span>)</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f&quot;Herramienta de portapapeles no soportada: </span><span class="sc">{</span>tool<span class="sc">}</span><span class="ss">&quot;</span>)</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> speak(text, speed<span class="op">=</span>DEFAULT_SPEED):</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>    kill_previous_instances()</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    detected_lang <span class="op">=</span> detect(text)</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    tts <span class="op">=</span> gTTS(text<span class="op">=</span>text, lang<span class="op">=</span>detected_lang, tld<span class="op">=</span><span class="st">&#39;es&#39;</span>)</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    tts.save(<span class="st">&quot;output.mp3&quot;</span>)</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    cmd <span class="op">=</span> <span class="ss">f&quot;sox output.mp3 output_speed.mp3 tempo </span><span class="sc">{</span>speed<span class="sc">}</span><span class="ss"> &amp;&amp; mpg321 output_speed.mp3&quot;</span></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    process <span class="op">=</span> subprocess.Popen(cmd, shell<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    process.wait()</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    os.remove(<span class="st">&quot;output.mp3&quot;</span>)</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    os.remove(<span class="st">&quot;output_speed.mp3&quot;</span>)</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">&quot;__main__&quot;</span>:</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    parser <span class="op">=</span> argparse.ArgumentParser(description<span class="op">=</span><span class="st">&#39;Text-to-Speech avanzado para Linux&#39;</span>)</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    parser.add_argument(<span class="st">&#39;--speed&#39;</span>, <span class="bu">type</span><span class="op">=</span><span class="bu">float</span>, default<span class="op">=</span>DEFAULT_SPEED, <span class="bu">help</span><span class="op">=</span><span class="st">&#39;Velocidad de reproducción&#39;</span>)</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    parser.add_argument(<span class="st">&#39;--list-languages&#39;</span>, action<span class="op">=</span><span class="st">&#39;store_true&#39;</span>, <span class="bu">help</span><span class="op">=</span><span class="st">&#39;Listar idiomas disponibles&#39;</span>)</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    parser.add_argument(<span class="st">&#39;--clipboard&#39;</span>, choices<span class="op">=</span>[<span class="st">&#39;xsel&#39;</span>, <span class="st">&#39;wl-clipboard&#39;</span>, <span class="st">&#39;emacs&#39;</span>],</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>                        default<span class="op">=</span>DEFAULT_CLIPBOARD_TOOL, <span class="bu">help</span><span class="op">=</span><span class="st">&#39;Herramienta de portapapeles a usar&#39;</span>)</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    parser.add_argument(<span class="st">&#39;text&#39;</span>, nargs<span class="op">=</span><span class="st">&#39;*&#39;</span>, <span class="bu">help</span><span class="op">=</span><span class="st">&#39;Texto a leer (opcional si se usa entrada estándar o portapapeles)&#39;</span>)</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    args <span class="op">=</span> parser.parse_args()</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> signal_handler(sig, frame):</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>        kill_previous_instances()</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> <span class="bu">file</span> <span class="kw">in</span> [<span class="st">&quot;output.mp3&quot;</span>, <span class="st">&quot;output_speed.mp3&quot;</span>]:</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> os.path.exists(<span class="bu">file</span>):</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>                os.remove(<span class="bu">file</span>)</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>        sys.exit(<span class="dv">0</span>)</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>    signal.signal(signal.SIGINT, signal_handler)</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> args.list_languages:</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>        list_languages()</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> args.text:</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>            input_text <span class="op">=</span> <span class="st">&quot; &quot;</span>.join(args.text)</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> <span class="kw">not</span> sys.stdin.isatty():</span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>            input_text <span class="op">=</span> sys.stdin.read().strip()</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>            input_text <span class="op">=</span> get_clipboard_content(args.clipboard)</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> input_text:</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>            speak(input_text, args.speed)</span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">&quot;Sin texto para leer. Usa --help para ver las opciones.&quot;</span>)</span></code></pre></div>
+        <p>Guarda este script como ~/tts.py y dale permisos de
+        ejecución:</p>
+        <div class="sourceCode" id="cb5" data-org-language="sh"
+        data-results="none"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chmod</span> +x ~/tts.py</span></code></pre></div>
+        <h1 id="a-probarlo">¡A probarlo!</h1>
+        <p>Ahora viene lo bueno. Puedes usar este script de varias
+        maneras:</p>
+        <h2 id="desde-la-terminal-modo-hacker-profesional">Desde la
+        terminal (modo hacker profesional)</h2>
+        <div class="sourceCode" id="cb6" data-org-language="sh"
+        data-results="none"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;Ahora puedo hablar en múltiples idiomas y detectarlos automáticamente&quot;</span> <span class="kw">|</span> <span class="ex">python3</span> ~/tts.py</span></code></pre></div>
+        <h2 id="usando-xsel-x11">Usando xsel (X11)</h2>
+        <div class="sourceCode" id="cb7" data-org-language="sh"
+        data-results="none"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> ~/tts.py <span class="at">--clipboard</span> xsel</span></code></pre></div>
+        <h2 id="usando-wl-clipboard-wayland">Usando wl-clipboard
+        (Wayland)</h2>
+        <div class="sourceCode" id="cb8" data-org-language="sh"
+        data-results="none"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> ~/tts.py <span class="at">--clipboard</span> wl-clipboard</span></code></pre></div>
+        <h2 id="usando-emacs">Usando Emacs</h2>
+        <div class="sourceCode" id="cb9" data-org-language="sh"
+        data-results="none"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> ~/tts.py <span class="at">--clipboard</span> emacs</span></code></pre></div>
+        <h2 id="ajustando-la-velocidad">Ajustando la velocidad</h2>
+        <div class="sourceCode" id="cb10" data-org-language="sh"
+        data-results="none"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> ~/tts.py <span class="at">--speed</span> 2.0 <span class="st">&quot;Texto a leer rápidamente&quot;</span></span></code></pre></div>
+        <h2 id="listando-idiomas-disponibles">Listando idiomas
+        disponibles</h2>
+        <div class="sourceCode" id="cb11" data-org-language="sh"
+        data-results="none"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> ~/tts.py <span class="at">--list-languages</span></span></code></pre></div>
+        <h1 id="modo-pro-integración-con-gestores-de-ventanas">Modo pro:
+        Integración con gestores de ventanas</h1>
+        <h2 id="xmonad-x11">XMonad (X11)</h2>
+        <div class="sourceCode" id="cb12" data-results="none"><pre
+        class="sourceCode haskell"><code class="sourceCode haskell"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>, ((mod4Mask, xK_t), spawn <span class="st">&quot;python3 ~/tts.py --clipboard xsel --speed 1.5&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>, ((mod4Mask <span class="op">.|.</span> shiftMask, xK_t), spawn <span class="st">&quot;python3 ~/tts.py --clipboard xsel --speed 2.0&quot;</span>)</span></code></pre></div>
+        <h2 id="sway-wayland">Sway (Wayland)</h2>
+        <pre class="conf" data-results="none"><code>bindsym $mod+t exec python3 ~/tts.py --clipboard wl-clipboard --speed 1.5
+bindsym $mod+Shift+t exec python3 ~/tts.py --clipboard wl-clipboard --speed 2.0
+</code></pre>
+        <h2 id="emacs">Emacs</h2>
+        <pre class="elisp" data-results="none"><code>(defun tts-speak ()
+  (interactive)
+  (shell-command &quot;python3 ~/tts.py --clipboard emacs&quot;))
+
+(global-set-key (kbd &quot;C-c t&quot;) &#39;tts-speak)
+</code></pre>
+        <p>¿Quieres una configuración de XMonad lista para usar con TTS
+        y muchas otras mejoras? Echa un vistazo a mi repositorio en
+        GitHub: <a
+        href="https://github.com/pascualmg/xmonad">https://github.com/pascualmg/xmonad</a></p>
+        <h1 id="opiniones-del-qa-me-tras-unos-días-usándolo">Opiniones
+        del QA (me) tras unos días usándolo</h1>
+        <p>Estoy bastante contento con esta solución <code
+        class="verbatim">hand-crafted</code>, y sinceramente
+        sorprendido. Por fin estoy cómodo con el TTS en Linux. Está muy
+        bien eso de ponerse a consultar algo con la IA, y en vez de
+        estar leyendo el output a tu prompt, estar ya en el IDE
+        reflexionando con lo que comenta. O estar editando un archivo de
+        configuración mientras escuchas su manual, por ejemplo. Los
+        casos de uso son cualquier cosa que se te ocurra.</p>
+        <h2 id="pros">Pros</h2>
+        <ul>
+        <li>Copiar el texto, pulsar tecla WIN+t (o lo que tu quieras) y
+        escuchar con la voz de Google con autodetección del idioma y el
+        acento correcto.</li>
+        <li>Solución simple, al ser un script hace que su uso sea muy
+        versátil y configurable.</li>
+        </ul>
+        <h2 id="contras">Contras</h2>
+        <ul>
+        <li>Genera archivos temporales en el proceso, que luego son
+        eliminados.</li>
+        <li>Requiere de acceso a internet y consume datos, esto más que
+        un contra es un requisito.</li>
+        <li>Con textos muy grandes, tarda algunos segundos en empezar a
+        leer.</li>
+        </ul>
+        <h2 id="futuras-mejoras">Futuras Mejoras</h2>
+        <ul>
+        <li>Si se envía a leer otro texto mientras está leyendo ya uno,
+        automáticamente para de leer el anterior y así se evita que se
+        solapen, pero habría que incluir una opción más al comando
+        explícita para detenerlo. <code class="verbatim">--stop</code>
+        que sería muy útil.</li>
+        <li>Sería ideal que se usara algún sistema de notificación de
+        X11 para indicar al usuario que se ha recibido la petición de
+        lectura, ya que como se comentaba antes, en textos largos está
+        bien saber que se está procesando correctamente antes de que
+        comience a leer.</li>
+        </ul>
+        <h1 id="conclusión">Conclusión</h1>
+        <h2
+        id="anímate-a-probarlo-en-menos-de-15-minutos-lo-tienes-funcionando">¡Anímate
+        a probarlo en menos de 15 minutos lo tienes funcionando!</h2>
+        <p>Te animo a que pruebes esta solución. Te sorprenderá lo útil
+        que puede ser tener un asistente de voz de calidad en tu sistema
+        Linux. La mayoría de los chatbots web aún no disponen de esta
+        característica, y seguro que más de una vez te ha hecho falta.
+        ¿Por qué conformarse con menos cuando puedes tener un Linux que
+        no solo funciona genial, sino que también habla de
+        maravilla?</p>
+        <p>Con este script de TTS, hemos logrado darle voz a nuestro
+        sistema Linux de una manera elegante y eficiente. No solo hemos
+        superado las limitaciones de los sistemas TTS tradicionales en
+        Linux, sino que hemos creado una herramienta versátil que se
+        adapta a diferentes entornos de trabajo y necesidades.</p>
+        <p>Te invito a que pruebes esta solución y si te gusta o tienes
+        alguna mejora no dudes en compartirla!</p>
+
+        <section class="author-section">
+            <h2>Sobre el autor</h2>
+            <a href="https://pascualmg.dev/html/pascualmgPorfolio.html" class="portfolio-button" target="_blank">Visita mi Portfolio</a>
+        </section>
+
+        <footer>
+            
+        </footer>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const homeLink = document.getElementById('home-link');
+        const currentDomain = window.location.hostname;
+        if (currentDomain === 'localhost' || currentDomain === '127.0.0.1') {
+            homeLink.href = '/';
+        } else {
+            homeLink.href = 'https://' + currentDomain;
+        }
+    });
+
+    window.addEventListener('WebComponentsReady', function () {
+        const themeToggler = document.querySelector('theme-toggler');
+        if (themeToggler) {
+            console.log('ThemeToggler cargado y listo para usar');
+        }
+    });
+</script>
+</body>
+</html>
