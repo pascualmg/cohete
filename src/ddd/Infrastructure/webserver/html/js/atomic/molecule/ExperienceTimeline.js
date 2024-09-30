@@ -257,8 +257,13 @@ class ExperienceTimeline extends HTMLElement {
     }
 
     calculateDuration(startDate, endDate) {
+        if (!startDate || !endDate) return '';
+
         const start = new Date(startDate);
         const end = new Date(endDate);
+
+        if (isNaN(start.getTime()) || isNaN(end.getTime())) return '';
+
         const diffTime = Math.abs(end - start);
         const diffYears = Math.floor(diffTime / (1000 * 60 * 60 * 24 * 365));
         const diffMonths = Math.floor((diffTime % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
@@ -266,20 +271,56 @@ class ExperienceTimeline extends HTMLElement {
         if (diffYears === 0 && diffMonths === 0) {
             return '';
         }
-        return `(${diffYears} años, ${diffMonths} meses)`;
+
+        const yearString = diffYears > 0 ? `${diffYears} año${diffYears > 1 ? 's' : ''}` : '';
+        const monthString = diffMonths > 0 ? `${diffMonths} mes${diffMonths > 1 ? 'es' : ''}` : '';
+
+        if (yearString && monthString) {
+            return `(${yearString}, ${monthString})`;
+        } else {
+            return `(${yearString}${monthString})`;
+        }
     }
 
     renderExperience(exp) {
+        const dateString = this.formatDateRange(exp.startDate, exp.endDate);
+        const duration = this.calculateDuration(exp.startDate, exp.endDate);
+
         return `
             <div class="experience">
                 <div class="company">${exp.company}</div>
                 <div class="position">${exp.position}</div>
-                <div class="date">${exp.startDate || ''} - ${exp.endDate} ${(this.calculateDuration(exp.startDate, exp.endDate))}</div>
+                <div class="date">${dateString} ${duration}</div>
                 <div class="projects">
                     ${exp.projects.map(proj => this.renderProject(proj)).join('')}
                 </div>
             </div>
         `;
+    }
+
+    formatDateRange(startDate, endDate) {
+        const start = startDate ? new Date(startDate) : null;
+        const end = endDate ? new Date(endDate) : null;
+
+        if (!start && !end) return '';
+
+        const formatDate = (date) => {
+            if (!date || isNaN(date.getTime())) return '';
+            return date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long' });
+        };
+
+        const startString = formatDate(start);
+        const endString = end ? formatDate(end) : 'Presente';
+
+        if (startString && endString) {
+            return `${startString} - ${endString}`;
+        } else if (startString) {
+            return `Desde ${startString}`;
+        } else if (endString !== 'Presente') {
+            return `Hasta ${endString}`;
+        }
+
+        return '';
     }
 
     renderProject(proj) {
