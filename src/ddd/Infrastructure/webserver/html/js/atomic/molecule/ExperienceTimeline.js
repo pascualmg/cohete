@@ -324,7 +324,11 @@ class ExperienceTimeline extends HTMLElement {
     }
 
     renderProject(proj) {
-        return `
+        proj.achievements = [];
+        proj.technologies = [];
+        proj.highlights = [];
+
+        return  `
       <div class="project">
         <div class="project-name">${proj.name}</div>
         <div class="role">${proj.role}</div>
