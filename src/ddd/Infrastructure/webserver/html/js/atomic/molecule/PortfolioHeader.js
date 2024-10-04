@@ -7,6 +7,10 @@ class PortfolioHeader extends HTMLElement {
     }
 
     connectedCallback() {
+        this.render();
+    }
+
+    render() {
         this.shadowRoot.innerHTML = `
             <style>
                 .portfolio-header {
@@ -21,10 +25,15 @@ class PortfolioHeader extends HTMLElement {
                 .header-photo img {
                     width: 150px;
                     height: 150px;
-                    border-radius: 50%;
                     object-fit: cover;
                     margin-bottom: 20px;
                     border: 4px solid var(--blue);
+                    animation: pulse 2s ease-in-out infinite;
+                }
+
+                @keyframes pulse {
+                    0%, 100% { border-radius: 50%; }
+                    50% { border-radius: 25%; }
                 }
 
                 .header-title {
