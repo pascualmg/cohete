@@ -31,7 +31,6 @@ $logger->pushHandler(
         'image_migration.log'
     )
 );
-$logger->info('Inicio de la migración de imágenes');
 
 function logToFile(array $data): void
 {
@@ -39,6 +38,27 @@ function logToFile(array $data): void
     $logger->info('Migración de imagen', $data);
 }
 
+/**
+ * Genera un archivo CSV con los datos de la migración
+ * guid | profile_image | uploadedFileUrl | error
+ * @param array $data
+ * @return void
+ */
+function generateCSV(array $data): void
+{
+    $filename = 'migracion.csv';
+    $file = fopen($filename, 'ab');
+
+    // Si el archivo no existe, escribimos la cabecera
+    if (filesize($filename) === 0) {
+        fputcsv($file, ['guid', 'profile_image', 'uploadedFileUrl', 'error']);
+    }
+
+    // Escribimos los datos
+    fputcsv($file, $data);
+
+    fclose($file);
+}
 /**
  * Cross Mark Modificar en evolok el campo profile_image con la url que apunte a la imagen subida por ftp, que seguirán el patron https://s1.sportstatics.com/secure/ruta-hasta-la-imagen.  (Opcionalmente, podríamos solicitar a infra una carpeta y user ftp distintos para que en lugar de /secure sea /tumbsnails o lo que queramos)
  */
@@ -51,6 +71,7 @@ function uploadFileToFtp(string $fileContent, string $fileName): string
 
 
     $localTempFile = $fileName; //que se llame igual
+
     $filepathOnFtpServer = $ftpImageDir . $fileName;
 
     // Guardar el contenido en un archivo temporal SIN MANIPULACIÓN
@@ -243,7 +264,7 @@ $ofEvolok
 
                                                     $guid = $tupleGuidAndProfileImage['guid'];
                                                     $newFilename = sprintf(
-                                                        "migrated_%s_%s",
+                                                        "migrated_%s%s",
                                                         $guid,
                                                         $extensionFromMime
                                                     );
@@ -271,12 +292,14 @@ $ofEvolok
                                                     // Capturar cualquier error (conexión, timeout, etc.)
                                                     $url = $tupleGuidAndProfileImage['profile_image'];
                                                     echo "Error procesando $url: " . $e->getMessage() . "\n";
-                                                    return [
+                                                    //return Observable
+
+                                                    return Observable::of([
                                                         'guid' => $tupleGuidAndProfileImage['guid'],
                                                         'profile_image' => $url,
                                                         'uploadedFileUrl' => null,
                                                         'error' => $e->getMessage(),
-                                                    ];
+                                                    ]);
                                                 }
                                             );
                                         }
@@ -288,23 +311,24 @@ $ofEvolok
         }
     )
     ->do('logToFile')
-    ->flatMap('updateProfileImageInEvolok')
-    ->map(
-        static function (ResponseInterface $response) {
-            return json_decode(
-                $response->getBody()->getContents(),
-                true,
-                512,
-                JSON_THROW_ON_ERROR
-            );
-        }
-    )->catch(
-        static function (\Throwable $e) {
-            echo "Error en la petición a Evolok: " . $e->getMessage() . "\n";
-            return Observable::empty();
-        }
-    )
-    ->do('logToFile')
+    ->do('generateCSV')
+//    ->flatMap('updateProfileImageInEvolok')
+//    ->map(
+//        static function (ResponseInterface $response) {
+//            return json_decode(
+//                $response->getBody()->getContents(),
+//                true,
+//                512,
+//                JSON_THROW_ON_ERROR
+//            );
+//        }
+//    )->catch(
+//        static function (\Throwable $e) {
+//            echo "Error en la petición a Evolok: " . $e->getMessage() . "\n";
+//            return Observable::empty();
+//        }
+//    )
+//    ->do('logToFile')
     ->subscribe(
         function ($result) use ($logger){
             //actualizo el profile id en evolok
