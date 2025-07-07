@@ -8,57 +8,65 @@ class AboutThisPortfolio extends HTMLElement {
     connectedCallback() {
         this.shadowRoot.innerHTML = `
       <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Merriweather:wght@300;400&display=swap');
-        
         :host {
           display: block;
-          font-family: 'Merriweather', serif;
-          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-          color: #333;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: var(--bg1, #0a0a0a);
+          color: var(--base, #ffffff);
           margin: 20px;
           padding: 30px;
-          border-radius: 15px;
-          box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+          border-radius: 20px;
+          border: 2px solid var(--border, #444444);
+          box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+          animation: fadeIn 0.5s ease-out;
         }
         h2 {
-          font-family: 'Roboto', sans-serif;
-          color: #2c3e50;
+          color: var(--head1, #ffffff);
           text-align: center;
           font-size: 2em;
           margin-bottom: 30px;
           text-transform: uppercase;
           letter-spacing: 2px;
+          border-bottom: 2px solid var(--green, #00ff88);
+          padding-bottom: 10px;
         }
         .highlight {
-          color: #e74c3c;
+          color: var(--green, #00ff88);
           font-weight: bold;
+          text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
         }
         .tech-stack {
           display: flex;
           justify-content: center;
           flex-wrap: wrap;
           margin: 30px 0;
+          gap: 10px;
         }
         .tech-item {
-          background-color: #3498db;
-          color: white;
+          background: linear-gradient(135deg, var(--green, #00ff88), var(--comp, #ff6b6b));
+          color: var(--bg1, #0a0a0a);
           padding: 10px 20px;
-          margin: 5px;
           border-radius: 25px;
           font-size: 0.9em;
+          font-weight: bold;
           transition: all 0.3s ease;
-          font-family: 'Roboto', sans-serif;
+          border: 2px solid var(--border, #444444);
+          box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
         }
         .tech-item:hover {
-          transform: translateY(-5px);
-          box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+          transform: translateY(-5px) scale(1.05);
+          box-shadow: 0 8px 25px rgba(0, 255, 136, 0.5);
         }
         .cta {
           text-align: center;
           margin-top: 30px;
           font-style: italic;
           line-height: 1.6;
-          color: #7f8c8d;
+          color: var(--base-dim, #cccccc);
+          padding: 20px;
+          background: var(--head2-bg, rgba(255, 255, 255, 0.1));
+          border-radius: 15px;
+          border: 1px solid var(--border, #444444);
         }
         .feature-list {
           list-style-type: none;
@@ -69,49 +77,60 @@ class AboutThisPortfolio extends HTMLElement {
           position: relative;
           padding-left: 30px;
           transition: all 0.3s ease;
+          color: var(--base, #ffffff);
         }
         .feature-list li:hover {
           transform: translateX(5px);
+          color: var(--green, #00ff88);
         }
         .feature-list li::before {
-          content: '➤';
+          content: '🚀';
           position: absolute;
           left: 0;
-          color: #e74c3c;
+          color: var(--comp, #ff6b6b);
+        }
+        p {
+          line-height: 1.6;
+          color: var(--base, #ffffff);
+        }
+        strong {
+          color: var(--head1, #ffffff);
+          font-size: 1.1em;
         }
         @keyframes fadeIn {
           from { opacity: 0; transform: translateY(20px); }
           to { opacity: 1; transform: translateY(0); }
         }
-        :host {
-          animation: fadeIn 0.5s ease-out;
-        }
       </style>
       <h2>Sobre Este Portfolio</h2>
       <p>
-        ¡Bienvenido a mi portfolio único! Este no es solo otro sitio web basado en plantillas. Es un <span class="highlight">proyecto full-stack personalizado</span> que muestra mis habilidades desde el backend hasta el frontend.
+        ¡Bienvenido a mi portfolio único! Este no es solo otro sitio web basado en plantillas. Es un <span class="highlight">proyecto full-stack completamente personalizado</span> construido sobre mi propio framework PHP asíncrono llamado <span class="highlight">Cohete</span>.
       </p>
       <p>
         Lo que hace especial a este portfolio:
       </p>
       <ul class="feature-list">
-        <li>Construido completamente desde cero, sin depender de frameworks existentes</li>
-        <li>Utiliza modernos <span class="highlight">Web Components</span> para un frontend modular y eficiente</li>
-        <li>Implementación de backend personalizada para una creación verdaderamente integral</li>
-        <li>Demuestra dominio tanto en tecnologías de backend como de frontend</li>
-        <li>Diseñado con un enfoque en la accesibilidad y el rendimiento</li>
-        <li>Da igual los años y los frameworks que se pasen o se pongan de moda, en esos días estos comonentes seguirán funcionando igual de bien :) </li>
+        <li>Powered by <span class="highlight">Cohete Framework</span> - mi framework PHP asíncrono creado con ReactPHP</li>
+        <li>Backend asíncrono que maneja peticiones de forma no bloqueante para mejor performance</li>
+        <li>Arquitectura <span class="highlight">Domain-Driven Design (DDD)</span> para un código limpio y mantenible</li>
+        <li>Frontend modular usando <span class="highlight">Web Components</span> nativos con patrón Atomic Design</li>
+        <li>Sistema de routing personalizado y gestión de contenido estático integrada</li>
+        <li>Sin dependencias de frameworks frontend - puro JavaScript vanilla y Web Components</li>
+        <li>Da igual los años y los frameworks que se pasen o se pongan de moda, estos componentes seguirán funcionando igual de bien :)</li>
       </ul>
       <div class="tech-stack">
+        <span class="tech-item">Cohete Framework</span>
+        <span class="tech-item">ReactPHP</span>
+        <span class="tech-item">DDD Architecture</span>
         <span class="tech-item">Web Components</span>
-        <span class="tech-item">CSS Personalizado</span>
+        <span class="tech-item">Async PHP</span>
+        <span class="tech-item">Atomic Design</span>
         <span class="tech-item">JavaScript Vanilla</span>
-        <span class="tech-item">Backend a Medida</span>
-        <span class="tech-item">Diseño Responsivo</span>
       </div>
       <p class="cta">
-        ¡Abre las herramientas de desarrollo de tu navegador y explora el código! Me encantaría conocer tus pensamientos y feedback.
+        ¡Abre las herramientas de desarrollo de tu navegador y explora el código! El repositorio está disponible en GitHub para que veas cómo funciona Cohete por dentro.
         <br><br>
+        <strong>Este portfolio ES el framework Cohete en acción.</strong>
       </p>
     `;
     }

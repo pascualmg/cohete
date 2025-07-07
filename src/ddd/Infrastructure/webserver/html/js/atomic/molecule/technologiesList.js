@@ -21,39 +21,169 @@ class TechnologiesList extends HTMLElement {
             .technologies-container {
                 margin: auto;
                 max-width: 1000px;
-                padding: 1em;
+                padding: 20px;
+                background: var(--head2-bg);
+                border-radius: 20px;
+                border: 2px solid var(--border);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             }
             .technologies-title {
                 text-align: center;
-                font-weight: 600;
-                margin-bottom: 0.5em;
+                font-weight: bold;
+                font-size: 1.5em;
+                margin-bottom: 25px;
+                color: var(--head1);
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                border-bottom: 2px solid var(--green);
+                padding-bottom: 12px;
+                position: relative;
+            }
+            .technologies-title::after {
+                content: '';
+                position: absolute;
+                bottom: -3px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 60px;
+                height: 3px;
+                background: var(--comp);
+                border-radius: 2px;
             }
             .technologies-list {
                 display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
                 align-items: center;
-                gap: 10px;
+                gap: 15px;
                 padding: 0;
                 list-style: none;
             }
             .technologies-list li {
                 flex: 0 0 auto;
-                margin: 5px;
+                background: var(--bg1);
+                border: 2px solid var(--border);
+                border-radius: 12px;
+                padding: 12px;
+                transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+                position: relative;
+                overflow: hidden;
+            }
+            .technologies-list li::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(135deg, var(--green), var(--comp));
+                opacity: 0;
+                transition: all 0.3s ease;
+                z-index: 1;
+            }
+            .technologies-list li:hover::before {
+                opacity: 0.1;
+            }
+            .technologies-list li:hover {
+                transform: translateY(-8px) scale(1.05);
+                box-shadow: 0 12px 35px rgba(0, 255, 136, 0.3);
+                border-color: var(--green);
             }
             .technologies-list img {
                 width: 40px;
                 height: 40px;
                 object-fit: contain;
-                transition: transform 0.2s ease-in-out;
+                transition: all 0.3s ease;
+                position: relative;
+                z-index: 2;
+                filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
             }
-            .technologies-list img:hover {
+            .technologies-list li:hover img {
                 transform: scale(1.1);
+                filter: drop-shadow(0 4px 15px rgba(0, 255, 136, 0.4));
             }
-            @media screen and (max-width: 600px) {
+            @keyframes techFloat {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-3px); }
+            }
+            .technologies-list li {
+                animation: techFloat 3s ease-in-out infinite;
+            }
+            .technologies-list li:nth-child(1) { animation-delay: 0.1s; }
+            .technologies-list li:nth-child(2) { animation-delay: 0.2s; }
+            .technologies-list li:nth-child(3) { animation-delay: 0.3s; }
+            .technologies-list li:nth-child(4) { animation-delay: 0.4s; }
+            .technologies-list li:nth-child(5) { animation-delay: 0.5s; }
+            .technologies-list li:nth-child(6) { animation-delay: 0.6s; }
+            .technologies-list li:nth-child(7) { animation-delay: 0.7s; }
+            .technologies-list li:nth-child(8) { animation-delay: 0.8s; }
+            .technologies-list li:nth-child(9) { animation-delay: 0.9s; }
+            @media (min-width: 480px) {
+                .technologies-container {
+                    padding: 25px;
+                    border-radius: 22px;
+                }
+                .technologies-title {
+                    font-size: 1.6em;
+                    margin-bottom: 28px;
+                    padding-bottom: 13px;
+                }
+                .technologies-list {
+                    gap: 18px;
+                }
+                .technologies-list li {
+                    padding: 14px;
+                    border-radius: 14px;
+                }
                 .technologies-list img {
-                    width: 30px;
-                    height: 30px;
+                    width: 45px;
+                    height: 45px;
+                }
+            }
+
+            @media (min-width: 768px) {
+                .technologies-container {
+                    padding: 30px;
+                    border-radius: 25px;
+                }
+                .technologies-title {
+                    font-size: 1.8em;
+                    margin-bottom: 30px;
+                    padding-bottom: 15px;
+                    letter-spacing: 2px;
+                    border-bottom: 3px solid var(--green);
+                }
+                .technologies-list {
+                    gap: 20px;
+                }
+                .technologies-list li {
+                    padding: 15px;
+                    border-radius: 15px;
+                }
+                .technologies-list img {
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+
+            @media (min-width: 1024px) {
+                .technologies-container {
+                    padding: 35px;
+                }
+                .technologies-title {
+                    font-size: 2em;
+                    margin-bottom: 35px;
+                }
+                .technologies-list {
+                    gap: 25px;
+                }
+                .technologies-list li {
+                    padding: 18px;
+                }
+                .technologies-list img {
+                    width: 55px;
+                    height: 55px;
                 }
             }
         </style>

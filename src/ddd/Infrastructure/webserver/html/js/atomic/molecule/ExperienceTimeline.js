@@ -26,7 +26,7 @@ class ExperienceTimeline extends HTMLElement {
                 .timeline-container {
                     max-width: var(--max-width);
                     margin: 0 auto;
-                    padding: 0 20px;
+                    padding: 0 15px;
                 }
                 .timeline {
                     position: relative;
@@ -43,8 +43,8 @@ class ExperienceTimeline extends HTMLElement {
                 }
                 .experience {
                     position: relative;
-                    margin-bottom: 40px;
-                    padding-left: 40px;
+                    margin-bottom: 30px;
+                    padding-left: 35px;
                 }
                 .experience::before {
                     content: '';
@@ -59,21 +59,24 @@ class ExperienceTimeline extends HTMLElement {
                     z-index: 1;
                 }
                 .company {
-                    font-size: 1.4em;
+                    font-size: 1.2em;
                     font-weight: bold;
                     color: var(--head1);
-                    margin-bottom: 8px;
+                    margin-bottom: 6px;
+                    line-height: 1.3;
                 }
                 .position {
-                    font-size: 1.2em;
+                    font-size: 1em;
                     color: var(--head2);
-                    margin-bottom: 5px;
+                    margin-bottom: 4px;
+                    line-height: 1.4;
                 }
                 .date {
                     font-style: italic;
                     color: var(--base-dim);
-                    margin-bottom: 20px;
-                    font-size: 0.9em;
+                    margin-bottom: 15px;
+                    font-size: 0.85em;
+                    line-height: 1.3;
                 }
                 .projects {
                     position: relative;
@@ -89,10 +92,18 @@ class ExperienceTimeline extends HTMLElement {
                 }
                 .project {
                     background: var(--head2-bg);
-                    border-radius: 10px;
+                    border: 1px solid var(--border);
+                    border-radius: 12px;
                     padding: 15px;
-                    margin-bottom: 20px;
+                    margin-bottom: 15px;
                     position: relative;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+                }
+                .project:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                    border-color: var(--green);
                 }
                 .project::before {
                     content: '';
@@ -109,29 +120,32 @@ class ExperienceTimeline extends HTMLElement {
                 .project-name {
                     font-weight: bold;
                     color: var(--head3);
-                    font-size: 1.1em;
-                    margin-bottom: 10px;
+                    font-size: 1em;
+                    margin-bottom: 8px;
+                    line-height: 1.3;
                 }
                 .role {
                     font-style: italic;
                     color: var(--const);
-                    margin-bottom: 15px;
-                    font-size: 0.9em;
+                    margin-bottom: 12px;
+                    font-size: 0.85em;
+                    line-height: 1.4;
                 }
                 .section-title {
                     font-weight: bold;
                     color: var(--comp);
-                    margin: 12px 0 6px;
-                    font-size: 1em;
+                    margin: 10px 0 5px;
+                    font-size: 0.9em;
                 }
                 .highlights, .technologies, .achievements {
-                    padding-left: 15px;
+                    padding-left: 12px;
                 }
                 .item {
                     color: var(--base);
-                    margin-bottom: 6px;
+                    margin-bottom: 5px;
                     position: relative;
-                    font-size: 0.9em;
+                    font-size: 0.85em;
+                    line-height: 1.4;
                 }
                 .item::before {
                     content: '▹';
@@ -141,66 +155,80 @@ class ExperienceTimeline extends HTMLElement {
                 }
                 .tech-item {
                     display: inline-block;
-                    background-color: var(--green);
+                    background: linear-gradient(135deg, var(--green), var(--comp));
                     color: var(--bg1);
-                    padding: 2px 5px;
-                    border-radius: 5px;
-                    margin-right: 5px;
-                    margin-bottom: 5px;
-                    font-size: 0.8em;
+                    padding: 3px 8px;
+                    border-radius: 12px;
+                    margin-right: 4px;
+                    margin-bottom: 4px;
+                    font-size: 0.75em;
+                    font-weight: bold;
+                    transition: all 0.3s ease;
+                    border: 1px solid var(--border);
+                    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+                    cursor: default;
+                }
+                .tech-item:hover {
+                    transform: translateY(-2px) scale(1.05);
+                    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
                 }
 
-                @media (max-width: 767px) {
+                @media (min-width: 480px) {
                     .timeline-container {
-                        padding: 0 10px;
+                        padding: 0 20px;
                     }
 
-                    .experience::before {
-                        width: 20px;
-                        height: 20px;
-                        left: 1px;
-                    }
-
-                    .project::before {
-                        width: 16px;
-                        height: 16px;
-                        left: -38px;
+                    .experience {
+                        margin-bottom: 35px;
+                        padding-left: 40px;
                     }
 
                     .company {
-                        font-size: 1.2em;
+                        font-size: 1.3em;
+                        margin-bottom: 7px;
                     }
 
                     .position {
                         font-size: 1.1em;
+                        margin-bottom: 5px;
                     }
 
                     .date {
                         font-size: 0.9em;
-                    }
-
-                    .project-name {
-                        font-size: 1em;
-                    }
-
-                    .role, .item {
-                        font-size: 0.9em;
-                    }
-
-                    .tech-item {
-                        font-size: 0.8em;
-                    }
-
-                    .experience {
-                        margin-bottom: 30px;
+                        margin-bottom: 18px;
                     }
 
                     .project {
-                        margin-bottom: 15px;
+                        padding: 18px;
+                        margin-bottom: 18px;
+                        border-radius: 15px;
                     }
 
-                    :host {
-                        --max-width: 100%;
+                    .project-name {
+                        font-size: 1.05em;
+                        margin-bottom: 9px;
+                    }
+
+                    .role {
+                        font-size: 0.9em;
+                        margin-bottom: 14px;
+                    }
+
+                    .section-title {
+                        font-size: 0.95em;
+                        margin: 11px 0 6px;
+                    }
+
+                    .item {
+                        font-size: 0.9em;
+                        margin-bottom: 6px;
+                    }
+
+                    .tech-item {
+                        padding: 4px 9px;
+                        font-size: 0.8em;
+                        margin-right: 5px;
+                        margin-bottom: 5px;
                     }
                 }
 
@@ -208,6 +236,62 @@ class ExperienceTimeline extends HTMLElement {
                     .timeline::before {
                         left: 15px;
                     }
+                    .experience {
+                        margin-bottom: 40px;
+                        padding-left: 55px;
+                    }
+                    .experience::before {
+                        width: 28px;
+                        height: 28px;
+                        left: 2px;
+                    }
+                    .company {
+                        font-size: 1.5em;
+                        margin-bottom: 8px;
+                    }
+                    .position {
+                        font-size: 1.2em;
+                        margin-bottom: 6px;
+                    }
+                    .date {
+                        font-size: 0.95em;
+                        margin-bottom: 20px;
+                    }
+                    .projects::before {
+                        left: -40px;
+                    }
+                    .project {
+                        padding: 20px;
+                        margin-bottom: 20px;
+                    }
+                    .project::before {
+                        left: -50px;
+                        width: 18px;
+                        height: 18px;
+                    }
+                    .project-name {
+                        font-size: 1.15em;
+                        margin-bottom: 10px;
+                    }
+                    .role {
+                        font-size: 0.95em;
+                        margin-bottom: 15px;
+                    }
+                    .section-title {
+                        font-size: 1em;
+                        margin: 12px 0 6px;
+                    }
+                    .item {
+                        font-size: 0.95em;
+                        margin-bottom: 6px;
+                    }
+                    .tech-item {
+                        font-size: 0.85em;
+                        padding: 4px 10px;
+                    }
+                }
+
+                @media (min-width: 1024px) {
                     .experience {
                         padding-left: 60px;
                     }
@@ -227,9 +311,6 @@ class ExperienceTimeline extends HTMLElement {
                     }
                     .projects::before {
                         left: -45px;
-                    }
-                    .project {
-                        padding: 20px;
                     }
                     .project::before {
                         left: -56px;
