@@ -1,60 +1,435 @@
-* Cohete 🚀
+#+TITLE: Cohete
+#+AUTHOR: Pascual Muñoz Galián
+#+OPTIONS: toc:3 num:nil
+
 [[./logo.png]]
 
-* 📖 Descripción
+/Tu plataforma de lanzamiento hacia la programación asíncrona en PHP/
 
-¡Bienvenido a Cohete! Tu plataforma de lanzamiento hacia la programación asíncrona en PHP. Los motores de Cohete están alimentados por ReactPHP y RxPHP. Estas potentes librerías proporcionan una sólida base y amplían las capacidades del lenguaje PHP, permitiendo una programación eficiente y no bloqueante.
+[[https://github.com/pascualmg/cohete/blob/main/LICENSE][file:https://img.shields.io/badge/license-MIT-blue.svg]]
+[[https://php.net][file:https://img.shields.io/badge/PHP-8.3-777BB4.svg]]
+[[https://reactphp.org][file:https://img.shields.io/badge/ReactPHP-async-4F5B93.svg]]
+[[https://github.com/ReactiveX/RxPHP][file:https://img.shields.io/badge/RxPHP-reactive-B7178C.svg]]
+[[https://codewiki.google/github.com/pascualmg/cohete][file:https://img.shields.io/badge/Google_Code_Wiki-indexed-4285F4.svg]]
 
-Cohete es más que un framework. Es un marco de trabajo inspirado en el Domain-Driven Design (DDD) que te ayuda a estructurar tu código de una manera razonable. Es un lugar de descubrimiento y aprendizaje, un espacio para los autodidactas, para aquellos _softwareCrafters_ que disfrutan explorando hasta donde puede llegar un lenguaje, a exprimir al máximo el rendimiento de PHP. En realidad es *DDDD* - Domain Driven Design for Developers, está diseñado para ser entendible y manejable desde la primera línea.
+* Qué es Cohete
 
-* ⌨️ Instrucciones de instalación
+Cohete es un framework PHP asíncrono construido sobre *ReactPHP* y *RxPHP*, con arquitectura *Domain-Driven Design (DDD)*. No es otro framework más: es una declaración de principios.
 
-Los siguientes pasos te guiarán para instalar y ejecutar el proyecto:
+#+begin_quote
+"Menos es más. El código que no escribes no tiene bugs."
+#+end_quote
 
-\#+BEGIN_SRC bash
+** Motivación
+
+Después de años trabajando con *Symfony* y otros frameworks, me di cuenta de algo: usaba herramientas sin entender realmente qué me estaban dando. Capas y capas de abstracción, magia negra por todos lados, y cuando algo fallaba... a rezar.
+
+Así que decidí hacer lo que cualquier developer curioso haría: *construir mi propio framework*. No para reinventar la rueda, sino para entenderla. Y de paso, hacerlo mejor: más simple, más rápido, más transparente.
+
+El resultado es Cohete: todo lo bueno de Symfony (DDD, CQRS, inyección de dependencias) pero sin la complejidad innecesaria. Y con un bonus: *programación asíncrona de verdad*, no como afterthought.
+
+** Por qué Cohete
+
+Mientras otros frameworks crecen en complejidad, Cohete apuesta por:
+- *~3,000 líneas de código* - todo el framework
+- *100% non-blocking I/O* - sin Apache, sin PHP-FPM
+- *DDD real* - no carpetas vacías con nombres bonitos
+- *Cero magia negra* - entiendes cada línea
+
+Ya en producción manejando *+40k registros* sin despeinarse.
+
+* Stack Tecnológico
+
+| Componente       | Tecnología                    | Propósito                          |
+|------------------+-------------------------------+------------------------------------|
+| Event Loop       | ReactPHP                      | Non-blocking I/O                   |
+| Reactive Streams | RxPHP                         | Composición de operaciones async   |
+| HTTP Server      | react/http                    | Servidor HTTP nativo               |
+| MySQL Client     | react/mysql                   | Queries asíncronas                 |
+| DI Container     | PHP-DI                        | Auto-wiring de dependencias        |
+| Router           | FastRoute                     | Routing ultra-rápido               |
+| Middlewares      | PSR-15                        | Pipeline de request/response       |
+| Testing          | PHPUnit + Behat               | Unit + BDD                         |
+| Migrations       | Phinx                         | Control de esquema BD              |
+| Environment      | Nix Flakes                    | Reproducibilidad total             |
+
+* Arquitectura
+
+#+begin_src text
+                         HTTP Request
+                              │
+              ┌───────────────▼───────────────┐
+              │     Middleware Chain (PSR-15)  │
+              │  ClientIP → RequestDumper → …  │
+              └───────────────┬───────────────┘
+                              │
+                    ┌─────────▼─────────┐
+                    │   Kernel (Core)    │
+                    │  Async Dispatcher  │
+                    └─────────┬─────────┘
+                              │
+                   ┌──────────▼──────────┐
+                   │  FastRoute Router   │
+                   │   routes.json       │
+                   └──────────┬──────────┘
+                              │
+        ┌─────────────────────▼─────────────────────┐
+        │              Application Layer             │
+        │  Commands ──► Handlers ◄── Queries        │
+        └─────────────────────┬─────────────────────┘
+                              │
+        ┌─────────────────────▼─────────────────────┐
+        │               Domain Layer                 │
+        │  Entities │ Value Objects │ Services      │
+        └─────────────────────┬─────────────────────┘
+                              │
+        ┌─────────────────────▼─────────────────────┐
+        │           Infrastructure Layer             │
+        │  MySQL Async │ MessageBus │ FileSystem    │
+        └─────────────────────┬─────────────────────┘
+                              │
+                              ▼
+                        HTTP Response
+#+end_src
+
+** Estructura del Proyecto
+
+#+begin_src text
+src/
+├── bootstrap.php                    # Entry point - arranca el event loop
+└── ddd/
+    ├── Domain/                      # Lógica de negocio pura
+    │   ├── Entity/
+    │   │   └── Post.php             # Agregado principal
+    │   ├── ValueObject/             # Tipos inmutables con validación
+    │   │   ├── PostId.php           # UUID v4
+    │   │   ├── HeadLine.php         # Max 256 chars
+    │   │   ├── ArticleBody.php      # Contenido del post
+    │   │   ├── Slug.php             # Auto-generado, transliteración
+    │   │   └── DatePublished.php    # Formato ISO8601/ATOM
+    │   ├── Repository/
+    │   │   └── PostRepository.php   # Interface - contrato
+    │   └── Service/
+    │       └── PostCreator.php      # Orquesta creación + eventos
+    │
+    ├── Application/                 # Casos de uso
+    │   ├── Command/
+    │   │   ├── CreatePostCommand.php
+    │   │   └── CreatePostCommandHandler.php
+    │   └── Query/
+    │       ├── FindAllPostsQuery.php
+    │       ├── FindAllPosts.php
+    │       ├── FindPostByIdQuery.php
+    │       └── FindPostByIdQueryHandler.php
+    │
+    └── Infrastructure/              # Detalles técnicos
+        ├── HttpServer/
+        │   ├── Kernel/
+        │   │   └── Kernel.php       # NÚCLEO - dispatch async
+        │   ├── ReactHttpServer.php  # Servidor ReactPHP
+        │   ├── Router/
+        │   │   ├── Router.php       # Wrapper FastRoute
+        │   │   └── routes.json      # Definición de rutas
+        │   ├── RequestHandler/      # Controllers
+        │   │   ├── FindAllPostsController.php
+        │   │   ├── FindPostByIdController.php
+        │   │   ├── CreatePostController.php
+        │   │   ├── HtmlController.php
+        │   │   └── HealthController.php
+        │   └── Middleware/
+        │       ├── RequestDumper.php
+        │       └── ResponseDumper.php
+        ├── Repository/
+        │   ├── ObservableMysqlPostRepository.php  # Rx + MySQL async
+        │   ├── AsyncMysqlPostRepository.php       # Promise-based
+        │   └── FilePostRepository.php             # JSON para dev
+        └── Bus/
+            └── ReactMessageBus.php  # Eventos con EventEmitter
+#+end_src
+
+* Instalación
+
+** Requisitos
+- Nix (recomendado) o PHP 8.3+ con Composer
+
+** Con Nix (recomendado)
+
+#+begin_src bash
+# Clonar el repositorio
+git clone https://github.com/pascualmg/cohete.git
+cd cohete
+
+# Instalar Nix si no lo tienes
 make nix-install
+
+# Entrar al entorno de desarrollo
 nix develop
+
+# Configurar variables de entorno
+cp .env.example .env
+
+# Arrancar el servidor
 make run
-\#+END_SRC
+#+end_src
 
-* 📚 Documentación
+El servidor estará disponible en =http://localhost:8000=
 
-Si ya tienes experiencia con DDD y Symfony o frameworks similares, podrás poner en marcha tu proyecto de manera rápida y efectiva utilizando el ejemplo `createPostCommandHandler` y `findAllPost`. Estos se localizan en [ubicación del código]. Son un buen punto de partida que te permitirá entender la estructura básica y funcionamiento de Cohete.
+** Sin Nix
 
-Además, te resultarán especialmente interesantes las implementaciones asíncronas de los repositorios, que permitirán que tu código se ejecute de manera no bloqueante y proporcionar un rendimiento superior. Te animamos a explorar estas características y a utilizarlas al máximo en tu proyecto.
+#+begin_src bash
+git clone https://github.com/pascualmg/cohete.git
+cd cohete
+composer install
+cp .env.example .env
+php src/bootstrap.php
+#+end_src
 
-* 🐉 Aquí hay dragones...
+* Configuración
 
-Pero no te preocupes! El proyecto ya está en producción, funcionando perfectamente con consultas de más de 40k registros y viene equipado de fábrica con Xdebug usando nix. Si esto no te quita el miedo a PHP, nada lo hará. :)
+Crea un archivo =.env= basándote en =.env.example=:
 
-* 🤝 Contribuciones
+#+begin_src bash
+APP_ENV=dev
+HTTP_SERVER_HOST=0.0.0.0
+HTTP_SERVER_PORT=8000
+ROUTES_PATH=/path/to/routes.json
 
-Invitamos a todos los interesados a contribuir a la mejora de Cohete. Este es un proyecto abierto para el intercambio de ideas y el aprendizaje mutuo. Tus ideas y sugerencias para mejorar la funcionalidad y la eficiencia de Cohete son muy bienvenidas y necesarias!
+# MySQL (para repositorio async)
+MYSQL_HOST=localhost
+MYSQL_USER=root
+MYSQL_PASSWORD=secret
+MYSQL_DATABASE=cohete
+MYSQL_PORT=3306
+#+end_src
 
-* Arquitectura de Cohete :building_construction:
+* API Endpoints
 
-Cohete utiliza Domain-Driven Design (DDD), un patrón de programación centrado en el problema a resolver y en la lógica que le rodea. Ofrece auto-wiring de tus clases, un genial router y las herramientas básicas para desarrollar un endpoint API REST rápidamente, al igual que otros frameworks más grandes pero sin privarte de nada necesario y útil. Recuerda que muchas veces menos es más.
+| Método | Ruta           | Descripción              | Handler                    |
+|--------+----------------+--------------------------+----------------------------|
+| GET    | =/=            | Redirect al portfolio    | RedirectController         |
+| GET    | =/post=        | Lista todos los posts    | FindAllPostsController     |
+| GET    | =/post/{id}=   | Obtiene post por UUID    | FindPostByIdController     |
+| POST   | =/post=        | Crea nuevo post          | CreatePostController       |
+| GET    | =/html[{path}]= | Sirve archivos estáticos | HtmlController             |
+| GET    | =/health=      | Health check             | HealthController           |
 
-* Un par de files son el núcleo, el 100% del control de tu código
+** Ejemplos de uso
 
- No necesitas mucho más si necesitas saber cómo funciona todo. Si sólo quieres usarlo, puedes saltar esta sección. :)
+*** Listar posts
+#+begin_src bash
+curl http://localhost:8000/post
+#+end_src
 
-\#+BEGIN_SRC text
-.
-├── src
-│   ├── ddd
-│   │   ├── Application
-│   │   ├── Domain
-│   │   ├── Infrastructure
-│   │   │   ├── HttpServer
-│   │   │   │   ├── Kernel
-│   │   │   │   │   └── Kernel.php
-│   │   │   │   └── ReactHttpServer.php
-├── bootstrap.php
-\#+END_SRC
+*** Crear post
+#+begin_src bash
+curl -X POST http://localhost:8000/post \
+  -H "Content-Type: application/json" \
+  -d '{
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "headline": "Mi primer post",
+    "articleBody": "Contenido del artículo...",
+    "image": "https://example.com/image.jpg",
+    "datePublished": "2024-01-15T10:30:00+00:00"
+  }'
+#+end_src
 
-Donde:
-- ddd: es donde reside el código del Domain-Driven Design (DDD). Se divide en Application, Domain e Infrastructure.
-- ddd/Infrastructure/HttpServer/Kernel/Kernel.php: este archivo es el núcleo de la aplicación. Aquí es donde se manejan las peticiones HTTP de forma asíncrona.
-- ddd/Infrastructure/HttpServer/ReactHttpServer.php: este archivo es un ejemplo completo de cómo luce un servidor http reactivo.
-- bootstrap.php: es el punto de entrada del proyecto, aquí se inicializan todas las configuraciones y se arranca el servidor.
+*** Obtener post por ID
+#+begin_src bash
+curl http://localhost:8000/post/550e8400-e29b-41d4-a716-446655440000
+#+end_src
+
+* Patrones Clave
+
+** Handlers Invocables
+
+Todos los handlers son =__invoke()= - funciones, no objetos con métodos:
+
+#+begin_src php
+// En lugar de $handler->handle($command)
+($this->handler)($command);
+
+// Query con Promise
+($this->findAllPosts)(new FindAllPostsQuery())
+    ->then(
+        fn($posts) => JsonResponse::withPayload($posts),
+        fn($error) => JsonResponse::withError($error)
+    );
+#+end_src
+
+** Observable + Promise
+
+Combinación elegante de RxPHP con React Promises:
+
+#+begin_src php
+// En el repositorio
+public function findAll(): PromiseInterface
+{
+    return Observable::fromPromise(
+        $this->mysqlClient->query('SELECT * FROM post')
+    )
+    ->map(fn($result) => array_map([self::class, 'hydrate'], $result->resultRows))
+    ->toPromise();
+}
+#+end_src
+
+** Value Objects Inmutables
+
+Validación en construcción, inmutabilidad garantizada:
+
+#+begin_src php
+// Slug se genera automáticamente con transliteración
+$slug = Slug::fromHeadLine("Programación Asíncrona en PHP");
+// Resultado: "programacion-asincrona-en-php"
+
+// UUID validado
+$id = PostId::from("550e8400-e29b-41d4-a716-446655440000");
+
+// Fecha en formato ATOM
+$date = DatePublished::from("2024-01-15T10:30:00+00:00");
+#+end_src
+
+** Bus de Mensajes Reactivo
+
+Eventos de dominio sin acoplamiento:
+
+#+begin_src php
+// Publicar evento (se ejecuta en el siguiente tick)
+$this->messageBus->publish(
+    new Message('domain_event.post_created', [$post])
+);
+
+// Suscribirse
+$this->messageBus->subscribe('domain_event.post_created', function($post) {
+    // Notificar, indexar, lo que necesites...
+});
+#+end_src
+
+* Testing
+
+** Unit Tests (PHPUnit)
+
+#+begin_src bash
+nix develop --command bash -c 'vendor/bin/phpunit'
+#+end_src
+
+** BDD Tests (Behat)
+
+#+begin_src bash
+nix develop --command bash -c 'vendor/bin/behat'
+#+end_src
+
+Los tests BDD incluyen escenarios como:
+
+#+begin_src gherkin
+Scenario: Post data is sent and is created
+  Given I am an API client
+  And the database is empty
+  When I send payload to endpoint "/post" with method "POST"
+  Then the response code should be 202
+  And the post with id "..." exists
+#+end_src
+
+** Migraciones
+
+#+begin_src bash
+# Ejecutar migraciones
+make migrate
+
+# Cargar fixtures
+make fixtures
+
+# Rollback
+nix develop --command bash -c 'vendor/bin/phinx rollback'
+#+end_src
+
+* Makefile
+
+#+begin_src bash
+make run          # Arranca el servidor
+make test_ab      # Benchmark con Apache Bench
+make migrate      # Ejecuta migraciones Phinx
+make fixtures     # Carga datos de prueba
+make mysql        # Docker Compose MySQL
+make rabbitmq     # Docker Compose RabbitMQ
+make fix          # php-cs-fixer
+make behat        # Tests BDD
+make nix-install  # Instala Nix
+#+end_src
+
+* Frontend: Portfolio SPA
+
+Cohete incluye un portfolio personal como caso de uso real, construido con *Web Components nativos* siguiendo *Atomic Design*:
+
+#+begin_src text
+html/
+├── index.html                    # Landing con Typed.js
+├── pascualmgPorfolio.html       # SPA principal
+└── js/atomic/
+    ├── atom/                     # Componentes básicos
+    │   ├── ChangingText.js
+    │   └── YastModal.js
+    ├── molecule/                 # Composiciones
+    │   ├── ExperienceTimeline.js # Timeline de experiencia
+    │   ├── SoftSkills.js
+    │   └── SocialLinks.js
+    └── organism/                 # Páginas completas
+        ├── PascualmgSpa.js       # Shell principal
+        ├── pascualmg-portfolio.js
+        └── PascualmgBlog.js
+#+end_src
+
+** Sistema de Temas
+
+5 temas disponibles con CSS Custom Properties:
+- =spacemacs-dark=
+- =spacemacs-light=
+- =solarized-dark=
+- =solarized-light=
+- =linkedin=
+
+* Filosofía
+
+** DDDD: Domain-Driven Design for Developers
+
+No es DDD académico. Es DDD práctico:
+
+1. *El código es la documentación* - Si necesitas un diagrama para entenderlo, está mal diseñado
+2. *Menos capas, más claridad* - Solo 3 capas porque solo necesitas 3
+3. *Async por defecto* - No como afterthought, como fundamento
+4. *Nix para reproducibilidad* - Mismo entorno en desarrollo y producción
+
+** Brutalismo Web
+
+El portfolio demuestra que puedes construir webs modernas sin:
+- npm install de 500MB
+- Frameworks JavaScript de moda
+- Build steps eternos
+- Dependencias que se rompen cada 6 meses
+
+Solo *HTML, CSS y JavaScript vanilla* con Web Components estándar.
+
+* Contribuciones
+
+Este es un proyecto abierto para aprender y compartir. Las contribuciones son bienvenidas:
+
+1. Fork el repositorio
+2. Crea tu rama (=git checkout -b feature/nueva-feature=)
+3. Commit tus cambios (=git commit -m 'Add: nueva feature'=)
+4. Push a la rama (=git push origin feature/nueva-feature=)
+5. Abre un Pull Request
+
+* Licencia
+
+MIT License - Haz lo que quieras con esto.
+
+* Links
+
+- GitHub: https://github.com/pascualmg/cohete
+- Google Code Wiki: https://codewiki.google/github.com/pascualmg/cohete
+- Autor: [[https://github.com/pascualmg][Pascual Muñoz Galián]]
+
+[[https://codewiki.google/github.com/pascualmg/cohete][file:https://img.shields.io/badge/Google_Code_Wiki-indexed-4285F4.svg]]
+
+---
+
+/Cohete: Porque PHP puede volar./

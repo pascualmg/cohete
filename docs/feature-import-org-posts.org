@@ -1,0 +1,588 @@
+#+TITLE: Feature: Import Posts from Org Files
+#+AUTHOR: Pascual Muñoz Galián
+#+DATE: 2024-01-24
+#+OPTIONS: toc:3 num:t
+
+* Resumen
+
+Permite importar archivos =.org= (formato Emacs org-mode) como posts del blog mediante un endpoint API.
+
+| Campo | Valor |
+|-------+-------|
+| Estado | Implementado |
+| Endpoint | =POST /post/import-org= |
+| Persistencia | MySQL async |
+| Tests | Behat (5 escenarios) |
+
+* Análisis
+
+** Problema
+
+El blog necesita contenido. Los artículos están escritos en formato org-mode (Emacs) y se necesita una forma de:
+1. Parsear los archivos .org extrayendo metadata y contenido
+2. Crear posts en la base de datos
+3. Mostrarlos en el frontend
+
+** Requisitos
+
+*** Funcionales
+- Extraer =#+TITLE:= como headline del post
+- Extraer =#+AUTHOR:= como author (opcional, default: "Pascual Muñoz Galián")
+- Extraer =#+DATE:= como datePublished (opcional, default: fecha actual)
+- El resto del contenido es el articleBody
+- Generar slug automáticamente desde el headline
+- Generar UUID v4 para el post (o aceptar uno proporcionado)
+
+*** No Funcionales
+- Operación asíncrona (no bloquear el event loop)
+- Validación de errores (archivo no existe, sin título, etc.)
+- Tests BDD con Behat
+
+** Decisiones de Diseño
+
+Consulta con =carlos-buenosvinos= (experto DDD):
+
+| Decisión | Opción elegida | Razón |
+|----------+----------------+-------|
+| ¿Dónde va el parser? | =Infrastructure/Parser/= | Es un detalle técnico, no dominio |
+| ¿Nuevo agregado? | No, reutilizar =Post= | Un post es un post, venga de donde venga |
+| ¿Nombre del comando? | =ImportPostFromFileCommand= | Genérico, no acoplado a org-mode |
+| ¿Estrategia de ID? | UUID v4 (opcionalmente proporcionado) | Simplicidad, idempotencia opcional |
+
+* Plan de Implementación
+
+** Arquitectura
+
+#+BEGIN_SRC text
+.org file → OrgFileParser → ParsedPostData (DTO)
+                                   ↓
+                    ImportPostFromFileCommandHandler
+                                   ↓
+                            PostCreator (existente)
+                                   ↓
+                        PostRepository.save() → MySQL async
+                                   ↓
+                           MessageBus → domain_event.post_created
+#+END_SRC
+
+** Archivos a Crear
+
+*** Domain Layer
+Ninguno - reutilizamos =Post= y =PostCreator= existentes.
+
+*** Application Layer
+#+BEGIN_SRC text
+src/ddd/Application/Post/ImportFromFile/
+├── ImportPostFromFileCommand.php      # Comando con filePath y postId opcional
+└── ImportPostFromFileCommandHandler.php  # Orquesta parser + PostCreator
+#+END_SRC
+
+*** Infrastructure Layer
+#+BEGIN_SRC text
+src/ddd/Infrastructure/
+├── Parser/
+│   ├── FileParser.php           # Interface (port)
+│   ├── ParsedPostData.php       # DTO inmutable
+│   └── OrgFileParser.php        # Adapter para .org
+└── HttpServer/RequestHandler/
+    └── ImportPostFromFileController.php  # POST /post/import-org
+#+END_SRC
+
+* Implementación
+
+** 1. FileParser Interface
+
+#+BEGIN_SRC php
+// src/ddd/Infrastructure/Parser/FileParser.php
+<?php
+
+declare(strict_types=1);
+
+namespace pascualmg\cohete\ddd\Infrastructure\Parser;
+
+interface FileParser
+{
+    public function parse(string $filePath): ParsedPostData;
+}
+#+END_SRC
+
+** 2. ParsedPostData DTO
+
+#+BEGIN_SRC php
+// src/ddd/Infrastructure/Parser/ParsedPostData.php
+<?php
+
+declare(strict_types=1);
+
+namespace pascualmg\cohete\ddd\Infrastructure\Parser;
+
+readonly class ParsedPostData
+{
+    public function __construct(
+        public string $headline,
+        public string $articleBody,
+        public ?string $author = null,
+        public ?\DateTimeImmutable $datePublished = null,
+    ) {
+    }
+}
+#+END_SRC
+
+** 3. OrgFileParser
+
+#+BEGIN_SRC php
+// src/ddd/Infrastructure/Parser/OrgFileParser.php
+<?php
+
+declare(strict_types=1);
+
+namespace pascualmg\cohete\ddd\Infrastructure\Parser;
+
+use InvalidArgumentException;
+
+class OrgFileParser implements FileParser
+{
+    public function parse(string $filePath): ParsedPostData
+    {
+        if (!file_exists($filePath)) {
+            throw new InvalidArgumentException("File not found: {$filePath}");
+        }
+
+        $content = file_get_contents($filePath);
+        $lines = explode("\n", $content);
+
+        $headline = null;
+        $author = null;
+        $datePublished = null;
+        $bodyLines = [];
+
+        foreach ($lines as $line) {
+            // Parse org-mode metadata
+            if (preg_match('/^#\+TITLE:\s*(.+)$/i', $line, $matches)) {
+                $headline = trim($matches[1]);
+                continue;
+            }
+            if (preg_match('/^#\+AUTHOR:\s*(.+)$/i', $line, $matches)) {
+                $author = trim($matches[1]);
+                continue;
+            }
+            if (preg_match('/^#\+DATE:\s*(.+)$/i', $line, $matches)) {
+                $datePublished = $this->parseDate(trim($matches[1]));
+                continue;
+            }
+
+            // Skip other metadata lines
+            if (str_starts_with($line, '#+')) {
+                continue;
+            }
+
+            $bodyLines[] = $line;
+        }
+
+        if ($headline === null) {
+            throw new InvalidArgumentException("Missing #+TITLE in org file");
+        }
+
+        return new ParsedPostData(
+            headline: $headline,
+            articleBody: trim(implode("\n", $bodyLines)),
+            author: $author,
+            datePublished: $datePublished,
+        );
+    }
+
+    private function parseDate(string $dateStr): ?\DateTimeImmutable
+    {
+        // Soporta: <2024-01-15 Mon>, [2024-01-15], 2024-01-15, ISO format
+        $dateStr = trim($dateStr, '<>[] ');
+        $dateStr = preg_replace('/\s+(Mon|Tue|Wed|Thu|Fri|Sat|Sun)\s*/i', '', $dateStr);
+
+        try {
+            return new \DateTimeImmutable(trim($dateStr));
+        } catch (\Exception) {
+            return null;
+        }
+    }
+}
+#+END_SRC
+
+** 4. ImportPostFromFileCommand
+
+#+BEGIN_SRC php
+// src/ddd/Application/Post/ImportFromFile/ImportPostFromFileCommand.php
+<?php
+
+declare(strict_types=1);
+
+namespace pascualmg\cohete\ddd\Application\Post\ImportFromFile;
+
+readonly class ImportPostFromFileCommand
+{
+    public function __construct(
+        public string $filePath,
+        public ?string $postId = null,
+    ) {
+    }
+}
+#+END_SRC
+
+** 5. ImportPostFromFileCommandHandler
+
+#+BEGIN_SRC php
+// src/ddd/Application/Post/ImportFromFile/ImportPostFromFileCommandHandler.php
+<?php
+
+declare(strict_types=1);
+
+namespace pascualmg\cohete\ddd\Application\Post\ImportFromFile;
+
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
+use pascualmg\cohete\ddd\Domain\Service\PostCreator;
+use pascualmg\cohete\ddd\Infrastructure\Parser\FileParser;
+
+readonly class ImportPostFromFileCommandHandler
+{
+    private const string DEFAULT_AUTHOR = 'Pascual Muñoz Galián';
+
+    public function __construct(
+        private FileParser $parser,
+        private PostCreator $postCreator,
+    ) {
+    }
+
+    public function __invoke(ImportPostFromFileCommand $command): void
+    {
+        $parsed = $this->parser->parse($command->filePath);
+
+        $postId = $command->postId ?? (string) PostId::v4();
+
+        $datePublished = $parsed->datePublished?->format(\DateTimeInterface::ATOM)
+            ?? (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM);
+
+        ($this->postCreator)(
+            $postId,
+            $parsed->headline,
+            $parsed->articleBody,
+            $parsed->author ?? self::DEFAULT_AUTHOR,
+            $datePublished
+        );
+    }
+}
+#+END_SRC
+
+** 6. ImportPostFromFileController
+
+#+BEGIN_SRC php
+// src/ddd/Infrastructure/HttpServer/RequestHandler/ImportPostFromFileController.php
+<?php
+
+declare(strict_types=1);
+
+namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
+
+use pascualmg\cohete\ddd\Application\Post\ImportFromFile\ImportPostFromFileCommand;
+use pascualmg\cohete\ddd\Application\Post\ImportFromFile\ImportPostFromFileCommandHandler;
+use pascualmg\cohete\ddd\Infrastructure\HttpServer\JsonResponse;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+readonly class ImportPostFromFileController
+{
+    public function __construct(
+        private ImportPostFromFileCommandHandler $handler
+    ) {
+    }
+
+    public function __invoke(ServerRequestInterface $request, array $routeParams): ResponseInterface
+    {
+        try {
+            $body = json_decode(
+                $request->getBody()->getContents(),
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+
+            if (!isset($body['filePath'])) {
+                return JsonResponse::withError(
+                    new \InvalidArgumentException('Missing required field: filePath'),
+                    400
+                );
+            }
+
+            $command = new ImportPostFromFileCommand(
+                filePath: $body['filePath'],
+                postId: $body['id'] ?? null,
+            );
+
+            ($this->handler)($command);
+
+            return JsonResponse::accepted([
+                'message' => 'Post import initiated',
+                'filePath' => $body['filePath'],
+            ]);
+        } catch (\JsonException $e) {
+            return JsonResponse::withError(
+                new \InvalidArgumentException('Invalid JSON payload'),
+                400
+            );
+        } catch (\InvalidArgumentException $e) {
+            return JsonResponse::withError($e, 400);
+        } catch (\Throwable $e) {
+            return JsonResponse::withError($e, 500);
+        }
+    }
+}
+#+END_SRC
+
+** 7. Configuración
+
+*** routes.json
+#+BEGIN_SRC json
+{
+  "method": "POST",
+  "path": "/post/import-org",
+  "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\ImportPostFromFileController"
+}
+#+END_SRC
+
+*** ContainerFactory.php
+#+BEGIN_SRC php
+use pascualmg\cohete\ddd\Infrastructure\Parser\FileParser;
+use pascualmg\cohete\ddd\Infrastructure\Parser\OrgFileParser;
+
+// En definitions:
+FileParser::class => static fn (ContainerInterface $c) => $c->get(OrgFileParser::class),
+#+END_SRC
+
+* Testing
+
+** Tests Behat
+
+Archivo: =features/ImportOrgPost.feature=
+
+*** Escenario 1: Import con toda la metadata
+#+BEGIN_SRC gherkin
+Scenario: Import valid org file with all metadata
+  Given I am an API client
+  And the database is empty
+  And an org file exists at "/tmp/test-post.org" with content:
+    """
+    #+TITLE: Mi primer post desde Emacs
+    #+AUTHOR: Pascual Muñoz Galián
+    #+DATE: 2024-01-15
+
+    Este es el contenido del artículo.
+    """
+  And the payload is:
+    """
+    {"filePath": "/tmp/test-post.org"}
+    """
+  When i send payload to endpoint "/post/import-org" with method "POST"
+  Then the response code should be 202
+  And a post exists with headline "Mi primer post desde Emacs"
+#+END_SRC
+
+*** Escenario 2: Import sin author (usa default)
+*** Escenario 3: Import sin title (falla 400)
+*** Escenario 4: Archivo no existe (falla 400)
+*** Escenario 5: Blog muestra posts importados
+
+** Ejecutar Tests
+
+#+BEGIN_SRC bash
+# Asegurarse de tener el servidor corriendo
+make run &
+
+# Ejecutar tests de Behat
+nix develop --command bash -c 'vendor/bin/behat features/ImportOrgPost.feature'
+
+# Ejecutar todos los tests
+nix develop --command bash -c 'vendor/bin/behat'
+#+END_SRC
+
+* Testing Manual con cURL
+
+** Prerequisitos
+
+1. Servidor corriendo: =make run=
+2. MySQL corriendo: =make mysql=
+3. Migraciones aplicadas: =make migrate=
+
+** 1. Crear archivo .org de prueba
+
+#+BEGIN_SRC bash
+cat > /tmp/test-post.org << 'EOF'
+#+TITLE: PHP Asíncrono: Una Guía Práctica
+#+AUTHOR: Pascual Muñoz Galián
+#+DATE: 2024-01-24
+
+* Introducción
+
+PHP tradicionalmente es síncrono, pero con ReactPHP podemos
+cambiar eso completamente.
+
+* Ventajas
+
+- Non-blocking I/O
+- Mejor uso de recursos
+- Mayor throughput
+
+* Conclusión
+
+El futuro de PHP es asíncrono.
+EOF
+#+END_SRC
+
+** 2. Importar el archivo
+
+#+BEGIN_SRC bash
+curl -X POST http://localhost:8000/post/import-org \
+  -H "Content-Type: application/json" \
+  -d '{"filePath": "/tmp/test-post.org"}'
+#+END_SRC
+
+Respuesta esperada:
+#+BEGIN_SRC json
+{
+  "message": "Post import initiated",
+  "filePath": "/tmp/test-post.org"
+}
+#+END_SRC
+
+** 3. Verificar que se creó
+
+#+BEGIN_SRC bash
+curl http://localhost:8000/post | jq
+#+END_SRC
+
+Respuesta esperada:
+#+BEGIN_SRC json
+[
+  {
+    "id": "uuid-generado",
+    "headline": "PHP Asíncrono: Una Guía Práctica",
+    "slug": "php-asincrono-una-guia-practica",
+    "articleBody": "* Introducción\n\nPHP tradicionalmente es síncrono...",
+    "author": "Pascual Muñoz Galián",
+    "datePublished": "2024-01-24T00:00:00+00:00"
+  }
+]
+#+END_SRC
+
+** 4. Importar con ID específico (idempotencia)
+
+#+BEGIN_SRC bash
+curl -X POST http://localhost:8000/post/import-org \
+  -H "Content-Type: application/json" \
+  -d '{
+    "filePath": "/tmp/test-post.org",
+    "id": "550e8400-e29b-41d4-a716-446655440000"
+  }'
+#+END_SRC
+
+** 5. Probar errores
+
+*** Sin filePath:
+#+BEGIN_SRC bash
+curl -X POST http://localhost:8000/post/import-org \
+  -H "Content-Type: application/json" \
+  -d '{}'
+#+END_SRC
+
+Respuesta: =400 Bad Request= - "Missing required field: filePath"
+
+*** Archivo no existe:
+#+BEGIN_SRC bash
+curl -X POST http://localhost:8000/post/import-org \
+  -H "Content-Type: application/json" \
+  -d '{"filePath": "/tmp/no-existe.org"}'
+#+END_SRC
+
+Respuesta: =400 Bad Request= - "File not found: /tmp/no-existe.org"
+
+*** Sin #+TITLE:
+#+BEGIN_SRC bash
+echo "Contenido sin título" > /tmp/sin-titulo.org
+
+curl -X POST http://localhost:8000/post/import-org \
+  -H "Content-Type: application/json" \
+  -d '{"filePath": "/tmp/sin-titulo.org"}'
+#+END_SRC
+
+Respuesta: =400 Bad Request= - "Missing #+TITLE in org file"
+
+** 6. Importar archivos existentes del proyecto
+
+#+BEGIN_SRC bash
+# Importar el artículo de Cohete
+curl -X POST http://localhost:8000/post/import-org \
+  -H "Content-Type: application/json" \
+  -d '{"filePath": "/home/passh/src/cohete/src/ddd/Infrastructure/webserver/html/org/cohete.org"}'
+
+# Importar el tutorial de PHP asíncrono
+curl -X POST http://localhost:8000/post/import-org \
+  -H "Content-Type: application/json" \
+  -d '{"filePath": "/home/passh/src/cohete/src/ddd/Infrastructure/webserver/html/org/async-php-in-action.org"}'
+
+# Verificar
+curl http://localhost:8000/post | jq '.[].headline'
+#+END_SRC
+
+* Frontend
+
+** Componente: PascualmgBlog.js
+
+El componente Web Component ahora:
+
+1. *Al cargar*: Hace =fetch('/post')= para obtener posts
+2. *Lista*: Muestra cards con headline, author, fecha y excerpt
+3. *Detalle*: Click en card → muestra post completo
+4. *Estados*: loading, error (con retry), empty, list, detail
+5. *Org rendering*: Convierte =* Headers= a =<h2>=, etc.
+
+** Probar en navegador
+
+1. Abrir =http://localhost:8000/html/pascualmgPorfolio.html=
+2. Click en "Blog" en el menú lateral
+3. Ver lista de posts (o mensaje "No hay posts")
+4. Si hay posts, click en uno para ver detalle
+5. Click "← Volver al blog" para volver a la lista
+
+* Troubleshooting
+
+** Error: "Connection refused" en tests
+
+El servidor no está corriendo. Ejecuta:
+#+BEGIN_SRC bash
+make run
+#+END_SRC
+
+** Error: "Table 'post' doesn't exist"
+
+Ejecutar migraciones:
+#+BEGIN_SRC bash
+make migrate
+#+END_SRC
+
+** Error: "SQLSTATE[HY000] [2002] Connection refused"
+
+MySQL no está corriendo:
+#+BEGIN_SRC bash
+make mysql
+#+END_SRC
+
+** Posts no aparecen en el blog
+
+1. Verificar que la API responde: =curl http://localhost:8000/post=
+2. Abrir DevTools → Network → Ver request a =/post=
+3. Revisar consola por errores JavaScript
+
+* Mejoras Futuras
+
+- [ ] Batch import: Importar todos los .org de un directorio
+- [ ] Upsert: Si el post ya existe (por headline), actualizarlo
+- [ ] UUID v5: Generar ID determinista basado en headline+fecha para idempotencia automática
+- [ ] Markdown support: Añadir =MarkdownFileParser= implementando =FileParser=
+- [ ] CLI command: =php bin/import-org.php /path/to/file.org=
+- [ ] Watch mode: Detectar cambios en archivos .org y reimportar automáticamente

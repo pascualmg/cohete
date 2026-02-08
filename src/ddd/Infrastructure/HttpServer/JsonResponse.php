@@ -43,10 +43,10 @@ class JsonResponse implements StatusCodeInterface
         return self::create(200, 'OK');
     }
 
-    public static function withError(Throwable $e): ResponseInterface
+    public static function withError(Throwable $e, int $code = self::STATUS_IM_A_TEAPOT): ResponseInterface
     {
         return self::create(
-            self::STATUS_IM_A_TEAPOT,
+            $code,
             ExceptionTo::array($e)
         );
     }
@@ -60,9 +60,8 @@ class JsonResponse implements StatusCodeInterface
         );
     }
 
-    public static function accepted(): ResponseInterface
+    public static function accepted($payload = 'Accepted'): ResponseInterface
     {
-        return self::create(self::STATUS_ACCEPTED, 'Accepted');
+        return self::create(self::STATUS_ACCEPTED, $payload);
     }
-
 }

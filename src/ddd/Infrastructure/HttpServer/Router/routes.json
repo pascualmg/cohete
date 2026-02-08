@@ -38,5 +38,10 @@
     "method": "POST",
     "path": "/post",
     "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\CreatePostController"
+  },
+  {
+    "method": "POST",
+    "path": "/post/import-org",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\ImportPostFromFileController"
   }
 ]

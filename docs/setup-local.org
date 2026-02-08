@@ -1,0 +1,346 @@
+#+TITLE: Setup Local - Cohete
+#+AUTHOR: Pascual Muñoz Galián
+#+DATE: 2024-01-24
+#+OPTIONS: toc:2 num:t
+
+* Requisitos
+
+| Requisito | Versión | Notas |
+|-----------+---------+-------|
+| Nix | 2.x+ | Con flakes habilitados |
+| Docker | 20.x+ | Para MySQL |
+| Docker Compose | 2.x+ | Incluido en Docker Desktop |
+
+* Instalación Rápida
+
+#+BEGIN_SRC bash
+# 1. Clonar el repositorio
+git clone https://github.com/pascualmg/cohete.git
+cd cohete
+
+# 2. Entrar al entorno Nix
+nix develop
+
+# 3. Instalar dependencias PHP
+composer install
+
+# 4. Configurar variables de entorno
+cp .env.example .env
+# Editar .env si es necesario
+
+# 5. Levantar MySQL (docker)
+make mysql
+
+# 6. Ejecutar migraciones
+make migrate
+
+# 7. (Opcional) Cargar datos de prueba
+make fixtures
+
+# 8. Arrancar el servidor
+make run
+#+END_SRC
+
+El servidor estará disponible en =http://localhost:8000=
+
+* Paso a Paso Detallado
+
+** 1. Instalar Nix (si no lo tienes)
+
+#+BEGIN_SRC bash
+# En Linux/macOS
+curl -L https://nixos.org/nix/install | sh
+
+# Habilitar flakes (añadir a ~/.config/nix/nix.conf)
+experimental-features = nix-command flakes
+#+END_SRC
+
+O usa el Makefile:
+#+BEGIN_SRC bash
+make nix-install
+#+END_SRC
+
+** 2. Entrar al entorno de desarrollo
+
+#+BEGIN_SRC bash
+cd /path/to/cohete
+nix develop
+#+END_SRC
+
+Esto te da:
+- PHP 8.3 con extensiones necesarias
+- Composer
+- PHPUnit, PHPStan, Psalm
+- php-cs-fixer
+- Xdebug configurado
+
+Si usas =direnv=, el entorno se carga automáticamente al entrar al directorio.
+
+** 3. Instalar dependencias
+
+#+BEGIN_SRC bash
+composer install
+#+END_SRC
+
+** 4. Configurar variables de entorno
+
+Copiar el ejemplo y editar:
+#+BEGIN_SRC bash
+cp .env.example .env
+#+END_SRC
+
+Contenido típico de =.env=:
+#+BEGIN_SRC bash
+APP_ENV=dev
+
+# Servidor HTTP
+HTTP_SERVER_HOST=0.0.0.0
+HTTP_SERVER_PORT=8000
+
+# Rutas
+ROUTES_PATH=/home/tu-usuario/src/cohete/src/ddd/Infrastructure/HttpServer/Router/routes.json
+
+# MySQL
+MYSQL_HOST=127.0.0.1
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=root
+MYSQL_DATABASE=cohete
+#+END_SRC
+
+*IMPORTANTE*: =ROUTES_PATH= debe ser una ruta absoluta.
+
+** 5. Levantar MySQL
+
+El proyecto usa docker-compose para MySQL:
+
+#+BEGIN_SRC bash
+make mysql
+#+END_SRC
+
+Esto ejecuta:
+#+BEGIN_SRC bash
+docker-compose up -d mysql
+#+END_SRC
+
+Verificar que está corriendo:
+#+BEGIN_SRC bash
+docker ps | grep mysql
+#+END_SRC
+
+Conectar manualmente (para debug):
+#+BEGIN_SRC bash
+docker exec -it cohete-mysql mysql -uroot -proot cohete
+#+END_SRC
+
+** 6. Ejecutar migraciones
+
+#+BEGIN_SRC bash
+make migrate
+#+END_SRC
+
+Esto crea las tablas necesarias (=post=, etc.).
+
+Otros comandos de Phinx:
+#+BEGIN_SRC bash
+# Ver estado de migraciones
+nix develop --command bash -c 'vendor/bin/phinx status'
+
+# Rollback última migración
+nix develop --command bash -c 'vendor/bin/phinx rollback'
+
+# Rollback todas
+nix develop --command bash -c 'vendor/bin/phinx rollback -t 0'
+#+END_SRC
+
+** 7. Cargar datos de prueba (opcional)
+
+#+BEGIN_SRC bash
+make fixtures
+#+END_SRC
+
+Esto ejecuta los seeders de Phinx que insertan posts de ejemplo.
+
+** 8. Arrancar el servidor
+
+#+BEGIN_SRC bash
+make run
+#+END_SRC
+
+Salida esperada:
+#+BEGIN_SRC text
+Server running at http://0.0.0.0:8000
+#+END_SRC
+
+El servidor es *non-blocking* - un solo proceso maneja múltiples conexiones concurrentes.
+
+* Verificar la Instalación
+
+** Health check
+
+#+BEGIN_SRC bash
+curl http://localhost:8000/health
+#+END_SRC
+
+Respuesta esperada:
+#+BEGIN_SRC json
+{"status": "ok"}
+#+END_SRC
+
+** Listar posts
+
+#+BEGIN_SRC bash
+curl http://localhost:8000/post | jq
+#+END_SRC
+
+** Abrir el portfolio
+
+Abre en el navegador:
+#+BEGIN_SRC text
+http://localhost:8000/html/pascualmgPorfolio.html
+#+END_SRC
+
+* Ejecutar Tests
+
+** Tests unitarios (PHPUnit)
+
+#+BEGIN_SRC bash
+nix develop --command bash -c 'vendor/bin/phpunit'
+#+END_SRC
+
+** Tests BDD (Behat)
+
+*Requisito*: El servidor debe estar corriendo en otra terminal.
+
+#+BEGIN_SRC bash
+# Terminal 1: Servidor
+make run
+
+# Terminal 2: Tests
+nix develop --command bash -c 'vendor/bin/behat'
+#+END_SRC
+
+Ejecutar solo una feature:
+#+BEGIN_SRC bash
+nix develop --command bash -c 'vendor/bin/behat features/ImportOrgPost.feature'
+#+END_SRC
+
+** Coverage
+
+#+BEGIN_SRC bash
+nix develop --command bash -c 'vendor/bin/phpunit --coverage-html coverage'
+# Abrir coverage/index.html en el navegador
+#+END_SRC
+
+* Comandos del Makefile
+
+| Comando | Descripción |
+|---------+-------------|
+| =make run= | Arranca el servidor HTTP |
+| =make mysql= | Levanta MySQL con docker-compose |
+| =make migrate= | Ejecuta migraciones de BD |
+| =make fixtures= | Carga datos de prueba |
+| =make behat= | Ejecuta tests BDD |
+| =make fix= | Ejecuta php-cs-fixer |
+| =make test_ab= | Benchmark con Apache Bench |
+| =make nix-install= | Instala Nix |
+
+* Troubleshooting
+
+** "Connection refused" al conectar a MySQL
+
+MySQL no está corriendo:
+#+BEGIN_SRC bash
+make mysql
+docker ps  # Verificar que está up
+#+END_SRC
+
+** "Table doesn't exist"
+
+Migraciones no ejecutadas:
+#+BEGIN_SRC bash
+make migrate
+#+END_SRC
+
+** "Address already in use" al arrancar servidor
+
+Puerto 8000 ocupado:
+#+BEGIN_SRC bash
+# Ver qué proceso usa el puerto
+lsof -i :8000
+
+# Matar el proceso
+kill -9 <PID>
+
+# O cambiar el puerto en .env
+HTTP_SERVER_PORT=8001
+#+END_SRC
+
+** Tests de Behat fallan con "Connection refused"
+
+El servidor no está corriendo. Arrancarlo en otra terminal:
+#+BEGIN_SRC bash
+make run
+#+END_SRC
+
+** "ROUTES_PATH" error
+
+La variable debe ser una ruta absoluta. Verificar en =.env=:
+#+BEGIN_SRC bash
+ROUTES_PATH=/ruta/absoluta/a/routes.json
+#+END_SRC
+
+** Xdebug no funciona
+
+Verificar que está habilitado:
+#+BEGIN_SRC bash
+php -m | grep xdebug
+#+END_SRC
+
+El entorno Nix ya incluye Xdebug configurado.
+
+* Estructura de Archivos de Configuración
+
+#+BEGIN_SRC text
+cohete/
+├── .env                  # Variables de entorno (no commitear)
+├── .env.example          # Plantilla de variables
+├── .envrc                # Para direnv (carga nix develop)
+├── composer.json         # Dependencias PHP
+├── docker-compose.yml    # MySQL y RabbitMQ
+├── flake.nix            # Configuración Nix
+├── Makefile             # Comandos útiles
+├── phpunit.xml          # Configuración PHPUnit
+├── behat.yml            # Configuración Behat
+└── phinx.php            # Configuración migraciones
+#+END_SRC
+
+* Desarrollo con IDE
+
+** PhpStorm / IntelliJ
+
+1. Abrir el proyecto
+2. Configurar PHP interpreter desde Nix:
+   - Settings → PHP → CLI Interpreter
+   - Añadir: =nix develop --command php=
+3. Configurar Xdebug:
+   - Ya viene configurado en el entorno Nix
+   - Puerto por defecto: 9003
+
+** Emacs (con php-mode)
+
+El proyecto funciona directamente. Para LSP:
+#+BEGIN_SRC elisp
+;; Usar intelephense o phpactor
+(use-package lsp-mode
+  :hook (php-mode . lsp))
+#+END_SRC
+
+* Siguiente Paso
+
+Una vez que el entorno está funcionando, puedes:
+
+1. Explorar la API: =curl http://localhost:8000/post=
+2. Ver el portfolio: =http://localhost:8000/html/pascualmgPorfolio.html=
+3. Importar un post: Ver =docs/feature-import-org-posts.org=
+4. Leer el código: Empezar por =src/bootstrap.php= y =Kernel.php=

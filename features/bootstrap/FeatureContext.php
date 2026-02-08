@@ -4,6 +4,7 @@ use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\PyStringNode;
 use Dotenv\Dotenv;
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\Exception\ClientException;
 use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use pascualmg\cohete\ddd\Infrastructure\PSR11\ContainerFactory;
@@ -48,7 +49,8 @@ class FeatureContext implements Context
     {
         $this->client = new HttpClient(
             [
-                'base_uri' => 'http://localhost:8000'
+                'base_uri' => 'http://localhost:8000',
+                'http_errors' => false, // Don't throw on 4xx/5xx responses
             ]
         );
     }
@@ -163,7 +165,7 @@ class FeatureContext implements Context
     {
         $requestOptions = [
             'headers' => [
-
+                'Content-Type' => 'application/json',
             ],
            'body'  => $this->payloadToSend
         ];
@@ -186,7 +188,55 @@ class FeatureContext implements Context
         }
     }
 
+    /**
+     * @Given /^an org file exists at "([^"]*)" with content:$/
+     */
+    public function anOrgFileExistsAtWithContent(string $filePath, PyStringNode $content): void
+    {
+        $dir = dirname($filePath);
+        if (!is_dir($dir)) {
+            mkdir($dir, 0777, true);
+        }
+        file_put_contents($filePath, $content->getRaw());
+    }
 
+    /**
+     * @Given /^a post exists with headline "([^"]*)"$/
+     */
+    public function aPostExistsWithHeadline(string $headline): void
+    {
+        // Give async operation time to complete
+        usleep(500000); // 500ms
 
+        $postRepository = $this->container->get(PostRepository::class);
+        $posts = \React\Async\await($postRepository->findAll());
 
+        foreach ($posts as $post) {
+            if ((string)$post->headline === $headline) {
+                return;
+            }
+        }
+
+        throw new \Exception("No post found with headline: {$headline}");
+    }
+
+    /**
+     * @Given /^a post exists with author "([^"]*)"$/
+     */
+    public function aPostExistsWithAuthor(string $author): void
+    {
+        // Give async operation time to complete
+        usleep(500000); // 500ms
+
+        $postRepository = $this->container->get(PostRepository::class);
+        $posts = \React\Async\await($postRepository->findAll());
+
+        foreach ($posts as $post) {
+            if ((string)$post->author === $author) {
+                return;
+            }
+        }
+
+        throw new \Exception("No post found with author: {$author}");
+    }
 }
