@@ -55,38 +55,111 @@ class SocialLinks extends HTMLElement {
                     justify-content: center;
                     align-items: center;
                     flex-wrap: wrap;
+                    gap: 12px;
+                    padding: 15px;
                 }
                 
                 a {
                     color: var(--base);
                     text-decoration: none;
-                    margin: 10px;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     width: 50px;
                     height: 50px;
                     border-radius: 50%;
-                    background-color: var(--base-dim);
-                    transition: background-color 0.3s, transform 0.3s;
+                    background: linear-gradient(135deg, var(--head2-bg), var(--bg1));
+                    border: 2px solid var(--border);
+                    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                    position: relative;
+                    overflow: hidden;
+                    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+                }
+                
+                a::before {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: linear-gradient(135deg, var(--green), var(--comp));
+                    border-radius: 50%;
+                    opacity: 0;
+                    transform: scale(0);
+                    transition: all 0.3s ease;
+                    z-index: 1;
+                }
+                
+                a:hover::before {
+                    opacity: 1;
+                    transform: scale(1);
                 }
                 
                 a:hover {
-                    background-color: var(--bg3);
-                    transform: scale(1.1);
+                    transform: translateY(-5px) scale(1.1);
+                    box-shadow: 0 8px 25px rgba(0, 255, 136, 0.4);
+                    border-color: var(--green);
                 }
                 
                 img {
                     width: 24px;
                     height: 24px;
                     vertical-align: middle;
+                    filter: brightness(0) saturate(100%) invert(var(--icon-invert, 1));
+                    transition: all 0.3s ease;
+                    position: relative;
+                    z-index: 2;
                 }
                 
-                @media (min-width: 768px) {
+                a:hover img {
+                    filter: brightness(0);
+                    transform: scale(1.1);
+                }
+                
+                @media (min-width: 480px) {
+                    .social-links-container {
+                        gap: 15px;
+                        padding: 18px;
+                    }
+
                     a {
-                        width: 50px;
-                        height: 50px;
-                        margin: 15px;
+                        width: 55px;
+                        height: 55px;
+                    }
+                    
+                    img {
+                        width: 26px;
+                        height: 26px;
+                    }
+                }
+
+                @media (min-width: 768px) {
+                    .social-links-container {
+                        gap: 18px;
+                        padding: 20px;
+                    }
+
+                    a {
+                        width: 60px;
+                        height: 60px;
+                    }
+                    
+                    img {
+                        width: 28px;
+                        height: 28px;
+                    }
+                }
+
+                @media (min-width: 1024px) {
+                    .social-links-container {
+                        gap: 20px;
+                        padding: 25px;
+                    }
+
+                    a {
+                        width: 65px;
+                        height: 65px;
                     }
                     
                     img {

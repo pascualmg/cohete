@@ -17,16 +17,17 @@ class ExperienceTimeline extends HTMLElement {
                     display: block;
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                     --timeline-width: 2px;
-                    --company-node-size: 24px;
-                    --project-node-size: 16px;
+                    --company-node-size: 20px;
+                    --project-node-size: 14px;
                     --company-node-color: var(--head1);
                     --project-node-color: var(--head2);
-                    --max-width: 800px;
+                    --max-width: 100%;
                 }
                 .timeline-container {
                     max-width: var(--max-width);
                     margin: 0 auto;
-                    padding: 0 20px;
+                    padding: 0 10px;
+                    width: 100%;
                 }
                 .timeline {
                     position: relative;
@@ -37,14 +38,14 @@ class ExperienceTimeline extends HTMLElement {
                     position: absolute;
                     top: 20px;
                     bottom: 0;
-                    left: 11px;
+                    left: 9px;
                     width: var(--timeline-width);
                     background: var(--company-node-color);
                 }
                 .experience {
                     position: relative;
-                    margin-bottom: 40px;
-                    padding-left: 40px;
+                    margin-bottom: 25px;
+                    padding-left: 30px;
                 }
                 .experience::before {
                     content: '';
@@ -59,21 +60,24 @@ class ExperienceTimeline extends HTMLElement {
                     z-index: 1;
                 }
                 .company {
-                    font-size: 1.4em;
+                    font-size: 1.3em;
                     font-weight: bold;
                     color: var(--head1);
                     margin-bottom: 8px;
+                    line-height: 1.3;
                 }
                 .position {
-                    font-size: 1.2em;
+                    font-size: 1.1em;
                     color: var(--head2);
-                    margin-bottom: 5px;
+                    margin-bottom: 6px;
+                    line-height: 1.4;
                 }
                 .date {
                     font-style: italic;
                     color: var(--base-dim);
-                    margin-bottom: 20px;
+                    margin-bottom: 18px;
                     font-size: 0.9em;
+                    line-height: 1.3;
                 }
                 .projects {
                     position: relative;
@@ -83,22 +87,30 @@ class ExperienceTimeline extends HTMLElement {
                     position: absolute;
                     top: 0;
                     bottom: 0;
-                    left: -29px;
+                    left: -21px;
                     width: var(--timeline-width);
                     background: var(--project-node-color);
                 }
                 .project {
                     background: var(--head2-bg);
-                    border-radius: 10px;
+                    border: 1px solid var(--border);
+                    border-radius: 12px;
                     padding: 15px;
-                    margin-bottom: 20px;
+                    margin-bottom: 15px;
                     position: relative;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+                }
+                .project:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                    border-color: var(--green);
                 }
                 .project::before {
                     content: '';
                     position: absolute;
-                    left: -35px;
-                    top: 15px;
+                    left: -27px;
+                    top: 12px;
                     width: var(--project-node-size);
                     height: var(--project-node-size);
                     border-radius: 50%;
@@ -111,18 +123,20 @@ class ExperienceTimeline extends HTMLElement {
                     color: var(--head3);
                     font-size: 1.1em;
                     margin-bottom: 10px;
+                    line-height: 1.3;
                 }
                 .role {
                     font-style: italic;
                     color: var(--const);
-                    margin-bottom: 15px;
+                    margin-bottom: 14px;
                     font-size: 0.9em;
+                    line-height: 1.4;
                 }
                 .section-title {
                     font-weight: bold;
                     color: var(--comp);
                     margin: 12px 0 6px;
-                    font-size: 1em;
+                    font-size: 0.95em;
                 }
                 .highlights, .technologies, .achievements {
                     padding-left: 15px;
@@ -132,6 +146,7 @@ class ExperienceTimeline extends HTMLElement {
                     margin-bottom: 6px;
                     position: relative;
                     font-size: 0.9em;
+                    line-height: 1.5;
                 }
                 .item::before {
                     content: '▹';
@@ -141,109 +156,237 @@ class ExperienceTimeline extends HTMLElement {
                 }
                 .tech-item {
                     display: inline-block;
-                    background-color: var(--green);
+                    background: linear-gradient(135deg, var(--green), var(--comp));
                     color: var(--bg1);
-                    padding: 2px 5px;
-                    border-radius: 5px;
-                    margin-right: 5px;
-                    margin-bottom: 5px;
+                    padding: 4px 10px;
+                    border-radius: 12px;
+                    margin-right: 6px;
+                    margin-bottom: 6px;
                     font-size: 0.8em;
+                    font-weight: bold;
+                    transition: all 0.3s ease;
+                    border: 1px solid var(--border);
+                    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+                    cursor: default;
+                }
+                .tech-item:hover {
+                    transform: translateY(-2px) scale(1.05);
+                    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
                 }
 
-                @media (max-width: 767px) {
+                @media (min-width: 480px) {
+                    :host {
+                        --max-width: 600px;
+                        --company-node-size: 22px;
+                        --project-node-size: 15px;
+                    }
+
                     .timeline-container {
-                        padding: 0 10px;
+                        padding: 0 20px;
                     }
 
-                    .experience::before {
-                        width: 20px;
-                        height: 20px;
-                        left: 1px;
-                    }
-
-                    .project::before {
-                        width: 16px;
-                        height: 16px;
-                        left: -38px;
-                    }
-
-                    .company {
-                        font-size: 1.2em;
-                    }
-
-                    .position {
-                        font-size: 1.1em;
-                    }
-
-                    .date {
-                        font-size: 0.9em;
-                    }
-
-                    .project-name {
-                        font-size: 1em;
-                    }
-
-                    .role, .item {
-                        font-size: 0.9em;
-                    }
-
-                    .tech-item {
-                        font-size: 0.8em;
+                    .timeline::before {
+                        left: 10px;
                     }
 
                     .experience {
-                        margin-bottom: 30px;
+                        margin-bottom: 35px;
+                        padding-left: 40px;
+                    }
+
+                    .company {
+                        font-size: 1.4em;
+                        margin-bottom: 8px;
+                    }
+
+                    .position {
+                        font-size: 1.15em;
+                        margin-bottom: 6px;
+                    }
+
+                    .date {
+                        font-size: 0.95em;
+                        margin-bottom: 20px;
+                    }
+
+                    .projects::before {
+                        left: -30px;
                     }
 
                     .project {
+                        padding: 18px;
+                        margin-bottom: 18px;
+                        border-radius: 15px;
+                    }
+
+                    .project::before {
+                        left: -37px;
+                        top: 14px;
+                    }
+
+                    .project-name {
+                        font-size: 1.15em;
+                        margin-bottom: 11px;
+                    }
+
+                    .role {
+                        font-size: 0.95em;
                         margin-bottom: 15px;
                     }
 
-                    :host {
-                        --max-width: 100%;
+                    .section-title {
+                        font-size: 1em;
+                        margin: 13px 0 7px;
+                    }
+
+                    .item {
+                        font-size: 0.95em;
+                        margin-bottom: 7px;
+                    }
+
+                    .tech-item {
+                        padding: 5px 11px;
+                        font-size: 0.85em;
+                        margin-right: 7px;
+                        margin-bottom: 7px;
                     }
                 }
 
                 @media (min-width: 768px) {
-                    .timeline::before {
-                        left: 15px;
+                    :host {
+                        --max-width: 750px;
+                        --company-node-size: 26px;
+                        --project-node-size: 18px;
                     }
+
+                    .timeline::before {
+                        left: 12px;
+                    }
+
+                    .experience {
+                        margin-bottom: 40px;
+                        padding-left: 50px;
+                    }
+
+                    .experience::before {
+                        width: var(--company-node-size);
+                        height: var(--company-node-size);
+                        left: -1px;
+                    }
+
+                    .company {
+                        font-size: 1.5em;
+                        margin-bottom: 9px;
+                    }
+
+                    .position {
+                        font-size: 1.25em;
+                        margin-bottom: 7px;
+                    }
+
+                    .date {
+                        font-size: 1em;
+                        margin-bottom: 22px;
+                    }
+
+                    .projects::before {
+                        left: -37px;
+                    }
+
+                    .project {
+                        padding: 20px;
+                        margin-bottom: 20px;
+                    }
+
+                    .project::before {
+                        left: -46px;
+                        width: var(--project-node-size);
+                        height: var(--project-node-size);
+                        top: 15px;
+                    }
+
+                    .project-name {
+                        font-size: 1.2em;
+                        margin-bottom: 12px;
+                    }
+
+                    .role {
+                        font-size: 1em;
+                        margin-bottom: 16px;
+                    }
+
+                    .section-title {
+                        font-size: 1.05em;
+                        margin: 14px 0 8px;
+                    }
+
+                    .item {
+                        font-size: 1em;
+                        margin-bottom: 7px;
+                    }
+
+                    .tech-item {
+                        font-size: 0.9em;
+                        padding: 5px 12px;
+                        margin-right: 8px;
+                        margin-bottom: 8px;
+                    }
+                }
+
+                @media (min-width: 1024px) {
+                    :host {
+                        --max-width: 800px;
+                        --company-node-size: 30px;
+                        --project-node-size: 20px;
+                    }
+
+                    .timeline::before {
+                        left: 14px;
+                    }
+
                     .experience {
                         padding-left: 60px;
                     }
+
                     .experience::before {
-                        width: 32px;
-                        height: 32px;
+                        width: var(--company-node-size);
+                        height: var(--company-node-size);
                         left: -1px;
                     }
+
                     .company {
                         font-size: 1.6em;
                     }
+
                     .position {
                         font-size: 1.3em;
                     }
+
                     .date {
-                        font-size: 1em;
+                        font-size: 1.05em;
                     }
+
                     .projects::before {
                         left: -45px;
                     }
-                    .project {
-                        padding: 20px;
-                    }
+
                     .project::before {
                         left: -56px;
-                        width: 20px;
-                        height: 20px;
+                        width: var(--project-node-size);
+                        height: var(--project-node-size);
                     }
+
                     .project-name {
-                        font-size: 1.2em;
+                        font-size: 1.25em;
                     }
+
                     .role, .item {
-                        font-size: 1em;
+                        font-size: 1.05em;
                     }
+
                     .tech-item {
-                        font-size: 0.9em;
+                        font-size: 0.95em;
+                        padding: 6px 14px;
                     }
                 }
             </style>

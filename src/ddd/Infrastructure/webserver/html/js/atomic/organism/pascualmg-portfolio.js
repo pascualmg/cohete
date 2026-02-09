@@ -60,217 +60,205 @@ class PortfolioElement extends HTMLElement {
   <social-links links='[
          {"name": "phone", "url": "tel:+34693000983"},
          {"name": "email", "url": "mailto:info@pascualmg.dev"},
-         {"name": "linkedin", "url": "https://www.linkedin.com/in/pascual-mu%C3%B1oz-gali%C3%A1n-7b4b3896/"},
+         {"name": "facebook", "url": "https://www.linkedin.com/in/pascual-mu%C3%B1oz-gali%C3%A1n-7b4b3896/"},
          {"name": "github", "url": "https://github.com/pascualmg"},
          {"name": "twitter", "url": "https://twitter.com/pascualmg"}
          ]'>
   </social-links>
 
+<!-- IMPORTANTE: No usar comillas simples (') dentro de los strings JSON ya que el atributo data usa comillas simples -->
 <experience-timeline  data='[
   {
-    "company": "Estamos Trabajando en ello! Enseguida os cuento...",
-    "position": "Software Engineer",
+    "company": "UST",
+    "position": "PHP Software Engineer",
+    "startDate": "2024-06-29",
+    "endDate": "Actualidad",
     "projects": [
       {
-        "name": "????????????",
-        "role": "PHP Backend Developer",
+        "name": "Sistema de Identidad OAuth2 para Vocento",
+        "role": "Desarrollador Backend",
         "highlights": [
-          "Seguro que van a ser muy interesantes"
+          "Colaboré en la implementación del flujo OAuth2 completo para el sistema de identidad",
+          "Participé en el desarrollo de la integración que permite a empresas terceras acceder a información de usuarios",
+          "Contribuí al sistema de autorización para impactar a usuarios de forma controlada",
+          "Trabajé directamente con el cliente Vocento para mejorar su arquitectura de identidad"
         ],
-        "technologies": ["PHP", "SYMPHONY"],
+        "technologies": ["OAuth2", "PHP", "Symfony", "API RESTful", "Sistemas de Identidad"],
         "achievements": [
-            "Por el momento nada :) pero, seguro que pronto habrá mucho que contar"
+          "Implementación exitosa del flujo OAuth2 para terceros",
+          "Mejora en la arquitectura del sistema de identidad de Vocento"
+        ]
+      },
+      {
+        "name": "Modernización de Sistemas Legacy con DDD",
+        "role": "Desarrollador Backend",
+        "highlights": [
+          "Colaboré en la implementación de Domain-Driven Design en códigos legacy existentes",
+          "Participé en la extracción de lógicas de negocio desde sistemas monolíticos legacy",
+          "Contribuí definiendo features usando Gherkin para documentar comportamientos de negocio",
+          "Formé parte del equipo que migró lógica legacy a proyectos DDD con mejor arquitectura",
+          "Ayudé a establecer patrones para la coexistencia entre sistemas legacy y modernos"
+        ],
+        "technologies": ["DDD", "Gherkin", "BDD", "PHP", "Symfony", "Behat"],
+        "achievements": [
+          "Migración exitosa de módulos críticos desde arquitectura legacy a DDD",
+          "Mejora en mantenibilidad y testabilidad del código",
+          "Documentación completa de reglas de negocio usando Gherkin"
+        ]
+      },
+      {
+        "name": "Configuración de Entornos de Desarrollo con NIX",
+        "role": "Desarrollador Backend",
+        "highlights": [
+          "Me adapté a las necesidades del proyecto configurando entornos reproducibles con NIX para gestionar más de 25 microservicios",
+          "Asumí la responsabilidad de resolver la gestión compleja de dependencias entre servicios",
+          "Facilité la puesta en marcha de entornos locales complejos cuando el equipo lo necesitaba",
+          "Utilicé herramientas de IA de forma práctica para resolver desafíos técnicos fuera de mi área habitual",
+          "Documenté procesos y troubleshooting para que el equipo pudiera ser autónomo"
+        ],
+        "technologies": ["NIX", "Docker", "Microservicios", "Bash", "Problem Solving", "IA como herramienta"],
+        "achievements": [
+          "Resolución exitosa de necesidades técnicas fuera del desarrollo tradicional",
+          "Mejora significativa en la productividad del equipo de desarrollo",
+          "Demostración de capacidad de adaptación a tecnologías nuevas según necesidades del proyecto"
         ]
       }
     ]
   },
   {
     "company": "GRUPO EUROFORMAC",
-    "position": "PHP Software Engineer",
+    "position": "Formador Técnico PHP",
     "startDate": "2024-06-14",
     "endDate": "2024-06-28",
     "projects": [
       {
-        "name": "EXPERTO WEB Y MULTIMEDIA PARA E-COMMERCE II",
-        "role": "Software Engineer Teacher",
+        "name": "Formación Especializada en Desarrollo Web y E-Commerce",
+        "role": "Instructor de Tecnologías Web",
         "highlights": [
-          "Participación en proyectos de formación empresarial"
+          "Impartí formación técnica especializada en desarrollo web moderno",
+          "Diseñé contenido práctico enfocado en tecnologías actuales para e-commerce",
+          "Desarrollé ejercicios hands-on para facilitar el aprendizaje de conceptos complejos",
+          "Mentorización personalizada a profesionales en transición tecnológica"
         ],
-        "technologies": ["PHP", "JS", "HTML5", "CSS4" ],
+        "technologies": ["PHP", "JavaScript", "HTML5", "CSS3", "E-commerce", "Metodologías de enseñanza"],
         "achievements": [
-            "Formación en tecnologías web",
-            "Desarrollo de habilidades en e-commerce"
+          "Transferencia efectiva de conocimientos técnicos avanzados",
+          "Preparación de profesionales para el mercado actual de desarrollo web",
+          "Desarrollo de material didáctico técnico especializado"
         ]
       }
     ]
   },
   {
-  "company": "I+D",
-  "position": "Investigador y Desarrollador de Software",
-  "startDate": "2023-05-24",
-  "endDate": "2024-06-13",
-  "projects": [
-    {
-      "name": "Creación de Framework PHP Asíncrono con ReactPHP (Cohete)",
-      "role": "Creador y Líder Técnico",
-      "highlights": [
-        "Desarrollé un framework en PHP para manejo asíncrono de peticiones utilizando ReactPHP.",
-        "Implementé el uso de observables para mejorar la interactividad y respuesta del framework.",
-        "Apliqué principios de Domain-Driven Design (DDD) para estructurar el framework de manera funcional.",
-        "Realicé pruebas exhaustivas para asegurar la calidad y estabilidad del framework."
-      ],
-      "technologies": ["PHP", "ReactPHP", "DDD", "Observables"],
-      "achievements": [
-        "Creación de un framework PHP innovador para manejo asíncrono de peticiones.",
-        "Contribución a la comunidad de PHP con una herramienta de desarrollo avanzada y moderna."
-      ]
-    }
-  ]
-},
+    "company": "I+D",
+    "position": "Investigador y Desarrollador de Software",
+    "startDate": "2023-05-24",
+    "endDate": "2024-06-13",
+    "projects": [
+      {
+        "name": "Desarrollo de Framework PHP Asíncrono (Cohete)",
+        "role": "Arquitecto Principal y Creador",
+        "highlights": [
+          "Diseñé y desarrollé un framework completo en PHP para manejo asíncrono de peticiones usando ReactPHP",
+          "Implementé patrones observables y reactivos para mejorar la interactividad y respuesta del sistema",
+          "Apliqué principios de Domain-Driven Design (DDD) para crear una arquitectura robusta y mantenible",
+          "Establecí una suite completa de testing para garantizar calidad y estabilidad del framework",
+          "Documenté la arquitectura y creé ejemplos de uso para facilitar la adopción"
+        ],
+        "technologies": ["PHP", "ReactPHP", "RxPHP", "DDD", "Event-Driven Architecture", "Async Programming", "PHPUnit", "Behat"],
+        "achievements": [
+          "Creación de framework PHP innovador con capacidades asíncronas nativas",
+          "Implementación exitosa de arquitectura event-driven en PHP",
+          "Contribución open-source para la comunidad de desarrollo PHP"
+        ]
+      }
+    ]
+  },
   {
     "company": "PC COMPONENTES Y MULTIMEDIA S.L.L",
-    "position": "Desarrollador Backend con Microservicios y desarrollador Frontend especializado en JS",
-    "startDate": "2013-01-05",
+    "position": "Full Stack Developer",
+    "startDate": "2012-09-05",
     "endDate": "2023-05-23",
     "projects": [
       {
-        "name": "Gestión de Contenido Generado por Usuarios",
+        "name": "Arquitectura de Microservicios y Modernización Legacy",
+        "role": "Desarrollador Full Stack",
+        "highlights": [
+          "Participé activamente en la refactorización de sistemas legacy ERP hacia arquitectura de microservicios",
+          "Colaboré en la implementación de Domain-Driven Design (DDD) y Test-Driven Development (TDD)",
+          "Contribuí al desarrollo de microservicios API RESTful usando Symfony para Postventa y Atención al Cliente",
+          "Apliqué patrones de testing con PHPUnit y Behat siguiendo las mejores prácticas del equipo",
+          "Formé parte del equipo que automatizó procesos críticos de negocio"
+        ],
+        "technologies": ["Symfony", "DDD", "TDD", "RabbitMQ", "API RESTful", "PHPUnit", "Behat", "Microservicios"],
+        "achievements": [
+          "Contribución exitosa a la modernización de sistemas legacy críticos",
+          "Participación en la mejora de mantenibilidad y testabilidad del código",
+          "Colaboración en la automatización de procesos críticos de Postventa y Atención al Cliente"
+        ]
+      },
+      {
+        "name": "Plataforma de Contenido Generado por Usuarios",
         "role": "Software Engineer Backend",
         "highlights": [
-          "Diseñé e implementé una solución backend en Symfony",
-          "Utilicé eventos asíncronos y proyecciones para optimizar consultas",
-          "Implementé soporte para rankings dinámicos"
+          "Colaboré en el diseño e implementación del sistema de gestión de contenido generado por usuarios",
+          "Participé en el desarrollo de arquitectura basada en eventos asíncronos para optimización de consultas",
+          "Contribuí al sistema de rankings dinámicos con proyecciones de datos",
+          "Desarrollé APIs escalables para manejo de grandes volúmenes de contenido user-generated"
         ],
-        "technologies": ["Symfony", "Eventos asíncronos", "Proyecciones"],
-        "achievements": ["Optimización de consultas", "Soporte de rankings dinámicos"]
-      },
-      {
-        "name": "Desarrollo de Microservicios para Postventa y Atención al Cliente",
-        "role": "Líder de Desarrollo",
-        "highlights": [
-          "Lideré el desarrollo de microservicios API RESTful en Symfony",
-          "Apliqué Domain-Driven Design (DDD) y RabbitMQ",
-          "Automaticé procesos críticos de Postventa y Atención al Cliente"
-        ],
-        "technologies": ["Symfony", "DDD", "RabbitMQ", "API RESTful"],
-        "achievements": ["Automatización de procesos críticos"]
-      },
-      {
-        "name": "Refactorización de Código Legacy",
-        "role": "Desarrollador Senior",
-        "highlights": [
-          "Refactoricé casos de uso legacy",
-          "Implementé tests unitarios (PHPUnit) y de comportamiento (Behat)",
-          "Establecí una base sólida para el desarrollo futuro"
-        ],
-        "technologies": ["PHPUnit", "Behat"],
-        "achievements": ["Mejora de la calidad del código", "Incremento de la cobertura de tests"]
-      },
-      {
-        "name": "Integración de APIs de Terceros",
-        "role": "Integrador de Sistemas",
-        "highlights": [
-          "Integré APIs de terceros como Swogo, Connectif y Salesmanago",
-          "Mejoré la eficiencia y funcionalidad de sistemas existentes"
-        ],
-        "technologies": ["APIs", "Integración de sistemas"],
-        "achievements": ["Mejora de la eficiencia operativa"]
-      },
-      {
-        "name": "Configurador de Equipos a Medida",
-        "role": "Desarrollador de Sistemas",
-        "highlights": [
-          "Contribuí al desarrollo del configurador de equipos a medida",
-          "Implementé un sistema de reglas flexible y extensible",
-          "Reduje errores de compatibilidad e incidencias"
-        ],
-        "technologies": ["Sistemas de reglas", "Lógica de negocio compleja"],
-        "achievements": ["Reducción de errores de compatibilidad", "Mejora de la experiencia del usuario"]
-      },
-      {
-        "name": "Refactorización de Proyectos Legacy y ERP",
-        "role": "Líder Técnico",
-        "highlights": [
-          "Lideré la refactorización de proyectos legacy y ERP",
-          "Utilicé Domain-Driven Design (DDD) y Test-Driven Development (TDD)",
-          "Mejoré significativamente la estructura y mantenibilidad del código"
-        ],
-        "technologies": ["DDD", "TDD", "Refactorización"],
-        "achievements": ["Mejora de la mantenibilidad del código", "Modernización de sistemas legacy"]
-      },
-      {
-        "name": "Optimización del Buscador con Doofinder",
-        "role": "Desarrollador de Optimización",
-        "highlights": [
-          "Optimicé el buscador del sistema legacy implementando Doofinder",
-          "Mejoré drásticamente la experiencia del usuario y el rendimiento de las búsquedas"
-        ],
-        "technologies": ["Doofinder", "Optimización de búsquedas"],
-        "achievements": ["Mejora significativa en la experiencia de búsqueda del usuario"]
-      },
-      {
-        "name": "Desarrollo Frontend",
-        "role": "Desarrollador Frontend",
-        "highlights": [
-          "Desarrollé funcionalidades frontend avanzadas utilizando JavaScript, TypeScript y React",
-          "Implementé un sistema de Bombas para campañas de Black Friday con lógica compleja"
-        ],
-        "technologies": ["JavaScript", "TypeScript", "React"],
-        "achievements": ["Implementación de funcionalidades complejas para campañas especiales"]
-      }
-    ]
-  },
-  {
-    "company": "PC COMPONENTES Y MULTIMEDIA S.L.L",
-    "position": "Analista de Atención al Cliente",
-    "startDate": "2012-09-05",
-    "endDate": "2013-01-04",
-    "projects": [
-      {
-        "name": "Implementación de Sistema de Auditoría con Qlik",
-        "role": "Analista y Desarrollador",
-        "highlights": [
-          "Desarrollé e implementé un sistema de tracking usando Qlik",
-          "Diseñé un dashboard para monitorear en tiempo real las actividades de los operadores",
-          "Establecí KPIs para medir la eficiencia y calidad del servicio al cliente"
-        ],
-        "technologies": ["Qlick", "SQL", "Análisis de datos"],
+        "technologies": ["Symfony", "Event-Driven Architecture", "Proyecciones", "Async Processing", "MySQL"],
         "achievements": [
-          "Incremento del 30% en la eficiencia de los operadores",
-          "Reducción del 25% en el tiempo de resolución de incidencias",
-          "Mejora significativa en la capacidad de auditoría y control de calidad"
+          "Optimización significativa en consultas de contenido masivo",
+          "Implementación exitosa de rankings dinámicos en tiempo real",
+          "Mejora en la experiencia de usuario para contenido generado"
         ]
       },
       {
-        "name": "Optimización de Procesos de Atención al Cliente",
-        "role": "Gestor de Atención al Cliente",
+        "name": "Configurador de Equipos a Medida y Motor de Reglas",
+        "role": "Desarrollador",
         "highlights": [
-          "Implementé nuevos protocolos de atención basados en los datos recopilados",
-          "Desarrollé un programa de capacitación continua para el equipo"
+          "Participé activamente en el desarrollo del configurador de equipos informáticos",
+          "Colaboré en la implementación del motor de reglas para lógica de negocio",
+          "Contribuí significativamente al sistema de validación automática",
+          "Trabajé en la optimización de la experiencia de usuario mediante interfaces intuitivas"
         ],
-        "technologies": ["CRM", "Herramientas de comunicación"],
+        "technologies": ["PHP", "Motor de Reglas", "Lógica de Negocio", "Validación de Compatibilidad"],
         "achievements": [
-          "Aumento del 20% en la satisfacción del cliente"
+          "Contribución importante en la reducción de errores de compatibilidad",
+          "Participación en mejoras sustanciales de experiencia de usuario",
+          "Desarrollo de sistema robusto para reglas de negocio complejas"
         ]
-      }
-    ]
-  },
-  {
-    "company": "PC COMPONENTES Y MULTIMEDIA S.L.L",
-    "position": "Gestor de Compras Internacionales",
-    "startDate": "2012-09-05",
-    "endDate": "2013-01-04",
-    "projects": [
+      },
       {
-        "name": "Optimización de Compras Internacionales",
-        "role": "Gestor de Compras",
+        "name": "Desarrollo Frontend y Optimización de Performance",
+        "role": "Senior Full Stack Developer",
         "highlights": [
-          "Gestioné relaciones con proveedores internacionales",
-          "Negocié contratos y términos de compra favorables"
+          "Lideré el desarrollo de funcionalidades frontend complejas usando JavaScript, TypeScript y React",
+          "Formé parte del equipo principal que desarrolló el sistema de Bombas para campañas especiales de Black Friday",
+          "Optimicé de forma autónoma el motor de búsqueda legacy integrando Doofinder",
+          "Gestioné la integración completa de múltiples APIs de terceros incluyendo Swogo, Connectif y Salesmanago"
         ],
-        "technologies": ["ERP", "Herramientas de gestión de inventario"],
+        "technologies": ["JavaScript", "TypeScript", "React", "Doofinder", "API Integration", "Performance Optimization"],
         "achievements": [
-            "Reducción del en los costes de adquisición de algunas marcas"
+          "Liderazgo exitoso en implementación de funcionalidades complejas para campañas especiales",
+          "Mejora drástica en experiencia de búsqueda y performance del sistema",
+          "Integración eficiente y autónoma de múltiples sistemas externos"
+        ]
+      },
+      {
+        "name": "Sistema de Auditoría y Analytics",
+        "role": "Analista Junior y Desarrollador",
+        "highlights": [
+          "Apoyé en el desarrollo del sistema de auditoría usando Qlik para monitoreo operacional",
+          "Colaboré en el diseño de dashboards en tiempo real para tracking de actividades",
+          "Participé en el establecimiento de KPIs para medir eficiencia del servicio al cliente",
+          "Contribuí a la implementación de protocolos de atención basados en análisis de datos"
+        ],
+        "technologies": ["Qlik", "SQL", "Business Intelligence", "KPIs", "Data Analysis"],
+        "achievements": [
+          "Participación exitosa en sistema de auditoría y control de calidad",
+          "Colaboración en mejoras de eficiencia operacional",
+          "Apoyo en optimización de procesos basada en datos"
         ]
       }
     ]

@@ -32,7 +32,7 @@ final class CreateTablePost extends AbstractMigration
          */
         $table = $this->table('post', ['id' => false, 'primary_key' => ['id']]);
         $table
-            ->addColumn('id', 'string', ['limit' => 36])
+            ->addColumn('id', 'string', ['limit' => 36, 'null' => false])
             ->addColumn('headline', 'string', ['limit' => 255])
             ->addColumn('articleBody', 'text')
             ->addColumn('author', 'string', ['limit' => 255])

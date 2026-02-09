@@ -10,6 +10,8 @@ use Monolog\Logger;
 use pascualmg\cohete\ddd\Domain\Bus\MessageBus;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use pascualmg\cohete\ddd\Infrastructure\Bus\ReactMessageBus;
+use pascualmg\cohete\ddd\Infrastructure\Parser\FileParser;
+use pascualmg\cohete\ddd\Infrastructure\Parser\OrgFileParser;
 use pascualmg\cohete\ddd\Infrastructure\Repository\Post\ObservableMysqlPostRepository;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -54,6 +56,7 @@ class ContainerFactory
                 return $logger;
             },
             PostRepository::class => static fn (ContainerInterface $c) => $c->get(ObservableMysqlPostRepository::class),
+            FileParser::class => static fn (ContainerInterface $c) => $c->get(OrgFileParser::class),
             MessageBus::class => static fn (ContainerInterface $c) => $c->get(ReactMessageBus::class),
             ReactMessageBus::class => static fn (ContainerInterface $c) => new ReactMessageBus(
                 $c->get(LoopInterface::class)

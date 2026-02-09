@@ -1,0 +1,70 @@
+#+TITLE: Changelog - Cohete
+#+AUTHOR: Pascual Muñoz Galián
+#+OPTIONS: toc:2 num:nil
+
+* [Unreleased]
+
+** [2024-01-24] Feature: Import Posts from Org Files
+
+*** Added
+- =POST /post/import-org= - Endpoint para importar archivos .org como posts
+- =OrgFileParser= - Parser que extrae metadata (TITLE, AUTHOR, DATE) y contenido de archivos .org
+- =ImportPostFromFileCommand= + =Handler= - Caso de uso para importar posts desde archivos
+- =PascualmgBlog.js= - Frontend del blog ahora muestra posts desde API
+- =ImportOrgPost.feature= - Tests Behat para el flujo de importación
+- Documentación en =docs/feature-import-org-posts.org=
+
+*** Changed
+- =ContainerFactory.php= - Añadido binding =FileParser= → =OrgFileParser=
+- =routes.json= - Nueva ruta para importación
+- =FeatureContext.php= - Nuevos steps para tests de importación + =http_errors => false= en Guzzle
+
+*** Fixed
+- =JsonResponse.php= - Limpiado texto basura, añadidos parámetros a =withError($e, $code)= y =accepted($payload)=
+- =ImportPostFromFileController.php= - Usar =(string)$request->getBody()= en vez de =getContents()= (streams de ReactPHP solo se leen una vez)
+- =20231229183201_create_table_post.php= - Añadido ='null' => false= en columna id para MySQL 8
+- =FeatureContext.php= - Añadido header =Content-Type: application/json= en requests POST
+
+*** Files Created
+| Archivo | Propósito |
+|---------+-----------|
+| =Infrastructure/Parser/FileParser.php= | Interface del parser |
+| =Infrastructure/Parser/ParsedPostData.php= | DTO con datos parseados |
+| =Infrastructure/Parser/OrgFileParser.php= | Implementación para .org |
+| =Application/Post/ImportFromFile/ImportPostFromFileCommand.php= | Comando CQRS |
+| =Application/Post/ImportFromFile/ImportPostFromFileCommandHandler.php= | Handler del comando |
+| =Infrastructure/HttpServer/RequestHandler/ImportPostFromFileController.php= | Controller HTTP |
+| =features/ImportOrgPost.feature= | Tests BDD |
+| =docs/feature-import-org-posts.org= | Documentación de la feature |
+| =docs/setup-local.org= | Guía de instalación local |
+
+** [2024-01-24] Docs: README Overhaul
+
+*** Changed
+- =README.org= - Reescrito completamente con:
+  - Badges (MIT, PHP, ReactPHP, RxPHP, Google Code Wiki)
+  - Motivación personal (background Symfony)
+  - Stack tecnológico en tabla
+  - Diagrama de arquitectura ASCII
+  - Estructura del proyecto detallada
+  - API Endpoints con ejemplos curl
+  - Patrones clave con código
+  - Filosofía DDDD + Brutalismo Web
+
+** [2024-01-24] Tooling: Claude Code Agent
+
+*** Added
+- =.claude/agents/cohete-expert.md= - Agente especializado en Cohete
+- =.claude/CLAUDE.md= - Instrucciones del proyecto para Claude
+
+* Format
+
+Este changelog sigue el formato de [[https://keepachangelog.com/][Keep a Changelog]].
+
+Tipos de cambios:
+- =Added= - Nuevas funcionalidades
+- =Changed= - Cambios en funcionalidades existentes
+- =Deprecated= - Funcionalidades que serán eliminadas
+- =Removed= - Funcionalidades eliminadas
+- =Fixed= - Corrección de bugs
+- =Security= - Vulnerabilidades corregidas

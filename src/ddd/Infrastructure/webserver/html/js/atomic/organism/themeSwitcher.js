@@ -16,7 +16,7 @@ class ThemeSwitcher extends HTMLElement {
             'aqua': '#2d9574', 'aqua-bg': '#293235', 'green': '#67b11d', 'green-bg': '#293235',
             'green-bg-s': '#29422d', 'cyan': '#28def0', 'red': '#f2241f', 'red-bg': '#3c2a2c',
             'red-bg-s': '#512e31', 'blue': '#4f97d7', 'blue-bg': '#293239', 'blue-bg-s': '#2d4252',
-            'magenta': '#a31db1', 'yellow': '#b1951d', 'yellow-bg': '#32322c'
+            'magenta': '#a31db1', 'yellow': '#b1951d', 'yellow-bg': '#32322c', 'icon-invert': '1'
         },
         'spacemacs-light': {
             'act1': '#e7e5eb', 'act2': '#d3d3e7', 'base': '#585858', 'base-dim': '#a8a8a8',
@@ -33,7 +33,7 @@ class ThemeSwitcher extends HTMLElement {
             'aqua': '#2d9574', 'aqua-bg': '#f0f5f2', 'green': '#67b11d', 'green-bg': '#f0f5f2',
             'green-bg-s': '#f0f5f2', 'cyan': '#21b8c7', 'red': '#f2241f', 'red-bg': '#fdf4f3',
             'red-bg-s': '#fdf4f3', 'blue': '#3a81c3', 'blue-bg': '#f0f4f7', 'blue-bg-s': '#f0f4f7',
-            'magenta': '#6c4173', 'yellow': '#b1951d', 'yellow-bg': '#f6f2e8'
+            'magenta': '#6c4173', 'yellow': '#b1951d', 'yellow-bg': '#f6f2e8', 'icon-invert': '0'
         },
         'solarized-dark': {
             'act1': '#002b36', 'act2': '#003542', 'base': '#93a1a1', 'base-dim': '#72888e',
@@ -50,7 +50,7 @@ class ThemeSwitcher extends HTMLElement {
             'aqua': '#2aa198', 'aqua-bg': '#07272d', 'green': '#859900', 'green-bg': '#073642',
             'green-bg-s': '#073642', 'cyan': '#2aa198', 'red': '#dc322f', 'red-bg': '#07272d',
             'red-bg-s': '#07272d', 'blue': '#268bd2', 'blue-bg': '#073642', 'blue-bg-s': '#073642',
-            'magenta': '#d33682', 'yellow': '#b58900', 'yellow-bg': '#07272d'
+            'magenta': '#d33682', 'yellow': '#b58900', 'yellow-bg': '#07272d', 'icon-invert': '1'
         },
         'solarized-light': {
             'act1': '#eee8d5', 'act2': '#e9ddc9', 'base': '#657b83', 'base-dim': '#8a9ba3',
@@ -67,7 +67,7 @@ class ThemeSwitcher extends HTMLElement {
             'aqua': '#2aa198', 'aqua-bg': '#f2f6f8', 'green': '#859900', 'green-bg': '#f3f8fd',
             'green-bg-s': '#f3f8fd', 'cyan': '#2aa198', 'red': '#dc322f', 'red-bg': '#fdf3f2',
             'red-bg-s': '#fdf3f2', 'blue': '#268bd2', 'blue-bg': '#f3f8fd', 'blue-bg-s': '#f3f8fd',
-            'magenta': '#d33682', 'yellow': '#b58900', 'yellow-bg': '#fcf4e2'
+            'magenta': '#d33682', 'yellow': '#b58900', 'yellow-bg': '#fcf4e2', 'icon-invert': '0'
         },
         'linkedin': {
             'act1': '#313335',
@@ -128,7 +128,8 @@ class ThemeSwitcher extends HTMLElement {
             'blue-bg-s': '#CCE4F3',
             'magenta': '#8F3B8C',
             'yellow': '#DD5143',
-            'yellow-bg': '#FFF3ED'
+            'yellow-bg': '#FFF3ED',
+            'icon-invert': '0'
         }
     };
 

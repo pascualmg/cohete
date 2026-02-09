@@ -54,12 +54,12 @@ class Kernel
         $deferred = new Deferred();
 
         $method = strtoupper($request->getMethod());
-        $uri = $request->getUri()->getPath();
+        $uri = $request->getUri()->getPath( );
 
         //https://github.com/nikic/FastRoute
         $routeInfo = $dispatcher->dispatch($method, $uri);
 
-        switch ($routeInfo[0]) {
+      switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
                 // ... 404 Not Found
                 $deferred->resolve(
