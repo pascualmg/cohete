@@ -21,7 +21,8 @@
         "bunny/bunny": "^0.5.5",
         "ext-fileinfo": "*",
         "monolog/monolog": "^3.5",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+      "ext-ftp": "*"
     },
     "require-dev": {
       "roave/security-advisories": "dev-latest" ,

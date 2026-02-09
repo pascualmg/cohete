@@ -400,10 +400,10 @@ class ExperienceTimeline extends HTMLElement {
     }
 
     calculateDuration(startDate, endDate) {
-        if (!startDate || !endDate) return '';
+        if (!startDate) return '';
 
         const start = new Date(startDate);
-        const end = new Date(endDate);
+        const end = endDate ? new Date(endDate) : new Date();
 
         if (isNaN(start.getTime()) || isNaN(end.getTime())) return '';
 
@@ -467,9 +467,8 @@ class ExperienceTimeline extends HTMLElement {
     }
 
     renderProject(proj) {
-        proj.achievements = [];
-        proj.technologies = [];
-        proj.highlights = [];
+        proj.technologies = proj.technologies || [];
+        proj.highlights = proj.highlights || [];
 
         return  `
       <div class="project">
@@ -480,10 +479,6 @@ class ExperienceTimeline extends HTMLElement {
         </div>
         <div class="technologies">
           ${proj.technologies.map(tech => `<span class="tech-item">${tech}</span>`).join('')}
-        </div>
-        <div class="section-title">¿Que se logró?:</div>
-        <div class="achievements">
-          ${proj.achievements.map(achievement => `<div class="item">${achievement}</div>`).join('')}
         </div>
       </div>
     `;

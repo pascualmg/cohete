@@ -18,7 +18,7 @@ $googleObservable = Observable::fromPromise(
 );
 
 Scheduler::setDefaultFactory(
-    function () use ($loop) {
+    static function () use ($loop) {
         return new Scheduler\EventLoopScheduler($loop);
     }
 );

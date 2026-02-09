@@ -5,15 +5,15 @@ namespace pascualmg\cohete\ddd\Application\Post;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use React\Promise\PromiseInterface;
 
-class FindAllPosts
+readonly class FindAllPosts
 {
     public function __construct(
-        private readonly PostRepository $postRepository
+        private PostRepository $postRepository
     ) {
     }
 
 
-    public function __invoke(FindAllPostsQuery $findAllPostsQuery): PromiseInterface
+    public function __invoke(FindAllPostsQuery $_): PromiseInterface
     {
         return $this->postRepository->findAll();
     }
