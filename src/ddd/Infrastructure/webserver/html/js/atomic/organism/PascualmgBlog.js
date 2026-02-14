@@ -1,442 +1,291 @@
+import '../molecule/PostDetail.js';
+
 class PascualmgBlog extends HTMLElement {
     constructor() {
         super();
         this.attachShadow({ mode: 'open' });
         this.posts = [];
-        this.selectedPost = null;
-        this.loading = true;
-        this.error = null;
-    }
-
-    connectedCallback() {
         this.render();
         this.fetchPosts();
     }
 
-    async fetchPosts() {
-        try {
-            const response = await fetch('/post');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            this.posts = await response.json();
-            this.loading = false;
-            this.render();
-        } catch (error) {
-            this.error = error.message;
-            this.loading = false;
-            this.render();
+    fetchPosts() {
+        const loading = this.shadowRoot.querySelector('.loading');
+        if (loading) loading.style.display = 'block';
+
+        fetch('/post')
+            .then(res => res.json())
+            .then(posts => {
+                this.posts = posts;
+                this.renderList();
+            })
+            .catch(err => {
+                this.renderError(err.message);
+            });
+    }
+
+    renderList() {
+        const container = this.shadowRoot.querySelector('.content');
+        if (!container) return;
+
+        if (this.posts.length === 0) {
+            container.innerHTML = `
+                <div class="empty">
+                    <h2>No hay posts todavia</h2>
+                    <p>Publica el primero con <code>publish mi-post.org</code></p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = `
+            <div class="post-list">
+                ${this.posts.map(post => `
+                    <article class="post-card" data-id="${post.id}">
+                        <h2 class="post-title">${this.escapeHtml(post.headline)}</h2>
+                        <div class="post-meta">
+                            <span class="post-author">${this.escapeHtml(post.author)}</span>
+                            <span class="post-date">${this.formatDate(post.datePublished)}</span>
+                        </div>
+                        <p class="post-excerpt">${this.getExcerpt(post.articleBody)}</p>
+                        <span class="read-more">Leer mas</span>
+                    </article>
+                `).join('')}
+            </div>
+        `;
+
+        container.querySelectorAll('.post-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const id = card.getAttribute('data-id');
+                const post = this.posts.find(p => p.id === id);
+                if (post) this.showPost(post);
+            });
+        });
+    }
+
+    showPost(post) {
+        const container = this.shadowRoot.querySelector('.content');
+        container.innerHTML = '';
+
+        const detail = document.createElement('post-detail');
+        detail.setPost(post);
+        detail.addEventListener('back', () => this.renderList());
+        container.appendChild(detail);
+    }
+
+    renderError(message) {
+        const container = this.shadowRoot.querySelector('.content');
+        if (container) {
+            container.innerHTML = `<div class="error">Error: ${message}</div>`;
         }
     }
 
-    selectPost(post) {
-        this.selectedPost = post;
-        this.render();
+    getExcerpt(html) {
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+        const text = tmp.textContent || tmp.innerText || '';
+        return text.length > 200 ? text.substring(0, 200) + '...' : text;
     }
 
-    goBack() {
-        this.selectedPost = null;
-        this.render();
-    }
-
-    formatDate(dateString) {
+    formatDate(dateStr) {
         try {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('es-ES', {
+                year: 'numeric', month: 'long', day: 'numeric'
             });
         } catch {
-            return dateString;
+            return dateStr;
         }
     }
 
-    renderLoading() {
-        return `
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>Cargando posts...</p>
-            </div>
-        `;
-    }
-
-    renderError() {
-        return `
-            <div class="error">
-                <div class="icon">!</div>
-                <h2>Error al cargar los posts</h2>
-                <p>${this.error}</p>
-                <button class="retry-btn">Reintentar</button>
-            </div>
-        `;
-    }
-
-    renderEmpty() {
-        return `
-            <div class="empty">
-                <div class="icon">~</div>
-                <h2>No hay posts todavia</h2>
-                <p>El blog esta vacio. Pronto habra contenido interesante.</p>
-            </div>
-        `;
-    }
-
-    renderPostList() {
-        if (this.posts.length === 0) {
-            return this.renderEmpty();
-        }
-
-        const postsHtml = this.posts.map((post, index) => `
-            <article class="post-card" data-index="${index}">
-                <header>
-                    <h2 class="post-title">${post.headline}</h2>
-                    <div class="post-meta">
-                        <span class="author">${post.author}</span>
-                        <span class="date">${this.formatDate(post.datePublished)}</span>
-                    </div>
-                </header>
-                <p class="post-excerpt">${post.articleBody.substring(0, 200)}...</p>
-                <footer>
-                    <span class="read-more">Leer mas &rarr;</span>
-                </footer>
-            </article>
-        `).join('');
-
-        return `
-            <div class="posts-header">
-                <h1>Blog</h1>
-                <p class="subtitle">Reflexiones sobre PHP asincrono, DDD y desarrollo web</p>
-            </div>
-            <div class="posts-grid">
-                ${postsHtml}
-            </div>
-        `;
-    }
-
-    renderPostDetail() {
-        const post = this.selectedPost;
-        // Convert org-mode style content to HTML-ish
-        const formattedBody = post.articleBody
-            .split('\n')
-            .map(line => {
-                // Headers
-                if (line.startsWith('* ')) {
-                    return `<h2>${line.substring(2)}</h2>`;
-                }
-                if (line.startsWith('** ')) {
-                    return `<h3>${line.substring(3)}</h3>`;
-                }
-                // Code blocks (simplified)
-                if (line.startsWith('#+BEGIN_SRC')) {
-                    return '<pre><code>';
-                }
-                if (line.startsWith('#+END_SRC')) {
-                    return '</code></pre>';
-                }
-                // Empty lines
-                if (line.trim() === '') {
-                    return '<br>';
-                }
-                // Regular paragraphs
-                return `<p>${line}</p>`;
-            })
-            .join('');
-
-        return `
-            <article class="post-detail">
-                <button class="back-btn">&larr; Volver al blog</button>
-                <header>
-                    <h1>${post.headline}</h1>
-                    <div class="post-meta">
-                        <span class="author">Por ${post.author}</span>
-                        <span class="separator">|</span>
-                        <span class="date">${this.formatDate(post.datePublished)}</span>
-                    </div>
-                </header>
-                <div class="post-content">
-                    ${formattedBody}
-                </div>
-            </article>
-        `;
+    escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
     }
 
     render() {
-        let content;
-
-        if (this.loading) {
-            content = this.renderLoading();
-        } else if (this.error) {
-            content = this.renderError();
-        } else if (this.selectedPost) {
-            content = this.renderPostDetail();
-        } else {
-            content = this.renderPostList();
-        }
-
         this.shadowRoot.innerHTML = `
             <style>
                 :host {
                     display: block;
                     font-family: 'Hasklig', 'Fira Code', monospace;
                     padding: 20px;
-                    max-width: 900px;
+                    max-width: 800px;
                     margin: 0 auto;
-                    color: var(--base, #333);
+                    color: var(--base, #ccc);
                 }
 
-                /* Loading */
+                h1 {
+                    color: var(--head1, #4f97d7);
+                    font-size: 28px;
+                    margin-bottom: 8px;
+                }
+
+                .subtitle {
+                    color: var(--base-dim, #888);
+                    font-size: 14px;
+                    margin-bottom: 30px;
+                }
+
                 .loading {
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
-                    min-height: 300px;
-                }
-
-                .spinner {
-                    width: 40px;
-                    height: 40px;
-                    border: 3px solid var(--bg3, #eee);
-                    border-top-color: var(--keyword, #7c3aed);
-                    border-radius: 50%;
-                    animation: spin 1s linear infinite;
-                }
-
-                @keyframes spin {
-                    to { transform: rotate(360deg); }
-                }
-
-                /* Error */
-                .error, .empty {
+                    color: var(--comment, #666);
                     text-align: center;
                     padding: 40px;
                 }
 
-                .error .icon, .empty .icon {
-                    font-size: 48px;
-                    margin-bottom: 20px;
-                    color: var(--err, #e53e3e);
-                }
-
-                .empty .icon {
-                    color: var(--base-dim, #666);
-                }
-
-                .retry-btn {
-                    margin-top: 20px;
-                    padding: 10px 20px;
-                    background: var(--keyword, #7c3aed);
-                    color: white;
-                    border: none;
+                .error {
+                    color: var(--err, #e0211d);
+                    padding: 20px;
+                    border: 1px solid var(--err, #e0211d);
                     border-radius: 4px;
-                    cursor: pointer;
-                    font-family: inherit;
                 }
 
-                .retry-btn:hover {
-                    opacity: 0.9;
+                .empty {
+                    text-align: center;
+                    padding: 60px 20px;
+                    color: var(--base-dim, #888);
                 }
 
-                /* Posts Header */
-                .posts-header {
-                    margin-bottom: 30px;
-                    border-bottom: 1px solid var(--border, #e2e8f0);
-                    padding-bottom: 20px;
+                .empty code {
+                    background: var(--bg3, #333);
+                    padding: 2px 8px;
+                    border-radius: 3px;
+                    font-size: 14px;
                 }
 
-                .posts-header h1 {
-                    font-size: 2rem;
-                    margin: 0 0 10px 0;
-                    color: var(--head1, #1a202c);
-                }
-
-                .subtitle {
-                    color: var(--base-dim, #666);
-                    margin: 0;
-                }
-
-                /* Posts Grid */
-                .posts-grid {
-                    display: grid;
+                .post-list {
+                    display: flex;
+                    flex-direction: column;
                     gap: 20px;
                 }
 
-                /* Post Card */
                 .post-card {
-                    background: var(--bg2, #f7fafc);
-                    border: 1px solid var(--border, #e2e8f0);
-                    border-radius: 8px;
+                    background: var(--bg2, #292b2e);
+                    border: 1px solid var(--border, #555);
+                    border-radius: 6px;
                     padding: 20px;
                     cursor: pointer;
-                    transition: transform 0.2s, box-shadow 0.2s;
+                    transition: border-color 0.2s, transform 0.2s;
                 }
 
                 .post-card:hover {
+                    border-color: var(--act2, #4f97d7);
                     transform: translateY(-2px);
-                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
                 }
 
                 .post-title {
-                    font-size: 1.25rem;
-                    margin: 0 0 10px 0;
-                    color: var(--head2, #2d3748);
+                    color: var(--head2, #2d9574);
+                    font-size: 20px;
+                    margin: 0 0 8px 0;
                 }
 
                 .post-meta {
-                    font-size: 0.85rem;
-                    color: var(--base-dim, #666);
-                    margin-bottom: 15px;
-                }
-
-                .post-meta .author {
-                    color: var(--func, #805ad5);
-                }
-
-                .post-meta .date {
-                    margin-left: 10px;
+                    display: flex;
+                    gap: 16px;
+                    font-size: 13px;
+                    color: var(--comment, #666);
+                    margin-bottom: 12px;
                 }
 
                 .post-excerpt {
-                    color: var(--base, #4a5568);
+                    color: var(--base-dim, #aaa);
+                    font-size: 14px;
                     line-height: 1.6;
-                    margin: 0 0 15px 0;
+                    margin: 0;
                 }
 
                 .read-more {
-                    color: var(--keyword, #7c3aed);
-                    font-size: 0.9rem;
-                    font-weight: 500;
+                    display: inline-block;
+                    margin-top: 12px;
+                    font-size: 13px;
+                    color: var(--func, #bc6ec5);
                 }
 
-                /* Post Detail */
-                .post-detail {
-                    max-width: 700px;
-                    margin: 0 auto;
+                .upload-section {
+                    margin-top: 30px;
+                    padding: 20px;
+                    border: 2px dashed var(--border, #555);
+                    border-radius: 6px;
+                    text-align: center;
                 }
 
-                .back-btn {
-                    background: none;
-                    border: none;
-                    color: var(--keyword, #7c3aed);
+                .upload-section label {
                     cursor: pointer;
-                    font-family: inherit;
-                    font-size: 1rem;
-                    padding: 10px 0;
-                    margin-bottom: 20px;
+                    color: var(--act2, #4f97d7);
+                    font-size: 14px;
                 }
 
-                .back-btn:hover {
-                    text-decoration: underline;
+                .upload-section label:hover {
+                    color: var(--func, #bc6ec5);
                 }
 
-                .post-detail header {
-                    margin-bottom: 30px;
-                    border-bottom: 1px solid var(--border, #e2e8f0);
-                    padding-bottom: 20px;
+                .upload-section input[type="file"] {
+                    display: none;
                 }
 
-                .post-detail h1 {
-                    font-size: 2rem;
-                    margin: 0 0 15px 0;
-                    color: var(--head1, #1a202c);
-                    line-height: 1.3;
+                .upload-status {
+                    margin-top: 10px;
+                    font-size: 13px;
+                    color: var(--comment, #666);
                 }
 
-                .post-detail .post-meta {
-                    font-size: 0.9rem;
+                .upload-status.success {
+                    color: var(--suc, #2d9574);
                 }
 
-                .separator {
-                    margin: 0 10px;
-                    color: var(--border, #e2e8f0);
-                }
-
-                .post-content {
-                    line-height: 1.8;
-                    color: var(--base, #4a5568);
-                }
-
-                .post-content h2 {
-                    font-size: 1.5rem;
-                    color: var(--head2, #2d3748);
-                    margin: 30px 0 15px 0;
-                }
-
-                .post-content h3 {
-                    font-size: 1.25rem;
-                    color: var(--head3, #4a5568);
-                    margin: 25px 0 10px 0;
-                }
-
-                .post-content p {
-                    margin: 0 0 15px 0;
-                }
-
-                .post-content pre {
-                    background: var(--bg3, #1a202c);
-                    color: var(--base, #e2e8f0);
-                    padding: 15px;
-                    border-radius: 4px;
-                    overflow-x: auto;
-                    font-size: 0.9rem;
-                }
-
-                .post-content code {
-                    font-family: 'Hasklig', 'Fira Code', monospace;
-                }
-
-                /* Responsive */
-                @media (max-width: 768px) {
-                    :host {
-                        padding: 15px;
-                    }
-
-                    .posts-header h1 {
-                        font-size: 1.5rem;
-                    }
-
-                    .post-title {
-                        font-size: 1.1rem;
-                    }
-
-                    .post-detail h1 {
-                        font-size: 1.5rem;
-                    }
+                .upload-status.error {
+                    color: var(--err, #e0211d);
                 }
             </style>
-            ${content}
+
+            <h1>Blog</h1>
+            <p class="subtitle">pascualmg.dev</p>
+
+            <div class="upload-section">
+                <label for="org-upload">Publicar archivo .org</label>
+                <input type="file" id="org-upload" accept=".org">
+                <div class="upload-status"></div>
+            </div>
+
+            <div class="content">
+                <div class="loading">Cargando posts...</div>
+            </div>
         `;
 
-        // Add event listeners
-        this.addEventListeners();
+        const fileInput = this.shadowRoot.querySelector('#org-upload');
+        fileInput.addEventListener('change', (e) => this.handleUpload(e));
     }
 
-    addEventListeners() {
-        // Post card click
-        this.shadowRoot.querySelectorAll('.post-card').forEach(card => {
-            card.addEventListener('click', () => {
-                const index = parseInt(card.dataset.index);
-                this.selectPost(this.posts[index]);
-            });
-        });
+    handleUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
 
-        // Back button
-        const backBtn = this.shadowRoot.querySelector('.back-btn');
-        if (backBtn) {
-            backBtn.addEventListener('click', () => this.goBack());
-        }
+        const status = this.shadowRoot.querySelector('.upload-status');
+        status.textContent = `Subiendo ${file.name}...`;
+        status.className = 'upload-status';
 
-        // Retry button
-        const retryBtn = this.shadowRoot.querySelector('.retry-btn');
-        if (retryBtn) {
-            retryBtn.addEventListener('click', () => {
-                this.loading = true;
-                this.error = null;
-                this.render();
-                this.fetchPosts();
-            });
-        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            fetch('/post/org', {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: e.target.result,
+            })
+                .then(res => res.json())
+                .then(result => {
+                    status.textContent = `Publicado: ${result.headline}`;
+                    status.className = 'upload-status success';
+                    this.fetchPosts();
+                })
+                .catch(err => {
+                    status.textContent = `Error: ${err.message}`;
+                    status.className = 'upload-status error';
+                });
+        };
+        reader.readAsText(file);
+
+        event.target.value = '';
     }
 }
 

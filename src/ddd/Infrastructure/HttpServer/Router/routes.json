@@ -41,7 +41,7 @@
   },
   {
     "method": "POST",
-    "path": "/post/import-org",
-    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\ImportPostFromFileController"
+    "path": "/post/org",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\UploadOrgController"
   }
 ]

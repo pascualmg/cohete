@@ -30,9 +30,8 @@ class CreatePostController implements HttpRequestHandler
                 $payload['id'],
                 $payload['headline'],
                 $payload['articleBody'],
-                $payload['image'],
+                $payload['author'],
                 $payload['datePublished'],
-                $payload['datePublished']
             )
         );
 
