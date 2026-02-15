@@ -19,7 +19,7 @@ class CreatePostController implements HttpRequestHandler
 
     public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface|PromiseInterface
     {
-        $body = $request->getBody()->getContents();
+        $body = (string) $request->getBody();
         try {
             $payload = json_decode($body, true, 512, JSON_THROW_ON_ERROR);
         } catch (\JsonException $e) {
