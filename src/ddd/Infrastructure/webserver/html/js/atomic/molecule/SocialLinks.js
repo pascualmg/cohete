@@ -76,29 +76,9 @@ class SocialLinks extends HTMLElement {
                     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
                 }
                 
-                a::before {
-                    content: '';
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    bottom: 0;
-                    background: linear-gradient(135deg, var(--green), var(--comp));
-                    border-radius: 50%;
-                    opacity: 0;
-                    transform: scale(0);
-                    transition: all 0.3s ease;
-                    z-index: 1;
-                }
-                
-                a:hover::before {
-                    opacity: 1;
-                    transform: scale(1);
-                }
-                
                 a:hover {
-                    transform: translateY(-5px) scale(1.1);
-                    box-shadow: 0 8px 25px rgba(0, 255, 136, 0.4);
+                    transform: translateY(-3px);
+                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
                     border-color: var(--green);
                 }
                 

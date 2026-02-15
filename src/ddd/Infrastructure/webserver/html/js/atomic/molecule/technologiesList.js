@@ -19,8 +19,7 @@ class TechnologiesList extends HTMLElement {
         this.shadowRoot.innerHTML = `
         <style>
             .technologies-container {
-                margin: auto;
-                max-width: 1000px;
+                margin: 0 auto;
                 padding: 20px;
                 background: var(--head2-bg);
                 border-radius: 20px;
@@ -87,7 +86,7 @@ class TechnologiesList extends HTMLElement {
             }
             .technologies-list li:hover {
                 transform: translateY(-8px) scale(1.05);
-                box-shadow: 0 12px 35px rgba(0, 255, 136, 0.3);
+                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
                 border-color: var(--green);
             }
             .technologies-list img {
@@ -101,24 +100,8 @@ class TechnologiesList extends HTMLElement {
             }
             .technologies-list li:hover img {
                 transform: scale(1.1);
-                filter: drop-shadow(0 4px 15px rgba(0, 255, 136, 0.4));
+                filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.2));
             }
-            @keyframes techFloat {
-                0%, 100% { transform: translateY(0px); }
-                50% { transform: translateY(-3px); }
-            }
-            .technologies-list li {
-                animation: techFloat 3s ease-in-out infinite;
-            }
-            .technologies-list li:nth-child(1) { animation-delay: 0.1s; }
-            .technologies-list li:nth-child(2) { animation-delay: 0.2s; }
-            .technologies-list li:nth-child(3) { animation-delay: 0.3s; }
-            .technologies-list li:nth-child(4) { animation-delay: 0.4s; }
-            .technologies-list li:nth-child(5) { animation-delay: 0.5s; }
-            .technologies-list li:nth-child(6) { animation-delay: 0.6s; }
-            .technologies-list li:nth-child(7) { animation-delay: 0.7s; }
-            .technologies-list li:nth-child(8) { animation-delay: 0.8s; }
-            .technologies-list li:nth-child(9) { animation-delay: 0.9s; }
             @media (min-width: 480px) {
                 .technologies-container {
                     padding: 25px;

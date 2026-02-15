@@ -17,46 +17,37 @@ class PortfolioElement extends HTMLElement {
   connectedCallback() {
     this.shadowRoot.innerHTML = `
             <style>
-                /* Estilos generales */
-                body {
-                    background-color: var(--bg1);
-                    color: var(--base);
-                    font-family: Arial, sans-serif;
-                }
-
-                header {
-                    background-color: var(--bg1);
+                :host {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 20px;
+                    max-width: 900px;
+                    margin: 0 auto;
                     padding: 10px;
-                    color: var(--head1);
-                    text-align: center;
+                    width: 100%;
+                    box-sizing: border-box;
                 }
 
-                h2 {
-                color: var(--head2)
-                }
-                h3 {
-                    color: var(--head3)
+                :host > * {
+                    width: 100%;
                 }
 
-                section {
-                background: linear-gradient( var(--bg1), var(--base-dim));
-                    color: var(--head2);
-                    margin: 10px;
-                    padding: 10px;
-                    border-radius: 10px;
-                    border: 1px solid var(--border);
-                }
- 
                 .about-this-portfolio-container {
                     display: flex;
                     justify-content: center;
-                    margin: 20px;
+                    width: 100%;
                 }
-                
-                
+
+                @media (min-width: 768px) {
+                    :host {
+                        gap: 25px;
+                        padding: 15px;
+                    }
+                }
             </style>
            <portfolio-header></portfolio-header>
-          
+
   <social-links links='[
          {"name": "phone", "url": "tel:+34693000983"},
          {"name": "email", "url": "mailto:info@pascualmg.dev"},
@@ -65,6 +56,36 @@ class PortfolioElement extends HTMLElement {
          {"name": "twitter", "url": "https://twitter.com/pascualmg"}
          ]'>
   </social-links>
+
+<div class="about-this-portfolio-container">
+<yast-modal button-text="Que tiene de especial este Portfolio" class="custom-button">
+    <about-this-portfolio slot="content"></about-this-portfolio>
+</yast-modal>
+</div>
+
+ <soft-skills
+        skills='[
+          "Trabajo muy bien en equipo.",
+          "Tengo una alta disposición para aprender nuevos lenguajes y tecnologías.",
+          "Buen comunicador con compañeros y clientes no técnicos",
+          "Capacidad para encontrar formas creativas de resolver problemas técnicos y adaptarse a nuevos desafíos",
+          "Autodidacta y entusiasta de la programación",
+          "Creador de mi propio framework para crear API RESTful asíncronas con ReactPHP."
+        ]'
+
+      ></soft-skills>
+
+ <technologies-list images='[
+    {"src": "https://raw.githubusercontent.com/NixOS/nixos-artwork/53ea652ec7d8af5d21fd2b79b6c49cb39078ddfb/logo/nixos.svg", "alt": "nixos"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Haskell-logo2.svg", "alt": "haskell"},
+    {"src": "https://chuidiang.org/images/f/f3/Logo_php.png", "alt": "php"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Github-desktop-logo-symbol.svg", "alt": "github"},
+    {"src": "https://raw.githubusercontent.com/reactphp/branding/main/reactphp-logo.svg", "alt": "reactphp"},
+    {"src": "https://symfony.com/logos/symfony_black_03.png", "alt": "symfony"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg", "alt": "javascript"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg", "alt": "html5"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg", "alt": "css3"}
+]'></technologies-list>
 
 <experience-timeline  data='[
   {
@@ -193,35 +214,6 @@ class PortfolioElement extends HTMLElement {
     ]
   }
 ]'></experience-timeline>
-
- <soft-skills
-        skills='[
-          "Trabajo muy bien en equipo.",
-          "Tengo una alta disposición para aprender nuevos lenguajes y tecnologías.",
-          "Buen comunicador con compañeros y clientes no técnicos",
-          "Capacidad para encontrar formas creativas de resolver problemas técnicos y adaptarse a nuevos desafíos",
-          "Autodidacta y entusiasta de la programación",
-          "Creador de mi propio framework para crear API RESTful asíncronas con ReactPHP."
-        ]'
-
-      ></soft-skills>
-
-<div class="about-this-portfolio-container">
-<yast-modal button-text="Que tiene de especial este Portfolio" class="custom-button">
-    <about-this-portfolio slot="content"></about-this-portfolio>
-</yast-modal>
-</div>
- <technologies-list images='[
-    {"src": "https://raw.githubusercontent.com/NixOS/nixos-artwork/53ea652ec7d8af5d21fd2b79b6c49cb39078ddfb/logo/nixos.svg", "alt": "nixos"},
-    {"src": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Haskell-logo2.svg", "alt": "haskell"},
-    {"src": "https://chuidiang.org/images/f/f3/Logo_php.png", "alt": "php"},
-    {"src": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Github-desktop-logo-symbol.svg", "alt": "github"},
-    {"src": "https://raw.githubusercontent.com/reactphp/branding/main/reactphp-logo.svg", "alt": "reactphp"},
-    {"src": "https://symfony.com/logos/symfony_black_03.png", "alt": "symfony"},
-    {"src": "https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg", "alt": "javascript"},
-    {"src": "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg", "alt": "html5"},
-    {"src": "https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg", "alt": "css3"}
-]'></technologies-list>
         `;
   }
 }

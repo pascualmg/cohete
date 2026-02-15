@@ -49,7 +49,7 @@ class YastModal extends HTMLElement {
           font-weight: bold;
           font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
           transition: all 0.3s ease;
-          box-shadow: 0 3px 12px rgba(0, 255, 136, 0.3);
+          box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
           text-transform: uppercase;
           letter-spacing: 0.8px;
           position: relative;
@@ -59,19 +59,15 @@ class YastModal extends HTMLElement {
           align-items: center;
           justify-content: center;
         }
-        button::before {
-          content: '🚀 ';
-          font-size: 1.2em;
-        }
         button:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(0, 255, 136, 0.4);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
           background: linear-gradient(135deg, var(--modal-button-hover), var(--head2, #cccccc));
           color: var(--bg1, #0a0a0a);
         }
         button:active {
           transform: translateY(0);
-          box-shadow: 0 2px 10px rgba(0, 255, 136, 0.2);
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         .modal-container {
           display: none;
@@ -95,7 +91,7 @@ class YastModal extends HTMLElement {
           max-height: 95%;
           overflow: auto;
           position: relative;
-          box-shadow: 0 15px 50px rgba(0, 255, 136, 0.3);
+          box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
           animation: modalSlideIn 0.4s ease-out;
           margin: 10px;
         }

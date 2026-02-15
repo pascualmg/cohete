@@ -17,7 +17,7 @@ class AboutThisPortfolio extends HTMLElement {
           padding: 30px;
           border-radius: 20px;
           border: 2px solid var(--border, #444444);
-          box-shadow: 0 20px 60px rgba(0, 255, 136, 0.2);
+          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
           animation: fadeIn 0.5s ease-out;
         }
         h2 {
@@ -33,7 +33,6 @@ class AboutThisPortfolio extends HTMLElement {
         .highlight {
           color: var(--green, #00ff88);
           font-weight: bold;
-          text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
         }
         .tech-stack {
           display: flex;
@@ -51,11 +50,11 @@ class AboutThisPortfolio extends HTMLElement {
           font-weight: bold;
           transition: all 0.3s ease;
           border: 2px solid var(--border, #444444);
-          box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         }
         .tech-item:hover {
           transform: translateY(-5px) scale(1.05);
-          box-shadow: 0 8px 25px rgba(0, 255, 136, 0.5);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
         }
         .cta {
           text-align: center;
@@ -84,7 +83,7 @@ class AboutThisPortfolio extends HTMLElement {
           color: var(--green, #00ff88);
         }
         .feature-list li::before {
-          content: '🚀';
+          content: '▹';
           position: absolute;
           left: 0;
           color: var(--comp, #ff6b6b);

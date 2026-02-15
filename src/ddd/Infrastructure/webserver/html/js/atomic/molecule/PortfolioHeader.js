@@ -18,28 +18,10 @@ class PortfolioHeader extends HTMLElement {
                     justify-content: center;
                     background: linear-gradient(135deg, var(--bg1), var(--head2-bg));
                     border-radius: 20px;
-                    margin: 10px;
                     border: 2px solid var(--border);
                     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
                     position: relative;
                     overflow: hidden;
-                }
-                
-                .portfolio-header::before {
-                    content: '';
-                    position: absolute;
-                    top: -50%;
-                    left: -50%;
-                    width: 200%;
-                    height: 200%;
-                    background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
-                    animation: rotate 20s linear infinite;
-                    z-index: 0;
-                }
-                
-                .portfolio-header > * {
-                    position: relative;
-                    z-index: 1;
                 }
                 
                 .header-photo img {
@@ -49,14 +31,13 @@ class PortfolioHeader extends HTMLElement {
                     object-fit: cover;
                     margin-bottom: 15px;
                     border: 3px solid var(--green);
-                    box-shadow: 0 6px 20px rgba(0, 255, 136, 0.3);
+                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
                     transition: all 0.3s ease;
-                    animation: profilePulse 3s ease-in-out infinite;
                 }
                 
                 .header-photo img:hover {
                     transform: scale(1.05);
-                    box-shadow: 0 12px 35px rgba(0, 255, 136, 0.5);
+                    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
                 }
 
                 .header-title {
@@ -64,7 +45,6 @@ class PortfolioHeader extends HTMLElement {
                     font-size: 1.6rem;
                     margin-bottom: 12px;
                     font-weight: bold;
-                    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
                     animation: slideInDown 1s ease-out;
                     line-height: 1.2;
                 }
@@ -74,7 +54,6 @@ class PortfolioHeader extends HTMLElement {
                     font-size: 1.2rem;
                     margin-bottom: 12px;
                     font-weight: 600;
-                    text-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
                     animation: slideInLeft 1s ease-out 0.3s both;
                     line-height: 1.3;
                 }
@@ -85,16 +64,6 @@ class PortfolioHeader extends HTMLElement {
                     font-style: italic;
                     animation: slideInRight 1s ease-out 0.6s both;
                     line-height: 1.4;
-                }
-                
-                @keyframes rotate {
-                    from { transform: rotate(0deg); }
-                    to { transform: rotate(360deg); }
-                }
-                
-                @keyframes profilePulse {
-                    0%, 100% { transform: scale(1); }
-                    50% { transform: scale(1.02); }
                 }
                 
                 @keyframes slideInDown {
@@ -133,7 +102,6 @@ class PortfolioHeader extends HTMLElement {
                 @media (min-width: 480px) {
                     .portfolio-header {
                         padding: 35px 20px;
-                        margin: 15px;
                         border-radius: 25px;
                     }
 
@@ -162,7 +130,6 @@ class PortfolioHeader extends HTMLElement {
                 @media (min-width: 768px) {
                     .portfolio-header {
                         padding: 50px 40px;
-                        margin: 20px;
                         border-radius: 30px;
                     }
 

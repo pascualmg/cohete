@@ -17,7 +17,6 @@ class SoftSkills extends HTMLElement {
                     display: block;
                     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                     color: var(--base);
-                    max-width: 800px;
                     margin: 0 auto;
                     padding: 15px;
                     background: var(--head2-bg);
@@ -53,7 +52,7 @@ class SoftSkills extends HTMLElement {
                     font-size: 0.9em;
                 }
                 li:hover {
-                    transform: translateX(10px);
+                    transform: translateX(4px);
                     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
                     border-color: var(--green);
                     background: linear-gradient(135deg, var(--bg1), var(--head2-bg));

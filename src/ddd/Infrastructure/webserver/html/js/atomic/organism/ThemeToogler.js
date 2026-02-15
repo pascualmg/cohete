@@ -32,9 +32,9 @@ class ThemeToggler extends HTMLElement {
                 border: none;
                 height: 60px;
                 background: linear-gradient(var(--bg1), var(--str));
-                color: white;
+                color: var(--base);
                 cursor: pointer;
-                font-size: 0.5rem;
+                font-size: 0.75rem;
                 display: flex;
                 align-items: center;
                 justify-content: center;

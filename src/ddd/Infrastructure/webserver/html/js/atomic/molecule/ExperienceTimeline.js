@@ -21,7 +21,7 @@ class ExperienceTimeline extends HTMLElement {
                     --project-node-size: 14px;
                     --company-node-color: var(--head1);
                     --project-node-color: var(--head2);
-                    --max-width: 100%;
+                    --max-width: 800px;
                 }
                 .timeline-container {
                     max-width: var(--max-width);
@@ -171,12 +171,11 @@ class ExperienceTimeline extends HTMLElement {
                 }
                 .tech-item:hover {
                     transform: translateY(-2px) scale(1.05);
-                    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
+                    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
                 }
 
                 @media (min-width: 480px) {
                     :host {
-                        --max-width: 600px;
                         --company-node-size: 22px;
                         --project-node-size: 15px;
                     }
@@ -254,7 +253,6 @@ class ExperienceTimeline extends HTMLElement {
 
                 @media (min-width: 768px) {
                     :host {
-                        --max-width: 750px;
                         --company-node-size: 26px;
                         --project-node-size: 18px;
                     }
@@ -335,7 +333,6 @@ class ExperienceTimeline extends HTMLElement {
 
                 @media (min-width: 1024px) {
                     :host {
-                        --max-width: 800px;
                         --company-node-size: 30px;
                         --project-node-size: 20px;
                     }

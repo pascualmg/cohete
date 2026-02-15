@@ -11,14 +11,6 @@ class PascualmgSpa extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
                 <style>
-                @font-face {
-                    font-family: Hasklig;
-                    src: url('https://raw.githubusercontent.com/pascualmg/cdn/fonts/Hasklig/HasklugNerdFont-Regular.otfg') format('opentype');
-                    font-weight: normal;
-                    font-style: normal;
-                    font-display: swap;
-                }
-
                 * {
                     margin: 0;
                     padding: 0;
@@ -26,7 +18,7 @@ class PascualmgSpa extends HTMLElement {
                 }
 
                 :host {
-                    font-family: 'Hasklig', Arial, sans-serif;
+                    font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
                     display: grid;
                     grid-template-columns: 1fr;
                     grid-template-rows: auto 1fr auto;
