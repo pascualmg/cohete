@@ -19,6 +19,7 @@ class CreatePostCommandHandler
             $createPostCommand->articleBody,
             $createPostCommand->author,
             $createPostCommand->datePublished,
+            $createPostCommand->orgSource,
         );
     }
 }

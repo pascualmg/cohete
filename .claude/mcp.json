@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "cohete-blog": {
+      "command": "nix",
+      "args": ["develop", "--command", "php src/mcp-server.php"],
+      "cwd": "/home/passh/src/cohete"
+    }
+  }
+}

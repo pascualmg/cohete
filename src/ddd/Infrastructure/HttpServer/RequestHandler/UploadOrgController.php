@@ -44,6 +44,7 @@ class UploadOrgController implements HttpRequestHandler
                 $html,
                 $metadata['author'],
                 $datePublished,
+                $orgContent,
             )
         );
 

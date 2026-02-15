@@ -28,6 +28,7 @@
           devShells.default = pkgs.mkShellNoCC {
             name = "php-devshell";
             buildInputs = [
+              pkgs.bashInteractive
               php
               php.packages.composer
               php.packages.phpstan

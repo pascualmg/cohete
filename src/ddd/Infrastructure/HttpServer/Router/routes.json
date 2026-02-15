@@ -43,5 +43,30 @@
     "method": "POST",
     "path": "/post/org",
     "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\UploadOrgController"
+  },
+  {
+    "method": "PUT",
+    "path": "/post/{id}",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\UpdatePostController"
+  },
+  {
+    "method": "DELETE",
+    "path": "/post/{id}",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\DeletePostController"
+  },
+  {
+    "method": "GET",
+    "path": "/mcp/sse",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\McpSseController"
+  },
+  {
+    "method": "POST",
+    "path": "/mcp/message",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\McpMessageController"
+  },
+  {
+    "method": "GET",
+    "path": "/blog/{slug}",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\BlogPostController"
   }
 ]

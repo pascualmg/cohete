@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+
+namespace pascualmg\cohete\ddd\Infrastructure\MCP;
+
+use PhpMcp\Server\Server;
+use Psr\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
+
+/**
+ * Builds the MCP Server and binds Protocol <-> CoheteTransport.
+ *
+ * Se crea una sola vez en el ContainerFactory. El Protocol
+ * escucha eventos del transport y envia respuestas via SSE.
+ */
+class McpServerFactory
+{
+    public static function create(
+        ContainerInterface $container,
+        LoggerInterface $logger,
+        CoheteTransport $transport,
+    ): CoheteTransport {
+        $server = Server::make()
+            ->withServerInfo('cohete-blog', '1.0.0')
+            ->withLogger($logger)
+            ->withContainer($container)
+            ->withTool([BlogToolHandlers::class, 'listPosts'], 'list_posts', 'List all blog posts')
+            ->withTool([BlogToolHandlers::class, 'getPost'], 'get_post', 'Get a single blog post by UUID')
+            ->withTool([BlogToolHandlers::class, 'createPost'], 'create_post', 'Create a new blog post')
+            ->withTool([BlogToolHandlers::class, 'publishOrg'], 'publish_org', 'Publish a blog post from org-mode content')
+            ->withTool([BlogToolHandlers::class, 'updatePost'], 'update_post', 'Update an existing blog post')
+            ->build();
+
+        // Framework integration: bind protocol to transport without running the loop
+        $protocol = $server->getProtocol();
+        $protocol->bindTransport($transport);
+        $transport->listen(); // emits 'ready', no-op otherwise
+
+        return $transport;
+    }
+}

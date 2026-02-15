@@ -4,6 +4,7 @@ namespace pascualmg\cohete\ddd\Infrastructure\Repository\Post;
 
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
 use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Slug;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use React\Mysql\MysqlClient;
 use React\Mysql\MysqlResult;
@@ -42,6 +43,18 @@ class ObservableMysqlPostRepository implements PostRepository
             ->toPromise();
     }
 
+    public function findBySlug(Slug $slug): PromiseInterface //of Post or Null
+    {
+        $promiseOfQuery = $this->mysqlClient->query(
+            "SELECT * FROM post WHERE slug = ?",
+            [(string)$slug]
+        );
+
+        return Observable::fromPromise($promiseOfQuery)
+            ->map(fn (MysqlResult $mysqlResult) => self::hydrateOrNull($mysqlResult->resultRows[0] ?? null))
+            ->toPromise();
+    }
+
     private static function hydrateOrNull(?array $maybeResultRow): ?Post
     {
         if (null === $maybeResultRow) {
@@ -58,22 +71,25 @@ class ObservableMysqlPostRepository implements PostRepository
             $rawPost['articleBody'],
             $rawPost['author'],
             (new \DateTimeImmutable($rawPost['datePublished']))->format(\DateTimeInterface::ATOM),
+            $rawPost['orgSource'] ?? null,
         );
     }
 
     public function save(Post $postToCreate): PromiseInterface
     {
         $insertPostQuery = "
-INSERT INTO post 
-(id, headline, articleBody, author, datePublished) VALUES 
-(?,?,?,?,?)
+INSERT INTO post
+(id, headline, slug, articleBody, author, datePublished, orgSource) VALUES
+(?,?,?,?,?,?,?)
 ";
         return $this->mysqlClient->query($insertPostQuery, [
             (string)$postToCreate->id,
             (string)$postToCreate->headline,
+            (string)$postToCreate->slug,
             (string)$postToCreate->articleBody,
             (string)$postToCreate->author,
-            $postToCreate->datePublished->getDatetimeImmutable()->format('Y-m-d H:m:s')
+            $postToCreate->datePublished->getDatetimeImmutable()->format('Y-m-d H:i:s'),
+            $postToCreate->orgSource,
         ])->then(
             function (MysqlResult $mysqlResult): bool {
                 $affectedRows = $mysqlResult->affectedRows;
@@ -86,6 +102,39 @@ INSERT INTO post
                 throw $e;
             }
         );
+    }
 
+    public function update(Post $post): PromiseInterface
+    {
+        $updateQuery = "
+UPDATE post SET headline=?, slug=?, articleBody=?, author=?, datePublished=?, orgSource=? WHERE id=?
+";
+        return $this->mysqlClient->query($updateQuery, [
+            (string)$post->headline,
+            (string)$post->slug,
+            (string)$post->articleBody,
+            (string)$post->author,
+            $post->datePublished->getDatetimeImmutable()->format('Y-m-d H:i:s'),
+            $post->orgSource,
+            (string)$post->id,
+        ])->then(
+            fn (MysqlResult $mysqlResult): bool => $mysqlResult->affectedRows > 0,
+            function (\Exception $e) {
+                throw $e;
+            }
+        );
+    }
+
+    public function delete(PostId $postId): PromiseInterface
+    {
+        return $this->mysqlClient->query(
+            "DELETE FROM post WHERE id=?",
+            [$postId->value]
+        )->then(
+            fn (MysqlResult $mysqlResult): bool => $mysqlResult->affectedRows > 0,
+            function (\Exception $e) {
+                throw $e;
+            }
+        );
     }
 }

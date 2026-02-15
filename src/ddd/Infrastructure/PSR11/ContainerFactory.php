@@ -12,6 +12,8 @@ use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use pascualmg\cohete\ddd\Infrastructure\Bus\ReactMessageBus;
 use pascualmg\cohete\ddd\Infrastructure\Parser\FileParser;
 use pascualmg\cohete\ddd\Infrastructure\Parser\OrgFileParser;
+use pascualmg\cohete\ddd\Infrastructure\MCP\CoheteTransport;
+use pascualmg\cohete\ddd\Infrastructure\MCP\McpServerFactory;
 use pascualmg\cohete\ddd\Infrastructure\Repository\Post\ObservableMysqlPostRepository;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -68,6 +70,15 @@ class ContainerFactory
             MysqlClient::class => static fn (ContainerInterface $c) => new MysqlClient(
                 "{$_ENV['MYSQL_USER']}:{$_ENV['MYSQL_PASSWORD']}@{$_ENV['MYSQL_HOST']}:{$_ENV['MYSQL_PORT']}/{$_ENV['MYSQL_DATABASE']}",
             ),
+            CoheteTransport::class => static function (ContainerInterface $c) {
+                $transport = new CoheteTransport();
+                McpServerFactory::create(
+                    $c,
+                    $c->get(LoggerInterface::class),
+                    $transport,
+                );
+                return $transport;
+            },
         ];
 
         if (!empty($definitions)) {

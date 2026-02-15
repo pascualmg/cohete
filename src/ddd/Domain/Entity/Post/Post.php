@@ -19,7 +19,8 @@ class Post implements \JsonSerializable
         public readonly HeadLine $headline,
         public readonly ArticleBody $articleBody,
         public readonly Author $author,
-        public readonly DatePublished $datePublished
+        public readonly DatePublished $datePublished,
+        public readonly ?string $orgSource = null,
     ) {
         $this->slug = Slug::from((string)$this->headline);
     }
@@ -30,13 +31,15 @@ class Post implements \JsonSerializable
         string $articleBody,
         string $author,
         string $datePublished,
+        ?string $orgSource = null,
     ): Post {
         return new Post(
             PostId::from($id),
             HeadLine::from($headline),
             ArticleBody::from($articleBody),
             Author::from($author),
-            DatePublished::from($datePublished)
+            DatePublished::from($datePublished),
+            $orgSource,
         );
     }
 
@@ -48,7 +51,8 @@ class Post implements \JsonSerializable
             'slug' => (string)$this->slug,
             'articleBody' => (string)$this->articleBody,
             'author' => (string)$this->author,
-            'datePublished' => (string)$this->datePublished
+            'datePublished' => (string)$this->datePublished,
+            'orgSource' => $this->orgSource,
         ];
     }
 }

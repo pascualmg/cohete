@@ -2,7 +2,7 @@
 
 namespace pascualmg\cohete\ddd\Application\Post;
 
-readonly class CreatePostCommand
+readonly class UpdatePostCommand
 {
     public function __construct(
         public string $postId,
