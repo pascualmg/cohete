@@ -20,6 +20,10 @@ Cohete es un framework PHP asíncrono construido sobre *ReactPHP* y *RxPHP*, con
 "Menos es más. El código que no escribes no tiene bugs."
 #+end_quote
 
+Un solo proceso PHP que maneja todas las conexiones de forma asíncrona. Sin Apache. Sin nginx. Sin PHP-FPM. PHP *es* el servidor.
+
+Mientras Symfony levanta una instancia PHP por cada request (un tren regional para cada pasajero), Cohete mantiene un único proceso con event loop que gestiona miles de conexiones concurrentes (cuatro trenes de alta velocidad en la misma vía).
+
 ** Motivación
 
 Después de años trabajando con *Symfony* y otros frameworks, me di cuenta de algo: usaba herramientas sin entender realmente qué me estaban dando. Capas y capas de abstracción, magia negra por todos lados, y cuando algo fallaba... a rezar.
@@ -32,11 +36,12 @@ El resultado es Cohete: todo lo bueno de Symfony (DDD, CQRS, inyección de depen
 
 Mientras otros frameworks crecen en complejidad, Cohete apuesta por:
 - *~3,000 líneas de código* - todo el framework
-- *100% non-blocking I/O* - sin Apache, sin PHP-FPM
+- *100% non-blocking I/O* - un solo proceso, miles de conexiones
 - *DDD real* - no carpetas vacías con nombres bonitos
 - *Cero magia negra* - entiendes cada línea
+- *Dos caras*: API REST + servidor de páginas con el mismo proceso
 
-Ya en producción manejando *+40k registros* sin despeinarse.
+En producción en [[https://pascualmg.dev][pascualmg.dev]], sirviendo portfolio, blog y API. Indexado en [[https://codewiki.google/github.com/pascualmg/cohete][Google Code Wiki]].
 
 * Stack Tecnológico
 
@@ -49,11 +54,14 @@ Ya en producción manejando *+40k registros* sin despeinarse.
 | DI Container     | PHP-DI                        | Auto-wiring de dependencias        |
 | Router           | FastRoute                     | Routing ultra-rápido               |
 | Middlewares      | PSR-15                        | Pipeline de request/response       |
+| WebSockets       | Ratchet                       | Comunicación bidireccional         |
 | Testing          | PHPUnit + Behat               | Unit + BDD                         |
 | Migrations       | Phinx                         | Control de esquema BD              |
-| Environment      | Nix Flakes                    | Reproducibilidad total             |
+| Org-mode         | Pandoc                        | Conversión org → HTML server-side  |
 
 * Arquitectura
+
+Cohete tiene *dos caras*: es un *backend API* y un *servidor de páginas*. Ambos corren en el mismo proceso PHP asíncrono.
 
 #+begin_src text
                          HTTP Request
@@ -71,52 +79,88 @@ Ya en producción manejando *+40k registros* sin despeinarse.
                    ┌──────────▼──────────┐
                    │  FastRoute Router   │
                    │   routes.json       │
-                   └──────────┬──────────┘
-                              │
-        ┌─────────────────────▼─────────────────────┐
-        │              Application Layer             │
-        │  Commands ──► Handlers ◄── Queries        │
-        └─────────────────────┬─────────────────────┘
-                              │
-        ┌─────────────────────▼─────────────────────┐
-        │               Domain Layer                 │
-        │  Entities │ Value Objects │ Services      │
-        └─────────────────────┬─────────────────────┘
-                              │
-        ┌─────────────────────▼─────────────────────┐
-        │           Infrastructure Layer             │
-        │  MySQL Async │ MessageBus │ FileSystem    │
-        └─────────────────────┬─────────────────────┘
-                              │
-                              ▼
-                        HTTP Response
+                   └──────┬───────┬──────┘
+                          │       │
+               ┌──────────▼──┐ ┌──▼──────────┐
+               │  BACKEND    │ │  FRONTEND   │
+               │  API REST   │ │  HTML/JS    │
+               │  (JSON)     │ │  (Streams)  │
+               └──────┬──────┘ └──────┬──────┘
+                      │               │
+        ┌─────────────▼─────┐  ┌──────▼──────────┐
+        │  Application      │  │  HtmlController  │
+        │  Commands/Queries │  │  ReadableStream  │
+        └─────────┬─────────┘  │  + MIME types    │
+                  │            └─────────────────┘
+        ┌─────────▼─────────┐
+        │  Domain Layer     │
+        │  Entities + VOs   │
+        └─────────┬─────────┘
+                  │
+        ┌─────────▼─────────┐
+        │  Infrastructure   │
+        │  MySQL Async      │
+        │  MessageBus       │
+        └───────────────────┘
 #+end_src
+
+** Parte 1: Backend (API REST)
+
+El backend sigue *CQRS* estricto: Commands para escritura, Queries para lectura. Todo devuelve =PromiseInterface=.
+
+Los endpoints están definidos en =routes.json=. Cada ruta apunta a un *handler invocable* (=__invoke=) que el contenedor resuelve con auto-wiring.
+
+El flujo:
+
+#+begin_src text
+Request → Router → Handler(Request) → Command/Query → Domain → Repository → Promise<Response>
+#+end_src
+
+** Parte 2: Frontend (Servidor de páginas)
+
+Cohete no es solo una API que tira JSONs. El =HtmlController= demuestra que un servidor async puede servir páginas completas con la misma eficiencia:
+
+#+begin_src php
+// GET /html/{path} → sirve cualquier fichero estático con streaming
+$html = new ReadableResourceStream(fopen($filename, 'rb'));
+return new Response(200, ['Content-Type' => $mimeType], $html->pipe($throughStream));
+#+end_src
+
+Esto hace streaming del fichero sin cargarlo entero en memoria. Detecta MIME types automáticamente (JS, CSS, HTML, imágenes...). Es el mismo PHP que maneja la API pero sirviendo tu SPA completa.
+
+El frontend usa *Web Components nativos* con *Atomic Design*:
+- Sin npm, sin webpack, sin build steps
+- Shadow DOM para encapsulación
+- CSS Custom Properties para temas
+- RxJS para reactividad
+- Cero frameworks
 
 ** Estructura del Proyecto
 
 #+begin_src text
 src/
-├── bootstrap.php                    # Entry point - arranca el event loop
+├── bootstrap.php                    # Entry point (40 líneas)
 └── ddd/
     ├── Domain/                      # Lógica de negocio pura
     │   ├── Entity/
-    │   │   └── Post.php             # Agregado principal
-    │   ├── ValueObject/             # Tipos inmutables con validación
+    │   │   ├── Post.php             # Agregado con Value Objects
+    │   │   └── PostRepository.php   # Interface (contrato)
+    │   ├── ValueObject/
     │   │   ├── PostId.php           # UUID v4
     │   │   ├── HeadLine.php         # Max 256 chars
-    │   │   ├── ArticleBody.php      # Contenido del post
-    │   │   ├── Slug.php             # Auto-generado, transliteración
-    │   │   └── DatePublished.php    # Formato ISO8601/ATOM
-    │   ├── Repository/
-    │   │   └── PostRepository.php   # Interface - contrato
+    │   │   ├── Slug.php             # Auto-generado, transliteración UTF-8
+    │   │   ├── ArticleBody.php      # Contenido
+    │   │   ├── Author.php
+    │   │   └── DatePublished.php    # ISO8601/ATOM
+    │   ├── Bus/
+    │   │   └── MessageBus.php       # Interface eventos de dominio
     │   └── Service/
     │       └── PostCreator.php      # Orquesta creación + eventos
     │
-    ├── Application/                 # Casos de uso
-    │   ├── Command/
-    │   │   ├── CreatePostCommand.php
-    │   │   └── CreatePostCommandHandler.php
-    │   └── Query/
+    ├── Application/                 # Casos de uso (CQRS)
+    │   └── Post/
+    │       ├── CreatePostCommand.php
+    │       ├── CreatePostCommandHandler.php
     │       ├── FindAllPostsQuery.php
     │       ├── FindAllPosts.php
     │       ├── FindPostByIdQuery.php
@@ -124,64 +168,74 @@ src/
     │
     └── Infrastructure/              # Detalles técnicos
         ├── HttpServer/
-        │   ├── Kernel/
-        │   │   └── Kernel.php       # NÚCLEO - dispatch async
-        │   ├── ReactHttpServer.php  # Servidor ReactPHP
+        │   ├── Kernel/Kernel.php    # NÚCLEO (103 líneas)
+        │   ├── ReactHttpServer.php  # Inicialización servidor
         │   ├── Router/
-        │   │   ├── Router.php       # Wrapper FastRoute
+        │   │   ├── Router.php       # FastRoute wrapper
         │   │   └── routes.json      # Definición de rutas
-        │   ├── RequestHandler/      # Controllers
-        │   │   ├── FindAllPostsController.php
-        │   │   ├── FindPostByIdController.php
-        │   │   ├── CreatePostController.php
-        │   │   ├── HtmlController.php
-        │   │   └── HealthController.php
-        │   └── Middleware/
-        │       ├── RequestDumper.php
-        │       └── ResponseDumper.php
+        │   └── RequestHandler/      # Controllers
+        │       ├── FindAllPostsController.php
+        │       ├── FindPostByIdController.php
+        │       ├── CreatePostController.php
+        │       ├── UploadOrgController.php   # POST /post/org
+        │       ├── HtmlController.php        # Servidor de páginas
+        │       ├── HealthController.php
+        │       └── EchoController.php
         ├── Repository/
-        │   ├── ObservableMysqlPostRepository.php  # Rx + MySQL async
-        │   ├── AsyncMysqlPostRepository.php       # Promise-based
+        │   ├── ObservableMysqlPostRepository.php  # RxPHP + MySQL async
+        │   ├── AsyncMysqlPostRepository.php       # Promise puro
         │   └── FilePostRepository.php             # JSON para dev
-        └── Bus/
-            └── ReactMessageBus.php  # Eventos con EventEmitter
+        ├── Service/
+        │   └── OrgToHtmlConverter.php  # Pandoc integration
+        ├── Bus/
+        │   └── ReactMessageBus.php     # EventEmitter + futureTick
+        ├── PSR11/
+        │   └── ContainerFactory.php    # PHP-DI auto-wiring
+        └── webserver/html/             # Frontend (Web Components)
+            ├── index.html
+            ├── pascualmgPorfolio.html
+            └── js/atomic/
+                ├── atom/               # Componentes básicos
+                ├── molecule/           # Composiciones
+                └── organism/           # Páginas completas
 #+end_src
 
 * Instalación
 
 ** Requisitos
-- Nix (recomendado) o PHP 8.3+ con Composer
+- PHP 8.3+ con Composer
+- MySQL o MariaDB
+- Pandoc (opcional, para publicar posts en org-mode)
 
-** Con Nix (recomendado)
-
-#+begin_src bash
-# Clonar el repositorio
-git clone https://github.com/pascualmg/cohete.git
-cd cohete
-
-# Instalar Nix si no lo tienes
-make nix-install
-
-# Entrar al entorno de desarrollo
-nix develop
-
-# Configurar variables de entorno
-cp .env.example .env
-
-# Arrancar el servidor
-make run
-#+end_src
-
-El servidor estará disponible en =http://localhost:8000=
-
-** Sin Nix
+** Quick Start
 
 #+begin_src bash
 git clone https://github.com/pascualmg/cohete.git
 cd cohete
 composer install
 cp .env.example .env
+# Editar .env: ROUTES_PATH debe ser ruta absoluta a routes.json
 php src/bootstrap.php
+#+end_src
+
+El servidor estará en =http://localhost:8000=. Eso es todo. Un proceso PHP que es tu servidor.
+
+** Con base de datos
+
+#+begin_src bash
+# Configurar MySQL en .env, después:
+make migrate     # Crea las tablas
+make fixtures    # Carga datos de prueba (opcional)
+make run         # Arranca el servidor
+#+end_src
+
+** Con Nix (opcional)
+
+Si usas [[https://nixos.org/][Nix]], el proyecto incluye un =flake.nix= con todo el entorno de desarrollo:
+
+#+begin_src bash
+nix develop      # PHP 8.3 + Composer + PHPUnit + PHPStan + Psalm
+make run
 #+end_src
 
 * Configuración
@@ -192,50 +246,145 @@ Crea un archivo =.env= basándote en =.env.example=:
 APP_ENV=dev
 HTTP_SERVER_HOST=0.0.0.0
 HTTP_SERVER_PORT=8000
-ROUTES_PATH=/path/to/routes.json
+ROUTES_PATH=/ruta/absoluta/a/routes.json
 
-# MySQL (para repositorio async)
-MYSQL_HOST=localhost
-MYSQL_USER=root
+MYSQL_HOST=127.0.0.1
+MYSQL_USER=cohete
 MYSQL_PASSWORD=secret
 MYSQL_DATABASE=cohete
 MYSQL_PORT=3306
 #+end_src
 
+*Importante*: =ROUTES_PATH= requiere ruta absoluta.
+
 * API Endpoints
 
-| Método | Ruta           | Descripción              | Handler                    |
-|--------+----------------+--------------------------+----------------------------|
-| GET    | =/=            | Redirect al portfolio    | RedirectController         |
-| GET    | =/post=        | Lista todos los posts    | FindAllPostsController     |
-| GET    | =/post/{id}=   | Obtiene post por UUID    | FindPostByIdController     |
-| POST   | =/post=        | Crea nuevo post          | CreatePostController       |
-| GET    | =/html[{path}]= | Sirve archivos estáticos | HtmlController             |
-| GET    | =/health=      | Health check             | HealthController           |
+| Método      | Ruta            | Descripción              | Handler                    |
+|-------------+-----------------+--------------------------+----------------------------|
+| GET         | =/=             | Redirect al portfolio    | RedirectController         |
+| GET         | =/health=       | Health check             | HealthController           |
+| GET         | =/post=         | Lista todos los posts    | FindAllPostsController     |
+| GET         | =/post/{id}=    | Obtiene post por UUID    | FindPostByIdController     |
+| POST        | =/post=         | Crea post (JSON)         | CreatePostController       |
+| POST        | =/post/org=     | Publica post org-mode    | UploadOrgController        |
+| GET         | =/html/{path}=  | Sirve ficheros estáticos | HtmlController             |
+| GET,PUT,... | =/echo=         | Echo request (debug)     | EchoController             |
 
-** Ejemplos de uso
+** Ejemplos
 
 *** Listar posts
 #+begin_src bash
-curl http://localhost:8000/post
+curl https://pascualmg.dev/post | jq
 #+end_src
 
-*** Crear post
+*** Crear post (JSON)
 #+begin_src bash
-curl -X POST http://localhost:8000/post \
+curl -X POST https://pascualmg.dev/post \
   -H "Content-Type: application/json" \
   -d '{
     "id": "550e8400-e29b-41d4-a716-446655440000",
     "headline": "Mi primer post",
-    "articleBody": "Contenido del artículo...",
-    "image": "https://example.com/image.jpg",
-    "datePublished": "2024-01-15T10:30:00+00:00"
+    "articleBody": "<p>Contenido HTML</p>",
+    "author": "pascualmg",
+    "datePublished": "2026-02-15T10:00:00+00:00"
   }'
 #+end_src
 
-*** Obtener post por ID
+*** Publicar post desde org-mode
 #+begin_src bash
-curl http://localhost:8000/post/550e8400-e29b-41d4-a716-446655440000
+curl -X POST https://pascualmg.dev/post/org --data-binary @mi-post.org
+#+end_src
+
+*** Ver el portfolio
+Abre =https://pascualmg.dev/html/pascualmgPorfolio.html= en el navegador.
+
+* Blog con Org-Mode
+
+El blog es un caso de uso real que demuestra las dos caras de Cohete trabajando juntas: el backend recibe y almacena contenido, el frontend lo presenta.
+
+** Cómo funciona
+
+1. Escribes tu post en *org-mode* (el formato de Emacs)
+2. Lo envías al endpoint =POST /post/org=
+3. Cohete extrae metadatos (=#+TITLE=, =#+AUTHOR=, =#+DATE=)
+4. Pandoc convierte el org a HTML server-side
+5. Se almacena en MySQL con UUID, slug auto-generado, y fecha
+6. El frontend (Web Component =PascualmgBlog=) lo muestra
+
+** Formato del fichero org
+
+#+begin_src org
+,#+TITLE: Mi artículo sobre PHP asíncrono
+,#+AUTHOR: pascualmg
+,#+DATE: 2026-02-15
+
+,* Introducción
+
+Aquí va el contenido con toda la potencia de org-mode:
+listas, código, tablas, enlaces...
+
+,** Ejemplo de código
+
+,#+begin_src php
+$promise = $httpClient->get('https://api.example.com')
+    ->then(fn($response) => json_decode($response->getBody()));
+,#+end_src
+#+end_src
+
+** Publicar un post
+
+*** Opción 1: curl directo
+
+#+begin_src bash
+curl -X POST https://pascualmg.dev/post/org \
+  --data-binary @mi-post.org
+#+end_src
+
+Respuesta:
+
+#+begin_src json
+{
+  "id": "5e529ca2-1746-4cd6-a302-99a7ac476013",
+  "headline": "Mi artículo sobre PHP asíncrono",
+  "author": "pascualmg",
+  "datePublished": "2026-02-15T00:00:00+00:00"
+}
+#+end_src
+
+*** Opción 2: Script publish-org.sh
+
+#+begin_src bash
+# Publicar en producción
+publish-org.sh mi-post.org
+
+# Publicar en local
+publish-org.sh mi-post.org http://localhost:8000
+#+end_src
+
+*** Opción 3: Desde el navegador
+
+Entra a [[https://pascualmg.dev/html/pascualmgPorfolio.html][pascualmg.dev]], navega al Blog, y usa el formulario de subida para seleccionar tu fichero =.org=.
+
+** Pipeline de conversión
+
+#+begin_src text
+Fichero .org
+    │
+    ▼
+UploadOrgController
+    │
+    ├──► extractMetadata()     # regex: #+TITLE, #+AUTHOR, #+DATE
+    │
+    ├──► convert()             # pandoc -f org -t html --no-highlight
+    │                          # via proc_open (stdin/stdout pipes)
+    │
+    ├──► CreatePostCommand     # UUID v4, slug auto-generado
+    │
+    ▼
+PostCreator → Repository.save() → MySQL
+    │
+    ▼
+MessageBus.publish('domain_event.post_created')
 #+end_src
 
 * Patrones Clave
@@ -258,30 +407,31 @@ Todos los handlers son =__invoke()= - funciones, no objetos con métodos:
 
 ** Observable + Promise
 
-Combinación elegante de RxPHP con React Promises:
+Combinación de RxPHP con React Promises para composición funcional:
 
 #+begin_src php
-// En el repositorio
 public function findAll(): PromiseInterface
 {
     return Observable::fromPromise(
-        $this->mysqlClient->query('SELECT * FROM post')
+        $this->mysqlClient->query('SELECT * FROM post ORDER BY datePublished DESC')
     )
     ->map(fn($result) => array_map([self::class, 'hydrate'], $result->resultRows))
     ->toPromise();
 }
 #+end_src
 
+Observable envuelve Promise para mapear, filtrar, combinar. Después vuelve a Promise para el controller.
+
 ** Value Objects Inmutables
 
 Validación en construcción, inmutabilidad garantizada:
 
 #+begin_src php
-// Slug se genera automáticamente con transliteración
-$slug = Slug::fromHeadLine("Programación Asíncrona en PHP");
-// Resultado: "programacion-asincrona-en-php"
+// Slug se genera automáticamente con transliteración UTF-8 → ASCII
+$slug = Slug::from("Programación Asíncrona en PHP");
+// → "programacion-asincrona-en-php"
 
-// UUID validado
+// UUID validado en construcción
 $id = PostId::from("550e8400-e29b-41d4-a716-446655440000");
 
 // Fecha en formato ATOM
@@ -290,19 +440,81 @@ $date = DatePublished::from("2024-01-15T10:30:00+00:00");
 
 ** Bus de Mensajes Reactivo
 
-Eventos de dominio sin acoplamiento:
+Eventos de dominio sin acoplamiento, usando =futureTick= para no bloquear:
 
 #+begin_src php
-// Publicar evento (se ejecuta en el siguiente tick)
+// Publicar evento (se ejecuta en el siguiente tick del event loop)
 $this->messageBus->publish(
     new Message('domain_event.post_created', [$post])
 );
 
-// Suscribirse
-$this->messageBus->subscribe('domain_event.post_created', function($post) {
-    // Notificar, indexar, lo que necesites...
+// Suscribirse (en ContainerFactory)
+$messageBus->subscribe('domain_event.post_created', function($post) {
+    $logger->info("Post creado: {$post->headline}");
+    // Notificar, indexar, invalidar cache...
 });
 #+end_src
+
+** Streaming de ficheros
+
+El =HtmlController= sirve ficheros usando streams reactivos de ReactPHP:
+
+#+begin_src php
+$readable = new ReadableResourceStream(fopen($file, 'rb'));
+$through  = new ThroughStream(fn($chunk) => $chunk);
+return new Response(200, ['Content-Type' => $mime], $readable->pipe($through));
+#+end_src
+
+No carga el fichero en memoria. Lo streamea chunk a chunk por el event loop. Mismo patrón que usaría nginx, pero en PHP.
+
+* Frontend: Portfolio + Blog
+
+El frontend demuestra que Cohete sirve páginas tan bien como APIs. Todo con *Web Components nativos* siguiendo *Atomic Design*:
+
+#+begin_src text
+html/js/atomic/
+├── atom/                       # Componentes básicos
+│   ├── ChangingText.js         # Texto animado (Typed.js style)
+│   └── YastModal.js            # Modal reutilizable
+├── molecule/                   # Composiciones
+│   ├── PortfolioHeader.js      # Header con avatar + links
+│   ├── ExperienceTimeline.js   # Timeline de experiencia profesional
+│   ├── SoftSkills.js           # Skills técnicos
+│   ├── SocialLinks.js          # GitHub, LinkedIn, etc.
+│   ├── AboutThisPortfolio.js   # Sección "sobre el portfolio"
+│   ├── technologiesList.js     # Stack tecnológico
+│   └── PostDetail.js           # Vista detalle de un post del blog
+└── organism/                   # Páginas completas
+    ├── PascualmgSpa.js         # Shell principal de la SPA
+    ├── pascualmg-portfolio.js  # Página del portfolio
+    ├── PascualmgBlog.js        # Blog: listado + subida org
+    ├── CreatePostForm.js       # Formulario de creación
+    ├── ChatBox.js              # Chat WebSocket
+    ├── themeSwitcher.js        # Selector de tema
+    └── ThemeToogler.js         # Toggle tema claro/oscuro
+#+end_src
+
+** Sistema de Temas
+
+5 temas disponibles con CSS Custom Properties, cambiables en runtime:
+
+- =spacemacs-dark= - Inspirado en el editor
+- =spacemacs-light= - Versión clara
+- =solarized-dark= - El clásico
+- =solarized-light= - Para los que prefieren luz
+- =linkedin= - Profesional
+
+Los temas usan variables CSS (=--base=, =--head1=, =--head2=, =--bg2=, =--border=...) que todos los componentes respetan via Shadow DOM.
+
+** Brutalismo Web
+
+El portfolio demuestra que puedes construir webs modernas sin:
+- npm install de 500MB
+- Frameworks JavaScript de moda
+- Build steps eternos
+- Dependencias que se rompen cada 6 meses
+
+Solo *HTML, CSS y JavaScript vanilla* con Web Components estándar del navegador.
 
 * Testing
 
@@ -315,77 +527,82 @@ nix develop --command bash -c 'vendor/bin/phpunit'
 ** BDD Tests (Behat)
 
 #+begin_src bash
+# El servidor debe estar corriendo
 nix develop --command bash -c 'vendor/bin/behat'
 #+end_src
 
-Los tests BDD incluyen escenarios como:
+Escenarios incluidos:
 
 #+begin_src gherkin
-Scenario: Post data is sent and is created
+Scenario: Create a post via API
   Given I am an API client
   And the database is empty
   When I send payload to endpoint "/post" with method "POST"
   Then the response code should be 202
   And the post with id "..." exists
+
+Scenario: Import post from org file
+  Given I have an org file with title "Test Post"
+  When I upload it to "/post/org"
+  Then the response code should be 202
+  And the post headline is "Test Post"
+
+Scenario: List all posts
+  Given there are 3 posts in the database
+  When I send a GET request to "/post"
+  Then the response contains 3 posts
 #+end_src
 
 ** Migraciones
 
 #+begin_src bash
-# Ejecutar migraciones
-make migrate
-
-# Cargar fixtures
-make fixtures
-
-# Rollback
-nix develop --command bash -c 'vendor/bin/phinx rollback'
+make migrate                    # Ejecutar migraciones
+make fixtures                   # Cargar datos de prueba
+vendor/bin/phinx status         # Ver estado
+vendor/bin/phinx rollback       # Rollback última
 #+end_src
 
 * Makefile
 
 #+begin_src bash
-make run          # Arranca el servidor
-make test_ab      # Benchmark con Apache Bench
+make run          # Arranca el servidor async
+make watch        # Servidor con file watcher
 make migrate      # Ejecuta migraciones Phinx
 make fixtures     # Carga datos de prueba
-make mysql        # Docker Compose MySQL
+make mysql        # Docker Compose MySQL (dev)
 make rabbitmq     # Docker Compose RabbitMQ
 make fix          # php-cs-fixer
 make behat        # Tests BDD
+make test_ab      # Benchmark con Apache Bench
 make nix-install  # Instala Nix
 #+end_src
 
-* Frontend: Portfolio SPA
+* Despliegue en producción
 
-Cohete incluye un portfolio personal como caso de uso real, construido con *Web Components nativos* siguiendo *Atomic Design*:
+Cohete es un solo proceso PHP. Desplegarlo es tan simple como:
 
-#+begin_src text
-html/
-├── index.html                    # Landing con Typed.js
-├── pascualmgPorfolio.html       # SPA principal
-└── js/atomic/
-    ├── atom/                     # Componentes básicos
-    │   ├── ChangingText.js
-    │   └── YastModal.js
-    ├── molecule/                 # Composiciones
-    │   ├── ExperienceTimeline.js # Timeline de experiencia
-    │   ├── SoftSkills.js
-    │   └── SocialLinks.js
-    └── organism/                 # Páginas completas
-        ├── PascualmgSpa.js       # Shell principal
-        ├── pascualmg-portfolio.js
-        └── PascualmgBlog.js
+#+begin_src bash
+php src/bootstrap.php &
 #+end_src
 
-** Sistema de Temas
+Para algo más robusto, un systemd service básico basta:
 
-5 temas disponibles con CSS Custom Properties:
-- =spacemacs-dark=
-- =spacemacs-light=
-- =solarized-dark=
-- =solarized-light=
-- =linkedin=
+#+begin_src ini
+[Service]
+ExecStart=/usr/bin/php /path/to/cohete/src/bootstrap.php
+Restart=always
+RestartSec=5
+#+end_src
+
+En [[https://pascualmg.dev][pascualmg.dev]] usamos Cloudflare Tunnel para HTTPS sin abrir puertos:
+
+#+begin_src text
+Internet → Cloudflare (pascualmg.dev) → tunnel → localhost:80 → Cohete
+#+end_src
+
+** Para usuarios NixOS
+
+El repo incluye un módulo NixOS declarativo (=modules/services/cohete.nix=) con hardening systemd, MariaDB integrada, y pandoc en PATH. Ver [[./docs/setup-local.org][docs/setup-local.org]] para detalles.
 
 * Filosofía
 
@@ -398,15 +615,19 @@ No es DDD académico. Es DDD práctico:
 3. *Async por defecto* - No como afterthought, como fundamento
 4. *Nix para reproducibilidad* - Mismo entorno en desarrollo y producción
 
-** Brutalismo Web
+** PHP puede volar
 
-El portfolio demuestra que puedes construir webs modernas sin:
-- npm install de 500MB
-- Frameworks JavaScript de moda
-- Build steps eternos
-- Dependencias que se rompen cada 6 meses
+La industria PHP vive atrapada en el modelo request-response síncrono: cada petición levanta un proceso PHP, carga todo el framework, responde, y muere. Es como encender y apagar el motor del coche en cada semáforo.
 
-Solo *HTML, CSS y JavaScript vanilla* con Web Components estándar.
+ReactPHP cambia el paradigma: un proceso PHP que arranca una vez y se queda vivo, manejando todas las conexiones con un event loop no-bloqueante. El mismo modelo que usa Node.js, pero en PHP.
+
+Cohete demuestra que esto funciona en producción, con DDD, con CQRS, con tests, y sin renunciar a nada.
+
+** Dos caras, un servidor
+
+Muchos frameworks async solo sirven APIs (JSONs). Cohete va más allá: el =HtmlController= demuestra que el mismo servidor puede servir páginas HTML completas usando streams reactivos. No necesitas nginx delante para los estáticos. PHP lo hace igual de bien, con streaming, sin cargar ficheros enteros en memoria.
+
+Esto convierte a Cohete en un servidor completo: API + Frontend + WebSockets, todo en un solo proceso PHP.
 
 * Contribuciones
 
@@ -424,11 +645,10 @@ MIT License - Haz lo que quieras con esto.
 
 * Links
 
+- Producción: https://pascualmg.dev
 - GitHub: https://github.com/pascualmg/cohete
 - Google Code Wiki: https://codewiki.google/github.com/pascualmg/cohete
 - Autor: [[https://github.com/pascualmg][Pascual Muñoz Galián]]
-
-[[https://codewiki.google/github.com/pascualmg/cohete][file:https://img.shields.io/badge/Google_Code_Wiki-indexed-4285F4.svg]]
 
 ---
 

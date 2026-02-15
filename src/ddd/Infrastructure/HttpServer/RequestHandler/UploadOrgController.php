@@ -21,7 +21,7 @@ class UploadOrgController implements HttpRequestHandler
 
     public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface|PromiseInterface
     {
-        $orgContent = $request->getBody()->getContents();
+        $orgContent = (string) $request->getBody();
 
         if (empty(trim($orgContent))) {
             return JsonResponse::create(400, ['error' => 'Empty org content']);
