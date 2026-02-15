@@ -5,7 +5,7 @@ class ThemeToggler extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this.currentThemeIndex = 0;
-        this.defaultTheme = 'linkedin';
+        this.defaultTheme = 'spacemacs-dark';
 
     }
 

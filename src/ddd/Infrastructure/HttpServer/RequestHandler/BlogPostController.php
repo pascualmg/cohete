@@ -69,21 +69,26 @@ class BlogPostController implements HttpRequestHandler
     <meta name="twitter:description" content="{$description}">
 
     <style>
+        /* Spacemacs-dark defaults (ThemeSwitcher overrides these via JS) */
         :root {
-            --bg: #1a1b26;
-            --bg2: #24283b;
-            --fg: #c0caf5;
-            --fg-dim: #565f89;
-            --accent: #7aa2f7;
-            --green: #9ece6a;
-            --orange: #ff9e64;
+            --bg1: #292b2e; --bg2: #212026; --bg3: #100a14;
+            --base: #b2b2b2; --base-dim: #686868;
+            --keyword: #4f97d7; --func: #bc6ec5; --str: #2d9574;
+            --type: #ce537a; --const: #a45bad; --var: #7590db;
+            --head1: #4f97d7; --head2: #2d9574; --head3: #67b11d; --head4: #b1951d;
+            --comment: #2aa1ae; --war: #dc752f; --err: #e0211d; --suc: #86dc2f;
+            --cblk: #cbc1d5; --cblk-bg: #2f2b33; --cblk-ln: #827591; --cblk-ln-bg: #373040;
+            --border: #5d4d7a; --highlight: #444155;
+            --aqua: #2d9574; --green: #67b11d; --cyan: #28def0;
+            --magenta: #a31db1; --blue: #4f97d7; --yellow: #b1951d; --red: #f2241f;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--fg);
+            background: var(--bg1);
+            color: var(--base);
             line-height: 1.7;
+            transition: background-color 0.3s ease-in-out;
         }
         article {
             max-width: 800px;
@@ -93,58 +98,61 @@ class BlogPostController implements HttpRequestHandler
         header {
             margin-bottom: 2rem;
             padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--bg2);
+            border-bottom: 1px solid var(--border);
         }
         header h1 {
             font-size: 2rem;
-            color: var(--accent);
+            color: var(--head1);
             margin-bottom: 0.5rem;
             line-height: 1.3;
         }
         .meta {
-            color: var(--fg-dim);
+            color: var(--base-dim);
             font-size: 0.9rem;
         }
         .meta span { margin-right: 1.5rem; }
-        .content h1, .content h2, .content h3 {
-            color: var(--accent);
+        .content h1, .content h2, .content h3, .content h4 {
             margin: 1.5rem 0 0.75rem;
         }
-        .content h1 { font-size: 1.6rem; }
-        .content h2 { font-size: 1.3rem; color: var(--green); }
-        .content h3 { font-size: 1.1rem; color: var(--orange); }
+        .content h1 { font-size: 1.6rem; color: var(--head1); }
+        .content h2 { font-size: 1.3rem; color: var(--head2); }
+        .content h3 { font-size: 1.1rem; color: var(--head3); }
+        .content h4 { font-size: 1rem; color: var(--head4); }
         .content p { margin-bottom: 1rem; }
         .content ul, .content ol {
             margin: 1rem 0;
             padding-left: 2rem;
         }
         .content li { margin-bottom: 0.3rem; }
-        .content a { color: var(--accent); }
+        .content a { color: var(--keyword); }
         .content code {
-            background: var(--bg2);
+            background: var(--cblk-bg);
+            color: var(--cblk);
             padding: 0.15rem 0.4rem;
             border-radius: 3px;
             font-size: 0.9em;
         }
         .content pre {
-            background: var(--bg2);
+            background: var(--cblk-bg);
             padding: 1rem;
             border-radius: 6px;
             overflow-x: auto;
             margin: 1rem 0;
+            border-left: 3px solid var(--cblk-ln-bg);
         }
         .content pre code {
             background: none;
             padding: 0;
+            color: var(--cblk);
         }
         .content blockquote {
-            border-left: 3px solid var(--accent);
+            border-left: 3px solid var(--keyword);
             padding-left: 1rem;
-            color: var(--fg-dim);
+            color: var(--comment);
             margin: 1rem 0;
         }
-        .content strong { color: var(--green); }
-        .content em { color: var(--orange); }
+        .content strong { color: var(--str); }
+        .content em { color: var(--war); }
         .content table {
             width: 100%;
             border-collapse: collapse;
@@ -152,16 +160,16 @@ class BlogPostController implements HttpRequestHandler
         }
         .content th, .content td {
             padding: 0.5rem 0.75rem;
-            border: 1px solid var(--bg2);
+            border: 1px solid var(--border);
             text-align: left;
         }
-        .content th { background: var(--bg2); color: var(--accent); }
+        .content th { background: var(--bg2); color: var(--keyword); }
         footer {
             margin-top: 3rem;
             padding-top: 1.5rem;
-            border-top: 1px solid var(--bg2);
+            border-top: 1px solid var(--border);
             text-align: center;
-            color: var(--fg-dim);
+            color: var(--base-dim);
             font-size: 0.85rem;
         }
         .share {
@@ -171,20 +179,40 @@ class BlogPostController implements HttpRequestHandler
             border-radius: 6px;
             text-align: center;
         }
-        .share p { color: var(--fg-dim); font-size: 0.85rem; margin-bottom: 0.5rem; }
-        .share input {
-            width: 100%;
-            background: var(--bg);
-            color: var(--accent);
-            border: 1px solid var(--fg-dim);
-            padding: 0.5rem;
+        .share p { color: var(--base-dim); font-size: 0.85rem; margin-bottom: 0.75rem; }
+        .share-url {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .share-url input {
+            flex: 1;
+            background: var(--bg1);
+            color: var(--base);
+            border: 1px solid var(--base-dim);
+            padding: 0.5rem 0.75rem;
             border-radius: 4px;
             font-size: 0.85rem;
-            text-align: center;
             cursor: pointer;
         }
-        .share input:focus { outline: 1px solid var(--accent); }
-        footer a { color: var(--accent); text-decoration: none; }
+        .share-url input:focus { outline: 1px solid var(--keyword); }
+        .share-url button {
+            background: var(--keyword);
+            color: var(--bg1);
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: opacity 0.2s;
+        }
+        .share-url button:hover { opacity: 0.85; }
+        .share-url button.copied {
+            background: var(--suc);
+        }
+        footer a { color: var(--keyword); text-decoration: none; }
         footer a:hover { text-decoration: underline; }
     </style>
 </head>
@@ -202,13 +230,20 @@ class BlogPostController implements HttpRequestHandler
         </div>
         <div class="share">
             <p>Comparte este post:</p>
-            <input type="text" value="https://pascualmg.dev/blog/{$slug}" readonly onclick="this.select();navigator.clipboard.writeText(this.value)">
+            <div class="share-url">
+                <input type="text" value="https://pascualmg.dev/blog/{$slug}" readonly id="share-input">
+                <button onclick="navigator.clipboard.writeText(document.getElementById('share-input').value).then(()=>{this.textContent='Copiado!';this.classList.add('copied');setTimeout(()=>{this.textContent='Copiar';this.classList.remove('copied')},2000)})">Copiar</button>
+            </div>
         </div>
         <footer>
             <p>Publicado en <a href="/">Cohete Blog</a> &mdash; Powered by <a href="https://github.com/pascualmg/cohete">Cohete</a></p>
             <p>MCP endpoint: <code>pascualmg.dev/mcp/sse</code></p>
         </footer>
     </article>
+    <theme-toggler></theme-toggler>
+    <script type="module">
+        import '/js/atomic/organism/ThemeToogler.js';
+    </script>
 </body>
 </html>
 HTML;
