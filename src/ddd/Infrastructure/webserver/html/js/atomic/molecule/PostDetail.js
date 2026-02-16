@@ -159,9 +159,40 @@ class PostDetail extends HTMLElement {
                     max-width: 100%;
                     border-radius: 4px;
                 }
+
+                .post-actions {
+                    display: flex;
+                    gap: 10px;
+                    align-items: center;
+                }
+
+                .share-btn {
+                    background: none;
+                    border: 1px solid var(--border, #555);
+                    color: var(--base-dim, #888);
+                    padding: 6px 16px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-family: inherit;
+                    font-size: 13px;
+                    transition: border-color 0.2s, color 0.2s;
+                }
+
+                .share-btn:hover {
+                    border-color: var(--act2, #4f97d7);
+                    color: var(--act2, #4f97d7);
+                }
+
+                .share-btn.copied {
+                    border-color: var(--suc, #2d9574);
+                    color: var(--suc, #2d9574);
+                }
             </style>
 
-            <button class="back-btn">Volver</button>
+            <div class="post-actions">
+                <button class="back-btn">Volver</button>
+                <button class="share-btn">Copiar enlace</button>
+            </div>
 
             <div class="post-header">
                 <h1>${this.escapeHtml(this.post.headline)}</h1>
@@ -178,6 +209,19 @@ class PostDetail extends HTMLElement {
 
         this.shadowRoot.querySelector('.back-btn').addEventListener('click', () => {
             this.dispatchEvent(new CustomEvent('back'));
+        });
+
+        this.shadowRoot.querySelector('.share-btn').addEventListener('click', () => {
+            const url = `${window.location.origin}/blog/${this.post.slug}`;
+            const btn = this.shadowRoot.querySelector('.share-btn');
+            navigator.clipboard.writeText(url).then(() => {
+                btn.textContent = 'Copiado!';
+                btn.classList.add('copied');
+                setTimeout(() => {
+                    btn.textContent = 'Copiar enlace';
+                    btn.classList.remove('copied');
+                }, 2000);
+            });
         });
     }
 

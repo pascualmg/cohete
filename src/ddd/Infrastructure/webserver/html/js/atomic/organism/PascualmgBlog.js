@@ -48,11 +48,30 @@ class PascualmgBlog extends HTMLElement {
                             <span class="post-date">${this.formatDate(post.datePublished)}</span>
                         </div>
                         <p class="post-excerpt">${this.getExcerpt(post.articleBody)}</p>
-                        <span class="read-more">Leer mas</span>
+                        <div class="post-footer">
+                            <span class="read-more">Leer mas</span>
+                            <button class="share-btn" data-slug="${post.slug}">Copiar enlace</button>
+                        </div>
                     </article>
                 `).join('')}
             </div>
         `;
+
+        container.querySelectorAll('.share-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const slug = btn.getAttribute('data-slug');
+                const url = `${window.location.origin}/blog/${slug}`;
+                navigator.clipboard.writeText(url).then(() => {
+                    btn.textContent = 'Copiado!';
+                    btn.classList.add('copied');
+                    setTimeout(() => {
+                        btn.textContent = 'Copiar enlace';
+                        btn.classList.remove('copied');
+                    }, 2000);
+                });
+            });
+        });
 
         container.querySelectorAll('.post-card').forEach(card => {
             card.addEventListener('click', () => {
@@ -195,11 +214,38 @@ class PascualmgBlog extends HTMLElement {
                     margin: 0;
                 }
 
-                .read-more {
-                    display: inline-block;
+                .post-footer {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
                     margin-top: 12px;
+                }
+
+                .read-more {
                     font-size: 13px;
                     color: var(--func, #bc6ec5);
+                }
+
+                .share-btn {
+                    background: none;
+                    border: 1px solid var(--border, #555);
+                    color: var(--base-dim, #888);
+                    padding: 4px 10px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-family: inherit;
+                    font-size: 12px;
+                    transition: border-color 0.2s, color 0.2s;
+                }
+
+                .share-btn:hover {
+                    border-color: var(--act2, #4f97d7);
+                    color: var(--act2, #4f97d7);
+                }
+
+                .share-btn.copied {
+                    border-color: var(--suc, #2d9574);
+                    color: var(--suc, #2d9574);
                 }
 
                 .upload-section {
