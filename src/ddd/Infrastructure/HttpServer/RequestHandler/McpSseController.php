@@ -32,6 +32,14 @@ class McpSseController implements HttpRequestHandler
             }
 
             $baseUri = $request->getUri()->withPath('/mcp/message')->withQuery('')->withFragment('');
+
+            // Cloudflare/reverse proxies terminate TLS, so ReactPHP sees http://.
+            // Use X-Forwarded-Proto to match the client's original scheme.
+            $proto = $request->getHeaderLine('X-Forwarded-Proto');
+            if ($proto === 'https') {
+                $baseUri = $baseUri->withScheme('https');
+            }
+
             $postEndpoint = (string)$baseUri->withQuery("clientId={$clientId}");
 
             $frame = "event: endpoint\n";
