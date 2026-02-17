@@ -37,12 +37,18 @@ class BlogIndexController implements HttpRequestHandler
             $date = (new \DateTimeImmutable((string)$post->datePublished))->format('d M Y');
             $preview = htmlspecialchars(mb_substr(preg_replace('/\s+/', ' ', strip_tags((string)$post->articleBody)), 0, 150), ENT_QUOTES, 'UTF-8');
 
+            $authorEncoded = urlencode((string)$post->author);
             $cards .= <<<CARD
             <a href="/blog/{$authorLower}/{$slug}" class="card">
-                <h2>{$title}</h2>
-                <div class="card-meta">
-                    <span class="card-author">{$author}</span>
-                    <span class="card-date">{$date}</span>
+                <div class="card-header">
+                    <img class="card-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed={$authorEncoded}" alt="" data-author="{$author}">
+                    <div>
+                        <h2>{$title}</h2>
+                        <div class="card-meta">
+                            <span class="card-author">{$author}</span>
+                            <span class="card-date">{$date}</span>
+                        </div>
+                    </div>
                 </div>
                 <p class="card-preview">{$preview}...</p>
             </a>
@@ -213,6 +219,13 @@ CARD;
         }
         .session-btn:hover { border-color: var(--keyword); }
         .session-btn-dim { color: var(--base-dim); }
+        .session-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--bg3); flex-shrink: 0; }
+        .avatar-option {
+            width: 56px; height: 56px; border-radius: 50%; background: var(--bg3);
+            border: 2px solid var(--border); cursor: pointer; transition: border-color 0.2s, transform 0.2s;
+        }
+        .avatar-option:hover { border-color: var(--keyword); transform: scale(1.1); }
+        .avatar-option.selected { border-color: var(--suc); box-shadow: 0 0 0 2px var(--suc); }
 
         /* Grid */
         .grid {
@@ -226,8 +239,10 @@ CARD;
             color: var(--base); transition: border-color 0.2s, transform 0.2s;
         }
         .card:hover { border-color: var(--keyword); transform: translateY(-2px); }
-        .card h2 { font-size: 1.15rem; color: var(--head1); margin-bottom: 0.5rem; line-height: 1.4; }
-        .card-meta { color: var(--base-dim); font-size: 0.8rem; margin-bottom: 0.75rem; }
+        .card-header { display: flex; gap: 0.75rem; align-items: flex-start; margin-bottom: 0.5rem; }
+        .card-avatar { width: 42px; height: 42px; border-radius: 50%; background: var(--bg3); flex-shrink: 0; }
+        .card h2 { font-size: 1.15rem; color: var(--head1); margin-bottom: 0.25rem; line-height: 1.4; }
+        .card-meta { color: var(--base-dim); font-size: 0.8rem; }
         .card-author { color: var(--func); margin-right: 1rem; }
         .card-preview { font-size: 0.9rem; color: var(--base-dim); line-height: 1.5; }
         footer {
@@ -257,15 +272,19 @@ CARD;
         </div>
 
         <div id="session-banner" class="session-banner" style="display:none;">
+            <img id="session-avatar" class="session-avatar" src="" alt="">
             <div class="session-info">
-                <span class="session-icon">&#128100;</span>
                 <span>Publicando como <strong id="session-name"></strong></span>
             </div>
             <div class="session-actions">
+                <button id="session-change-avatar" class="session-btn">Cambiar avatar</button>
                 <button id="session-show-key" class="session-btn">Ver mi clave</button>
                 <button id="session-logout" class="session-btn session-btn-dim">Cambiar autor</button>
             </div>
-            <div id="session-key-reveal" style="display:none;margin-top:0.75rem;">
+            <div id="session-avatar-picker" style="display:none;width:100%;margin-top:0.75rem;">
+                <div style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;"></div>
+            </div>
+            <div id="session-key-reveal" style="display:none;width:100%;margin-top:0.75rem;">
                 <code id="session-key-value" style="display:block;background:var(--bg1);color:var(--suc);padding:0.5rem 0.75rem;border-radius:4px;font-size:0.9rem;word-break:break-all;"></code>
             </div>
         </div>
@@ -324,6 +343,18 @@ CARD;
             document.getElementById(id).classList.remove('open');
         }
 
+        // Avatar styles available
+        const AVATAR_STYLES = ['bottts', 'bottts-neutral', 'pixel-art', 'identicon', 'thumbs', 'shapes', 'initials'];
+        function getAvatarUrl(author, style) {
+            return 'https://api.dicebear.com/7.x/' + style + '/svg?seed=' + encodeURIComponent(author);
+        }
+        function getSavedStyle(author) {
+            return localStorage.getItem('cohete_avatar_' + author.toLowerCase().trim()) || 'bottts';
+        }
+        function saveStyle(author, style) {
+            localStorage.setItem('cohete_avatar_' + author.toLowerCase().trim(), style);
+        }
+
         // Session banner: find saved author in localStorage
         (function() {
             const prefix = 'cohete_token_';
@@ -341,9 +372,45 @@ CARD;
                 banner.style.display = '';
                 document.getElementById('session-name').textContent = savedAuthor;
 
+                // Avatar
+                const style = getSavedStyle(savedAuthor);
+                document.getElementById('session-avatar').src = getAvatarUrl(savedAuthor, style);
+
                 // Pre-fill the form author field
                 document.getElementById('pf-author').value = savedAuthor;
                 document.getElementById('pf-key').value = savedKey;
+
+                // Avatar picker
+                document.getElementById('session-change-avatar').addEventListener('click', function() {
+                    const picker = document.getElementById('session-avatar-picker');
+                    if (picker.style.display === 'none') {
+                        const container = picker.querySelector('div');
+                        container.innerHTML = '';
+                        const currentStyle = getSavedStyle(savedAuthor);
+                        AVATAR_STYLES.forEach(function(s) {
+                            const img = document.createElement('img');
+                            img.src = getAvatarUrl(savedAuthor, s);
+                            img.className = 'avatar-option' + (s === currentStyle ? ' selected' : '');
+                            img.title = s;
+                            img.addEventListener('click', function() {
+                                saveStyle(savedAuthor, s);
+                                document.getElementById('session-avatar').src = getAvatarUrl(savedAuthor, s);
+                                container.querySelectorAll('.avatar-option').forEach(function(el) { el.classList.remove('selected'); });
+                                img.classList.add('selected');
+                                // Update card avatars too
+                                document.querySelectorAll('.card-avatar[data-author="' + savedAuthor + '"]').forEach(function(el) {
+                                    el.src = getAvatarUrl(savedAuthor, s);
+                                });
+                            });
+                            container.appendChild(img);
+                        });
+                        picker.style.display = '';
+                        this.textContent = 'Cerrar';
+                    } else {
+                        picker.style.display = 'none';
+                        this.textContent = 'Cambiar avatar';
+                    }
+                });
 
                 document.getElementById('session-show-key').addEventListener('click', function() {
                     const reveal = document.getElementById('session-key-reveal');
@@ -363,6 +430,17 @@ CARD;
                 });
             }
         })();
+
+        // Apply saved avatar styles to cards on page load
+        document.querySelectorAll('.card-avatar').forEach(function(img) {
+            const author = img.getAttribute('data-author');
+            if (author) {
+                const style = getSavedStyle(author);
+                if (style !== 'bottts') {
+                    img.src = getAvatarUrl(author, style);
+                }
+            }
+        });
 
         // Eye toggle for password field
         document.getElementById('pf-key-toggle').addEventListener('click', function() {

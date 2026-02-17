@@ -18,7 +18,10 @@ class ThemeToggler extends HTMLElement {
             console.error("No se puede localizar el theme switcher");
         }
 
-        this.updateTheme(this.defaultTheme)
+        const saved = localStorage.getItem('cohete_theme');
+        const initial = saved && this.themes.includes(saved) ? saved : this.defaultTheme;
+        this.currentThemeIndex = Math.max(0, this.themes.indexOf(initial));
+        this.updateTheme(initial);
 
         this.shadowRoot.querySelector('button').addEventListener('click', () => this.nextTheme());
     }
@@ -85,7 +88,7 @@ class ThemeToggler extends HTMLElement {
         if (this.themeSwitcher) {
             this.themeSwitcher.setAttribute('theme', theme);
             this.shadowRoot.querySelector('button').textContent = theme + ' theme';
-
+            localStorage.setItem('cohete_theme', theme);
         }
     }
 }
