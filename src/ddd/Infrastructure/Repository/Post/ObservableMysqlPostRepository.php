@@ -121,7 +121,7 @@ VALUES (?,?,?,?,?,?,?, (SELECT id FROM author WHERE LOWER(name) = LOWER(SUBSTRIN
     public function update(Post $post): PromiseInterface
     {
         $updateQuery = "
-UPDATE post SET headline=?, slug=?, articleBody=?, author=?, datePublished=?, orgSource=? WHERE id=?
+UPDATE post SET headline=?, slug=?, articleBody=?, author=?, datePublished=?, orgSource=?, author_id=(SELECT id FROM author WHERE LOWER(name) = LOWER(SUBSTRING_INDEX(?, ' ', 1)) LIMIT 1) WHERE id=?
 ";
         return $this->mysqlClient->query($updateQuery, [
             (string)$post->headline,
@@ -130,6 +130,7 @@ UPDATE post SET headline=?, slug=?, articleBody=?, author=?, datePublished=?, or
             (string)$post->author,
             $post->datePublished->getDatetimeImmutable()->format('Y-m-d H:i:s'),
             $post->orgSource,
+            (string)$post->author,
             (string)$post->id,
         ])->then(
             fn (MysqlResult $mysqlResult): bool => $mysqlResult->affectedRows > 0,
