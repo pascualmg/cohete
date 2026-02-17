@@ -58,17 +58,22 @@ class CreatePostController implements HttpRequestHandler
                     return $this->createPost($payload);
                 }
 
-                // New author: register and return token
-                [$author, $plainKey] = Author::register($payload['author']);
+                // New author: register with user-chosen key or generate one
+                $chosenKey = $payload['author_key'] ?? $bearerToken ?? null;
+                [$author, $plainKey] = Author::register($payload['author'], $chosenKey);
 
                 return $this->authorRepository->save($author)->then(
-                    function () use ($payload, $plainKey): ResponseInterface {
+                    function () use ($payload, $plainKey, $chosenKey): ResponseInterface {
                         $response = $this->createPost($payload);
 
-                        // Decode to inject the token, re-encode
                         $data = json_decode((string) $response->getBody(), true);
-                        $data['author_token'] = $plainKey;
-                        $data['message'] = 'Welcome! Save this author_token - you will need it to publish as this author again.';
+                        if ($chosenKey === null) {
+                            // Server generated key - user needs to save it
+                            $data['author_token'] = $plainKey;
+                            $data['message'] = 'Welcome! Save this author_token - you will need it to publish as this author again.';
+                        } else {
+                            $data['message'] = 'Welcome! Your chosen key is now your token. Use it via Authorization: Bearer <your-key>';
+                        }
 
                         return JsonResponse::create(201, $data);
                     }

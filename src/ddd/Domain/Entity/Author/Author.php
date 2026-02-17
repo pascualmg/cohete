@@ -25,9 +25,9 @@ class Author implements \JsonSerializable
     }
 
     /** @return array{0: self, 1: string} [Author, plainKey] */
-    public static function register(string $name): array
+    public static function register(string $name, ?string $chosenKey = null): array
     {
-        $plainKey = bin2hex(random_bytes(32));
+        $plainKey = $chosenKey ?? bin2hex(random_bytes(32));
         $hash = password_hash($plainKey, PASSWORD_BCRYPT);
 
         return [

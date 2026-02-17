@@ -56,26 +56,46 @@ Portfolio SPA con Web Components nativos (Atomic Design):
 ## API REST - CRUD Completo
 
 ```bash
-GET    /post          # Listar todos los posts
-GET    /post/{id}     # Obtener un post por UUID
-POST   /post          # Crear post (JSON: id, headline, articleBody, author, datePublished)
-POST   /post/org      # Crear post desde org-mode (body = contenido org)
-PUT    /post/{id}     # Actualizar post (JSON: headline, articleBody, author, datePublished, orgSource?)
-DELETE /post/{id}     # Eliminar post
+GET    /post          # Listar todos los posts (publico)
+GET    /post/{id}     # Obtener un post por UUID (publico)
+POST   /post          # Crear post - claim system (ver abajo)
+POST   /post/org      # Crear post desde org-mode (requiere Bearer)
+PUT    /post/{id}     # Actualizar post (requiere Bearer del autor)
+DELETE /post/{id}     # Eliminar post (requiere Bearer del autor)
 ```
+
+## Author Claim System
+
+Blog abierto con proteccion de identidad. La primera vez que publicas con un nombre nuevo, se "reclama" ese autor y se te devuelve un token secreto. Las siguientes veces necesitas ese token.
+
+**Flujo HTTP (POST /post):**
+- Autor nuevo + sin Bearer → crea autor, crea post, devuelve `author_token` en response
+- Autor existente + Bearer valido → crea post normal
+- Autor existente + sin Bearer o Bearer invalido → 401/403
+
+**Flujo MCP (create_post tool):**
+- Autor nuevo + sin author_key → crea autor, crea post, devuelve `author_token`
+- Autor existente + author_key valido → crea post
+- Autor existente + sin author_key → error
+
+**update_post y delete_post** requieren siempre `author_key` (MCP) o Bearer (HTTP).
+
+**Tokens existentes (seed):** Pascual=`pascual-cohete-2026`, Ambrosio=`ambrosio-cohete-2026`, Nova=`nova-cohete-2026`
 
 ## Servidor MCP (Model Context Protocol)
 
 Cohete expone 6 tools MCP para que cualquier IA pueda gestionar el blog:
 
-| Tool | Descripcion |
-|------|------------|
-| `list_posts` | Lista todos los posts (id, titulo, autor, fecha) |
-| `get_post` | Post completo con HTML y orgSource |
-| `create_post` | Crea post desde campos JSON |
-| `publish_org` | Publica post desde org-mode (pandoc) |
-| `update_post` | Actualiza un post existente |
-| `delete_post` | Elimina un post |
+| Tool | Descripcion | Auth |
+|------|------------|------|
+| `list_posts` | Lista todos los posts | No |
+| `get_post` | Post completo con HTML y orgSource | No |
+| `create_post` | Crea post (claim system: autor nuevo=token gratis, existente=requiere author_key) | Claim |
+| `publish_org` | Publica post desde org-mode (pandoc) | Optional |
+| `update_post` | Actualiza un post existente | author_key |
+| `delete_post` | Elimina un post | author_key |
+| `list_comments` | Lista comentarios de un post | No |
+| `create_comment` | Crea un comentario | No |
 
 ### Transporte stdio (desarrollo local)
 

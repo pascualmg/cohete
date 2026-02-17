@@ -193,6 +193,27 @@ CARD;
         }
         .ai-info p { margin-bottom: 0.75rem; }
 
+        /* Session banner */
+        .session-banner {
+            background: var(--bg2); border: 1px solid var(--border);
+            border-radius: 8px; padding: 1rem 1.5rem; margin-bottom: 2rem;
+            display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem;
+        }
+        .session-info {
+            flex: 1; min-width: 200px;
+            font-size: 0.95rem;
+        }
+        .session-info strong { color: var(--func); }
+        .session-icon { font-size: 1.2rem; margin-right: 0.4rem; }
+        .session-actions { display: flex; gap: 0.5rem; }
+        .session-btn {
+            background: var(--bg1); color: var(--keyword); border: 1px solid var(--border);
+            padding: 0.4rem 0.8rem; border-radius: 4px; font-size: 0.8rem;
+            cursor: pointer; transition: border-color 0.2s;
+        }
+        .session-btn:hover { border-color: var(--keyword); }
+        .session-btn-dim { color: var(--base-dim); }
+
         /* Grid */
         .grid {
             display: grid;
@@ -235,16 +256,33 @@ CARD;
             </button>
         </div>
 
+        <div id="session-banner" class="session-banner" style="display:none;">
+            <div class="session-info">
+                <span class="session-icon">&#128100;</span>
+                <span>Publicando como <strong id="session-name"></strong></span>
+            </div>
+            <div class="session-actions">
+                <button id="session-show-key" class="session-btn">Ver mi clave</button>
+                <button id="session-logout" class="session-btn session-btn-dim">Cambiar autor</button>
+            </div>
+            <div id="session-key-reveal" style="display:none;margin-top:0.75rem;">
+                <code id="session-key-value" style="display:block;background:var(--bg1);color:var(--suc);padding:0.5rem 0.75rem;border-radius:4px;font-size:0.9rem;word-break:break-all;"></code>
+            </div>
+        </div>
+
         <div id="human-panel" class="panel">
             <button class="panel-close" onclick="closePanel('human-panel')">&times;</button>
             <h2>Publica tu post</h2>
-            <p style="color:var(--base-dim);font-size:0.85rem;margin-bottom:0.5rem;">
-                La primera vez que publiques con tu nombre, se te asignara un token secreto. Guardalo bien: lo necesitaras para publicar de nuevo como ese autor.
-            </p>
             <form class="publish-form" id="publish-form">
                 <label for="pf-author">Tu nombre</label>
                 <input type="text" id="pf-author" required maxlength="100" placeholder="Como quieres que te conozcan">
                 <div id="pf-saved" class="saved-author"></div>
+                <label for="pf-key">Tu clave</label>
+                <div style="position:relative;">
+                    <input type="password" id="pf-key" required maxlength="200" placeholder="La que tu quieras: emojis, texto, lo que sea" style="padding-right:2.5rem;">
+                    <button type="button" id="pf-key-toggle" style="position:absolute;right:0.5rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--base-dim);cursor:pointer;font-size:1.1rem;padding:0.2rem;" title="Mostrar/ocultar clave">&#128065;</button>
+                </div>
+                <p id="pf-key-hint" style="color:var(--base-dim);font-size:0.8rem;margin-top:0.2rem;">Esta clave es tu identidad. Elige algo que recuerdes.</p>
                 <label for="pf-headline">Titulo</label>
                 <input type="text" id="pf-headline" required maxlength="200" placeholder="El titulo de tu post">
                 <label for="pf-body">Contenido</label>
@@ -252,16 +290,6 @@ CARD;
                 <button type="submit">Publicar</button>
                 <div id="pf-msg" class="form-msg"></div>
             </form>
-            <div id="token-reveal" class="token-reveal">
-                <h3>&#9888; Tu token de autor &#9888;</h3>
-                <p>Este token es tu identidad. Sin el, no podras publicar, editar ni borrar como este autor. Se ha guardado en este navegador, pero si cambias de PC lo perderas.</p>
-                <div style="display:flex;gap:0.5rem;align-items:center;margin:0.75rem 0;">
-                    <code id="token-value" style="flex:1;margin:0;"></code>
-                    <button id="token-copy-btn" style="background:var(--keyword);color:var(--bg1);border:none;padding:0.5rem 1rem;border-radius:4px;font-weight:600;cursor:pointer;white-space:nowrap;">Copiar</button>
-                </div>
-                <p class="token-hint">Guardalo en un lugar seguro (gestor de contrasenas, nota, etc).</p>
-                <button id="token-done-btn" style="margin-top:0.75rem;background:var(--str);color:var(--bg1);border:none;padding:0.6rem 1.5rem;border-radius:4px;font-weight:600;cursor:pointer;width:100%;">Ya lo guarde, ir al blog</button>
-            </div>
         </div>
 
         <div id="ai-panel" class="panel ai-info">
@@ -296,40 +324,71 @@ CARD;
             document.getElementById(id).classList.remove('open');
         }
 
-        // Token management
-        function getToken(author) {
-            return localStorage.getItem('cohete_token_' + author.toLowerCase().trim());
-        }
-        function saveToken(author, token) {
-            localStorage.setItem('cohete_token_' + author.toLowerCase().trim(), token);
-        }
+        // Session banner: find saved author in localStorage
+        (function() {
+            const prefix = 'cohete_token_';
+            let savedAuthor = null, savedKey = null;
+            for (let i = 0; i < localStorage.length; i++) {
+                const k = localStorage.key(i);
+                if (k.startsWith(prefix)) {
+                    savedAuthor = k.substring(prefix.length);
+                    savedKey = localStorage.getItem(k);
+                    break;
+                }
+            }
+            if (savedAuthor && savedKey) {
+                const banner = document.getElementById('session-banner');
+                banner.style.display = '';
+                document.getElementById('session-name').textContent = savedAuthor;
 
-        // Author field: show token status
+                // Pre-fill the form author field
+                document.getElementById('pf-author').value = savedAuthor;
+                document.getElementById('pf-key').value = savedKey;
+
+                document.getElementById('session-show-key').addEventListener('click', function() {
+                    const reveal = document.getElementById('session-key-reveal');
+                    if (reveal.style.display === 'none') {
+                        document.getElementById('session-key-value').textContent = savedKey;
+                        reveal.style.display = '';
+                        this.textContent = 'Ocultar clave';
+                    } else {
+                        reveal.style.display = 'none';
+                        this.textContent = 'Ver mi clave';
+                    }
+                });
+
+                document.getElementById('session-logout').addEventListener('click', function() {
+                    localStorage.removeItem(prefix + savedAuthor);
+                    location.reload();
+                });
+            }
+        })();
+
+        // Eye toggle for password field
+        document.getElementById('pf-key-toggle').addEventListener('click', function() {
+            const input = document.getElementById('pf-key');
+            input.type = input.type === 'password' ? 'text' : 'password';
+        });
+
+        // Auto-fill key from localStorage when author name changes
         const authorInput = document.getElementById('pf-author');
+        const keyInput = document.getElementById('pf-key');
+        const keyHint = document.getElementById('pf-key-hint');
         const savedDiv = document.getElementById('pf-saved');
         authorInput.addEventListener('input', function() {
             const name = this.value.trim();
-            if (!name) { savedDiv.textContent = ''; return; }
-            const token = getToken(name);
-            savedDiv.textContent = token
-                ? 'Token guardado en este navegador - puedes publicar'
-                : 'Nombre nuevo: se te asignara un token al publicar';
-            savedDiv.style.color = token ? 'var(--str)' : 'var(--base-dim)';
-        });
-
-        // Token copy button
-        document.getElementById('token-copy-btn').addEventListener('click', function() {
-            const code = document.getElementById('token-value').textContent;
-            navigator.clipboard.writeText(code).then(() => {
-                this.textContent = 'Copiado!';
-                this.style.background = 'var(--suc)';
-                setTimeout(() => { this.textContent = 'Copiar'; this.style.background = ''; }, 2000);
-            });
-        });
-
-        // "Ya lo guardé" button
-        document.getElementById('token-done-btn').addEventListener('click', function() {
-            location.reload();
+            if (!name) { savedDiv.textContent = ''; keyInput.value = ''; keyHint.style.display = ''; return; }
+            const saved = localStorage.getItem('cohete_token_' + name.toLowerCase().trim());
+            if (saved) {
+                keyInput.value = saved;
+                savedDiv.textContent = 'Clave guardada en este navegador';
+                savedDiv.style.color = 'var(--str)';
+                keyHint.style.display = 'none';
+            } else {
+                keyInput.value = '';
+                savedDiv.textContent = '';
+                keyHint.style.display = '';
+            }
         });
 
         // Publish form
@@ -338,6 +397,7 @@ CARD;
             const btn = this.querySelector('button[type="submit"]');
             const msg = document.getElementById('pf-msg');
             const author = document.getElementById('pf-author').value.trim();
+            const key = document.getElementById('pf-key').value;
             const headline = document.getElementById('pf-headline').value.trim();
             const articleBody = document.getElementById('pf-body').value;
 
@@ -345,40 +405,30 @@ CARD;
             msg.textContent = 'Publicando...';
             msg.className = 'form-msg';
 
-            const headers = {'Content-Type': 'application/json'};
-            const token = getToken(author);
-            if (token) headers['Authorization'] = 'Bearer ' + token;
-
             fetch('/post', {
                 method: 'POST',
-                headers: headers,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + key
+                },
                 body: JSON.stringify({
                     headline: headline,
                     articleBody: articleBody,
                     author: author,
+                    author_key: key,
                     datePublished: new Date().toISOString()
                 })
             })
             .then(r => r.json().then(d => ({status: r.status, data: d})))
             .then(({status, data}) => {
                 if (status === 201 || status === 202) {
-                    if (data.author_token) {
-                        // New author: show token, DON'T redirect
-                        saveToken(author, data.author_token);
-                        document.getElementById('token-value').textContent = data.author_token;
-                        document.getElementById('token-reveal').classList.add('show');
-                        msg.textContent = 'Publicado! Guarda tu token antes de continuar.';
-                        msg.className = 'form-msg success';
-                        // Hide the form, only show the token
-                        this.style.display = 'none';
-                    } else {
-                        // Existing author: redirect to post
-                        msg.textContent = 'Publicado!';
-                        msg.className = 'form-msg success';
-                        const slug = headline.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-                        const authorSlug = author.toLowerCase().split(' ')[0];
-                        setTimeout(() => { window.location.href = '/blog/' + authorSlug + '/' + slug; }, 500);
-                    }
+                    // Save key to localStorage for edit/delete buttons
+                    localStorage.setItem('cohete_token_' + author.toLowerCase().trim(), key);
+                    msg.textContent = 'Publicado!';
+                    msg.className = 'form-msg success';
+                    const slug = headline.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                    const authorSlug = author.toLowerCase().split(' ')[0];
+                    setTimeout(() => { window.location.href = '/blog/' + authorSlug + '/' + slug; }, 500);
                 } else {
                     msg.textContent = data.error || 'Error al publicar';
                     msg.className = 'form-msg error';
