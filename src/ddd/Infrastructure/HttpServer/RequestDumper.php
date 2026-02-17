@@ -21,11 +21,11 @@ class RequestDumper implements MiddlewareInterface
         foreach ($request->getHeaders() as $name => $values) {
             echo "\e[0;35m$name:\e[0m \e[0;36m" . implode(", ", $values) . " ";
         }
-        $body = $request->getBody();
-        if($body->getSize() > 0){
+        $bodySize = $request->getBody()->getSize();
+        if($bodySize !== null && $bodySize > 0){
             echo "\n";
             echo "\e[0;35mBody:\e[0m ";
-            echo "\e[0;36m{$body}\e[0m ";
+            echo "\e[0;36m({$bodySize} bytes)\e[0m ";
         }
         return $handler->handle($request);
     }

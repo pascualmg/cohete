@@ -4,7 +4,7 @@ namespace pascualmg\cohete\ddd\Domain\Entity\Comment\Event;
 
 use pascualmg\cohete\ddd\Domain\Bus\Message;
 
-class CommentWasPublished extends Message
+readonly class CommentWasPublished extends Message
 {
     public function __construct(
         public readonly string $commentId,
