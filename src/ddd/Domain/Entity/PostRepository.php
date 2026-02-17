@@ -15,6 +15,8 @@ interface PostRepository
 
     public function findBySlug(Slug $slug): PromiseInterface; //of a post or null
 
+    public function findByAuthorAndSlug(string $authorName, Slug $slug): PromiseInterface; //of a post or null
+
     public function save(Post $postToCreate): PromiseInterface;
 
     public function update(Post $post): PromiseInterface;

@@ -2,11 +2,16 @@
 
 namespace pascualmg\cohete\ddd\Infrastructure\MCP;
 
+use pascualmg\cohete\ddd\Domain\Entity\Comment\Comment;
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
 use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
+use pascualmg\cohete\ddd\Domain\Entity\CommentRepository;
+use pascualmg\cohete\ddd\Domain\Service\AuthorAuthenticator;
 use pascualmg\cohete\ddd\Domain\ValueObject\UuidValueObject;
 use pascualmg\cohete\ddd\Infrastructure\Service\OrgToHtmlConverter;
+use pascualmg\cohete\ddd\Application\Comment\CreateCommentCommand;
+use pascualmg\cohete\ddd\Application\Comment\CreateCommentCommandHandler;
 use PhpMcp\Server\Attributes\McpTool;
 
 use function React\Async\await;
@@ -15,7 +20,10 @@ class BlogToolHandlers
 {
     public function __construct(
         private readonly PostRepository $postRepository,
+        private readonly CommentRepository $commentRepository,
         private readonly OrgToHtmlConverter $orgToHtmlConverter,
+        private readonly AuthorAuthenticator $authorAuthenticator,
+        private readonly CreateCommentCommandHandler $createCommentHandler,
     ) {
     }
 
@@ -75,11 +83,18 @@ class BlogToolHandlers
     }
 
     /**
-     * Publish a blog post from org-mode content. Pandoc converts org to HTML automatically.
+     * Publish a blog post from org-mode content. Requires author_key for authentication.
      */
     #[McpTool(name: 'publish_org')]
-    public function publishOrg(string $orgContent): array
+    public function publishOrg(string $orgContent, string $author_key = ''): array
     {
+        if (!empty($author_key)) {
+            $author = await($this->authorAuthenticator->authenticate($author_key));
+            if ($author === null) {
+                return ['error' => 'Invalid author_key'];
+            }
+        }
+
         $metadata = $this->orgToHtmlConverter->extractMetadata($orgContent);
         $html = $this->orgToHtmlConverter->convert($orgContent);
 
@@ -92,11 +107,13 @@ class BlogToolHandlers
             $datePublished = (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM);
         }
 
+        $authorName = isset($author) ? (string)$author->name : $metadata['author'];
+
         $post = Post::fromPrimitives(
             $postId,
             $metadata['title'],
             $html,
-            $metadata['author'],
+            $authorName,
             $datePublished,
             $orgContent,
         );
@@ -106,7 +123,7 @@ class BlogToolHandlers
         return [
             'id' => $postId,
             'headline' => $metadata['title'],
-            'author' => $metadata['author'],
+            'author' => $authorName,
             'datePublished' => $datePublished,
         ];
     }
@@ -143,5 +160,32 @@ class BlogToolHandlers
         return $deleted
             ? ['deleted' => true, 'id' => $id]
             : ['deleted' => false, 'error' => "Post not found: $id"];
+    }
+
+    /**
+     * List comments for a blog post by post UUID.
+     */
+    #[McpTool(name: 'list_comments')]
+    public function listComments(string $post_id): array
+    {
+        $comments = await($this->commentRepository->findByPostId(PostId::from($post_id)));
+
+        return array_map(
+            fn (Comment $c) => $c->jsonSerialize(),
+            $comments
+        );
+    }
+
+    /**
+     * Create a comment on a blog post. Open to anyone.
+     */
+    #[McpTool(name: 'create_comment')]
+    public function createComment(string $post_id, string $author_name, string $body): array
+    {
+        return await(($this->createCommentHandler)(new CreateCommentCommand(
+            $post_id,
+            $author_name,
+            $body,
+        )));
     }
 }

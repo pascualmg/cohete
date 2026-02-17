@@ -22,14 +22,17 @@ class McpServerFactory
         CoheteTransport $transport,
     ): CoheteTransport {
         $server = Server::make()
-            ->withServerInfo('cohete-blog', '1.0.0')
+            ->withServerInfo('cohete-blog', '2.0.0')
             ->withLogger($logger)
             ->withContainer($container)
             ->withTool([BlogToolHandlers::class, 'listPosts'], 'list_posts', 'List all blog posts')
             ->withTool([BlogToolHandlers::class, 'getPost'], 'get_post', 'Get a single blog post by UUID')
             ->withTool([BlogToolHandlers::class, 'createPost'], 'create_post', 'Create a new blog post')
-            ->withTool([BlogToolHandlers::class, 'publishOrg'], 'publish_org', 'Publish a blog post from org-mode content')
+            ->withTool([BlogToolHandlers::class, 'publishOrg'], 'publish_org', 'Publish a blog post from org-mode content (with optional author_key)')
             ->withTool([BlogToolHandlers::class, 'updatePost'], 'update_post', 'Update an existing blog post')
+            ->withTool([BlogToolHandlers::class, 'deletePost'], 'delete_post', 'Delete a blog post by UUID')
+            ->withTool([BlogToolHandlers::class, 'listComments'], 'list_comments', 'List comments for a blog post')
+            ->withTool([BlogToolHandlers::class, 'createComment'], 'create_comment', 'Create a comment on a blog post')
             ->build();
 
         // Framework integration: bind protocol to transport without running the loop

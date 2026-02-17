@@ -55,6 +55,18 @@ class ObservableMysqlPostRepository implements PostRepository
             ->toPromise();
     }
 
+    public function findByAuthorAndSlug(string $authorName, Slug $slug): PromiseInterface //of Post or Null
+    {
+        $promiseOfQuery = $this->mysqlClient->query(
+            "SELECT p.* FROM post p INNER JOIN author a ON p.author_id = a.id WHERE LOWER(a.name) = LOWER(?) AND p.slug = ?",
+            [$authorName, (string)$slug]
+        );
+
+        return Observable::fromPromise($promiseOfQuery)
+            ->map(fn (MysqlResult $mysqlResult) => self::hydrateOrNull($mysqlResult->resultRows[0] ?? null))
+            ->toPromise();
+    }
+
     private static function hydrateOrNull(?array $maybeResultRow): ?Post
     {
         if (null === $maybeResultRow) {

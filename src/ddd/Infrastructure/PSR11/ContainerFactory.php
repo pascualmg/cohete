@@ -8,13 +8,18 @@ use DI\NotFoundException;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use pascualmg\cohete\ddd\Domain\Bus\MessageBus;
+use pascualmg\cohete\ddd\Domain\Entity\AuthorRepository;
+use pascualmg\cohete\ddd\Domain\Entity\CommentRepository;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use pascualmg\cohete\ddd\Infrastructure\Bus\ReactMessageBus;
 use pascualmg\cohete\ddd\Infrastructure\Parser\FileParser;
 use pascualmg\cohete\ddd\Infrastructure\Parser\OrgFileParser;
 use pascualmg\cohete\ddd\Infrastructure\MCP\CoheteTransport;
 use pascualmg\cohete\ddd\Infrastructure\MCP\McpServerFactory;
+use pascualmg\cohete\ddd\Infrastructure\Repository\Author\ObservableMysqlAuthorRepository;
+use pascualmg\cohete\ddd\Infrastructure\Repository\Comment\ObservableMysqlCommentRepository;
 use pascualmg\cohete\ddd\Infrastructure\Repository\Post\ObservableMysqlPostRepository;
+use pascualmg\cohete\ddd\Infrastructure\Service\InMemoryRateLimiter;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 use React\EventLoop\Loop;
@@ -58,11 +63,14 @@ class ContainerFactory
                 return $logger;
             },
             PostRepository::class => static fn (ContainerInterface $c) => $c->get(ObservableMysqlPostRepository::class),
+            AuthorRepository::class => static fn (ContainerInterface $c) => $c->get(ObservableMysqlAuthorRepository::class),
+            CommentRepository::class => static fn (ContainerInterface $c) => $c->get(ObservableMysqlCommentRepository::class),
             FileParser::class => static fn (ContainerInterface $c) => $c->get(OrgFileParser::class),
             MessageBus::class => static fn (ContainerInterface $c) => $c->get(ReactMessageBus::class),
             ReactMessageBus::class => static fn (ContainerInterface $c) => new ReactMessageBus(
                 $c->get(LoopInterface::class)
             ),
+            InMemoryRateLimiter::class => static fn () => new InMemoryRateLimiter(5, 600),
             'EventBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
             'CommandBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
             'QueryBus' => static fn (ContainerInterface $c) => new ReactMessageBus($c->get(LoopInterface::class)),
@@ -96,6 +104,17 @@ class ContainerFactory
                 );
             }
         );
+
+        $container->get(MessageBus::class)->subscribe(
+            'domain_event.comment_published',
+            function ($data) use ($container) {
+                $container->get(LoggerInterface::class)->info(
+                    "CommentWasPublished: nuevo comentario en post",
+                    is_array($data) ? $data : [$data]
+                );
+            }
+        );
+
         return $container;
     }
 }

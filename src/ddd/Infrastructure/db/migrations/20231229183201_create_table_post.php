@@ -30,7 +30,7 @@ final class CreateTablePost extends AbstractMigration
          *
          * Generado por AI Assistant
          */
-        $table = $this->table('post', ['id' => false, 'primary_key' => ['id']]);
+        $table = $this->table('post');
         $table
             ->addColumn('id', 'string', ['limit' => 36, 'null' => false])
             ->addColumn('headline', 'string', ['limit' => 255])
