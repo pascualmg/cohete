@@ -38,6 +38,11 @@ class BlogIndexController implements HttpRequestHandler
             $preview = htmlspecialchars(mb_substr(preg_replace('/\s+/', ' ', strip_tags((string)$post->articleBody)), 0, 150), ENT_QUOTES, 'UTF-8');
 
             $authorEncoded = urlencode((string)$post->author);
+            $typeBadge = '';
+            if (!empty($post->authorType)) {
+                $typeClass = htmlspecialchars($post->authorType, ENT_QUOTES, 'UTF-8');
+                $typeBadge = "<span class=\"type-badge\" data-type=\"{$typeClass}\">{$typeClass}</span>";
+            }
             $cards .= <<<CARD
             <a href="/blog/{$authorLower}/{$slug}" class="card">
                 <div class="card-header">
@@ -45,7 +50,7 @@ class BlogIndexController implements HttpRequestHandler
                     <div>
                         <h2>{$title}</h2>
                         <div class="card-meta">
-                            <span class="card-author">{$author}</span>
+                            <span class="card-author">{$author}</span>{$typeBadge}
                             <span class="card-date">{$date}</span>
                         </div>
                     </div>
@@ -226,6 +231,14 @@ CARD;
         }
         .avatar-option:hover { border-color: var(--keyword); transform: scale(1.1); }
         .avatar-option.selected { border-color: var(--suc); box-shadow: 0 0 0 2px var(--suc); }
+        .type-badge {
+            display: inline-block; font-size: 0.7rem; font-weight: 600;
+            padding: 0.15rem 0.5rem; border-radius: 10px; margin-left: 0.5rem;
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .type-badge[data-type="human"] { background: var(--str); color: var(--bg1); }
+        .type-badge[data-type="ia"] { background: var(--keyword); color: var(--bg1); }
+        .type-badge[data-type="hybrid"] { background: var(--war); color: var(--bg1); }
 
         /* Grid */
         .grid {
@@ -271,15 +284,46 @@ CARD;
             </button>
         </div>
 
+        <div id="login-banner" class="session-banner" style="display:none;">
+            <span style="font-size:1.5rem;">&#128075;</span>
+            <div class="session-info" style="flex:1;">
+                <span>Oye, y tu quien eres?</span>
+            </div>
+            <button id="login-btn" class="session-btn" style="color:var(--head1);border-color:var(--head1);">Dime quien eres</button>
+        </div>
+
+        <div id="login-form-panel" class="panel">
+            <button class="panel-close" onclick="closePanel('login-form-panel')">&times;</button>
+            <h2>Dime quien eres</h2>
+            <form class="publish-form" id="login-form">
+                <label for="lf-name">Tu nombre</label>
+                <input type="text" id="lf-name" required maxlength="100" placeholder="El que usaste al publicar">
+                <label for="lf-key">Tu clave</label>
+                <div style="position:relative;">
+                    <input type="password" id="lf-key" required maxlength="200" placeholder="La que elegiste" style="padding-right:2.5rem;">
+                    <button type="button" onclick="this.previousElementSibling.type = this.previousElementSibling.type === 'password' ? 'text' : 'password'" style="position:absolute;right:0.5rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--base-dim);cursor:pointer;font-size:1.1rem;">&#128065;</button>
+                </div>
+                <button type="submit" style="margin-top:1rem;">Entrar</button>
+                <div id="lf-msg" class="form-msg"></div>
+            </form>
+        </div>
+
         <div id="session-banner" class="session-banner" style="display:none;">
             <img id="session-avatar" class="session-avatar" src="" alt="">
             <div class="session-info">
                 <span>Publicando como <strong id="session-name"></strong></span>
+                <span id="session-type-badge" class="type-badge" style="display:none;"></span>
             </div>
             <div class="session-actions">
-                <button id="session-change-avatar" class="session-btn">Cambiar avatar</button>
-                <button id="session-show-key" class="session-btn">Ver mi clave</button>
-                <button id="session-logout" class="session-btn session-btn-dim">Cambiar autor</button>
+                <select id="session-type-select" class="session-btn" title="Tipo de autor">
+                    <option value="">Que soy?</option>
+                    <option value="human">Human</option>
+                    <option value="ia">IA</option>
+                    <option value="hybrid">Hybrid</option>
+                </select>
+                <button id="session-change-avatar" class="session-btn">Avatar</button>
+                <button id="session-show-key" class="session-btn">Clave</button>
+                <button id="session-logout" class="session-btn session-btn-dim">Salir</button>
             </div>
             <div id="session-avatar-picker" style="display:none;width:100%;margin-top:0.75rem;">
                 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;"></div>
@@ -355,7 +399,7 @@ CARD;
             localStorage.setItem('cohete_avatar_' + author.toLowerCase().trim(), style);
         }
 
-        // Session banner: find saved author in localStorage
+        // Session management
         (function() {
             const prefix = 'cohete_token_';
             let savedAuthor = null, savedKey = null;
@@ -367,68 +411,138 @@ CARD;
                     break;
                 }
             }
-            if (savedAuthor && savedKey) {
-                const banner = document.getElementById('session-banner');
-                banner.style.display = '';
-                document.getElementById('session-name').textContent = savedAuthor;
 
-                // Avatar
-                const style = getSavedStyle(savedAuthor);
-                document.getElementById('session-avatar').src = getAvatarUrl(savedAuthor, style);
-
-                // Pre-fill the form author field
-                document.getElementById('pf-author').value = savedAuthor;
-                document.getElementById('pf-key').value = savedKey;
-
-                // Avatar picker
-                document.getElementById('session-change-avatar').addEventListener('click', function() {
-                    const picker = document.getElementById('session-avatar-picker');
-                    if (picker.style.display === 'none') {
-                        const container = picker.querySelector('div');
-                        container.innerHTML = '';
-                        const currentStyle = getSavedStyle(savedAuthor);
-                        AVATAR_STYLES.forEach(function(s) {
-                            const img = document.createElement('img');
-                            img.src = getAvatarUrl(savedAuthor, s);
-                            img.className = 'avatar-option' + (s === currentStyle ? ' selected' : '');
-                            img.title = s;
-                            img.addEventListener('click', function() {
-                                saveStyle(savedAuthor, s);
-                                document.getElementById('session-avatar').src = getAvatarUrl(savedAuthor, s);
-                                container.querySelectorAll('.avatar-option').forEach(function(el) { el.classList.remove('selected'); });
-                                img.classList.add('selected');
-                                // Update card avatars too
-                                document.querySelectorAll('.card-avatar[data-author="' + savedAuthor + '"]').forEach(function(el) {
-                                    el.src = getAvatarUrl(savedAuthor, s);
-                                });
-                            });
-                            container.appendChild(img);
-                        });
-                        picker.style.display = '';
-                        this.textContent = 'Cerrar';
-                    } else {
-                        picker.style.display = 'none';
-                        this.textContent = 'Cambiar avatar';
-                    }
+            if (!savedAuthor || !savedKey) {
+                // Not logged in: show login banner
+                document.getElementById('login-banner').style.display = '';
+                document.getElementById('login-btn').addEventListener('click', function() {
+                    togglePanel('login-form-panel');
+                    this.closest('.session-banner').style.display = 'none';
                 });
 
-                document.getElementById('session-show-key').addEventListener('click', function() {
-                    const reveal = document.getElementById('session-key-reveal');
-                    if (reveal.style.display === 'none') {
-                        document.getElementById('session-key-value').textContent = savedKey;
-                        reveal.style.display = '';
-                        this.textContent = 'Ocultar clave';
-                    } else {
-                        reveal.style.display = 'none';
-                        this.textContent = 'Ver mi clave';
-                    }
-                });
+                // Login form
+                document.getElementById('login-form').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const name = document.getElementById('lf-name').value.trim();
+                    const key = document.getElementById('lf-key').value;
+                    const msg = document.getElementById('lf-msg');
+                    msg.textContent = 'Verificando...';
+                    msg.className = 'form-msg';
 
-                document.getElementById('session-logout').addEventListener('click', function() {
-                    localStorage.removeItem(prefix + savedAuthor);
-                    location.reload();
+                    fetch('/author/login', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({name: name, key: key})
+                    })
+                    .then(function(r) { return r.json().then(function(d) { return {status: r.status, data: d}; }); })
+                    .then(function(res) {
+                        if (res.data.ok) {
+                            localStorage.setItem(prefix + name.toLowerCase().trim(), key);
+                            if (res.data.author.type) {
+                                localStorage.setItem('cohete_type_' + name.toLowerCase().trim(), res.data.author.type);
+                            }
+                            location.reload();
+                        } else {
+                            msg.textContent = res.data.error || 'Error';
+                            msg.className = 'form-msg error';
+                        }
+                    })
+                    .catch(function() { msg.textContent = 'Error de red'; msg.className = 'form-msg error'; });
                 });
+                return;
             }
+
+            // Logged in: show session banner
+            const banner = document.getElementById('session-banner');
+            banner.style.display = '';
+            document.getElementById('session-name').textContent = savedAuthor;
+
+            // Avatar
+            const style = getSavedStyle(savedAuthor);
+            document.getElementById('session-avatar').src = getAvatarUrl(savedAuthor, style);
+
+            // Type badge
+            const savedType = localStorage.getItem('cohete_type_' + savedAuthor);
+            const badge = document.getElementById('session-type-badge');
+            const typeSelect = document.getElementById('session-type-select');
+            if (savedType) {
+                badge.textContent = savedType;
+                badge.setAttribute('data-type', savedType);
+                badge.style.display = '';
+                typeSelect.value = savedType;
+            }
+
+            // Type selector
+            typeSelect.addEventListener('change', function() {
+                const type = this.value;
+                if (!type) return;
+                fetch('/author/type', {
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + savedKey},
+                    body: JSON.stringify({name: savedAuthor, type: type})
+                })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (data.ok) {
+                        localStorage.setItem('cohete_type_' + savedAuthor, type);
+                        badge.textContent = type;
+                        badge.setAttribute('data-type', type);
+                        badge.style.display = '';
+                    }
+                });
+            });
+
+            // Pre-fill the publish form
+            document.getElementById('pf-author').value = savedAuthor;
+            document.getElementById('pf-key').value = savedKey;
+
+            // Avatar picker
+            document.getElementById('session-change-avatar').addEventListener('click', function() {
+                const picker = document.getElementById('session-avatar-picker');
+                if (picker.style.display === 'none') {
+                    const container = picker.querySelector('div');
+                    container.innerHTML = '';
+                    const currentStyle = getSavedStyle(savedAuthor);
+                    AVATAR_STYLES.forEach(function(s) {
+                        const img = document.createElement('img');
+                        img.src = getAvatarUrl(savedAuthor, s);
+                        img.className = 'avatar-option' + (s === currentStyle ? ' selected' : '');
+                        img.title = s;
+                        img.addEventListener('click', function() {
+                            saveStyle(savedAuthor, s);
+                            document.getElementById('session-avatar').src = getAvatarUrl(savedAuthor, s);
+                            container.querySelectorAll('.avatar-option').forEach(function(el) { el.classList.remove('selected'); });
+                            img.classList.add('selected');
+                            document.querySelectorAll('.card-avatar[data-author="' + savedAuthor + '"]').forEach(function(el) {
+                                el.src = getAvatarUrl(savedAuthor, s);
+                            });
+                        });
+                        container.appendChild(img);
+                    });
+                    picker.style.display = '';
+                    this.textContent = 'Cerrar';
+                } else {
+                    picker.style.display = 'none';
+                    this.textContent = 'Avatar';
+                }
+            });
+
+            document.getElementById('session-show-key').addEventListener('click', function() {
+                const reveal = document.getElementById('session-key-reveal');
+                if (reveal.style.display === 'none') {
+                    document.getElementById('session-key-value').textContent = savedKey;
+                    reveal.style.display = '';
+                    this.textContent = 'Ocultar';
+                } else {
+                    reveal.style.display = 'none';
+                    this.textContent = 'Clave';
+                }
+            });
+
+            document.getElementById('session-logout').addEventListener('click', function() {
+                localStorage.removeItem(prefix + savedAuthor);
+                location.reload();
+            });
         })();
 
         // Apply saved avatar styles to cards on page load

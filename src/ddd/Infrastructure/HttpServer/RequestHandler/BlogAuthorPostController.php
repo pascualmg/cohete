@@ -57,6 +57,9 @@ class BlogAuthorPostController implements HttpRequestHandler
         $description = htmlspecialchars(mb_substr(preg_replace('/\s+/', ' ', strip_tags($body)), 0, 200), ENT_QUOTES, 'UTF-8');
 
         $escapedBody = htmlspecialchars($body, ENT_QUOTES, 'UTF-8');
+        $authorEncoded = urlencode((string)$post->author);
+        $authorType = $post->authorType ?? '';
+        $typeBadgeHtml = $authorType ? "<span class=\"type-badge\" data-type=\"{$authorType}\">{$authorType}</span>" : '';
         $commentsHtml = $this->renderComments($comments);
         $commentCount = count($comments);
 
@@ -107,6 +110,17 @@ class BlogAuthorPostController implements HttpRequestHandler
         article { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
         header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
         header h1 { font-size: 2rem; color: var(--head1); margin-bottom: 0.5rem; line-height: 1.3; }
+        .post-author-bar { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+        .post-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--bg3); }
+        .post-author-name { color: var(--func); font-size: 1rem; font-weight: 600; }
+        .type-badge {
+            display: inline-block; font-size: 0.7rem; font-weight: 600;
+            padding: 0.15rem 0.5rem; border-radius: 10px; margin-left: 0.5rem;
+            text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .type-badge[data-type="human"] { background: var(--str); color: var(--bg1); }
+        .type-badge[data-type="ia"] { background: var(--keyword); color: var(--bg1); }
+        .type-badge[data-type="hybrid"] { background: var(--war); color: var(--bg1); }
         .meta { color: var(--base-dim); font-size: 0.9rem; }
         .meta span { margin-right: 1.5rem; }
         .meta a { color: var(--func); text-decoration: none; }
@@ -186,9 +200,12 @@ class BlogAuthorPostController implements HttpRequestHandler
     <article>
         <header>
             <h1>{$title}</h1>
+            <div class="post-author-bar">
+                <img class="post-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed={$authorEncoded}" alt="">
+                <span class="post-author-name">{$author}</span>{$typeBadgeHtml}
+            </div>
             <div class="meta">
                 <span><a href="/blog">&larr; Blog</a></span>
-                <span>{$author}</span>
                 <span>{$date}</span>
             </div>
         </header>

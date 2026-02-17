@@ -13,6 +13,7 @@ class Post implements \JsonSerializable
 {
     //properties from schema.org
     public Slug $slug;
+    public ?string $authorType = null;
 
     public function __construct(
         public PostId $id,
@@ -32,8 +33,9 @@ class Post implements \JsonSerializable
         string $author,
         string $datePublished,
         ?string $orgSource = null,
+        ?string $authorType = null,
     ): Post {
-        return new Post(
+        $post = new Post(
             PostId::from($id),
             HeadLine::from($headline),
             ArticleBody::from($articleBody),
@@ -41,6 +43,8 @@ class Post implements \JsonSerializable
             DatePublished::from($datePublished),
             $orgSource,
         );
+        $post->authorType = $authorType;
+        return $post;
     }
 
     public function jsonSerialize(): array

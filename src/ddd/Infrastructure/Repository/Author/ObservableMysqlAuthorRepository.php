@@ -56,9 +56,17 @@ class ObservableMysqlAuthorRepository implements AuthorRepository
         );
     }
 
+    public function updateType(string $authorId, string $type): PromiseInterface
+    {
+        return $this->mysqlClient->query(
+            'UPDATE author SET type = ? WHERE id = ?',
+            [$type, $authorId]
+        );
+    }
+
     private static function hydrate(array $row): Author
     {
-        return Author::fromPrimitives($row['id'], $row['name'], $row['key_hash']);
+        return Author::fromPrimitives($row['id'], $row['name'], $row['key_hash'], $row['type'] ?? null);
     }
 
     private static function hydrateOrNull(?array $row): ?Author

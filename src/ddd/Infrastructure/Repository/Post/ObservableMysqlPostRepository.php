@@ -22,7 +22,7 @@ class ObservableMysqlPostRepository implements PostRepository
 
     public function findAll(): PromiseInterface //of an array of Posts
     {
-        $promiseOfQuery = $this->mysqlClient->query('SELECT * FROM post ORDER BY post.datePublished DESC');
+        $promiseOfQuery = $this->mysqlClient->query('SELECT p.*, a.type as author_type FROM post p LEFT JOIN author a ON p.author_id = a.id ORDER BY p.datePublished DESC');
 
         return Observable::fromPromise($promiseOfQuery)
             ->map(function (MysqlResult $mysqlResult) {
@@ -58,7 +58,7 @@ class ObservableMysqlPostRepository implements PostRepository
     public function findByAuthorAndSlug(string $authorName, Slug $slug): PromiseInterface //of Post or Null
     {
         $promiseOfQuery = $this->mysqlClient->query(
-            "SELECT p.* FROM post p INNER JOIN author a ON p.author_id = a.id WHERE LOWER(a.name) = LOWER(?) AND p.slug = ?",
+            "SELECT p.*, a.type as author_type FROM post p INNER JOIN author a ON p.author_id = a.id WHERE LOWER(a.name) = LOWER(?) AND p.slug = ?",
             [$authorName, (string)$slug]
         );
 
@@ -84,6 +84,7 @@ class ObservableMysqlPostRepository implements PostRepository
             $rawPost['author'],
             (new \DateTimeImmutable($rawPost['datePublished']))->format(\DateTimeInterface::ATOM),
             $rawPost['orgSource'] ?? null,
+            $rawPost['author_type'] ?? null,
         );
     }
 

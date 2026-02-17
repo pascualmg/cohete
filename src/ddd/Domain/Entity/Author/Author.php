@@ -12,15 +12,17 @@ class Author implements \JsonSerializable
         public readonly AuthorId $id,
         public readonly AuthorName $name,
         public readonly AuthorKeyHash $keyHash,
+        public readonly ?string $type = null,
     ) {
     }
 
-    public static function fromPrimitives(string $id, string $name, string $keyHash): self
+    public static function fromPrimitives(string $id, string $name, string $keyHash, ?string $type = null): self
     {
         return new self(
             AuthorId::from($id),
             AuthorName::from($name),
             AuthorKeyHash::from($keyHash),
+            $type,
         );
     }
 
@@ -50,6 +52,7 @@ class Author implements \JsonSerializable
         return [
             'id' => (string)$this->id,
             'name' => (string)$this->name,
+            'type' => $this->type,
         ];
     }
 }

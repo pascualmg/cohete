@@ -88,5 +88,15 @@
     "method": "GET",
     "path": "/post/{id}/comments",
     "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\ListCommentsController"
+  },
+  {
+    "method": "POST",
+    "path": "/author/login",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\AuthorLoginController"
+  },
+  {
+    "method": "PUT",
+    "path": "/author/type",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\AuthorUpdateTypeController"
   }
 ]
