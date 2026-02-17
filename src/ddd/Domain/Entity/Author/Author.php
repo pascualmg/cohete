@@ -24,6 +24,22 @@ class Author implements \JsonSerializable
         );
     }
 
+    /** @return array{0: self, 1: string} [Author, plainKey] */
+    public static function register(string $name): array
+    {
+        $plainKey = bin2hex(random_bytes(32));
+        $hash = password_hash($plainKey, PASSWORD_BCRYPT);
+
+        return [
+            new self(
+                AuthorId::v4(),
+                AuthorName::from($name),
+                AuthorKeyHash::from($hash),
+            ),
+            $plainKey,
+        ];
+    }
+
     public function verifyKey(string $plainKey): bool
     {
         return password_verify($plainKey, $this->keyHash->value);

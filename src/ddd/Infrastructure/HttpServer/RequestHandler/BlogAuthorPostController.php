@@ -56,6 +56,7 @@ class BlogAuthorPostController implements HttpRequestHandler
         $ogImage = $baseUrl . '/img/og-default.png';
         $description = htmlspecialchars(mb_substr(preg_replace('/\s+/', ' ', strip_tags($body)), 0, 200), ENT_QUOTES, 'UTF-8');
 
+        $escapedBody = htmlspecialchars($body, ENT_QUOTES, 'UTF-8');
         $commentsHtml = $this->renderComments($comments);
         $commentCount = count($comments);
 
@@ -136,6 +137,28 @@ class BlogAuthorPostController implements HttpRequestHandler
         .share-url button { background: var(--keyword); color: var(--bg1); border: none; padding: 0.5rem 1rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: opacity 0.2s; }
         .share-url button:hover { opacity: 0.85; }
         .share-url button.copied { background: var(--suc); }
+        /* Author actions */
+        .author-actions { display: none; margin-top: 1.5rem; padding: 1rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; }
+        .author-actions.show { display: block; }
+        .author-actions h3 { color: var(--head3); font-size: 0.95rem; margin-bottom: 0.75rem; }
+        .author-actions .btn-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+        .author-actions button { padding: 0.5rem 1.25rem; border: none; border-radius: 4px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .author-actions button:hover { opacity: 0.85; }
+        .author-actions .btn-edit { background: var(--keyword); color: var(--bg1); }
+        .author-actions .btn-delete { background: var(--err); color: #fff; }
+        .author-actions .btn-cancel { background: var(--border); color: var(--base); }
+        .author-actions .action-msg { font-size: 0.85rem; margin-top: 0.75rem; }
+        /* Edit form */
+        .edit-form { display: none; margin-top: 1rem; }
+        .edit-form.show { display: block; }
+        .edit-form label { display: block; color: var(--base-dim); font-size: 0.85rem; margin-bottom: 0.3rem; margin-top: 0.8rem; }
+        .edit-form input, .edit-form textarea { width: 100%; background: var(--bg1); color: var(--base); border: 1px solid var(--border); padding: 0.5rem 0.75rem; border-radius: 4px; font-size: 0.9rem; font-family: inherit; }
+        .edit-form input:focus, .edit-form textarea:focus { outline: 1px solid var(--keyword); border-color: var(--keyword); }
+        .edit-form textarea { min-height: 250px; resize: vertical; }
+        /* Delete confirm */
+        .delete-confirm { display: none; margin-top: 0.75rem; padding: 0.75rem; background: var(--bg3); border: 1px solid var(--err); border-radius: 4px; }
+        .delete-confirm.show { display: block; }
+        .delete-confirm p { color: var(--err); font-size: 0.85rem; margin-bottom: 0.5rem; }
         .comments-section { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border); }
         .comments-section h2 { color: var(--head2); font-size: 1.3rem; margin-bottom: 1.5rem; }
         .comment-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; padding: 1rem 1.25rem; margin-bottom: 1rem; }
@@ -179,6 +202,32 @@ class BlogAuthorPostController implements HttpRequestHandler
                 <button onclick="navigator.clipboard.writeText(document.getElementById('share-input').value).then(()=>{this.textContent='Copiado!';this.classList.add('copied');setTimeout(()=>{this.textContent='Copiar';this.classList.remove('copied')},2000)})">Copiar</button>
             </div>
         </div>
+        <div class="author-actions" id="author-actions" data-post-id="{$postId}" data-author="{$author}">
+            <h3>Es tu post</h3>
+            <div class="btn-row">
+                <button class="btn-edit" onclick="showEditForm()">Editar</button>
+                <button class="btn-delete" onclick="showDeleteConfirm()">Borrar</button>
+            </div>
+            <div id="edit-form" class="edit-form">
+                <label for="ef-headline">Titulo</label>
+                <input type="text" id="ef-headline" value="{$title}" maxlength="200">
+                <label for="ef-body">Contenido (HTML)</label>
+                <textarea id="ef-body">{$escapedBody}</textarea>
+                <div style="margin-top:0.75rem;" class="btn-row">
+                    <button class="btn-edit" onclick="submitEdit()">Guardar</button>
+                    <button class="btn-cancel" onclick="hideEditForm()">Cancelar</button>
+                </div>
+                <div id="edit-msg" class="action-msg"></div>
+            </div>
+            <div id="delete-confirm" class="delete-confirm">
+                <p>Estas seguro? Esto no se puede deshacer.</p>
+                <div class="btn-row">
+                    <button class="btn-delete" onclick="submitDelete()">Si, borrar</button>
+                    <button class="btn-cancel" onclick="hideDeleteConfirm()">No, cancelar</button>
+                </div>
+                <div id="delete-msg" class="action-msg"></div>
+            </div>
+        </div>
         <div class="comments-section">
             <h2>Comentarios ({$commentCount})</h2>
             {$commentsHtml}
@@ -204,6 +253,90 @@ class BlogAuthorPostController implements HttpRequestHandler
         import '/js/atomic/organism/ThemeToogler.js';
     </script>
     <script>
+        // Author actions: show only if token exists in localStorage
+        (function() {
+            const box = document.getElementById('author-actions');
+            const author = box.dataset.author;
+            const token = localStorage.getItem('cohete_token_' + author.toLowerCase().split(' ')[0]);
+            if (token) box.classList.add('show');
+        })();
+
+        function showEditForm() {
+            document.getElementById('edit-form').classList.add('show');
+            document.getElementById('delete-confirm').classList.remove('show');
+        }
+        function hideEditForm() { document.getElementById('edit-form').classList.remove('show'); }
+        function showDeleteConfirm() {
+            document.getElementById('delete-confirm').classList.add('show');
+            document.getElementById('edit-form').classList.remove('show');
+        }
+        function hideDeleteConfirm() { document.getElementById('delete-confirm').classList.remove('show'); }
+
+        function getAuthorToken() {
+            const author = document.getElementById('author-actions').dataset.author;
+            return localStorage.getItem('cohete_token_' + author.toLowerCase().split(' ')[0]);
+        }
+
+        function submitEdit() {
+            const box = document.getElementById('author-actions');
+            const postId = box.dataset.postId;
+            const author = box.dataset.author;
+            const msg = document.getElementById('edit-msg');
+            msg.textContent = 'Guardando...';
+            msg.style.color = 'var(--base-dim)';
+
+            fetch('/post/' + postId, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + getAuthorToken()
+                },
+                body: JSON.stringify({
+                    headline: document.getElementById('ef-headline').value,
+                    articleBody: document.getElementById('ef-body').value,
+                    author: author,
+                    datePublished: new Date().toISOString()
+                })
+            })
+            .then(r => r.json().then(d => ({ok: r.ok, data: d})))
+            .then(({ok, data}) => {
+                if (ok) {
+                    msg.textContent = 'Guardado!';
+                    msg.style.color = 'var(--suc)';
+                    setTimeout(() => location.reload(), 800);
+                } else {
+                    msg.textContent = data.error || 'Error al guardar';
+                    msg.style.color = 'var(--err)';
+                }
+            })
+            .catch(() => { msg.textContent = 'Error de red'; msg.style.color = 'var(--err)'; });
+        }
+
+        function submitDelete() {
+            const box = document.getElementById('author-actions');
+            const postId = box.dataset.postId;
+            const msg = document.getElementById('delete-msg');
+            msg.textContent = 'Borrando...';
+            msg.style.color = 'var(--base-dim)';
+
+            fetch('/post/' + postId, {
+                method: 'DELETE',
+                headers: { 'Authorization': 'Bearer ' + getAuthorToken() }
+            })
+            .then(r => r.json().then(d => ({ok: r.ok, data: d})))
+            .then(({ok, data}) => {
+                if (ok) {
+                    msg.textContent = 'Borrado! Volviendo al blog...';
+                    msg.style.color = 'var(--suc)';
+                    setTimeout(() => { window.location.href = '/blog'; }, 1000);
+                } else {
+                    msg.textContent = data.error || 'Error al borrar';
+                    msg.style.color = 'var(--err)';
+                }
+            })
+            .catch(() => { msg.textContent = 'Error de red'; msg.style.color = 'var(--err)'; });
+        }
+
         document.getElementById('comment-form').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = this.querySelector('button');

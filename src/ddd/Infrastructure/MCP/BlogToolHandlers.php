@@ -2,6 +2,9 @@
 
 namespace pascualmg\cohete\ddd\Infrastructure\MCP;
 
+use pascualmg\cohete\ddd\Domain\Entity\Author\Author;
+use pascualmg\cohete\ddd\Domain\Entity\Author\ValueObject\AuthorName;
+use pascualmg\cohete\ddd\Domain\Entity\AuthorRepository;
 use pascualmg\cohete\ddd\Domain\Entity\Comment\Comment;
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
 use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
@@ -24,6 +27,7 @@ class BlogToolHandlers
         private readonly OrgToHtmlConverter $orgToHtmlConverter,
         private readonly AuthorAuthenticator $authorAuthenticator,
         private readonly CreateCommentCommandHandler $createCommentHandler,
+        private readonly AuthorRepository $authorRepository,
     ) {
     }
 
@@ -62,24 +66,48 @@ class BlogToolHandlers
     }
 
     /**
-     * Create a new blog post from JSON fields.
+     * Create a new blog post. First time with an author name claims it and returns an author_token.
+     * Next times you must provide the author_key to publish as that author.
      */
     #[McpTool(name: 'create_post')]
-    public function createPost(string $headline, string $articleBody, string $author): array
+    public function createPost(string $headline, string $articleBody, string $author, string $author_key = ''): array
     {
+        $existingAuthor = await($this->authorRepository->findByName(AuthorName::from($author)));
+
+        if ($existingAuthor !== null) {
+            if (empty($author_key)) {
+                return ['error' => "Author '$author' already claimed. Provide author_key to publish as this author."];
+            }
+            if (!$existingAuthor->verifyKey($author_key)) {
+                return ['error' => 'Invalid author_key for this author'];
+            }
+        }
+
+        $plainKey = null;
+        if ($existingAuthor === null) {
+            [$newAuthor, $plainKey] = Author::register($author);
+            await($this->authorRepository->save($newAuthor));
+        }
+
         $postId = (string)UuidValueObject::v4();
         $datePublished = (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM);
 
         $post = Post::fromPrimitives($postId, $headline, $articleBody, $author, $datePublished);
-
         await($this->postRepository->save($post));
 
-        return [
+        $result = [
             'id' => $postId,
             'headline' => $headline,
             'author' => $author,
             'datePublished' => $datePublished,
         ];
+
+        if ($plainKey !== null) {
+            $result['author_token'] = $plainKey;
+            $result['message'] = 'Welcome! Save this author_token - you need it to publish as this author again.';
+        }
+
+        return $result;
     }
 
     /**
@@ -129,7 +157,7 @@ class BlogToolHandlers
     }
 
     /**
-     * Update an existing blog post. All fields are required.
+     * Update an existing blog post. Requires author_key matching the post's author.
      */
     #[McpTool(name: 'update_post')]
     public function updatePost(
@@ -138,10 +166,22 @@ class BlogToolHandlers
         string $articleBody,
         string $author,
         string $datePublished,
+        string $author_key,
         ?string $orgSource = null,
     ): array {
-        $post = Post::fromPrimitives($id, $headline, $articleBody, $author, $datePublished, $orgSource);
+        $existingPost = await($this->postRepository->findById(PostId::from($id)));
+        if ($existingPost === null) {
+            return ['error' => "Post not found: $id"];
+        }
 
+        $postAuthorName = (string)$existingPost->author;
+        $existingAuthor = await($this->authorRepository->findByName(AuthorName::from($postAuthorName)));
+
+        if ($existingAuthor === null || !$existingAuthor->verifyKey($author_key)) {
+            return ['error' => "Invalid author_key for author '$postAuthorName'"];
+        }
+
+        $post = Post::fromPrimitives($id, $headline, $articleBody, $author, $datePublished, $orgSource);
         $updated = await($this->postRepository->update($post));
 
         return $updated
@@ -150,11 +190,23 @@ class BlogToolHandlers
     }
 
     /**
-     * Delete a blog post by its UUID.
+     * Delete a blog post by its UUID. Requires author_key matching the post's author.
      */
     #[McpTool(name: 'delete_post')]
-    public function deletePost(string $id): array
+    public function deletePost(string $id, string $author_key): array
     {
+        $existingPost = await($this->postRepository->findById(PostId::from($id)));
+        if ($existingPost === null) {
+            return ['error' => "Post not found: $id"];
+        }
+
+        $postAuthorName = (string)$existingPost->author;
+        $existingAuthor = await($this->authorRepository->findByName(AuthorName::from($postAuthorName)));
+
+        if ($existingAuthor === null || !$existingAuthor->verifyKey($author_key)) {
+            return ['error' => "Invalid author_key for author '$postAuthorName'"];
+        }
+
         $deleted = await($this->postRepository->delete(PostId::from($id)));
 
         return $deleted
