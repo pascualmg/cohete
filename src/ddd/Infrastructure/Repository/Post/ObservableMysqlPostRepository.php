@@ -91,17 +91,19 @@ class ObservableMysqlPostRepository implements PostRepository
     {
         $insertPostQuery = "
 INSERT INTO post
-(id, headline, slug, articleBody, author, datePublished, orgSource) VALUES
-(?,?,?,?,?,?,?)
+(id, headline, slug, articleBody, author, datePublished, orgSource, author_id)
+VALUES (?,?,?,?,?,?,?, (SELECT id FROM author WHERE LOWER(name) = LOWER(SUBSTRING_INDEX(?, ' ', 1)) LIMIT 1))
 ";
+        $authorStr = (string)$postToCreate->author;
         return $this->mysqlClient->query($insertPostQuery, [
             (string)$postToCreate->id,
             (string)$postToCreate->headline,
             (string)$postToCreate->slug,
             (string)$postToCreate->articleBody,
-            (string)$postToCreate->author,
+            $authorStr,
             $postToCreate->datePublished->getDatetimeImmutable()->format('Y-m-d H:i:s'),
             $postToCreate->orgSource,
+            $authorStr,
         ])->then(
             function (MysqlResult $mysqlResult): bool {
                 $affectedRows = $mysqlResult->affectedRows;

@@ -27,31 +27,33 @@ class BlogAuthorPostController implements HttpRequestHandler
         $slugParam = $routeParams['slug'] ?? '';
 
         return $this->postRepository->findByAuthorAndSlug($authorParam, Slug::from($slugParam))->then(
-            function (?Post $post) use ($request): ResponseInterface|PromiseInterface {
+            function (?Post $post) use ($request, $authorParam): ResponseInterface|PromiseInterface {
                 if ($post === null) {
                     return new Response(404, ['Content-Type' => 'text/html; charset=utf-8'],
                         '<!DOCTYPE html><html><body><h1>Post no encontrado</h1><p><a href="/blog">Volver al blog</a></p></body></html>'
                     );
                 }
                 return $this->commentRepository->findByPostId($post->id)->then(
-                    fn (array $comments) => $this->renderHtml($post, $comments, $request),
-                    fn () => $this->renderHtml($post, [], $request)
+                    fn (array $comments) => $this->renderHtml($post, $comments, $request, $authorParam),
+                    fn () => $this->renderHtml($post, [], $request, $authorParam)
                 );
             },
             fn (\Throwable $e) => new Response(500, ['Content-Type' => 'text/plain'], $e->getMessage())
         );
     }
 
-    private function renderHtml(Post $post, array $comments, ServerRequestInterface $request): ResponseInterface
+    private function renderHtml(Post $post, array $comments, ServerRequestInterface $request, string $authorSlug): ResponseInterface
     {
         $title = htmlspecialchars((string)$post->headline, ENT_QUOTES, 'UTF-8');
         $author = htmlspecialchars((string)$post->author, ENT_QUOTES, 'UTF-8');
-        $authorLower = strtolower($author);
+        $authorLower = strtolower($authorSlug);
         $date = (string)$post->datePublished;
         $body = (string)$post->articleBody;
         $slug = (string)$post->slug;
         $postId = (string)$post->id;
-        $url = $request->getUri()->getScheme() . '://' . $request->getUri()->getHost() . "/blog/{$authorLower}/{$slug}";
+        $baseUrl = $request->getUri()->getScheme() . '://' . $request->getUri()->getHost();
+        $url = $baseUrl . "/blog/{$authorLower}/{$slug}";
+        $ogImage = $baseUrl . '/img/og-default.png';
         $description = htmlspecialchars(mb_substr(preg_replace('/\s+/', ' ', strip_tags($body)), 0, 200), ENT_QUOTES, 'UTF-8');
 
         $commentsHtml = $this->renderComments($comments);
@@ -71,11 +73,17 @@ class BlogAuthorPostController implements HttpRequestHandler
     <meta property="og:description" content="{$description}">
     <meta property="og:url" content="{$url}">
     <meta property="og:site_name" content="Cohete Blog">
+    <meta property="og:image" content="{$ogImage}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="es_ES">
     <meta property="article:author" content="{$author}">
     <meta property="article:published_time" content="{$date}">
-    <meta name="twitter:card" content="summary">
+    <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{$title}">
     <meta name="twitter:description" content="{$description}">
+    <meta name="twitter:image" content="{$ogImage}">
+    <link rel="canonical" href="{$url}">
     <style>
         :root {
             --bg1: #292b2e; --bg2: #212026; --bg3: #100a14;

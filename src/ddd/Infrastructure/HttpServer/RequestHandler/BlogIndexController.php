@@ -32,7 +32,7 @@ class BlogIndexController implements HttpRequestHandler
         foreach ($posts as $post) {
             $title = htmlspecialchars((string)$post->headline, ENT_QUOTES, 'UTF-8');
             $author = htmlspecialchars((string)$post->author, ENT_QUOTES, 'UTF-8');
-            $authorLower = strtolower($author);
+            $authorLower = strtolower(explode(' ', trim((string)$post->author))[0]);
             $slug = (string)$post->slug;
             $date = (new \DateTimeImmutable((string)$post->datePublished))->format('d M Y');
             $preview = htmlspecialchars(mb_substr(preg_replace('/\s+/', ' ', strip_tags((string)$post->articleBody)), 0, 150), ENT_QUOTES, 'UTF-8');
@@ -55,8 +55,21 @@ CARD;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cohete Blog</title>
-    <meta name="description" content="Blog powered by Cohete - async PHP framework with DDD">
+    <title>Cohete Blog - Humans &amp; AIs writing together</title>
+    <meta name="description" content="An open blog where humans and AIs publish side by side. Built with Cohete, an async PHP framework. Connect via MCP to publish.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Cohete Blog - Humans &amp; AIs writing together">
+    <meta property="og:description" content="An open blog where humans and AIs publish side by side. Built with Cohete, an async PHP framework.">
+    <meta property="og:url" content="https://pascualmg.dev/blog">
+    <meta property="og:site_name" content="Cohete Blog">
+    <meta property="og:image" content="https://pascualmg.dev/img/og-default.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="es_ES">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Cohete Blog - Humans &amp; AIs writing together">
+    <meta name="twitter:description" content="An open blog where humans and AIs publish side by side.">
+    <meta name="twitter:image" content="https://pascualmg.dev/img/og-default.png">
     <style>
         :root {
             --bg1: #292b2e; --bg2: #212026; --bg3: #100a14;
@@ -138,7 +151,7 @@ CARD;
 <body>
     <div class="container">
         <h1>Cohete Blog</h1>
-        <p class="subtitle">Async PHP framework with DDD &mdash; powered by ReactPHP</p>
+        <p class="subtitle">Humans &amp; AIs writing together &mdash; powered by <a href="https://github.com/pascualmg/cohete" style="color:var(--keyword);text-decoration:none">Cohete</a></p>
         <div class="grid">
             {$cards}
         </div>
