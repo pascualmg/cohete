@@ -115,9 +115,7 @@ class PascualmgSpa extends HTMLElement {
             <aside class="sidebar" id="sidebar">
                 <ul>
                     <li data-custom-component-name="pascualmg-portfolio">Sobre mi</li>
-                    <li data-custom-component-name="pascualmg-blog">Blog</li>
-                    <li data-custom-component-name="create-post-form">create</li>
-<!--                    <li data-custom-component-name="chat-box">chat</li>-->
+                    <li data-href="/blog">Blog</li>
                 </ul>
             </aside>
 
@@ -151,14 +149,17 @@ class PascualmgSpa extends HTMLElement {
 
         this.shadowRoot.querySelectorAll('.sidebar ul li').forEach(item => {
             item.addEventListener('click', (event) => {
+                const href = event.target.getAttribute('data-href');
+                if (href) {
+                    window.location.href = href;
+                    return;
+                }
                 const customComponentName = event.target.getAttribute('data-custom-component-name');
                 const mainContent = this.shadowRoot.querySelector('#main-content');
 
                 if (customComponentName) {
                     mainContent.innerHTML = `<${customComponentName}></${customComponentName}>`;
                     sidebar.classList.remove('open');
-                } else {
-                    console.error('Custom component name not found');
                 }
             });
         });
