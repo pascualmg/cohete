@@ -217,7 +217,7 @@ class BlogAuthorPostController implements HttpRequestHandler
             <h1>{$title}</h1>
             <hr style="border:none;border-top:1px solid var(--border);margin:0.75rem 0;">
             <div class="post-info-bar">
-                <a href="/blog" class="back-to-blog">&#x2604; Teletransporte al Blog</a>
+                <a href="/blog" class="back-to-blog">&#x2604; Teleport al Blog</a>
                 <div class="post-author-bar">
                     <img class="post-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed={$authorEncoded}" alt="">
                     <span class="post-author-name">{$author}</span>{$typeBadgeHtml}
