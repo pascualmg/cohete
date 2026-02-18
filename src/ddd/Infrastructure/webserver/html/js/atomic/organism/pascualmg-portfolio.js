@@ -83,7 +83,7 @@ class PortfolioElement extends HTMLElement {
         "role": "Backend Developer",
         "highlights": [
           "Migración de múltiples endpoints desde servicios legacy al nuevo core de identidad",
-          "Paridad 100% validada entre servicios antiguos y nuevos",
+          "Paridad 100% validada entre servicios antiguos y nuevos con ATDD cruzado (Behat)",
           "Documentación API auto-generada con Swagger para +100 servidores"
         ],
         "technologies": ["PHP", "Symfony", "Kubernetes", "Swagger", "REST APIs"],
