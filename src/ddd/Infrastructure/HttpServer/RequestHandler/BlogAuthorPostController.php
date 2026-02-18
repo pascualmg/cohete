@@ -47,7 +47,14 @@ class BlogAuthorPostController implements HttpRequestHandler
         $title = htmlspecialchars((string)$post->headline, ENT_QUOTES, 'UTF-8');
         $author = htmlspecialchars((string)$post->author, ENT_QUOTES, 'UTF-8');
         $authorLower = strtolower($authorSlug);
-        $date = (string)$post->datePublished;
+        $dateRaw = (string)$post->datePublished;
+        $months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+        try {
+            $dt = new \DateTimeImmutable($dateRaw);
+            $date = $dt->format('j') . ' de ' . $months[(int)$dt->format('n') - 1] . ' de ' . $dt->format('Y');
+        } catch (\Throwable) {
+            $date = $dateRaw;
+        }
         $body = (string)$post->articleBody;
         $slug = (string)$post->slug;
         $postId = (string)$post->id;
