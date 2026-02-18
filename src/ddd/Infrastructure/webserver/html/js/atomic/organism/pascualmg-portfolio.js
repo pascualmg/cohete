@@ -57,56 +57,12 @@ class PortfolioElement extends HTMLElement {
          ]'>
   </social-links>
 
-<div class="about-this-portfolio-container">
-<yast-modal button-text="Que tiene de especial este Portfolio" class="custom-button">
-    <about-this-portfolio slot="content"></about-this-portfolio>
-</yast-modal>
-</div>
-
- <soft-skills
-        skills='[
-          "Trabajo muy bien en equipo.",
-          "Tengo una alta disposición para aprender nuevos lenguajes y tecnologías.",
-          "Buen comunicador con compañeros y clientes no técnicos",
-          "Capacidad para encontrar formas creativas de resolver problemas técnicos y adaptarse a nuevos desafíos",
-          "Autodidacta y entusiasta de la programación",
-          "Creador de mi propio framework para crear API RESTful asíncronas con ReactPHP."
-        ]'
-
-      ></soft-skills>
-
- <technologies-list images='[
-    {"src": "https://raw.githubusercontent.com/NixOS/nixos-artwork/53ea652ec7d8af5d21fd2b79b6c49cb39078ddfb/logo/nixos.svg", "alt": "nixos"},
-    {"src": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Haskell-logo2.svg", "alt": "haskell"},
-    {"src": "https://chuidiang.org/images/f/f3/Logo_php.png", "alt": "php"},
-    {"src": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Github-desktop-logo-symbol.svg", "alt": "github"},
-    {"src": "https://raw.githubusercontent.com/reactphp/branding/main/reactphp-logo.svg", "alt": "reactphp"},
-    {"src": "https://symfony.com/logos/symfony_black_03.png", "alt": "symfony"},
-    {"src": "https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg", "alt": "javascript"},
-    {"src": "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg", "alt": "html5"},
-    {"src": "https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg", "alt": "css3"}
-]'></technologies-list>
-
 <experience-timeline  data='[
   {
     "company": "UST (para Vocento)",
-    "position": "Backend PHP/Symfony Engineer",
+    "position": "Backend PHP/Symfony Engineer - Identity Team",
     "startDate": "2024-07-01",
     "projects": [
-      {
-        "name": "APIs de Contenido para Medios Digitales",
-        "role": "Backend Developer",
-        "highlights": [
-          "Desarrollo y mantenimiento de APIs RESTful para servir contenido a los diferentes medios del grupo Vocento",
-          "Refactorización y modernización de código legacy para mejorar mantenibilidad y rendimiento",
-          "Optimización de rendimiento en endpoints de alto tráfico"
-        ],
-        "technologies": ["PHP", "Symfony", "REST APIs", "MySQL"],
-        "achievements": [
-          "Mejora del rendimiento y escalabilidad de las APIs de contenido",
-          "Modernización de código legacy aplicando buenas prácticas y patrones de diseño"
-        ]
-      },
       {
         "name": "Sistema de Identidad y Autenticación OAuth2",
         "role": "Backend Developer",
@@ -119,6 +75,56 @@ class PortfolioElement extends HTMLElement {
         "achievements": [
           "Securización de las APIs internas del grupo con estándar OAuth2",
           "Implementación robusta de autenticación con League OAuth2 Server"
+        ]
+      },
+      {
+        "name": "Webhooks 2.0 - Arquitectura Event-Driven",
+        "role": "Backend Developer",
+        "highlights": [
+          "Diseño e implementación de sistema de webhooks event-driven para notificaciones en tiempo real",
+          "Arquitectura basada en eventos de dominio con gestión de reintentos y circuit breaker",
+          "APIs RESTful de alto tráfico para servir contenido a los medios digitales del grupo"
+        ],
+        "technologies": ["PHP", "Symfony", "REST APIs", "MySQL", "Event-Driven Architecture"],
+        "achievements": [
+          "Sistema de webhooks robusto con reintentos y tolerancia a fallos",
+          "Modernización de código legacy aplicando buenas prácticas y patrones de diseño"
+        ]
+      }
+    ]
+  },
+  {
+    "company": "Proyecto Personal",
+    "position": "Creador de Cohete Framework",
+    "startDate": "2023-05-24",
+    "projects": [
+      {
+        "name": "Cohete - Framework PHP Asíncrono",
+        "role": "Creador y Líder Técnico",
+        "highlights": [
+          "Framework PHP asíncrono sobre ReactPHP con observables RxPHP y arquitectura DDD",
+          "Servidor HTTP non-blocking, single-process: HTTP + MCP en el mismo event loop",
+          "En producción en pascualmg.dev: portfolio, blog multi-autor y servidor MCP integrado"
+        ],
+        "technologies": ["PHP", "ReactPHP", "RxPHP", "DDD", "CQRS", "MySQL"],
+        "achievements": [
+          "~3000 líneas que sirven portfolio SPA, blog con autores y API REST completa",
+          "Primer framework PHP con servidor MCP (Model Context Protocol) nativo integrado"
+        ]
+      },
+      {
+        "name": "Blog Cohete - Plataforma Multi-Autor (Humanos + IAs)",
+        "role": "Creador",
+        "highlights": [
+          "Blog donde humanos e IAs publican juntos con sistema de autenticación por claim tokens",
+          "Servidor MCP/SSE integrado: cualquier agente IA puede publicar, leer y comentar",
+          "Frontend con Web Components nativos (Atomic Design) y temas Spacemacs",
+          "Indexado por Google como framework PHP asíncrono"
+        ],
+        "technologies": ["PHP", "ReactPHP", "MCP", "SSE", "Web Components", "DDD"],
+        "achievements": [
+          "Primer blog donde IAs externas publican de forma autónoma via MCP",
+          "UX diseñada para humanos y agentes IA por igual"
         ]
       }
     ]
@@ -136,24 +142,6 @@ class PortfolioElement extends HTMLElement {
           "Formación en PHP, JavaScript, HTML5 y CSS a profesionales del sector"
         ],
         "technologies": ["PHP", "JavaScript", "HTML5", "CSS"]
-      }
-    ]
-  },
-  {
-    "company": "I+D Personal",
-    "position": "Creador de Cohete Framework",
-    "startDate": "2023-05-24",
-    "endDate": "2024-06-13",
-    "projects": [
-      {
-        "name": "Cohete - Framework PHP Asíncrono",
-        "role": "Creador y Líder Técnico",
-        "highlights": [
-          "Framework PHP asíncrono sobre ReactPHP con observables RxPHP",
-          "Arquitectura DDD con servidor HTTP non-blocking",
-          "Este portfolio corre sobre Cohete"
-        ],
-        "technologies": ["PHP", "ReactPHP", "RxPHP", "DDD"]
       }
     ]
   },
@@ -214,6 +202,36 @@ class PortfolioElement extends HTMLElement {
     ]
   }
 ]'></experience-timeline>
+
+ <technologies-list images='[
+    {"src": "https://raw.githubusercontent.com/NixOS/nixos-artwork/53ea652ec7d8af5d21fd2b79b6c49cb39078ddfb/logo/nixos.svg", "alt": "nixos"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Haskell-logo2.svg", "alt": "haskell"},
+    {"src": "https://chuidiang.org/images/f/f3/Logo_php.png", "alt": "php"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Github-desktop-logo-symbol.svg", "alt": "github"},
+    {"src": "https://raw.githubusercontent.com/reactphp/branding/main/reactphp-logo.svg", "alt": "reactphp"},
+    {"src": "https://symfony.com/logos/symfony_black_03.png", "alt": "symfony"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg", "alt": "javascript"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg", "alt": "html5"},
+    {"src": "https://upload.wikimedia.org/wikipedia/commons/d/d5/CSS3_logo_and_wordmark.svg", "alt": "css3"}
+]'></technologies-list>
+
+ <soft-skills
+        skills='[
+          "Trabajo muy bien en equipo.",
+          "Tengo una alta disposición para aprender nuevos lenguajes y tecnologías.",
+          "Buen comunicador con compañeros y clientes no técnicos",
+          "Capacidad para encontrar formas creativas de resolver problemas técnicos y adaptarse a nuevos desafíos",
+          "Autodidacta y entusiasta de la programación",
+          "Creador de mi propio framework para crear API RESTful asíncronas con ReactPHP."
+        ]'
+
+      ></soft-skills>
+
+<div class="about-this-portfolio-container">
+<yast-modal button-text="Que tiene de especial este Portfolio" class="custom-button">
+    <about-this-portfolio slot="content"></about-this-portfolio>
+</yast-modal>
+</div>
         `;
   }
 }
