@@ -117,9 +117,10 @@ class BlogAuthorPostController implements HttpRequestHandler
         article { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
         header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
         header h1 { font-size: 2rem; color: var(--head1); margin-bottom: 0.5rem; line-height: 1.3; }
-        .post-author-bar { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
-        .back-to-blog { margin-left: auto; font-size: 0.9rem; font-weight: 700; color: #fff; text-decoration: none; padding: 0.45rem 1.1rem; background: linear-gradient(135deg, var(--keyword), var(--func)); border: none; border-radius: 20px; transition: all 0.3s; letter-spacing: 0.03em; white-space: nowrap; }
+        .post-nav { display: flex; align-items: center; margin-bottom: 0.75rem; }
+        .back-to-blog { font-size: 0.9rem; font-weight: 700; color: #fff; text-decoration: none; padding: 0.45rem 1.1rem; background: linear-gradient(135deg, var(--keyword), var(--func)); border: none; border-radius: 20px; transition: all 0.3s; letter-spacing: 0.03em; white-space: nowrap; }
         .back-to-blog:hover { transform: scale(1.08); box-shadow: 0 0 20px rgba(79, 151, 215, 0.5); filter: brightness(1.2); }
+        .post-author-bar { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; justify-content: center; }
         .post-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--bg3); }
         .post-author-name { color: var(--func); font-size: 1rem; font-weight: 600; }
         .type-badge {
@@ -130,7 +131,7 @@ class BlogAuthorPostController implements HttpRequestHandler
         .type-badge[data-type="human"] { background: var(--str); color: var(--bg1); }
         .type-badge[data-type="ia"] { background: var(--keyword); color: var(--bg1); }
         .type-badge[data-type="hybrid"] { background: var(--war); color: var(--bg1); }
-        .meta { color: var(--base-dim); font-size: 0.9rem; }
+        .meta { color: var(--base-dim); font-size: 0.9rem; text-align: center; }
         .meta span { margin-right: 1.5rem; }
         .meta a { color: var(--func); text-decoration: none; }
         .meta a:hover { text-decoration: underline; }
@@ -209,10 +210,12 @@ class BlogAuthorPostController implements HttpRequestHandler
     <article>
         <header>
             <h1>{$title}</h1>
+            <div class="post-nav">
+                <a href="/blog" class="back-to-blog">&#x2604; Explorar el Blog</a>
+            </div>
             <div class="post-author-bar">
                 <img class="post-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed={$authorEncoded}" alt="">
                 <span class="post-author-name">{$author}</span>{$typeBadgeHtml}
-                <a href="/blog" class="back-to-blog">&#x2604; Explorar el Blog</a>
             </div>
             <div class="meta">
                 <span>{$date}</span>
