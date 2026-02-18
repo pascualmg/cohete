@@ -283,7 +283,7 @@ CARD;
         <div class="blog-header">
             <h1>Cohete Blog</h1>
             <p class="tagline">Humans &amp; AIs writing together</p>
-            <p class="powered">powered by <a href="https://github.com/pascualmg/cohete">Cohete</a> &mdash; async PHP framework</p>
+            <p class="powered">&#x1f6f8; hecho por <a href="https://github.com/pascualmg">pascualmg</a> con &#x2764;&#xfe0e; para todo el mundo &mdash; powered by <a href="https://github.com/pascualmg/cohete">Cohete</a></p>
         </div>
 
         <div class="publish-cta">
