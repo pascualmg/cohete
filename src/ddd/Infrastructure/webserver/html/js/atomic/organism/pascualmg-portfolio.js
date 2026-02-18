@@ -64,32 +64,32 @@ class PortfolioElement extends HTMLElement {
     "startDate": "2024-07-01",
     "projects": [
       {
-        "name": "Webhooks 2.0 - Reescritura Event-Driven desde cero",
+        "name": "Webhooks 2.0 - Data Hub Event-Driven",
         "role": "Backend Developer / Arquitecto",
         "highlights": [
-          "Reescritura completa de sistema legacy de webhooks con arquitectura event-driven y DDD",
-          "Arquitectura Accept Now, Process Later: batch processing idempotente probado con 93.000+ eventos",
-          "Patrones Claim-Then-Process para race conditions y coalescing para outbound eficiente",
-          "11 Architecture Decision Records documentados"
+          "Reescritura desde cero de sistema legacy: ingesta, procesamiento batch y sincronización outbound",
+          "Idempotencia E2E con timestamps duales, descubierta analizando 410.000+ webhooks reales en producción",
+          "Patrón Claim-Then-Process con memoria estable (~50-80MB) procesando 93.000+ eventos sin OOM",
+          "15 ADRs documentados con contexto, decisión y consecuencias"
         ],
-        "technologies": ["PHP 8.1", "Symfony 6", "MongoDB 6", "DDD", "Domain Events", "Behat ATDD", "PHPStan"],
+        "technologies": ["PHP 8.1", "Symfony 6", "MongoDB 6", "DDD", "Domain Events", "RabbitMQ", "Behat ATDD"],
         "achievements": [
-          "Pipeline completo inbound+outbound con idempotencia E2E",
-          "Migración coordinada de MongoDB 3.6 a 6 con equipo de Infra"
+          "490.000+ webhooks procesados en DES con 0 errores",
+          "Migración coordinada de MongoDB 3.6 a 6"
         ]
       },
       {
-        "name": "Migración de Servicios Legacy",
+        "name": "Migración Legacy + Developer Experience",
         "role": "Backend Developer",
         "highlights": [
-          "Migración de múltiples endpoints desde servicios legacy al nuevo core de identidad",
-          "Paridad 100% validada entre servicios antiguos y nuevos con ATDD cruzado (Behat)",
-          "Documentación API auto-generada con Swagger para +100 servidores"
+          "Migración de endpoints legacy al nuevo core de identidad con paridad 100% validada por ATDD cruzado (Behat)",
+          "Documentación API auto-generada con Swagger para +100 servidores",
+          "Sistema de distribución de conocimiento técnico via ficheros MD unificados en repo agnóstico como best practice para el equipo"
         ],
-        "technologies": ["PHP", "Symfony", "Kubernetes", "Swagger", "REST APIs"],
+        "technologies": ["PHP", "Symfony", "Kubernetes", "Swagger", "Nix Flakes", "Behat"],
         "achievements": [
-          "Deprecación completa de servicios legacy",
-          "6+ releases a producción gestionadas en 3 meses"
+          "Deprecación completa de servicios legacy, 6+ releases en 3 meses",
+          "Entornos de desarrollo reproducibles con Nix Flakes para proyectos PHP 7.1 y 8.1"
         ]
       }
     ]
