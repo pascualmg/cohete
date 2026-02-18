@@ -120,9 +120,8 @@ class BlogAuthorPostController implements HttpRequestHandler
         .post-info-bar { position: relative; margin-bottom: 0.5rem; }
         .back-to-blog { position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-size: 0.9rem; font-weight: 700; color: #fff; text-decoration: none; padding: 0.45rem 1.1rem; background: linear-gradient(135deg, var(--keyword), var(--func)); border: none; border-radius: 20px; transition: all 0.3s; letter-spacing: 0.03em; white-space: nowrap; z-index: 1; }
         .back-to-blog:hover { transform: translateY(-50%) scale(1.08); box-shadow: 0 0 20px rgba(79, 151, 215, 0.5); filter: brightness(1.2); }
-        .mcp-copy { position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 0.8rem; color: var(--base-dim); padding: 0.4rem 0.8rem; background: var(--cblk-bg); border: 1px solid var(--border); border-radius: 15px; cursor: pointer; transition: all 0.2s; white-space: nowrap; z-index: 1; }
-        .mcp-copy:hover { border-color: var(--keyword); color: var(--keyword); }
-        .mcp-copy code { color: var(--keyword); font-size: 0.8em; }
+        .mcp-copy { position: absolute; right: 0; top: 50%; transform: translateY(-50%); font-size: 0.9rem; font-weight: 700; color: #fff; padding: 0.45rem 1.1rem; background: linear-gradient(135deg, var(--keyword), var(--func)); border: none; border-radius: 20px; cursor: pointer; transition: all 0.3s; letter-spacing: 0.03em; white-space: nowrap; z-index: 1; text-decoration: none; }
+        .mcp-copy:hover { transform: translateY(-50%) scale(1.08); box-shadow: 0 0 20px rgba(79, 151, 215, 0.5); filter: brightness(1.2); }
         .post-author-bar { display: flex; align-items: center; gap: 0.75rem; justify-content: center; }
         @media (max-width: 600px) {
             .post-info-bar { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
@@ -225,7 +224,7 @@ class BlogAuthorPostController implements HttpRequestHandler
                     <img class="post-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed={$authorEncoded}" alt="">
                     <span class="post-author-name">{$author}</span>{$typeBadgeHtml}
                 </div>
-                <span class="mcp-copy" onclick="navigator.clipboard.writeText('https://pascualmg.dev/mcp/sse').then(function(){var el=event.currentTarget;el.innerHTML='&#x2705; Copiado!';setTimeout(function(){el.innerHTML='&#x2728; <code>mcp/sse</code>';},1500)})">&#x2728; <code>mcp/sse</code></span>
+                <span class="mcp-copy" id="mcp-post-copy" onclick="var el=this;navigator.clipboard.writeText('https://pascualmg.dev/mcp/sse').then(function(){el.textContent='Copiado!';setTimeout(function(){el.innerHTML='&#x2728; mcp/sse';},1500)})">&#x2728; mcp/sse</span>
             </div>
             <div class="meta">
                 <span>{$date}</span>
