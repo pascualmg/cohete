@@ -67,30 +67,28 @@ class PortfolioElement extends HTMLElement {
         "name": "Webhooks 2.0 - Reescritura Event-Driven desde cero",
         "role": "Backend Developer / Arquitecto",
         "highlights": [
-          "Diseño e implementación completa de sistema de ingesta y sincronización de eventos de usuario desde Evolok",
-          "Arquitectura Accept Now, Process Later: inbound con batch processing idempotente (93.000+ eventos probados en DES)",
-          "Patrón Claim-Then-Process para race conditions, coalescing de N updates en 1 registro para outbound",
-          "Idempotencia E2E obligatoria: Evolok reenvía ~9x cada evento (descubrimiento documentado en ADR-011)",
+          "Reescritura completa de sistema legacy de webhooks con arquitectura event-driven y DDD",
+          "Arquitectura Accept Now, Process Later: batch processing idempotente probado con 93.000+ eventos",
+          "Patrones Claim-Then-Process para race conditions y coalescing para outbound eficiente",
           "11 Architecture Decision Records documentados"
         ],
         "technologies": ["PHP 8.1", "Symfony 6", "MongoDB 6", "DDD", "Domain Events", "Behat ATDD", "PHPStan"],
         "achievements": [
-          "Sistema completo inbound+outbound para sincronizar usuarios hacia CRM, Commento y Datalake",
-          "Migración coordinada de MongoDB 3.6 a MongoDB 6 con equipo de Infra"
+          "Pipeline completo inbound+outbound con idempotencia E2E",
+          "Migración coordinada de MongoDB 3.6 a 6 con equipo de Infra"
         ]
       },
       {
-        "name": "Migración Legacy a Identity Core",
+        "name": "Migración de Servicios Legacy",
         "role": "Backend Developer",
         "highlights": [
-          "Migración de endpoints desde gigya-symfony, voccore y vocuser al nuevo user-identity-core",
-          "Paridad 100% validada entre servicios legacy y nuevos",
-          "Swagger UI auto-generada con NelmioApiDocBundle para 143 servidores",
-          "Optimización de llamadas internas en Kubernetes (detección interna vs externa)"
+          "Migración de múltiples endpoints desde servicios legacy al nuevo core de identidad",
+          "Paridad 100% validada entre servicios antiguos y nuevos",
+          "Documentación API auto-generada con Swagger para +100 servidores"
         ],
         "technologies": ["PHP", "Symfony", "Kubernetes", "Swagger", "REST APIs"],
         "achievements": [
-          "Deprecación completa de gigya-symfony",
+          "Deprecación completa de servicios legacy",
           "6+ releases a producción gestionadas en 3 meses"
         ]
       },
