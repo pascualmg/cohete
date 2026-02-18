@@ -74,7 +74,7 @@ class PortfolioElement extends HTMLElement {
         ],
         "technologies": ["PHP 8.1", "Symfony 6", "MongoDB 6", "DDD", "Domain Events", "RabbitMQ", "Behat ATDD"],
         "achievements": [
-          "490.000+ webhooks procesados en DES con 0 errores",
+          "Validado con 490.000+ eventos en integración, en camino a producción",
           "Migración coordinada de MongoDB 3.6 a 6"
         ]
       },
