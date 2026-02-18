@@ -64,33 +64,36 @@ class PortfolioElement extends HTMLElement {
     "startDate": "2024-07-01",
     "projects": [
       {
-        "name": "Sistema de Identidad y Autenticación OAuth2",
-        "role": "Backend Developer",
+        "name": "Webhooks 2.0 - Reescritura Event-Driven desde cero",
+        "role": "Backend Developer / Arquitecto",
         "highlights": [
-          "Implementación de servidor OAuth2 con League OAuth2 Server para proteger APIs internas",
-          "Diseño del flujo de autenticación y autorización entre servicios del grupo",
-          "Integración del sistema de identidad con las plataformas existentes"
+          "Diseño e implementación completa de sistema de ingesta y sincronización de eventos de usuario desde Evolok",
+          "Arquitectura Accept Now, Process Later: inbound con batch processing idempotente (93.000+ eventos probados en DES)",
+          "Patrón Claim-Then-Process para race conditions, coalescing de N updates en 1 registro para outbound",
+          "Idempotencia E2E obligatoria: Evolok reenvía ~9x cada evento (descubrimiento documentado en ADR-011)",
+          "11 Architecture Decision Records documentados"
         ],
-        "technologies": ["PHP", "Symfony", "League OAuth2 Server", "OAuth2"],
+        "technologies": ["PHP 8.1", "Symfony 6", "MongoDB 6", "DDD", "Domain Events", "Behat ATDD", "PHPStan"],
         "achievements": [
-          "Securización de las APIs internas del grupo con estándar OAuth2",
-          "Implementación robusta de autenticación con League OAuth2 Server"
+          "Sistema completo inbound+outbound para sincronizar usuarios hacia CRM, Commento y Datalake",
+          "Migración coordinada de MongoDB 3.6 a MongoDB 6 con equipo de Infra"
         ]
       },
       {
-        "name": "Webhooks 2.0 - Arquitectura Event-Driven",
+        "name": "Migración Legacy a Identity Core",
         "role": "Backend Developer",
         "highlights": [
-          "Diseño e implementación de sistema de webhooks event-driven para notificaciones en tiempo real",
-          "Arquitectura basada en eventos de dominio con gestión de reintentos y circuit breaker",
-          "APIs RESTful de alto tráfico para servir contenido a los medios digitales del grupo"
+          "Migración de endpoints desde gigya-symfony, voccore y vocuser al nuevo user-identity-core",
+          "Paridad 100% validada entre servicios legacy y nuevos",
+          "Swagger UI auto-generada con NelmioApiDocBundle para 143 servidores",
+          "Optimización de llamadas internas en Kubernetes (detección interna vs externa)"
         ],
-        "technologies": ["PHP", "Symfony", "REST APIs", "MySQL", "Event-Driven Architecture"],
+        "technologies": ["PHP", "Symfony", "Kubernetes", "Swagger", "REST APIs"],
         "achievements": [
-          "Sistema de webhooks robusto con reintentos y tolerancia a fallos",
-          "Modernización de código legacy aplicando buenas prácticas y patrones de diseño"
+          "Deprecación completa de gigya-symfony",
+          "6+ releases a producción gestionadas en 3 meses"
         ]
-      }
+      },
     ]
   },
   {
