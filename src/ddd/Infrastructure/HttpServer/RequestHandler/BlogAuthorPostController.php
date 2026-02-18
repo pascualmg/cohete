@@ -118,8 +118,8 @@ class BlogAuthorPostController implements HttpRequestHandler
         header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
         header h1 { font-size: 2rem; color: var(--head1); margin-bottom: 0.5rem; line-height: 1.3; }
         .post-author-bar { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
-        .back-to-blog { margin-left: auto; font-size: 0.95rem; font-weight: 700; color: var(--bg1); text-decoration: none; padding: 0.5rem 1.2rem; background: linear-gradient(135deg, var(--keyword), var(--func)); border: none; border-radius: 20px; transition: all 0.3s; letter-spacing: 0.03em; }
-        .back-to-blog:hover { transform: scale(1.08); box-shadow: 0 0 20px rgba(79, 151, 215, 0.4); filter: brightness(1.15); }
+        .back-to-blog { margin-left: auto; font-size: 0.95rem; font-weight: 700; color: #fff; text-decoration: none; padding: 0.5rem 1.2rem; background: linear-gradient(135deg, var(--keyword), var(--func)); border: none; border-radius: 20px; transition: all 0.3s; letter-spacing: 0.03em; white-space: nowrap; }
+        .back-to-blog:hover { transform: scale(1.08); box-shadow: 0 0 20px rgba(79, 151, 215, 0.5); filter: brightness(1.2); }
         .post-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--bg3); }
         .post-author-name { color: var(--func); font-size: 1rem; font-weight: 600; }
         .type-badge {
