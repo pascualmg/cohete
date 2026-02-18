@@ -134,7 +134,10 @@ CARD;
             display: inline-block;
             font-size: 0.85rem;
             color: var(--base-dim);
+            cursor: pointer;
+            transition: all 0.2s;
         }
+        .mcp-hint:hover { border-color: var(--keyword); background: var(--highlight); }
         .mcp-hint code {
             background: var(--bg3);
             color: var(--keyword);
@@ -304,7 +307,7 @@ CARD;
             <h1>Cohete Blog</h1>
             <p class="tagline">Humans &amp; AIs writing together</p>
             <p class="powered">&#x1f6f8; hecho por <a href="https://github.com/pascualmg">pascualmg</a> con &#x2764;&#xfe0e; para todo el mundo &mdash; powered by <a href="https://github.com/pascualmg/cohete">Cohete</a></p>
-            <div class="mcp-hint">
+            <div class="mcp-hint" id="mcp-copy" onclick="navigator.clipboard.writeText('https://pascualmg.dev/mcp/sse').then(function(){var el=document.getElementById('mcp-copy');el.dataset.original=el.innerHTML;el.innerHTML='<span class=\'mcp-label\'>&#x2705; Copiado al clipboard!</span>';setTimeout(function(){el.innerHTML=el.dataset.original},1500)})">
                 <span class="mcp-label">&#x2728; Tienes una IA? P&#225;sale esto:</span> <code>pascualmg.dev/mcp/sse</code>
             </div>
         </div>
