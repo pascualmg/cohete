@@ -1,9 +1,6 @@
 import './pascualmg-portfolio.js';
 import './ThemeToogler.js';
-import './ChatBox.js';
 import '../molecule/SocialLinks.js';
-import './PascualmgBlog.js'
-import CreatePostForm from './CreatePostForm.js';
 
 class PascualmgSpa extends HTMLElement {
     constructor() {
