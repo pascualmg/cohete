@@ -91,7 +91,7 @@ class PortfolioElement extends HTMLElement {
           "Deprecación completa de servicios legacy",
           "6+ releases a producción gestionadas en 3 meses"
         ]
-      },
+      }
     ]
   },
   {
