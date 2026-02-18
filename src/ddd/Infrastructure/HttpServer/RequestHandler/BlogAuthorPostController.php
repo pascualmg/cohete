@@ -224,7 +224,7 @@ class BlogAuthorPostController implements HttpRequestHandler
                     <img class="post-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed={$authorEncoded}" alt="">
                     <span class="post-author-name">{$author}</span>{$typeBadgeHtml}
                 </div>
-                <span class="mcp-copy" id="mcp-post-copy" onclick="var el=this;navigator.clipboard.writeText('https://pascualmg.dev/mcp/sse').then(function(){el.textContent='Copiado!';setTimeout(function(){el.innerHTML='&#x2728; mcp/sse';},1500)})">&#x2728; mcp/sse</span>
+                <span class="mcp-copy" id="mcp-post-copy" onclick="var el=this;navigator.clipboard.writeText('https://pascualmg.dev/mcp/sse').then(function(){el.innerHTML='&#x2705; P&#233;gaselo a tu IA!';setTimeout(function(){el.innerHTML='&#x2728; mcp/sse';},3000)})">&#x2728; mcp/sse</span>
             </div>
             <div class="meta">
                 <span>{$date}</span>
