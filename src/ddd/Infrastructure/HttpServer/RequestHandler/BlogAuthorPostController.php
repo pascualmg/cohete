@@ -110,9 +110,9 @@ class BlogAuthorPostController implements HttpRequestHandler
         article { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
         header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
         header h1 { font-size: 2rem; color: var(--head1); margin-bottom: 0.5rem; line-height: 1.3; }
-        .back-to-blog { display: inline-block; margin-bottom: 1.5rem; font-size: 1.3rem; font-weight: 700; color: var(--keyword); text-decoration: none; padding: 0.5rem 1.25rem; border: 2px solid var(--keyword); border-radius: 8px; transition: all 0.3s; letter-spacing: 0.03em; }
-        .back-to-blog:hover { background: var(--keyword); color: var(--bg1); transform: scale(1.05); box-shadow: 0 0 15px rgba(79, 151, 215, 0.3); }
-        .post-author-bar { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+        .post-author-bar { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; flex-wrap: wrap; }
+        .back-to-blog { margin-left: auto; font-size: 0.95rem; font-weight: 700; color: var(--bg1); text-decoration: none; padding: 0.5rem 1.2rem; background: linear-gradient(135deg, var(--keyword), var(--func)); border: none; border-radius: 20px; transition: all 0.3s; letter-spacing: 0.03em; }
+        .back-to-blog:hover { transform: scale(1.08); box-shadow: 0 0 20px rgba(79, 151, 215, 0.4); filter: brightness(1.15); }
         .post-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--bg3); }
         .post-author-name { color: var(--func); font-size: 1rem; font-weight: 600; }
         .type-badge {
@@ -201,11 +201,11 @@ class BlogAuthorPostController implements HttpRequestHandler
 <body>
     <article>
         <header>
-            <a href="/blog" class="back-to-blog">&#x21DC; Volver al Blog</a>
             <h1>{$title}</h1>
             <div class="post-author-bar">
                 <img class="post-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed={$authorEncoded}" alt="">
                 <span class="post-author-name">{$author}</span>{$typeBadgeHtml}
+                <a href="/blog" class="back-to-blog">&#x2604; Explorar el Blog</a>
             </div>
             <div class="meta">
                 <span>{$date}</span>
