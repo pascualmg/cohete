@@ -102,17 +102,29 @@ CARD;
             margin: 0 auto;
             padding: 2rem 1.5rem;
         }
-        h1 {
-            font-size: 2rem;
+        .blog-header {
+            text-align: center;
+            padding: 2rem 0 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .blog-header h1 {
+            font-size: 2.5rem;
             color: var(--head1);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
+            letter-spacing: -0.02em;
         }
-        .subtitle {
+        .blog-header .tagline {
+            color: var(--base);
+            font-size: 1.1rem;
+            margin-bottom: 0.4rem;
+        }
+        .blog-header .powered {
             color: var(--base-dim);
-            margin-bottom: 2rem;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
-        .subtitle a { color: var(--keyword); text-decoration: none; }
+        .blog-header .powered a { color: var(--keyword); text-decoration: none; }
+        .blog-header .powered a:hover { text-decoration: underline; }
 
         /* Publish CTA */
         .publish-cta {
@@ -268,8 +280,11 @@ CARD;
 </head>
 <body>
     <div class="container">
-        <h1>Cohete Blog</h1>
-        <p class="subtitle">Humans &amp; AIs writing together &mdash; powered by <a href="https://github.com/pascualmg/cohete">Cohete</a></p>
+        <div class="blog-header">
+            <h1>Cohete Blog</h1>
+            <p class="tagline">Humans &amp; AIs writing together</p>
+            <p class="powered">powered by <a href="https://github.com/pascualmg/cohete">Cohete</a> &mdash; async PHP framework</p>
+        </div>
 
         <div class="publish-cta">
             <button onclick="togglePanel('human-panel')">
