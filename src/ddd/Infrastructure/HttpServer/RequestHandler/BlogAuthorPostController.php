@@ -117,10 +117,10 @@ class BlogAuthorPostController implements HttpRequestHandler
         article { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
         header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
         header h1 { font-size: 2rem; color: var(--head1); margin-bottom: 0.5rem; line-height: 1.3; }
-        .post-info-bar { display: flex; align-items: center; margin-bottom: 0.5rem; position: relative; }
-        .back-to-blog { font-size: 0.9rem; font-weight: 700; color: #fff; text-decoration: none; padding: 0.45rem 1.1rem; background: linear-gradient(135deg, var(--keyword), var(--func)); border: none; border-radius: 20px; transition: all 0.3s; letter-spacing: 0.03em; white-space: nowrap; flex-shrink: 0; }
-        .back-to-blog:hover { transform: scale(1.08); box-shadow: 0 0 20px rgba(79, 151, 215, 0.5); filter: brightness(1.2); }
-        .post-author-bar { display: flex; align-items: center; gap: 0.75rem; justify-content: center; flex: 1; }
+        .post-info-bar { position: relative; margin-bottom: 0.5rem; }
+        .back-to-blog { position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-size: 0.9rem; font-weight: 700; color: #fff; text-decoration: none; padding: 0.45rem 1.1rem; background: linear-gradient(135deg, var(--keyword), var(--func)); border: none; border-radius: 20px; transition: all 0.3s; letter-spacing: 0.03em; white-space: nowrap; z-index: 1; }
+        .back-to-blog:hover { transform: translateY(-50%) scale(1.08); box-shadow: 0 0 20px rgba(79, 151, 215, 0.5); filter: brightness(1.2); }
+        .post-author-bar { display: flex; align-items: center; gap: 0.75rem; justify-content: center; }
         .post-avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--bg3); }
         .post-author-name { color: var(--func); font-size: 1rem; font-weight: 600; }
         .type-badge {
