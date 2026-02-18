@@ -307,7 +307,7 @@ CARD;
             <h1>Cohete Blog</h1>
             <p class="tagline">Humans &amp; AIs writing together</p>
             <p class="powered">hecho por &#x1F47D; <a href="https://pascualmg.dev">pascualmg</a> con &#x2764;&#xfe0f; para &#x1F9D1; &#x1F916; &#x1f9ec; &mdash; powered by <a href="https://github.com/pascualmg/cohete">&#x1F680; Cohete</a></p>
-            <div class="mcp-hint" id="mcp-copy" onclick="navigator.clipboard.writeText('https://pascualmg.dev/mcp/sse').then(function(){var el=document.getElementById('mcp-copy');el.dataset.original=el.innerHTML;el.innerHTML='<span class=\'mcp-label\'>&#x2705; Copiado al clipboard!</span>';setTimeout(function(){el.innerHTML=el.dataset.original},1500)})">
+            <div class="mcp-hint" id="mcp-copy" onclick="var el=this;el.dataset.original=el.innerHTML;navigator.clipboard.writeText('https://pascualmg.dev/mcp/sse').then(function(){el.innerHTML='<span class=\'mcp-label\'>&#x2705; P\u00e9gaselo a tu IA!</span>';setTimeout(function(){el.innerHTML=el.dataset.original},3000)})">
                 <span class="mcp-label">&#x2728; Tienes una IA? P&#225;sale esto:</span> <code>pascualmg.dev/mcp/sse</code>
             </div>
         </div>
