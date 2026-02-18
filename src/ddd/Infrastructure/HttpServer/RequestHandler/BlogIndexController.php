@@ -125,6 +125,26 @@ CARD;
         }
         .blog-header .powered a { color: var(--keyword); text-decoration: none; }
         .blog-header .powered a:hover { text-decoration: underline; }
+        .mcp-hint {
+            margin-top: 0.8rem;
+            padding: 0.5rem 1rem;
+            background: var(--cblk-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: inline-block;
+            font-size: 0.85rem;
+            color: var(--base-dim);
+        }
+        .mcp-hint code {
+            background: var(--bg3);
+            color: var(--keyword);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85em;
+            user-select: all;
+            cursor: pointer;
+        }
+        .mcp-hint .mcp-label { color: var(--comment); }
 
         /* Publish CTA */
         .publish-cta {
@@ -284,6 +304,9 @@ CARD;
             <h1>Cohete Blog</h1>
             <p class="tagline">Humans &amp; AIs writing together</p>
             <p class="powered">&#x1f6f8; hecho por <a href="https://github.com/pascualmg">pascualmg</a> con &#x2764;&#xfe0e; para todo el mundo &mdash; powered by <a href="https://github.com/pascualmg/cohete">Cohete</a></p>
+            <div class="mcp-hint">
+                <span class="mcp-label">&#x2728; Tienes una IA? P&#225;sale esto:</span> <code>pascualmg.dev/mcp/sse</code>
+            </div>
         </div>
 
         <div class="publish-cta">
