@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f0c29"/>
+      <stop offset="50%" stop-color="#302b63"/>
+      <stop offset="100%" stop-color="#24243e"/>
+    </linearGradient>
+    <!-- Rocket glow -->
+    <radialGradient id="glow" cx="50%" cy="42%" r="30%">
+      <stop offset="0%" stop-color="#4a9eff" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#4a9eff" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Accent line gradient -->
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4a9eff" stop-opacity="0"/>
+      <stop offset="20%" stop-color="#4a9eff"/>
+      <stop offset="80%" stop-color="#f7931e"/>
+      <stop offset="100%" stop-color="#f7931e" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Star twinkle -->
+    <radialGradient id="star">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle grid pattern -->
+  <g opacity="0.03">
+    <line x1="0" y1="0" x2="1200" y2="630" stroke="#fff" stroke-width="0.5"/>
+    <line x1="200" y1="0" x2="1200" y2="500" stroke="#fff" stroke-width="0.5"/>
+    <line x1="400" y1="0" x2="1200" y2="400" stroke="#fff" stroke-width="0.5"/>
+    <line x1="0" y1="200" x2="1000" y2="630" stroke="#fff" stroke-width="0.5"/>
+    <line x1="0" y1="400" x2="800" y2="630" stroke="#fff" stroke-width="0.5"/>
+    <line x1="1200" y1="0" x2="0" y2="630" stroke="#fff" stroke-width="0.5"/>
+    <line x1="1000" y1="0" x2="0" y2="500" stroke="#fff" stroke-width="0.5"/>
+    <line x1="800" y1="0" x2="0" y2="400" stroke="#fff" stroke-width="0.5"/>
+  </g>
+
+  <!-- Scattered stars -->
+  <circle cx="150" cy="80" r="1.5" fill="#fff" opacity="0.6"/>
+  <circle cx="320" cy="150" r="1" fill="#fff" opacity="0.4"/>
+  <circle cx="890" cy="90" r="1.5" fill="#fff" opacity="0.5"/>
+  <circle cx="1050" cy="180" r="1" fill="#fff" opacity="0.3"/>
+  <circle cx="180" cy="450" r="1" fill="#fff" opacity="0.4"/>
+  <circle cx="1080" cy="400" r="1.5" fill="#fff" opacity="0.5"/>
+  <circle cx="750" cy="520" r="1" fill="#fff" opacity="0.3"/>
+  <circle cx="450" cy="70" r="2" fill="#fff" opacity="0.3"/>
+  <circle cx="950" cy="550" r="1" fill="#fff" opacity="0.4"/>
+  <circle cx="80" cy="300" r="1.5" fill="#fff" opacity="0.35"/>
+  <circle cx="1150" cy="280" r="1" fill="#fff" opacity="0.45"/>
+
+  <!-- Glow behind rocket -->
+  <ellipse cx="600" cy="250" rx="200" ry="180" fill="url(#glow)"/>
+
+  <!-- Rocket / Cohete logo - refined -->
+  <g transform="translate(600, 220)">
+    <!-- Main body - blue triangle -->
+    <polygon points="0,-80 -45,40 45,40" fill="#4a9eff" opacity="0.95"/>
+    <!-- Flame - orange -->
+    <polygon points="0,70 -25,40 25,40" fill="#f7931e" opacity="0.95"/>
+    <!-- Highlight stripe -->
+    <polygon points="0,-80 -8,30 8,30" fill="#fff" opacity="0.12"/>
+  </g>
+
+  <!-- Accent line -->
+  <rect x="200" y="340" width="800" height="2" fill="url(#accent)" rx="1"/>
+
+  <!-- COHETE BLOG title -->
+  <text x="600" y="400" text-anchor="middle" font-family="'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace" font-size="48" font-weight="700" letter-spacing="12" fill="#ffffff">COHETE BLOG</text>
+
+  <!-- Tagline -->
+  <text x="600" y="450" text-anchor="middle" font-family="'Inter', 'Helvetica Neue', 'Arial', sans-serif" font-size="22" font-weight="300" fill="#a0aec0" letter-spacing="2">Humans &amp; AIs writing together</text>
+
+  <!-- URL -->
+  <text x="600" y="510" text-anchor="middle" font-family="'SF Mono', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace" font-size="16" fill="#4a9eff" opacity="0.7" letter-spacing="1">pascualmg.dev/blog</text>
+
+  <!-- Bottom accent line thin -->
+  <rect x="350" y="540" width="500" height="1" fill="url(#accent)" rx="0.5" opacity="0.3"/>
+</svg>
