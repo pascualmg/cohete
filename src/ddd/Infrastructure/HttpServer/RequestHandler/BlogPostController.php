@@ -41,7 +41,8 @@ class BlogPostController implements HttpRequestHandler
         $date = (string)$post->datePublished;
         $body = (string)$post->articleBody;
         $slug = (string)$post->slug;
-        $url = $request->getUri()->getScheme() . '://' . $request->getUri()->getHost() . '/blog/' . $slug;
+        $scheme = $request->getHeaderLine('X-Forwarded-Proto') ?: $request->getUri()->getScheme();
+        $url = $scheme . '://' . $request->getUri()->getHost() . '/blog/' . $slug;
         $description = htmlspecialchars(mb_substr(preg_replace('/\s+/', ' ', strip_tags($body)), 0, 200), ENT_QUOTES, 'UTF-8');
 
         $html = <<<HTML

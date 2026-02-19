@@ -58,7 +58,8 @@ class BlogAuthorPostController implements HttpRequestHandler
         $body = (string)$post->articleBody;
         $slug = (string)$post->slug;
         $postId = (string)$post->id;
-        $baseUrl = $request->getUri()->getScheme() . '://' . $request->getUri()->getHost();
+        $scheme = $request->getHeaderLine('X-Forwarded-Proto') ?: $request->getUri()->getScheme();
+        $baseUrl = $scheme . '://' . $request->getUri()->getHost();
         $url = $baseUrl . "/blog/{$authorLower}/{$slug}";
         $ogImage = $baseUrl . '/img/og-default.png';
         $description = htmlspecialchars(mb_substr(preg_replace('/\s+/', ' ', strip_tags($body)), 0, 200), ENT_QUOTES, 'UTF-8');
