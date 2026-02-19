@@ -25,24 +25,37 @@ class BlogAuthorPostController implements HttpRequestHandler
     {
         $authorParam = $routeParams['author'] ?? '';
         $slugParam = $routeParams['slug'] ?? '';
+        $lang = $this->detectLang($request);
 
         return $this->postRepository->findByAuthorAndSlug($authorParam, Slug::from($slugParam))->then(
-            function (?Post $post) use ($request, $authorParam): ResponseInterface|PromiseInterface {
+            function (?Post $post) use ($request, $authorParam, $lang): ResponseInterface|PromiseInterface {
                 if ($post === null) {
+                    $notFound = $lang === 'en' ? 'Post not found' : 'Post no encontrado';
+                    $back = $lang === 'en' ? 'Back to blog' : 'Volver al blog';
                     return new Response(404, ['Content-Type' => 'text/html; charset=utf-8'],
-                        '<!DOCTYPE html><html><body><h1>Post no encontrado</h1><p><a href="/blog">Volver al blog</a></p></body></html>'
+                        "<!DOCTYPE html><html lang=\"{$lang}\"><body><h1>{$notFound}</h1><p><a href=\"/blog\">{$back}</a></p></body></html>"
                     );
                 }
                 return $this->commentRepository->findByPostId($post->id)->then(
-                    fn (array $comments) => $this->renderHtml($post, $comments, $request, $authorParam),
-                    fn () => $this->renderHtml($post, [], $request, $authorParam)
+                    fn (array $comments) => $this->renderHtml($post, $comments, $request, $authorParam, $lang),
+                    fn () => $this->renderHtml($post, [], $request, $authorParam, $lang)
                 );
             },
             fn (\Throwable $e) => new Response(500, ['Content-Type' => 'text/plain'], $e->getMessage())
         );
     }
 
-    private function renderHtml(Post $post, array $comments, ServerRequestInterface $request, string $authorSlug): ResponseInterface
+    private function detectLang(ServerRequestInterface $request): string
+    {
+        $accept = $request->getHeaderLine('Accept-Language');
+        if (!$accept) return 'es';
+        $primary = strtolower(substr($accept, 0, 2));
+        if ($primary === 'es') return 'es';
+        if ($primary === 'en' || str_contains(strtolower($accept), 'en')) return 'en';
+        return 'es';
+    }
+
+    private function renderHtml(Post $post, array $comments, ServerRequestInterface $request, string $authorSlug, string $lang = 'es'): ResponseInterface
     {
         $title = htmlspecialchars((string)$post->headline, ENT_QUOTES, 'UTF-8');
         $author = htmlspecialchars((string)$post->author, ENT_QUOTES, 'UTF-8');
@@ -63,6 +76,7 @@ class BlogAuthorPostController implements HttpRequestHandler
         $url = $baseUrl . "/blog/{$authorLower}/{$slug}";
         $ogImage = $baseUrl . '/img/og-default.png';
         $description = htmlspecialchars(mb_substr(preg_replace('/\s+/', ' ', strip_tags($body)), 0, 200), ENT_QUOTES, 'UTF-8');
+        $ogLocale = $lang === 'en' ? 'en_US' : 'es_ES';
 
         $escapedBody = htmlspecialchars($body, ENT_QUOTES, 'UTF-8');
         $authorEncoded = urlencode((string)$post->author);
@@ -73,7 +87,7 @@ class BlogAuthorPostController implements HttpRequestHandler
 
         $html = <<<HTML
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{$lang}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -88,7 +102,7 @@ class BlogAuthorPostController implements HttpRequestHandler
     <meta property="og:image" content="{$ogImage}">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:locale" content="es_ES">
+    <meta property="og:locale" content="{$ogLocale}">
     <meta property="article:author" content="{$author}">
     <meta property="article:published_time" content="{$date}">
     <meta name="twitter:card" content="summary_large_image">
@@ -220,7 +234,7 @@ class BlogAuthorPostController implements HttpRequestHandler
             <h1>{$title}</h1>
             <hr style="border:none;border-top:1px solid var(--border);margin:0.75rem 0;">
             <div class="post-info-bar">
-                <a href="/blog" class="back-to-blog">&#x2604; Teleport al Blog</a>
+                <a href="/blog" class="back-to-blog" data-i18n="post.back">&#x2604; Teleport al Blog</a>
                 <div class="post-author-bar">
                     <img class="post-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed={$authorEncoded}" alt="">
                     <span class="post-author-name">{$author}</span>{$typeBadgeHtml}
@@ -228,68 +242,77 @@ class BlogAuthorPostController implements HttpRequestHandler
                 <span class="mcp-copy" id="mcp-post-copy" onclick="var el=this;navigator.clipboard.writeText('https://pascualmg.dev/mcp/sse').then(function(){el.innerHTML='&#x2705; P&#233;gaselo a tu IA!';setTimeout(function(){el.innerHTML='&#x2728; mcp/sse';},3000)})">&#x2728; mcp/sse</span>
             </div>
             <div class="meta">
-                <span>{$date}</span>
+                <span data-date="{$dateRaw}">{$date}</span>
             </div>
         </header>
         <div class="content">
             {$body}
         </div>
         <div class="share">
-            <p>Comparte este post:</p>
+            <p data-i18n="share.title">Comparte este post:</p>
             <div class="share-url">
                 <input type="text" value="{$url}" readonly id="share-input">
-                <button onclick="navigator.clipboard.writeText(document.getElementById('share-input').value).then(()=>{this.textContent='Copiado!';this.classList.add('copied');setTimeout(()=>{this.textContent='Copiar';this.classList.remove('copied')},2000)})">Copiar</button>
+                <button data-i18n="share.copy" onclick="navigator.clipboard.writeText(document.getElementById('share-input').value).then(()=>{this.textContent='Copiado!';this.classList.add('copied');setTimeout(()=>{this.textContent=_t('share.copy');this.classList.remove('copied')},2000)})">Copiar</button>
             </div>
         </div>
         <div class="author-actions" id="author-actions" data-post-id="{$postId}" data-author="{$author}">
-            <h3>Es tu post</h3>
+            <h3 data-i18n="post.your.post">Es tu post</h3>
             <div class="btn-row">
-                <button class="btn-edit" onclick="showEditForm()">Editar</button>
-                <button class="btn-delete" onclick="showDeleteConfirm()">Borrar</button>
+                <button class="btn-edit" data-i18n="post.edit" onclick="showEditForm()">Editar</button>
+                <button class="btn-delete" data-i18n="post.delete" onclick="showDeleteConfirm()">Borrar</button>
             </div>
             <div id="edit-form" class="edit-form">
-                <label for="ef-headline">Titulo</label>
+                <label for="ef-headline" data-i18n="post.edit.title">Titulo</label>
                 <input type="text" id="ef-headline" value="{$title}" maxlength="200">
-                <label for="ef-body">Contenido (HTML)</label>
+                <label for="ef-body" data-i18n="post.edit.content">Contenido (HTML)</label>
                 <textarea id="ef-body">{$escapedBody}</textarea>
                 <div style="margin-top:0.75rem;" class="btn-row">
-                    <button class="btn-edit" onclick="submitEdit()">Guardar</button>
-                    <button class="btn-cancel" onclick="hideEditForm()">Cancelar</button>
+                    <button class="btn-edit" data-i18n="post.save" onclick="submitEdit()">Guardar</button>
+                    <button class="btn-cancel" data-i18n="post.cancel" onclick="hideEditForm()">Cancelar</button>
                 </div>
                 <div id="edit-msg" class="action-msg"></div>
             </div>
             <div id="delete-confirm" class="delete-confirm">
-                <p>Estas seguro? Esto no se puede deshacer.</p>
+                <p data-i18n="post.delete.confirm">Estas seguro? Esto no se puede deshacer.</p>
                 <div class="btn-row">
-                    <button class="btn-delete" onclick="submitDelete()">Si, borrar</button>
-                    <button class="btn-cancel" onclick="hideDeleteConfirm()">No, cancelar</button>
+                    <button class="btn-delete" data-i18n="post.delete.yes" onclick="submitDelete()">Si, borrar</button>
+                    <button class="btn-cancel" data-i18n="post.delete.no" onclick="hideDeleteConfirm()">No, cancelar</button>
                 </div>
                 <div id="delete-msg" class="action-msg"></div>
             </div>
         </div>
         <div class="comments-section">
-            <h2>Comentarios ({$commentCount})</h2>
+            <h2 class="comments-heading">Comentarios ({$commentCount})</h2>
             {$commentsHtml}
             <div class="comment-form">
-                <h3>Deja un comentario</h3>
+                <h3 data-i18n="comments.add">Deja un comentario</h3>
                 <form id="comment-form">
-                    <label for="cf-name">Nombre</label>
-                    <input type="text" id="cf-name" name="author_name" required maxlength="100" placeholder="Tu nombre">
-                    <label for="cf-body">Comentario</label>
-                    <textarea id="cf-body" name="body" required maxlength="2000" placeholder="Escribe tu comentario..."></textarea>
-                    <button type="submit">Publicar</button>
+                    <label for="cf-name" data-i18n="comments.name">Nombre</label>
+                    <input type="text" id="cf-name" name="author_name" required maxlength="100" data-i18n="comments.name.placeholder" placeholder="Tu nombre">
+                    <label for="cf-body" data-i18n="comments.body">Comentario</label>
+                    <textarea id="cf-body" name="body" required maxlength="2000" data-i18n="comments.body.placeholder" placeholder="Escribe tu comentario..."></textarea>
+                    <button type="submit" data-i18n="comments.submit">Publicar</button>
                     <div id="cf-msg" class="form-msg"></div>
                 </form>
             </div>
         </div>
         <footer>
-            <p>Publicado en <a href="/blog">Cohete Blog</a> &mdash; Powered by <a href="https://github.com/pascualmg/cohete">Cohete</a></p>
+            <p><span data-i18n="footer.published.in">Publicado en</span> <a href="/blog">Cohete Blog</a> &mdash; Powered by <a href="https://github.com/pascualmg/cohete">Cohete</a></p>
             <p>MCP endpoint: <code>pascualmg.dev/mcp/sse</code></p>
         </footer>
     </article>
     <theme-toggler></theme-toggler>
     <script type="module">
         import '/js/atomic/organism/ThemeToogler.js';
+    </script>
+    <script type="module">
+        import { t, applyTranslations, formatDate } from '/js/i18n.js';
+        window._t = t;
+        window._formatDate = formatDate;
+        applyTranslations();
+        document.querySelectorAll('[data-date]').forEach(function(el) {
+            el.textContent = formatDate(el.dataset.date);
+        });
     </script>
     <script>
         // Author actions: show only if token exists in localStorage
@@ -321,7 +344,7 @@ class BlogAuthorPostController implements HttpRequestHandler
             const postId = box.dataset.postId;
             const author = box.dataset.author;
             const msg = document.getElementById('edit-msg');
-            msg.textContent = 'Guardando...';
+            msg.textContent = _t('post.saving');
             msg.style.color = 'var(--base-dim)';
 
             fetch('/post/' + postId, {
@@ -340,22 +363,22 @@ class BlogAuthorPostController implements HttpRequestHandler
             .then(r => r.json().then(d => ({ok: r.ok, data: d})))
             .then(({ok, data}) => {
                 if (ok) {
-                    msg.textContent = 'Guardado!';
+                    msg.textContent = _t('post.saved');
                     msg.style.color = 'var(--suc)';
                     setTimeout(() => location.reload(), 800);
                 } else {
-                    msg.textContent = data.error || 'Error al guardar';
+                    msg.textContent = data.error || _t('post.save.error');
                     msg.style.color = 'var(--err)';
                 }
             })
-            .catch(() => { msg.textContent = 'Error de red'; msg.style.color = 'var(--err)'; });
+            .catch(() => { msg.textContent = _t('publish.network.error'); msg.style.color = 'var(--err)'; });
         }
 
         function submitDelete() {
             const box = document.getElementById('author-actions');
             const postId = box.dataset.postId;
             const msg = document.getElementById('delete-msg');
-            msg.textContent = 'Borrando...';
+            msg.textContent = _t('post.deleting');
             msg.style.color = 'var(--base-dim)';
 
             fetch('/post/' + postId, {
@@ -365,15 +388,15 @@ class BlogAuthorPostController implements HttpRequestHandler
             .then(r => r.json().then(d => ({ok: r.ok, data: d})))
             .then(({ok, data}) => {
                 if (ok) {
-                    msg.textContent = 'Borrado! Volviendo al blog...';
+                    msg.textContent = _t('post.deleted');
                     msg.style.color = 'var(--suc)';
                     setTimeout(() => { window.location.href = '/blog'; }, 1000);
                 } else {
-                    msg.textContent = data.error || 'Error al borrar';
+                    msg.textContent = data.error || _t('post.delete.error');
                     msg.style.color = 'var(--err)';
                 }
             })
-            .catch(() => { msg.textContent = 'Error de red'; msg.style.color = 'var(--err)'; });
+            .catch(() => { msg.textContent = _t('publish.network.error'); msg.style.color = 'var(--err)'; });
         }
 
         document.getElementById('comment-form').addEventListener('submit', function(e) {
@@ -395,17 +418,17 @@ class BlogAuthorPostController implements HttpRequestHandler
             .then(r => r.json().then(d => ({ok: r.ok, data: d})))
             .then(({ok, data}) => {
                 if (ok) {
-                    msg.textContent = 'Comentario publicado!';
+                    msg.textContent = _t('comments.published');
                     msg.className = 'form-msg success';
                     setTimeout(() => location.reload(), 1000);
                 } else {
-                    msg.textContent = data.error || 'Error al publicar';
+                    msg.textContent = data.error || _t('publish.error');
                     msg.className = 'form-msg error';
                     btn.disabled = false;
                 }
             })
             .catch(() => {
-                msg.textContent = 'Error de red';
+                msg.textContent = _t('publish.network.error');
                 msg.className = 'form-msg error';
                 btn.disabled = false;
             });
@@ -421,7 +444,7 @@ HTML;
     private function renderComments(array $comments): string
     {
         if (empty($comments)) {
-            return '<p style="color:var(--base-dim);font-size:0.9rem;">Sin comentarios todavia. Se el primero!</p>';
+            return '<p data-i18n="comments.empty" style="color:var(--base-dim);font-size:0.9rem;">Sin comentarios todavia. Se el primero!</p>';
         }
 
         $html = '';

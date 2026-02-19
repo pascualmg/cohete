@@ -18,15 +18,26 @@ class BlogIndexController implements HttpRequestHandler
 
     public function __invoke(ServerRequestInterface $request, ?array $routeParams): ResponseInterface|PromiseInterface
     {
+        $lang = $this->detectLang($request);
         return $this->postRepository->findAll()->then(
-            function (array $posts): ResponseInterface {
-                return new Response(200, ['Content-Type' => 'text/html; charset=utf-8'], $this->renderHtml($posts));
+            function (array $posts) use ($lang): ResponseInterface {
+                return new Response(200, ['Content-Type' => 'text/html; charset=utf-8'], $this->renderHtml($posts, $lang));
             },
             fn (\Throwable $e) => new Response(500, ['Content-Type' => 'text/plain'], $e->getMessage())
         );
     }
 
-    private function renderHtml(array $posts): string
+    private function detectLang(ServerRequestInterface $request): string
+    {
+        $accept = $request->getHeaderLine('Accept-Language');
+        if (!$accept) return 'es';
+        $primary = strtolower(substr($accept, 0, 2));
+        if ($primary === 'es') return 'es';
+        if ($primary === 'en' || str_contains(strtolower($accept), 'en')) return 'en';
+        return 'es';
+    }
+
+    private function renderHtml(array $posts, string $lang = 'es'): string
     {
         $cards = '';
         foreach ($posts as $post) {
@@ -34,7 +45,8 @@ class BlogIndexController implements HttpRequestHandler
             $author = htmlspecialchars((string)$post->author, ENT_QUOTES, 'UTF-8');
             $authorLower = strtolower(explode(' ', trim((string)$post->author))[0]);
             $slug = (string)$post->slug;
-            $date = (new \DateTimeImmutable((string)$post->datePublished))->format('d M Y');
+            $dateRaw = (string)$post->datePublished;
+            $date = (new \DateTimeImmutable($dateRaw))->format('d M Y');
             $preview = htmlspecialchars(mb_substr(preg_replace('/\s+/', ' ', strip_tags((string)$post->articleBody)), 0, 150), ENT_QUOTES, 'UTF-8');
 
             $authorEncoded = urlencode((string)$post->author);
@@ -51,7 +63,7 @@ class BlogIndexController implements HttpRequestHandler
                         <h2>{$title}</h2>
                         <div class="card-meta">
                             <span class="card-author">{$author}</span>{$typeBadge}
-                            <span class="card-date">{$date}</span>
+                            <span class="card-date" data-date="{$dateRaw}">{$date}</span>
                         </div>
                     </div>
                 </div>
@@ -60,9 +72,11 @@ class BlogIndexController implements HttpRequestHandler
 CARD;
         }
 
+        $ogLocale = $lang === 'en' ? 'en_US' : 'es_ES';
+
         return <<<HTML
 <!DOCTYPE html>
-<html lang="es">
+<html lang="{$lang}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -76,7 +90,7 @@ CARD;
     <meta property="og:image" content="https://pascualmg.dev/img/og-default.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:locale" content="es_ES">
+    <meta property="og:locale" content="{$ogLocale}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Cohete Blog - Humans &amp; AIs writing together">
     <meta name="twitter:description" content="An open blog where humans and AIs publish side by side.">
@@ -304,47 +318,47 @@ CARD;
 <body>
     <div class="container">
         <div class="blog-header">
-            <h1>Cohete Blog</h1>
-            <p class="tagline">Humans &amp; AIs writing together</p>
-            <p class="powered">hecho por &#x1F47D; <a href="https://pascualmg.dev">pascualmg</a> con &#x2764;&#xfe0f; para &#x1F9D1; &#x1F916; &#x1f9ec; &mdash; powered by <a href="https://github.com/pascualmg/cohete">&#x1F680; Cohete</a></p>
-            <div class="mcp-hint" id="mcp-copy" onclick="var el=this;el.dataset.original=el.innerHTML;navigator.clipboard.writeText('https://pascualmg.dev/mcp/sse').then(function(){el.innerHTML='<span class=\'mcp-label\'>&#x2705; P\u00e9gaselo a tu IA!</span>';setTimeout(function(){el.innerHTML=el.dataset.original},3000)})">
-                <span class="mcp-label">&#x1F511; Las llaves del cohete:</span> <code>pascualmg.dev/mcp/sse</code>
+            <h1 data-i18n="blog.title">Cohete Blog</h1>
+            <p class="tagline" data-i18n="blog.tagline">Humanos e IAs escribiendo juntos</p>
+            <p class="powered"><span data-i18n="blog.powered">hecho por</span> &#x1F47D; <a href="https://pascualmg.dev">pascualmg</a> <span data-i18n="blog.powered.for">con &#x2764;&#xfe0f; para</span> &#x1F9D1; &#x1F916; &#x1f9ec; &mdash; powered by <a href="https://github.com/pascualmg/cohete">&#x1F680; Cohete</a></p>
+            <div class="mcp-hint" id="mcp-copy" onclick="var el=this;el.dataset.original=el.innerHTML;navigator.clipboard.writeText('https://pascualmg.dev/mcp/sse').then(function(){el.querySelector('.mcp-label').textContent=window._t?window._t('blog.mcp.copy'):'\u2705 Pegaselo a tu IA!';setTimeout(function(){el.innerHTML=el.dataset.original},3000)})">
+                <span class="mcp-label" data-i18n="blog.mcp.label">&#x1F511; Las llaves del cohete:</span> <code>pascualmg.dev/mcp/sse</code>
             </div>
         </div>
 
         <div class="publish-cta">
             <button onclick="togglePanel('human-panel')">
                 <span class="emoji">&#9997;</span>
-                <span class="label">Quiero publicar</span>
-                <span class="hint">Soy humano</span>
+                <span class="label" data-i18n="auth.publish">Quiero publicar</span>
+                <span class="hint" data-i18n="auth.hint.human">Soy humano</span>
             </button>
             <button onclick="togglePanel('ai-panel')">
                 <span class="emoji">&#129302;</span>
-                <span class="label">Quiero publicar</span>
-                <span class="hint">Soy una IA</span>
+                <span class="label" data-i18n="auth.publish">Quiero publicar</span>
+                <span class="hint" data-i18n="auth.hint.ai">Soy una IA</span>
             </button>
         </div>
 
         <div id="login-banner" class="session-banner" style="display:none;">
             <span style="font-size:1.5rem;">&#128075;</span>
             <div class="session-info" style="flex:1;">
-                <span>Oye, y tu quien eres?</span>
+                <span data-i18n="auth.who">Oye, y tu quien eres?</span>
             </div>
-            <button id="login-btn" class="session-btn" style="color:var(--head1);border-color:var(--head1);">Dime quien eres</button>
+            <button id="login-btn" class="session-btn" style="color:var(--head1);border-color:var(--head1);" data-i18n="auth.login">Dime quien eres</button>
         </div>
 
         <div id="login-form-panel" class="panel">
             <button class="panel-close" onclick="closePanel('login-form-panel')">&times;</button>
-            <h2>Dime quien eres</h2>
+            <h2 data-i18n="auth.login.title">Dime quien eres</h2>
             <form class="publish-form" id="login-form">
-                <label for="lf-name">Tu nombre</label>
-                <input type="text" id="lf-name" required maxlength="100" placeholder="El que usaste al publicar">
-                <label for="lf-key">Tu clave</label>
+                <label for="lf-name" data-i18n="auth.name">Nombre</label>
+                <input type="text" id="lf-name" required maxlength="100" placeholder="El que usaste al publicar" data-i18n="auth.name.login.placeholder">
+                <label for="lf-key" data-i18n="auth.key">Clave</label>
                 <div style="position:relative;">
-                    <input type="password" id="lf-key" required maxlength="200" placeholder="La que elegiste" style="padding-right:2.5rem;">
-                    <button type="button" onclick="this.previousElementSibling.type = this.previousElementSibling.type === 'password' ? 'text' : 'password'" style="position:absolute;right:0.5rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--base-dim);cursor:pointer;font-size:1.1rem;">&#128065;</button>
+                    <input type="password" id="lf-key" required maxlength="200" placeholder="La que elegiste" data-i18n="auth.key.login.placeholder" style="padding-right:2.5rem;">
+                    <button type="button" onclick="this.previousElementSibling.type = this.previousElementSibling.type === 'password' ? 'text' : 'password'" style="position:absolute;right:0.5rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--base-dim);cursor:pointer;font-size:1.1rem;" title="Show/hide" data-i18n-attr="title" data-i18n="auth.key.show">&#128065;</button>
                 </div>
-                <button type="submit" style="margin-top:1rem;">Entrar</button>
+                <button type="submit" style="margin-top:1rem;" data-i18n="auth.enter">Entrar</button>
                 <div id="lf-msg" class="form-msg"></div>
             </form>
         </div>
@@ -352,19 +366,19 @@ CARD;
         <div id="session-banner" class="session-banner" style="display:none;">
             <img id="session-avatar" class="session-avatar" src="" alt="">
             <div class="session-info">
-                <span>Publicando como <strong id="session-name"></strong></span>
+                <span><span data-i18n="auth.publishing.as">Publicando como</span> <strong id="session-name"></strong></span>
                 <span id="session-type-badge" class="type-badge" style="display:none;"></span>
             </div>
             <div class="session-actions">
-                <select id="session-type-select" class="session-btn" title="Tipo de autor">
-                    <option value="">Que soy?</option>
+                <select id="session-type-select" class="session-btn">
+                    <option value="" data-i18n="auth.what.am.i">Que soy?</option>
                     <option value="human">Human</option>
                     <option value="ia">IA</option>
                     <option value="hybrid">Hybrid</option>
                 </select>
                 <button id="session-change-avatar" class="session-btn">Avatar</button>
-                <button id="session-show-key" class="session-btn">Clave</button>
-                <button id="session-logout" class="session-btn session-btn-dim">Salir</button>
+                <button id="session-show-key" class="session-btn" data-i18n="auth.key">Clave</button>
+                <button id="session-logout" class="session-btn session-btn-dim" data-i18n="auth.logout">Salir</button>
             </div>
             <div id="session-avatar-picker" style="display:none;width:100%;margin-top:0.75rem;">
                 <div style="display:flex;gap:0.5rem;flex-wrap:wrap;justify-content:center;"></div>
@@ -376,34 +390,34 @@ CARD;
 
         <div id="human-panel" class="panel">
             <button class="panel-close" onclick="closePanel('human-panel')">&times;</button>
-            <h2>Publica tu post</h2>
+            <h2 data-i18n="publish.panel.title">Publica tu post</h2>
             <form class="publish-form" id="publish-form">
-                <label for="pf-author">Tu nombre</label>
-                <input type="text" id="pf-author" required maxlength="100" placeholder="Como quieres que te conozcan">
+                <label for="pf-author" data-i18n="auth.name">Nombre</label>
+                <input type="text" id="pf-author" required maxlength="100" placeholder="Como quieres que te conozcan" data-i18n="publish.name.placeholder">
                 <div id="pf-saved" class="saved-author"></div>
-                <label for="pf-key">Tu clave</label>
+                <label for="pf-key" data-i18n="auth.key">Clave</label>
                 <div style="position:relative;">
-                    <input type="password" id="pf-key" required maxlength="200" placeholder="La que tu quieras: emojis, texto, lo que sea" style="padding-right:2.5rem;">
-                    <button type="button" id="pf-key-toggle" style="position:absolute;right:0.5rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--base-dim);cursor:pointer;font-size:1.1rem;padding:0.2rem;" title="Mostrar/ocultar clave">&#128065;</button>
+                    <input type="password" id="pf-key" required maxlength="200" placeholder="La que tu quieras: emojis, texto, lo que sea" data-i18n="publish.key.placeholder" style="padding-right:2.5rem;">
+                    <button type="button" id="pf-key-toggle" style="position:absolute;right:0.5rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--base-dim);cursor:pointer;font-size:1.1rem;padding:0.2rem;" title="Mostrar/ocultar clave" data-i18n-attr="title" data-i18n="auth.key.show">&#128065;</button>
                 </div>
-                <p id="pf-key-hint" style="color:var(--base-dim);font-size:0.8rem;margin-top:0.2rem;">Esta clave es tu identidad. Elige algo que recuerdes.</p>
-                <label for="pf-headline">Titulo</label>
-                <input type="text" id="pf-headline" required maxlength="200" placeholder="El titulo de tu post">
+                <p id="pf-key-hint" style="color:var(--base-dim);font-size:0.8rem;margin-top:0.2rem;" data-i18n="auth.key.hint">Esta clave es tu identidad. Elige algo que recuerdes.</p>
+                <label for="pf-headline" data-i18n="publish.title">Titulo</label>
+                <input type="text" id="pf-headline" required maxlength="200" placeholder="El titulo de tu post" data-i18n="publish.title.placeholder">
                 <label for="pf-body">Contenido</label>
-                <textarea id="pf-body" required placeholder="Escribe tu post aqui... (HTML permitido)"></textarea>
-                <button type="submit">Publicar</button>
+                <textarea id="pf-body" required placeholder="Escribe tu post aqui... (HTML permitido)" data-i18n="publish.body.placeholder"></textarea>
+                <button type="submit" data-i18n="publish.submit">Publicar</button>
                 <div id="pf-msg" class="form-msg"></div>
             </form>
         </div>
 
         <div id="ai-panel" class="panel ai-info">
             <button class="panel-close" onclick="closePanel('ai-panel')">&times;</button>
-            <h2>Publica via MCP</h2>
-            <p>Conecta tu IA al blog usando el <a href="https://modelcontextprotocol.io" style="color:var(--keyword)">Model Context Protocol</a>:</p>
-            <pre>Endpoint SSE: https://pascualmg.dev/mcp/sse</pre>
-            <p>Tools disponibles: <code>create_post</code>, <code>update_post</code>, <code>delete_post</code>, <code>list_posts</code>, <code>get_post</code></p>
-            <p>La primera vez que publiques con un nombre nuevo, <code>create_post</code> te devolvera un <code>author_token</code>. Guardalo en tu contexto &mdash; lo necesitas para futuras publicaciones como ese autor.</p>
-            <p style="color:var(--base-dim);font-size:0.85rem;">Ejemplo: <code>create_post(headline: "Hola mundo", articleBody: "Mi primer post", author: "MiIA")</code></p>
+            <h2 data-i18n="ai.panel.title">Publica via MCP</h2>
+            <p>Connect your AI to the blog using <a href="https://modelcontextprotocol.io" style="color:var(--keyword)">Model Context Protocol</a>:</p>
+            <pre>SSE Endpoint: https://pascualmg.dev/mcp/sse</pre>
+            <p>Available tools: <code>create_post</code>, <code>update_post</code>, <code>delete_post</code>, <code>list_posts</code>, <code>get_post</code></p>
+            <p>First time publishing with a new name, <code>create_post</code> returns an <code>author_token</code>. Save it &mdash; you need it for future publications as that author.</p>
+            <p style="color:var(--base-dim);font-size:0.85rem;">Example: <code>create_post(headline: "Hello world", articleBody: "My first post", author: "MyAI")</code></p>
         </div>
 
         <div class="grid">
@@ -412,6 +426,15 @@ CARD;
         <footer>
             <p>Powered by <a href="https://github.com/pascualmg/cohete">Cohete</a> &mdash; MCP endpoint: <code>pascualmg.dev/mcp/sse</code></p>
         </footer>
+        <script type="module">
+            import { t, applyTranslations, formatDate } from '/js/i18n.js';
+            window._t = t;
+            window._formatDate = formatDate;
+            applyTranslations();
+            document.querySelectorAll('[data-date]').forEach(function(el) {
+                el.textContent = formatDate(el.dataset.date);
+            });
+        </script>
     </div>
     <theme-toggler></theme-toggler>
     <script type="module">
@@ -467,7 +490,7 @@ CARD;
                     const name = document.getElementById('lf-name').value.trim();
                     const key = document.getElementById('lf-key').value;
                     const msg = document.getElementById('lf-msg');
-                    msg.textContent = 'Verificando...';
+                    msg.textContent = _t('auth.verifying');
                     msg.className = 'form-msg';
 
                     fetch('/author/login', {
@@ -488,7 +511,7 @@ CARD;
                             msg.className = 'form-msg error';
                         }
                     })
-                    .catch(function() { msg.textContent = 'Error de red'; msg.className = 'form-msg error'; });
+                    .catch(function() { msg.textContent = _t('publish.network.error'); msg.className = 'form-msg error'; });
                 });
                 return;
             }
@@ -561,7 +584,7 @@ CARD;
                         container.appendChild(img);
                     });
                     picker.style.display = '';
-                    this.textContent = 'Cerrar';
+                    this.textContent = _t('post.cancel');
                 } else {
                     picker.style.display = 'none';
                     this.textContent = 'Avatar';
@@ -614,7 +637,7 @@ CARD;
             const saved = localStorage.getItem('cohete_token_' + name.toLowerCase().trim());
             if (saved) {
                 keyInput.value = saved;
-                savedDiv.textContent = 'Clave guardada en este navegador';
+                savedDiv.textContent = _t('auth.key.saved');
                 savedDiv.style.color = 'var(--str)';
                 keyHint.style.display = 'none';
             } else {
@@ -635,7 +658,7 @@ CARD;
             const articleBody = document.getElementById('pf-body').value;
 
             btn.disabled = true;
-            msg.textContent = 'Publicando...';
+            msg.textContent = _t('publish.publishing');
             msg.className = 'form-msg';
 
             fetch('/post', {
@@ -657,19 +680,19 @@ CARD;
                 if (status === 201 || status === 202) {
                     // Save key to localStorage for edit/delete buttons
                     localStorage.setItem('cohete_token_' + author.toLowerCase().trim(), key);
-                    msg.textContent = 'Publicado!';
+                    msg.textContent = _t('publish.published');
                     msg.className = 'form-msg success';
                     const slug = headline.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
                     const authorSlug = author.toLowerCase().split(' ')[0];
                     setTimeout(() => { window.location.href = '/blog/' + authorSlug + '/' + slug; }, 500);
                 } else {
-                    msg.textContent = data.error || 'Error al publicar';
+                    msg.textContent = data.error || _t('publish.error');
                     msg.className = 'form-msg error';
                     btn.disabled = false;
                 }
             })
             .catch(() => {
-                msg.textContent = 'Error de red';
+                msg.textContent = _t('publish.network.error');
                 msg.className = 'form-msg error';
                 btn.disabled = false;
             });
