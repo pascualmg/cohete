@@ -56,7 +56,7 @@ class JsonResponse implements StatusCodeInterface
     {
         return self::create(
             self::STATUS_NOT_FOUND,
-            is_null($resource) ? "" : json_encode($resource, JSON_THROW_ON_ERROR)
+            is_null($resource) ? "" : "$resource not found"
         );
     }
 
