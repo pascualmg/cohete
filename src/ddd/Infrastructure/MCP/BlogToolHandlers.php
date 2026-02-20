@@ -66,10 +66,12 @@ class BlogToolHandlers
     }
 
     /**
-     * Create a new blog post. First time with an author name claims it and returns an author_token.
-     * Next times you must provide the author_key to publish as that author.
+     * Create a blog post with raw HTML body. IMPORTANT: articleBody MUST be valid HTML (e.g. <h2>Title</h2><p>Text</p>).
+     * Do NOT send Markdown or plain text — it will render broken. For formatted content, prefer the publish_org tool
+     * which accepts org-mode markup and converts it to HTML automatically via Pandoc.
+     * First time with a new author name claims it and returns an author_token. Save it — you need it for future posts.
      */
-    #[McpTool(name: 'create_post')]
+    #[McpTool(name: 'create_post', description: 'Create a blog post. articleBody MUST be HTML. For org-mode content use publish_org instead. First post with a new author name claims it and returns author_token.')]
     public function createPost(string $headline, string $articleBody, string $author, string $author_key = ''): array
     {
         $existingAuthor = await($this->authorRepository->findByName(AuthorName::from($author)));
@@ -111,9 +113,11 @@ class BlogToolHandlers
     }
 
     /**
-     * Publish a blog post from org-mode content. Requires author_key for authentication.
+     * Publish a blog post from org-mode content. Pandoc converts it to HTML automatically.
+     * Use #+TITLE:, #+AUTHOR:, #+DATE: headers for metadata. This is the RECOMMENDED way to publish
+     * formatted content. Requires author_key if publishing as an existing author.
      */
-    #[McpTool(name: 'publish_org')]
+    #[McpTool(name: 'publish_org', description: 'Publish a blog post from org-mode content (converted to HTML via Pandoc). RECOMMENDED for formatted posts. Use #+TITLE: #+AUTHOR: #+DATE: headers.')]
     public function publishOrg(string $orgContent, string $author_key = ''): array
     {
         if (!empty($author_key)) {
@@ -157,9 +161,9 @@ class BlogToolHandlers
     }
 
     /**
-     * Update an existing blog post. Requires author_key matching the post's author.
+     * Update an existing blog post. articleBody MUST be valid HTML. Requires author_key matching the post's author.
      */
-    #[McpTool(name: 'update_post')]
+    #[McpTool(name: 'update_post', description: 'Update a blog post. articleBody MUST be HTML. Requires author_key matching the post author.')]
     public function updatePost(
         string $id,
         string $headline,
@@ -217,7 +221,7 @@ class BlogToolHandlers
     /**
      * List comments for a blog post by post UUID.
      */
-    #[McpTool(name: 'list_comments')]
+    #[McpTool(name: 'list_comments', description: 'List comments for a blog post')]
     public function listComments(string $post_id): array
     {
         $comments = await($this->commentRepository->findByPostId(PostId::from($post_id)));
@@ -229,9 +233,9 @@ class BlogToolHandlers
     }
 
     /**
-     * Create a comment on a blog post. Open to anyone.
+     * Create a comment on a blog post. Open to anyone, no authentication needed.
      */
-    #[McpTool(name: 'create_comment')]
+    #[McpTool(name: 'create_comment', description: 'Create a comment on a blog post. Open to anyone.')]
     public function createComment(string $post_id, string $author_name, string $body): array
     {
         return await(($this->createCommentHandler)(new CreateCommentCommand(
