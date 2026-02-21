@@ -7,6 +7,7 @@ namespace pascualmg\cohete\ddd\Infrastructure\MCP;
 use Evenement\EventEmitterTrait;
 use PhpMcp\Server\Contracts\ServerTransportInterface;
 use PhpMcp\Server\Exception\TransportException;
+use PhpMcp\Schema\JsonRpc\Message;
 use React\Promise\Deferred;
 use React\Promise\PromiseInterface;
 use React\Stream\ThroughStream;
@@ -21,6 +22,9 @@ use function React\Promise\resolve;
  * No crea su propio servidor HTTP. Los controllers de Cohete
  * llaman a registerClient() y handleIncomingMessage() directamente.
  * Las respuestas MCP se envian via SSE streams.
+ *
+ * v3 API: sendMessage(Message) en vez de sendToClientAsync(string).
+ * El controller parsea el JSON-RPC con Parser::parse() antes de llamar aqui.
  */
 class CoheteTransport implements ServerTransportInterface
 {
@@ -58,28 +62,29 @@ class CoheteTransport implements ServerTransportInterface
         return isset($this->sseStreams[$clientId]);
     }
 
-    public function handleIncomingMessage(string $jsonRpc, string $clientId): void
+    public function handleIncomingMessage(Message $message, string $clientId): void
     {
-        $this->emit('message', [$jsonRpc, $clientId]);
+        $this->emit('message', [$message, $clientId]);
     }
 
-    public function sendToClientAsync(string $clientId, string $rawFramedMessage): PromiseInterface
+    public function sendMessage(Message $message, string $sessionId, array $context = []): PromiseInterface
     {
-        if (!isset($this->sseStreams[$clientId])) {
-            return reject(new TransportException("Client '{$clientId}' not connected."));
+        if (!isset($this->sseStreams[$sessionId])) {
+            return reject(new TransportException("Client '{$sessionId}' not connected."));
         }
 
-        $stream = $this->sseStreams[$clientId];
+        $stream = $this->sseStreams[$sessionId];
         if (!$stream->isWritable()) {
-            return reject(new TransportException("SSE stream for '{$clientId}' not writable."));
+            return reject(new TransportException("SSE stream for '{$sessionId}' not writable."));
         }
 
-        $jsonData = trim($rawFramedMessage);
-        if ($jsonData === '') {
+        $json = json_encode($message, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+        if ($json === false || $json === '') {
             return resolve(null);
         }
 
-        $written = $this->sendSseEvent($stream, 'message', $jsonData);
+        $written = $this->sendSseEvent($stream, 'message', $json);
 
         if ($written) {
             return resolve(null);
