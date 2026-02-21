@@ -22,6 +22,7 @@ class Post implements \JsonSerializable
         public readonly Author $author,
         public readonly DatePublished $datePublished,
         public readonly ?string $orgSource = null,
+        public readonly int $commentCount = 0,
     ) {
         $this->slug = Slug::from((string)$this->headline);
     }
@@ -34,6 +35,7 @@ class Post implements \JsonSerializable
         string $datePublished,
         ?string $orgSource = null,
         ?string $authorType = null,
+        int $commentCount = 0,
     ): Post {
         $post = new Post(
             PostId::from($id),
@@ -42,6 +44,7 @@ class Post implements \JsonSerializable
             Author::from($author),
             DatePublished::from($datePublished),
             $orgSource,
+            $commentCount,
         );
         $post->authorType = $authorType;
         return $post;
@@ -57,6 +60,7 @@ class Post implements \JsonSerializable
             'author' => (string)$this->author,
             'datePublished' => (string)$this->datePublished,
             'orgSource' => $this->orgSource,
+            'commentCount' => $this->commentCount,
         ];
     }
 }

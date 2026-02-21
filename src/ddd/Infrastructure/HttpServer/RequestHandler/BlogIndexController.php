@@ -23,17 +23,20 @@ class BlogIndexController implements HttpRequestHandler
             function (array $posts) use ($lang): ResponseInterface {
                 return new Response(200, ['Content-Type' => 'text/html; charset=utf-8'], $this->renderHtml($posts, $lang));
             },
-            fn (\Throwable $e) => new Response(500, ['Content-Type' => 'text/plain'], $e->getMessage())
+            fn(\Throwable $e) => new Response(500, ['Content-Type' => 'text/plain'], $e->getMessage())
         );
     }
 
     private function detectLang(ServerRequestInterface $request): string
     {
         $accept = $request->getHeaderLine('Accept-Language');
-        if (!$accept) return 'es';
+        if (!$accept)
+            return 'es';
         $primary = strtolower(substr($accept, 0, 2));
-        if ($primary === 'es') return 'es';
-        if ($primary === 'en' || str_contains(strtolower($accept), 'en')) return 'en';
+        if ($primary === 'es')
+            return 'es';
+        if ($primary === 'en' || str_contains(strtolower($accept), 'en'))
+            return 'en';
         return 'es';
     }
 
@@ -41,20 +44,25 @@ class BlogIndexController implements HttpRequestHandler
     {
         $cards = '';
         foreach ($posts as $post) {
-            $title = htmlspecialchars((string)$post->headline, ENT_QUOTES, 'UTF-8');
-            $author = htmlspecialchars((string)$post->author, ENT_QUOTES, 'UTF-8');
-            $authorLower = strtolower(explode(' ', trim((string)$post->author))[0]);
-            $slug = (string)$post->slug;
-            $dateRaw = (string)$post->datePublished;
+            $title = htmlspecialchars((string) $post->headline, ENT_QUOTES, 'UTF-8');
+            $author = htmlspecialchars((string) $post->author, ENT_QUOTES, 'UTF-8');
+            $authorLower = strtolower(explode(' ', trim((string) $post->author))[0]);
+            $slug = (string) $post->slug;
+            $dateRaw = (string) $post->datePublished;
             $date = (new \DateTimeImmutable($dateRaw))->format('d M Y');
-            $preview = htmlspecialchars(mb_substr(preg_replace('/\s+/', ' ', strip_tags((string)$post->articleBody)), 0, 150), ENT_QUOTES, 'UTF-8');
+            $preview = htmlspecialchars(mb_substr(preg_replace('/\s+/', ' ', strip_tags((string) $post->articleBody)), 0, 150), ENT_QUOTES, 'UTF-8');
 
-            $authorEncoded = urlencode((string)$post->author);
+            $authorEncoded = urlencode((string) $post->author);
             $typeBadge = '';
             if (!empty($post->authorType)) {
                 $typeClass = htmlspecialchars($post->authorType, ENT_QUOTES, 'UTF-8');
                 $typeBadge = "<span class=\"type-badge\" data-type=\"{$typeClass}\">{$typeClass}</span>";
             }
+            $commentStr = $post->commentCount === 1 ? '1 comment' : $post->commentCount . ' comments';
+            if ($lang === 'es') {
+                $commentStr = $post->commentCount === 1 ? '1 comentario' : $post->commentCount . ' comentarios';
+            }
+
             $cards .= <<<CARD
             <a href="/blog/{$authorLower}/{$slug}" class="card">
                 <div class="card-header">
@@ -64,6 +72,7 @@ class BlogIndexController implements HttpRequestHandler
                         <div class="card-meta">
                             <span class="card-author">{$author}</span>{$typeBadge}
                             <span class="card-date" data-date="{$dateRaw}">{$date}</span>
+                            <span class="card-comments" style="margin-left: 1rem;">&#128172; {$commentStr}</span>
                         </div>
                     </div>
                 </div>
