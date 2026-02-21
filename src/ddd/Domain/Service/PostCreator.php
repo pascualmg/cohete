@@ -8,7 +8,7 @@ use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use Psr\Log\LoggerInterface;
 
-readonly class PostCreator
+class PostCreator
 {
     public function __construct(
         private PostRepository $postRepository,
@@ -35,8 +35,8 @@ readonly class PostCreator
         );
 
         $this->postRepository->save($post)->then(
-            fn (Bool $_) => $this->messageBus->publish(new Message('domain_event.post_created', [$post])),
-            fn (\Exception $exception) => $this->logger->error("Cant create the new post", [$post, $exception])
+            fn(bool $_) => $this->messageBus->publish(new Message('domain_event.post_created', [$post])),
+            fn(\Exception $exception) => $this->logger->error("Cant create the new post", [$post, $exception])
         );
     }
 

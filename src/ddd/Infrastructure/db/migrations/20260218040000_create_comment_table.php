@@ -9,7 +9,7 @@ final class CreateCommentTable extends AbstractMigration
     public function change(): void
     {
         $this->table('comment', ['id' => false, 'primary_key' => ['id']])
-            ->addColumn('id', 'char', ['limit' => 36])
+            ->addColumn('id', 'char', ['limit' => 36, 'null' => false])
             ->addColumn('post_id', 'char', ['limit' => 36])
             ->addColumn('author_name', 'string', ['limit' => 100])
             ->addColumn('body', 'text')
