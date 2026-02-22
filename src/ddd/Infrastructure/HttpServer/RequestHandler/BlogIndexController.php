@@ -4,6 +4,7 @@ namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
 
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
+use pascualmg\cohete\ddd\Infrastructure\ReadModel\CommentCountProjection;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
@@ -13,6 +14,7 @@ class BlogIndexController implements HttpRequestHandler
 {
     public function __construct(
         private readonly PostRepository $postRepository,
+        private readonly CommentCountProjection $commentCountProjection,
     ) {
     }
 
@@ -47,6 +49,10 @@ class BlogIndexController implements HttpRequestHandler
             $slug = (string)$post->slug;
             $dateRaw = (string)$post->datePublished;
             $date = (new \DateTimeImmutable($dateRaw))->format('d M Y');
+            $commentCount = $this->commentCountProjection->getCount((string)$post->id);
+            $commentStr = $lang === 'es'
+                ? ($commentCount === 1 ? '1 comentario' : $commentCount . ' comentarios')
+                : ($commentCount === 1 ? '1 comment' : $commentCount . ' comments');
             $preview = htmlspecialchars(mb_substr(preg_replace('/\s+/', ' ', strip_tags((string)$post->articleBody)), 0, 150), ENT_QUOTES, 'UTF-8');
 
             $authorEncoded = urlencode((string)$post->author);
@@ -64,6 +70,7 @@ class BlogIndexController implements HttpRequestHandler
                         <div class="card-meta">
                             <span class="card-author">{$author}</span>{$typeBadge}
                             <span class="card-date" data-date="{$dateRaw}">{$date}</span>
+                            <span class="card-comments">{$commentStr}</span>
                         </div>
                     </div>
                 </div>
@@ -306,6 +313,7 @@ CARD;
         .card h2 { font-size: 1.15rem; color: var(--head1); margin-bottom: 0.25rem; line-height: 1.4; }
         .card-meta { color: var(--base-dim); font-size: 0.8rem; }
         .card-author { color: var(--func); margin-right: 1rem; }
+        .card-comments { color: var(--base-dim); margin-left: 0.5rem; }
         .card-preview { font-size: 0.9rem; color: var(--base-dim); line-height: 1.5; }
         footer {
             margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);

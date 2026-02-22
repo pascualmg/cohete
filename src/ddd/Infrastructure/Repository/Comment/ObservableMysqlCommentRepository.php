@@ -46,6 +46,17 @@ class ObservableMysqlCommentRepository implements CommentRepository
         );
     }
 
+    public function countGroupedByPost(): PromiseInterface
+    {
+        return Observable::fromPromise(
+            $this->mysqlClient->query(
+                'SELECT post_id, COUNT(id) as cnt FROM comment GROUP BY post_id'
+            )
+        )->map(
+            fn (MysqlResult $result) => array_column($result->resultRows, 'cnt', 'post_id')
+        )->toPromise();
+    }
+
     private static function hydrate(array $row): Comment
     {
         return Comment::fromPrimitives(

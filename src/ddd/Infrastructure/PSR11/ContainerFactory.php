@@ -14,6 +14,7 @@ use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use pascualmg\cohete\ddd\Infrastructure\Bus\ReactMessageBus;
 use pascualmg\cohete\ddd\Infrastructure\Parser\FileParser;
 use pascualmg\cohete\ddd\Infrastructure\Parser\OrgFileParser;
+use pascualmg\cohete\ddd\Infrastructure\ReadModel\CommentCountProjection;
 use pascualmg\cohete\ddd\Infrastructure\MCP\CoheteTransport;
 use pascualmg\cohete\ddd\Infrastructure\MCP\McpServerFactory;
 use pascualmg\cohete\ddd\Infrastructure\Repository\Author\ObservableMysqlAuthorRepository;
@@ -65,6 +66,7 @@ class ContainerFactory
             PostRepository::class => static fn (ContainerInterface $c) => $c->get(ObservableMysqlPostRepository::class),
             AuthorRepository::class => static fn (ContainerInterface $c) => $c->get(ObservableMysqlAuthorRepository::class),
             CommentRepository::class => static fn (ContainerInterface $c) => $c->get(ObservableMysqlCommentRepository::class),
+            CommentCountProjection::class => static fn (ContainerInterface $c) => new CommentCountProjection($c->get(CommentRepository::class)),
             FileParser::class => static fn (ContainerInterface $c) => $c->get(OrgFileParser::class),
             MessageBus::class => static fn (ContainerInterface $c) => $c->get(ReactMessageBus::class),
             ReactMessageBus::class => static fn (ContainerInterface $c) => new ReactMessageBus(
@@ -105,11 +107,15 @@ class ContainerFactory
             }
         );
 
+        $projection = $container->get(CommentCountProjection::class);
+        $projection->boot();
+
         $container->get(MessageBus::class)->subscribe(
             'domain_event.comment_published',
             function ($data) use ($container) {
+                $container->get(CommentCountProjection::class)->onCommentPublished($data);
                 $container->get(LoggerInterface::class)->info(
-                    "CommentWasPublished: nuevo comentario en post",
+                    "CommentWasPublished: counter updated",
                     is_array($data) ? $data : [$data]
                 );
             }
