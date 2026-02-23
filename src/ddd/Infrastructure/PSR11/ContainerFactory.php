@@ -11,9 +11,11 @@ use pascualmg\cohete\ddd\Domain\Bus\MessageBus;
 use pascualmg\cohete\ddd\Domain\Entity\AuthorRepository;
 use pascualmg\cohete\ddd\Domain\Entity\CommentRepository;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
+use pascualmg\cohete\ddd\Domain\Query\CommentCountQuery;
 use pascualmg\cohete\ddd\Infrastructure\Bus\ReactMessageBus;
 use pascualmg\cohete\ddd\Infrastructure\Parser\FileParser;
 use pascualmg\cohete\ddd\Infrastructure\Parser\OrgFileParser;
+use pascualmg\cohete\ddd\Infrastructure\Query\MysqlCommentCountQuery;
 use pascualmg\cohete\ddd\Infrastructure\ReadModel\CommentCountProjection;
 use pascualmg\cohete\ddd\Infrastructure\MCP\CoheteTransport;
 use pascualmg\cohete\ddd\Infrastructure\MCP\McpServerFactory;
@@ -66,7 +68,8 @@ class ContainerFactory
             PostRepository::class => static fn (ContainerInterface $c) => $c->get(ObservableMysqlPostRepository::class),
             AuthorRepository::class => static fn (ContainerInterface $c) => $c->get(ObservableMysqlAuthorRepository::class),
             CommentRepository::class => static fn (ContainerInterface $c) => $c->get(ObservableMysqlCommentRepository::class),
-            CommentCountProjection::class => static fn (ContainerInterface $c) => new CommentCountProjection($c->get(CommentRepository::class)),
+            CommentCountQuery::class => static fn (ContainerInterface $c) => $c->get(MysqlCommentCountQuery::class),
+            CommentCountProjection::class => static fn (ContainerInterface $c) => new CommentCountProjection($c->get(CommentCountQuery::class)),
             FileParser::class => static fn (ContainerInterface $c) => $c->get(OrgFileParser::class),
             MessageBus::class => static fn (ContainerInterface $c) => $c->get(ReactMessageBus::class),
             ReactMessageBus::class => static fn (ContainerInterface $c) => new ReactMessageBus(

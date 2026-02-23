@@ -2,7 +2,7 @@
 
 namespace pascualmg\cohete\ddd\Infrastructure\ReadModel;
 
-use pascualmg\cohete\ddd\Domain\Entity\CommentRepository;
+use pascualmg\cohete\ddd\Domain\Query\CommentCountQuery;
 use React\Promise\PromiseInterface;
 
 class CommentCountProjection
@@ -11,13 +11,13 @@ class CommentCountProjection
     private array $counts = [];
 
     public function __construct(
-        private readonly CommentRepository $commentRepository,
+        private readonly CommentCountQuery $commentCountQuery,
     ) {
     }
 
     public function boot(): PromiseInterface
     {
-        return $this->commentRepository->countGroupedByPost()
+        return $this->commentCountQuery->countGroupedByPost()
             ->then(fn (array $counts) => $this->counts = $counts);
     }
 

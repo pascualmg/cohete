@@ -11,6 +11,4 @@ interface CommentRepository
     public function findByPostId(PostId $postId): PromiseInterface; //of Comment[]
 
     public function save(Comment $comment): PromiseInterface; //of bool
-
-    public function countGroupedByPost(): PromiseInterface; //of array<string, int>
 }
