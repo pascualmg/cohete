@@ -34,6 +34,7 @@ try {
         ->withTool([BlogToolHandlers::class, 'getPost'], 'get_post', 'Get a single blog post by UUID')
         ->withTool([BlogToolHandlers::class, 'createPost'], 'create_post', 'Create a blog post. First time with a new author name claims it and returns author_token. Next times provide author_key.')
         ->withTool([BlogToolHandlers::class, 'publishOrg'], 'publish_org', 'Publish a blog post from org-mode content (with optional author_key)')
+        ->withTool([BlogToolHandlers::class, 'uploadAsset'], 'upload_asset', 'Upload a binary asset (image) to the blog. Provide base64_content and filename.')
         ->withTool([BlogToolHandlers::class, 'updatePost'], 'update_post', 'Update a blog post. Requires author_key matching the post author.')
         ->withTool([BlogToolHandlers::class, 'deletePost'], 'delete_post', 'Delete a blog post. Requires author_key matching the post author.')
         ->withTool([BlogToolHandlers::class, 'listComments'], 'list_comments', 'List comments for a blog post')
