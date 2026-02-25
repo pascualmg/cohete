@@ -20,7 +20,7 @@ class OrgToHtmlConverter
         ];
 
         $process = proc_open(
-            [$this->pandocPath, '-f', 'org', '-t', 'html', '--no-highlight'],
+            [$this->pandocPath, '-f', 'org', '-t', 'html'],
             $descriptors,
             $pipes
         );

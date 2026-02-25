@@ -169,6 +169,18 @@ class BlogAuthorPostController implements HttpRequestHandler
         .content code { background: var(--cblk-bg); color: var(--cblk); padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
         .content pre { background: var(--cblk-bg); padding: 1rem; border-radius: 6px; overflow-x: auto; margin: 1rem 0; border-left: 3px solid var(--cblk-ln-bg); }
         .content pre code { background: none; padding: 0; color: var(--cblk); }
+        /* Pandoc syntax highlighting (sourceCode classes) */
+        .sourceCode .kw, .sourceCode .cf { color: var(--keyword); }
+        .sourceCode .dt { color: var(--type); }
+        .sourceCode .dv, .sourceCode .bn, .sourceCode .fl { color: var(--const); }
+        .sourceCode .ch, .sourceCode .st { color: var(--str); }
+        .sourceCode .co, .sourceCode .do, .sourceCode .an, .sourceCode .cv, .sourceCode .in { color: var(--comment); font-style: italic; }
+        .sourceCode .ot, .sourceCode .fu, .sourceCode .ex { color: var(--func); }
+        .sourceCode .al, .sourceCode .er { color: var(--err); }
+        .sourceCode .va { color: var(--var); }
+        .sourceCode .op, .sourceCode .bu { color: var(--base); }
+        .sourceCode .pp { color: #9f8766; }
+        .sourceCode .at { color: var(--var); }
         .content blockquote { border-left: 3px solid var(--keyword); padding-left: 1rem; color: var(--comment); margin: 1rem 0; }
         .content strong { color: var(--str); }
         .content em { color: var(--war); }
