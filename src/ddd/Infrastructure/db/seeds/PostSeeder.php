@@ -20,12 +20,16 @@ class PostSeeder extends AbstractSeed
         $faker = Faker\Factory::create();
         $postFakeData = [];
 
-        for($i = 0; $i < 100; $i++) {
+        for ($i = 0; $i < 100; $i++) {
+            $headline = $faker->sentence();
+            $author = $faker->randomElement(['Pascual', 'Ambrosio', 'Nova']);
             $postFakeData[] = [
                 'id' => $faker->uuid(),
-                'headline' => $faker->sentence(),
+                'headline' => $headline,
+                'slug' => strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $headline), '-')),
                 'articleBody' => $faker->paragraph(),
-                'author' => $faker->name(),
+                'author' => $author,
+                'author_id' => null, // Let the db handle or we can just ignore it since it's a seed, wait, we can just leave it to null unless strict, but we can set author as Pascual.
                 'datePublished' => $faker->date(),
             ];
         }

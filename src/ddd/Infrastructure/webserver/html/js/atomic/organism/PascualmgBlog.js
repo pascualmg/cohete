@@ -46,6 +46,7 @@ class PascualmgBlog extends HTMLElement {
                         <div class="post-meta">
                             <span class="post-author">${this.escapeHtml(post.author)}</span>
                             <span class="post-date">${this.formatDate(post.datePublished)}</span>
+                            <span class="post-comments" style="margin-left: 10px;">&#128172; ${post.commentCount === 1 ? '1 comentario' : post.commentCount + ' comentarios'}</span>
                         </div>
                         <p class="post-excerpt">${this.getExcerpt(post.articleBody)}</p>
                         <div class="post-footer">

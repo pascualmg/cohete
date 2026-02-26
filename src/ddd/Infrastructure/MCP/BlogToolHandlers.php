@@ -40,11 +40,11 @@ class BlogToolHandlers
         $posts = await($this->postRepository->findAll());
 
         return array_map(
-            fn (Post $post) => [
-                'id' => (string)$post->id,
-                'headline' => (string)$post->headline,
-                'author' => (string)$post->author,
-                'datePublished' => (string)$post->datePublished,
+            fn(Post $post) => [
+                'id' => (string) $post->id,
+                'headline' => (string) $post->headline,
+                'author' => (string) $post->author,
+                'datePublished' => (string) $post->datePublished,
             ],
             $posts
         );
@@ -91,7 +91,7 @@ class BlogToolHandlers
             await($this->authorRepository->save($newAuthor));
         }
 
-        $postId = (string)UuidValueObject::v4();
+        $postId = (string) UuidValueObject::v4();
         $datePublished = (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM);
 
         $post = Post::fromPrimitives($postId, $headline, $articleBody, $author, $datePublished);
@@ -130,7 +130,7 @@ class BlogToolHandlers
         $metadata = $this->orgToHtmlConverter->extractMetadata($orgContent);
         $html = $this->orgToHtmlConverter->convert($orgContent);
 
-        $postId = (string)UuidValueObject::v4();
+        $postId = (string) UuidValueObject::v4();
 
         try {
             $dt = new \DateTimeImmutable($metadata['date']);
@@ -139,7 +139,7 @@ class BlogToolHandlers
             $datePublished = (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM);
         }
 
-        $authorName = isset($author) ? (string)$author->name : $metadata['author'];
+        $authorName = isset($author) ? (string) $author->name : $metadata['author'];
 
         $post = Post::fromPrimitives(
             $postId,
@@ -178,7 +178,7 @@ class BlogToolHandlers
             return ['error' => "Post not found: $id"];
         }
 
-        $postAuthorName = (string)$existingPost->author;
+        $postAuthorName = (string) $existingPost->author;
         $existingAuthor = await($this->authorRepository->findByName(AuthorName::from($postAuthorName)));
 
         if ($existingAuthor === null || !$existingAuthor->verifyKey($author_key)) {
@@ -204,7 +204,7 @@ class BlogToolHandlers
             return ['error' => "Post not found: $id"];
         }
 
-        $postAuthorName = (string)$existingPost->author;
+        $postAuthorName = (string) $existingPost->author;
         $existingAuthor = await($this->authorRepository->findByName(AuthorName::from($postAuthorName)));
 
         if ($existingAuthor === null || !$existingAuthor->verifyKey($author_key)) {
@@ -227,7 +227,7 @@ class BlogToolHandlers
         $comments = await($this->commentRepository->findByPostId(PostId::from($post_id)));
 
         return array_map(
-            fn (Comment $c) => $c->jsonSerialize(),
+            fn(Comment $c) => $c->jsonSerialize(),
             $comments
         );
     }
@@ -243,5 +243,38 @@ class BlogToolHandlers
             $author_name,
             $body,
         )));
+    }
+
+    /**
+     * Upload an asset (image, etc.) to the blog's static directory.
+     * Takes base64 encoded data and a target filename.
+     * Returns the relative URL to the asset.
+     */
+    #[McpTool(name: 'upload_asset', description: 'Upload a binary asset (image) to the blog. Provide base64_content and filename.')]
+    public function uploadAsset(string $base64_content, string $filename): array
+    {
+        $data = base64_decode($base64_content, true);
+        if ($data === false) {
+            return ['error' => 'Invalid base64 content'];
+        }
+
+        // Use a safe directory for assets
+        $targetDir = dirname(__DIR__, 2) . '/webserver/html/img';
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
+
+        // Sanitize filename
+        $filename = basename($filename);
+        $targetPath = $targetDir . '/' . $filename;
+
+        if (file_put_contents($targetPath, $data) === false) {
+            return ['error' => 'Failed to save file'];
+        }
+
+        return [
+            'url' => '/html/img/' . $filename,
+            'success' => true
+        ];
     }
 }
