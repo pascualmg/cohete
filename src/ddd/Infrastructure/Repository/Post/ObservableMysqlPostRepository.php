@@ -58,8 +58,8 @@ class ObservableMysqlPostRepository implements PostRepository
     public function findByAuthorAndSlug(string $authorName, Slug $slug): PromiseInterface //of Post or Null
     {
         $promiseOfQuery = $this->mysqlClient->query(
-            "SELECT p.*, a.type as author_type FROM post p INNER JOIN author a ON p.author_id = a.id WHERE LOWER(REPLACE(REPLACE(a.name, ' ', '-'), '''', '')) = LOWER(?) AND p.slug = ?",
-            [$authorName, (string)$slug]
+            "SELECT p.*, a.type as author_type FROM post p LEFT JOIN author a ON p.author_id = a.id WHERE (LOWER(REPLACE(REPLACE(COALESCE(a.name, p.author), ' ', '-'), '''', '')) = LOWER(?) OR LOWER(COALESCE(a.name, p.author)) = LOWER(?)) AND p.slug = ?",
+            [$authorName, $authorName, (string)$slug]
         );
 
         return Observable::fromPromise($promiseOfQuery)
