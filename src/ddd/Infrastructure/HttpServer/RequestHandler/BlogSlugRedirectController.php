@@ -28,7 +28,7 @@ class BlogSlugRedirectController implements HttpRequestHandler
                         '<!DOCTYPE html><html><body><h1>Post no encontrado</h1><p><a href="/blog">Volver al blog</a></p></body></html>'
                     );
                 }
-                $authorLower = strtolower((string)$post->author);
+                $authorLower = Slug::generateSlug((string)$post->author);
                 $slug = (string)$post->slug;
                 return new Response(301, ['Location' => "/blog/{$authorLower}/{$slug}"]);
             },

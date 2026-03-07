@@ -3,6 +3,7 @@
 namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
 
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Slug;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -43,7 +44,7 @@ class BlogIndexController implements HttpRequestHandler
         foreach ($posts as $post) {
             $title = htmlspecialchars((string)$post->headline, ENT_QUOTES, 'UTF-8');
             $author = htmlspecialchars((string)$post->author, ENT_QUOTES, 'UTF-8');
-            $authorLower = strtolower(explode(' ', trim((string)$post->author))[0]);
+            $authorLower = Slug::generateSlug((string)$post->author);
             $slug = (string)$post->slug;
             $dateRaw = (string)$post->datePublished;
             $date = (new \DateTimeImmutable($dateRaw))->format('d M Y');
@@ -683,7 +684,7 @@ CARD;
                     msg.textContent = _t('publish.published');
                     msg.className = 'form-msg success';
                     const slug = headline.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-                    const authorSlug = author.toLowerCase().split(' ')[0];
+                    const authorSlug = author.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
                     setTimeout(() => { window.location.href = '/blog/' + authorSlug + '/' + slug; }, 500);
                 } else {
                     msg.textContent = data.error || _t('publish.error');
