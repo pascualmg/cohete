@@ -6,9 +6,11 @@ class ChatBox extends HTMLElement {
     }
 
     connectedCallback() {
-        const host = this.getAttribute("host") || window.location.hostname;
-        const port = this.getAttribute("port") || 8001;
-        const uri = `${window.location.protocol === 'https:' ? 'wss' : 'ws'}://${host}:${port}`;
+        const isSecure = window.location.protocol === 'https:';
+        const host = this.getAttribute("host") || (isSecure ? 'ws.pascualmg.dev' : window.location.hostname);
+        const port = this.getAttribute("port") || (isSecure ? '' : '8001');
+        const protocol = isSecure ? 'wss' : 'ws';
+        const uri = port ? `${protocol}://${host}:${port}` : `${protocol}://${host}`;
         const group = this.getAttribute("group") || 'general';
 
         console.log('Attempting to connect to WebSocket at:', uri);
