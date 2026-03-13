@@ -69,6 +69,7 @@ class ChatBox extends HTMLElement {
 
                 const divWithMessage = document.createElement('div');
                 divWithMessage.textContent = value;
+                divWithMessage.classList.add('own');
                 this.elements.chatBox.appendChild(divWithMessage);
             } catch (e) {
                 console.error('Error sending message:', e);
@@ -91,88 +92,145 @@ class ChatBox extends HTMLElement {
     render(group) {
         this.shadowRoot.innerHTML = `
         <style>
+            :host {
+                font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            }
+
             .chat-container {
-                position: fixed;  
-                bottom: 1%;
-                right: 1%;
-                height: 500px;
-                width: 500px;
+                position: fixed;
+                bottom: 16px;
+                right: 16px;
+                height: 480px;
+                width: 380px;
                 display: flex;
                 flex-direction: column;
-                padding: 5px;
-                background-color: var(--bg2);
-                color: var(--cblk);
-                border-radius: 10px;
-                border: 1px solid var(--border);
-            }
-
-            .scrollable {
-                overflow-y: auto;
-                flex-grow: 1;
-            }
-
-            .rounded-div {
-                border: 1px solid var(--border);
-                border-radius: 10px;
-                padding: 10px;
-                margin: 2px 0;
-                background-color: var(--bg2);
-                color: var(--cblk);
-                font-size: xx-large;
-            }
-
-            .user-input-section {
-                margin-top: 100px;
-            }
-
-            .message-input {
-                width: 98%;
-                padding: 5px;
-                border-radius: 5px;
-                border: none;
-                background-color: var(--act1);
-                color: var(--cblk);
-                font-size: xxx-large;
-            }
-
-            .button-round {
-                background: var(--bg4);
-                position: absolute;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                border: none;
-            }
-
-            .button-round.left {
-                left: 20px;
-            }
-
-            .button-round.right {
-                right: 20px;
-                font-size: 1.2em;
-                color: var(--bg1);
-                text-align: center;
-                cursor: pointer;
+                background: #1a1a2e;
+                color: #e0e0e0;
+                border-radius: 12px;
+                border: 1px solid #2a2a4a;
+                box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+                overflow: hidden;
             }
 
             .chat-box-bar {
                 display: flex;
                 justify-content: space-between;
-                padding: 10px;
-                height: 70px;
+                align-items: center;
+                padding: 12px 16px;
+                background: #16213e;
+                border-bottom: 1px solid #2a2a4a;
+            }
+
+            .chat-title {
+                font-size: 14px;
+                font-weight: 600;
+                color: #00d4aa;
+            }
+
+            .button-round {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .button-round.left {
+                background: #e74c3c;
+                transition: background 0.3s;
+            }
+
+            .button-round.left.connected {
+                background: #00d4aa;
+            }
+
+            .button-round.right {
+                background: #2a2a4a;
+                color: #888;
+                font-size: 14px;
+                transition: all 0.2s;
+            }
+
+            .button-round.right:hover {
+                background: #e74c3c;
+                color: #fff;
+            }
+
+            .scrollable {
+                flex: 1;
+                overflow-y: auto;
+                padding: 12px 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .scrollable::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            .scrollable::-webkit-scrollbar-thumb {
+                background: #2a2a4a;
+                border-radius: 2px;
+            }
+
+            .scrollable div {
+                padding: 8px 12px;
+                background: #16213e;
+                border-radius: 8px;
+                font-size: 14px;
+                line-height: 1.4;
+                word-wrap: break-word;
+                max-width: 85%;
+            }
+
+            .scrollable div.own {
+                background: #0a3d62;
+                align-self: flex-end;
+            }
+
+            .user-input-section {
+                padding: 12px;
+                border-top: 1px solid #2a2a4a;
+                background: #16213e;
+            }
+
+            .message-input {
+                width: 100%;
+                padding: 10px 14px;
+                border-radius: 8px;
+                border: 1px solid #2a2a4a;
+                background: #1a1a2e;
+                color: #e0e0e0;
+                font-size: 14px;
+                outline: none;
+                box-sizing: border-box;
+                transition: border-color 0.2s;
+            }
+
+            .message-input:focus {
+                border-color: #00d4aa;
+            }
+
+            .message-input::placeholder {
+                color: #555;
             }
         </style>
 
         <div class="chat-container">
             <div class="chat-box-bar">
+                <div style="display:flex;align-items:center;gap:8px">
+                    <button class="button-round left" disabled></button>
+                    <span class="chat-title">Cohete Chat - ${group}</span>
+                </div>
                 <button class="button-round right">X</button>
-                <button class="button-round left" disabled></button>
             </div>
-            <div class="scrollable rounded-div"></div>
+            <div class="scrollable"></div>
             <div class="user-input-section">
-                <label for="messageInput"></label>
-                <input class="message-input" type="text" placeholder="Write a message group ${group}"/>
+                <input class="message-input" type="text" placeholder="Escribe un mensaje..."/>
             </div>
         </div>
         `;
@@ -186,7 +244,11 @@ class ChatBox extends HTMLElement {
     }
 
     connectedButton(boolean) {
-        this.elements.connectedButton.style.backgroundColor = boolean ? "green" : "red";
+        if (boolean) {
+            this.elements.connectedButton.classList.add('connected');
+        } else {
+            this.elements.connectedButton.classList.remove('connected');
+        }
     }
 
     SocketMessage$(url) {
