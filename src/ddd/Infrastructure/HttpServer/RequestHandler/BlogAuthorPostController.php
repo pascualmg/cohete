@@ -446,6 +446,11 @@ class BlogAuthorPostController implements HttpRequestHandler
             });
         });
     </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/8.0.0-alpha.0/rxjs.umd.min.js"
+    integrity="sha512-RU/+KBY2y4DY3tDNOpeUJbg+qDu+VhUg4adCSXsFRMNaTjZ8MhfxVl/vSv16QGnjck9TQO3QXKDDAVwbqBjFxA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script type="module" src="/js/atomic/organism/ChatBox.js"></script>
+<chat-box group="cohete-blog"></chat-box>
 </body>
 </html>
 HTML;

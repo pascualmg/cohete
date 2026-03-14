@@ -9,6 +9,7 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Dotenv\Dotenv;
 use pascualmg\cohete\ddd\Infrastructure\HttpServer\ReactHttpServer;
+use pascualmg\cohete\ddd\Infrastructure\WebSocket\WebSocketServer;
 use React\EventLoop\Loop;
 use Rx\Scheduler;
 use Rx\Scheduler\EventLoopScheduler;
@@ -35,6 +36,13 @@ ReactHttpServer::init(
     $_ENV['HTTP_SERVER_PORT'],
     $loop,
     $isDevelopment,
+);
+
+//iniciamos el servidor WebSocket (mismo loop, puerto 8001)
+WebSocketServer::init(
+    $_ENV['HTTP_SERVER_HOST'],
+    8001,
+    $loop,
 );
 
 $loop->run();
