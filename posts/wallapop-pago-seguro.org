@@ -1,0 +1,65 @@
+#+TITLE: Wallapop Pago Seguro: usuario desde 2018, primera y ultima vez
+#+AUTHOR: Pascual
+#+DATE: 2026-03-04
+
+* La promesa
+
+Llevo usando Wallapop desde 2018. Compras, ventas, todo en mano. Cero problemas. El clasico "quedamos en tal sitio", ves el producto, pagas, te vas. Simple.
+
+Hasta que un dia decides probar el "Pago Seguro". Esa funcionalidad que Wallapop lleva anos empujandote con banners, notificaciones y ese boton naranja bien gordo. La promesa: tu dinero esta protegido, la transaccion es segura, todo controlado.
+
+Vendi una tarjeta grafica por 1020 euros. El comprador pago. Wallapop confirmo la entrega. Dinero en el monedero. Hasta aqui, todo segun el guion.
+
+* El muro
+
+Ahora quiero MI dinero. El que ya esta "seguro" en mi monedero. Y resulta que necesito verificar mi cuenta con un email... al que no tengo acceso.
+
+El email en cuestion es una cuenta corporativa de un trabajo anterior. Google la tiene eliminada. No puedo recibir correos en ella. No puedo verificar nada con ella.
+
+Mi cuenta de Google actual, la que uso para TODO, no les vale. Necesitan "verificar que soy el propietario de la cuenta". De MI cuenta. La que cree en 2018. Con mi nombre. Mi telefono. Mi DNI.
+
+* El laberinto del soporte
+
+Abro ticket. Me responde un bot que no entiende nada. Tras insistir, llego a un humano. Le explico el problema. Me pide:
+
+- Certificado de titularidad bancaria. Enviado.
+- IBAN completo. Enviado.
+- Numero de telefono verificado. Enviado.
+- DNI. Enviado.
+
+Respuesta: "Hemos revisado tu informacion y vemos que el documento ha sido validado correctamente". Bien, pienso. Ahora podre cobrar.
+
+No.
+
+Me reabren la conversacion. Otro agente. Me pide OTRA VEZ los datos. Los 6 primeros digitos del IBAN. El telefono. Y ademas, dos datos extra de una lista de ocho opciones. Como si fuera un examen tipo test para demostrar que soy yo.
+
+Llevo dias asi. Cada mensaje tarda entre 11 y 24 horas en ser respondido. Mientras tanto, mis 1020 euros estan en un limbo digital.
+
+* Lo que he aprendido
+
+1. *Wallapop no tiene telefono de atencion*. Solo tickets por email. Con tiempos de respuesta de un dia. Para retener TU dinero.
+
+2. *El soporte es un bucle*. Cada agente empieza de cero. No leen el historial. Te piden lo que ya has enviado. Es como explicarle tu vida a cada medico nuevo del ambulatorio.
+
+3. *Tu dinero no es tuyo*. Esta en "tu monedero", pero no puedes tocarlo hasta que Wallapop decida que eres tu. Con un email al que no tienes acceso como unica via de verificacion.
+
+4. *No hay escalado posible*. No puedes hablar con un supervisor. No puedes llamar. No puedes ir a una oficina. Solo puedes esperar y repetir tus datos una vez mas.
+
+* La reflexion
+
+Lo absurdo es que si hubiera quedado con el comprador en un parking, le habria dado la grafica, el me habria dado un sobre con billetes, y cada uno a su casa. Treinta segundos. Sin verificaciones. Sin tickets. Sin bots.
+
+Wallapop ha construido un sistema de "pago seguro" que es seguro para Wallapop. Ellos tienen tu dinero. Ellos deciden cuando te lo dan. Y si algo falla en su proceso de verificacion, el problema es tuyo.
+
+Ocho anos usando la plataforma. Primera vez que uso el pago seguro. Y con bastante probabilidad, la ultima.
+
+* Nota tecnica
+
+Si te encuentras en esta situacion, lo que he aprendido:
+
+- Ten el email de tu cuenta siempre accesible. Si cambias de trabajo, cambia el email en Wallapop ANTES de que te cierren la cuenta corporativa.
+- Guarda capturas de todo: conversaciones, confirmaciones de venta, movimientos del monedero.
+- Ten a mano: los 6 primeros digitos de tu IBAN, tu telefono verificado, y al menos dos datos de tu historial reciente (ultima compra/venta, saldo del monedero, ultimo chat).
+- Armarte de paciencia. No hay via rapida.
+
+A dia de hoy, 4 de marzo de 2026, sigo esperando cobrar mis 1020 euros.
