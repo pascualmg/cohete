@@ -3,6 +3,9 @@ class ChatBox extends HTMLElement {
         super();
         this.attachShadow({mode: 'open'});
         this.webSocket = null;
+        this.minimized = false;
+        this.dragging = false;
+        this.dragOffset = {x: 0, y: 0};
     }
 
     connectedCallback() {
@@ -13,8 +16,6 @@ class ChatBox extends HTMLElement {
         const uri = port ? `${protocol}://${host}:${port}` : `${protocol}://${host}`;
         const group = this.getAttribute("group") || 'general';
 
-        console.log('Attempting to connect to WebSocket at:', uri);
-
         this.render(group);
         this.elements = {
             'chatContainer': this.shadowRoot.querySelector('.chat-container'),
@@ -22,7 +23,10 @@ class ChatBox extends HTMLElement {
             'userInputSection': this.shadowRoot.querySelector('.user-input-section'),
             'messageInput': this.shadowRoot.querySelector('.message-input'),
             'connectedButton': this.shadowRoot.querySelector('.button-round.left'),
-            'closeButton': this.shadowRoot.querySelector('.button-round.right')
+            'closeButton': this.shadowRoot.querySelector('.button-round.right'),
+            'minimizeButton': this.shadowRoot.querySelector('.button-minimize'),
+            'chatBar': this.shadowRoot.querySelector('.chat-box-bar'),
+            'minimizedBubble': this.shadowRoot.querySelector('.minimized-bubble'),
         };
 
         const removeElement = (function setHidden(elem) {
@@ -34,6 +38,9 @@ class ChatBox extends HTMLElement {
         this.closeButtonClick$()
             .subscribe(removeElement);
 
+        this.setupMinimize();
+        this.setupDrag();
+
         this.SocketMessage$(uri)
             .subscribe(
                 this.renderIncomingMessage(this.elements.chatBox),
@@ -43,6 +50,65 @@ class ChatBox extends HTMLElement {
 
         this.userInput$()
             .subscribe(this.sendMessageToChat(this.webSocket));
+    }
+
+    setupMinimize() {
+        this.elements.minimizeButton.addEventListener('click', () => this.toggleMinimize());
+        this.elements.minimizedBubble.addEventListener('click', () => this.toggleMinimize());
+    }
+
+    toggleMinimize() {
+        this.minimized = !this.minimized;
+        this.elements.chatContainer.classList.toggle('hidden', this.minimized);
+        this.elements.minimizedBubble.classList.toggle('hidden', !this.minimized);
+        if (!this.minimized) {
+            this.elements.messageInput.focus();
+        }
+    }
+
+    setupDrag() {
+        const bar = this.elements.chatBar;
+        const container = this.elements.chatContainer;
+        const bubble = this.elements.minimizedBubble;
+
+        const onMouseDown = (e) => {
+            if (e.target.tagName === 'BUTTON') return;
+            this.dragging = true;
+            const target = this.minimized ? bubble : container;
+            const rect = target.getBoundingClientRect();
+            this.dragOffset.x = e.clientX - rect.left;
+            this.dragOffset.y = e.clientY - rect.top;
+            bar.style.cursor = 'grabbing';
+            e.preventDefault();
+        };
+
+        const onMouseMove = (e) => {
+            if (!this.dragging) return;
+            const target = this.minimized ? bubble : container;
+            const x = e.clientX - this.dragOffset.x;
+            const y = e.clientY - this.dragOffset.y;
+            // Switch from bottom/right positioning to top/left
+            target.style.bottom = 'auto';
+            target.style.right = 'auto';
+            target.style.left = Math.max(0, Math.min(x, window.innerWidth - target.offsetWidth)) + 'px';
+            target.style.top = Math.max(0, Math.min(y, window.innerHeight - target.offsetHeight)) + 'px';
+            // Sync position to the other element
+            const other = this.minimized ? container : bubble;
+            other.style.bottom = 'auto';
+            other.style.right = 'auto';
+            other.style.left = target.style.left;
+            other.style.top = target.style.top;
+        };
+
+        const onMouseUp = () => {
+            this.dragging = false;
+            bar.style.cursor = 'grab';
+        };
+
+        bar.addEventListener('mousedown', onMouseDown);
+        bubble.addEventListener('mousedown', onMouseDown);
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
     }
 
     renderIncomingMessage(chatBox) {
@@ -110,6 +176,39 @@ class ChatBox extends HTMLElement {
                 border: 1px solid #2a2a4a;
                 box-shadow: 0 8px 32px rgba(0,0,0,0.4);
                 overflow: hidden;
+                z-index: 9999;
+                transition: opacity 0.2s, transform 0.2s;
+            }
+
+            .chat-container.hidden {
+                display: none;
+            }
+
+            .minimized-bubble {
+                position: fixed;
+                bottom: 16px;
+                right: 16px;
+                width: 56px;
+                height: 56px;
+                border-radius: 50%;
+                background: #00d4aa;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 16px rgba(0,212,170,0.3);
+                z-index: 9999;
+                transition: transform 0.2s;
+                font-size: 24px;
+            }
+
+            .minimized-bubble:hover {
+                transform: scale(1.1);
+            }
+
+            .minimized-bubble.hidden {
+                display: none;
             }
 
             .chat-box-bar {
@@ -119,6 +218,8 @@ class ChatBox extends HTMLElement {
                 padding: 12px 16px;
                 background: #16213e;
                 border-bottom: 1px solid #2a2a4a;
+                cursor: grab;
+                user-select: none;
             }
 
             .chat-title {
@@ -145,6 +246,26 @@ class ChatBox extends HTMLElement {
 
             .button-round.left.connected {
                 background: #00d4aa;
+            }
+
+            .button-minimize {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                border: none;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #2a2a4a;
+                color: #888;
+                font-size: 16px;
+                transition: all 0.2s;
+            }
+
+            .button-minimize:hover {
+                background: #00d4aa;
+                color: #1a1a2e;
             }
 
             .button-round.right {
@@ -226,13 +347,17 @@ class ChatBox extends HTMLElement {
                     <button class="button-round left" disabled></button>
                     <span class="chat-title">Cohete Chat - ${group}</span>
                 </div>
-                <button class="button-round right">X</button>
+                <div style="display:flex;align-items:center;gap:4px">
+                    <button class="button-minimize" title="Minimizar">&#8722;</button>
+                    <button class="button-round right" title="Cerrar">X</button>
+                </div>
             </div>
             <div class="scrollable"></div>
             <div class="user-input-section">
                 <input class="message-input" type="text" placeholder="Escribe un mensaje..."/>
             </div>
         </div>
+        <div class="minimized-bubble hidden" title="Abrir chat">&#128172;</div>
         `;
     }
 
