@@ -1,10 +1,11 @@
 <?php
 
 namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
+use Cohete\HttpServer\HttpRequestHandler;
 
 use pascualmg\cohete\ddd\Application\Comment\FindCommentsByPostIdQuery;
 use pascualmg\cohete\ddd\Application\Comment\FindCommentsByPostIdQueryHandler;
-use pascualmg\cohete\ddd\Infrastructure\HttpServer\JsonResponse;
+use Cohete\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Promise\PromiseInterface;

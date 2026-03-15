@@ -2,7 +2,7 @@
 
 namespace pascualmg\cohete\ddd\Application\Comment;
 
-use pascualmg\cohete\ddd\Domain\Bus\MessageBus;
+use Cohete\Bus\MessageBus;
 use pascualmg\cohete\ddd\Domain\Entity\Comment\Comment;
 use pascualmg\cohete\ddd\Domain\Entity\CommentRepository;
 use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;

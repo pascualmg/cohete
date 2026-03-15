@@ -11,7 +11,7 @@ use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use pascualmg\cohete\ddd\Domain\Entity\CommentRepository;
 use pascualmg\cohete\ddd\Domain\Service\AuthorAuthenticator;
-use pascualmg\cohete\ddd\Domain\ValueObject\UuidValueObject;
+use Cohete\DDD\ValueObject\UuidValueObject;
 use pascualmg\cohete\ddd\Infrastructure\Service\OrgToHtmlConverter;
 use pascualmg\cohete\ddd\Application\Comment\CreateCommentCommand;
 use pascualmg\cohete\ddd\Application\Comment\CreateCommentCommandHandler;

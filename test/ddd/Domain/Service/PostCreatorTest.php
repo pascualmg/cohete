@@ -2,8 +2,8 @@
 
 namespace pascualmg\cohete\ddd\Domain\Service;
 
-use pascualmg\cohete\ddd\Domain\Bus\Message;
-use pascualmg\cohete\ddd\Domain\Bus\MessageBus;
+use Cohete\Bus\Message;
+use Cohete\Bus\MessageBus;
 use pascualmg\cohete\ddd\Domain\Entity\Post\PostMother;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use PHPUnit\Framework\TestCase;
@@ -11,15 +11,15 @@ use Psr\Log\LoggerInterface;
 use React\Promise\Deferred;
 
 /** @covers \pascualmg\cohete\ddd\Domain\Service\PostCreator
- * @covers  \pascualmg\cohete\ddd\Domain\Bus\Message
+ * @covers  \Cohete\Bus\Message
  * @covers  \pascualmg\cohete\ddd\Domain\Entity\Post\Post
  * @covers  \pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\ArticleBody
  * @covers  \pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Author
  * @covers  \pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\HeadLine
  * @covers  \pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Slug
- * @covers  \pascualmg\cohete\ddd\Domain\ValueObject\AtomDateValueObject
- * @covers  \pascualmg\cohete\ddd\Domain\ValueObject\StringValueObject
- * @covers  \pascualmg\cohete\ddd\Domain\ValueObject\UuidValueObject
+ * @covers  \Cohete\DDD\ValueObject\AtomDateValueObject
+ * @covers  \Cohete\DDD\ValueObject\StringValueObject
+ * @covers  \Cohete\DDD\ValueObject\UuidValueObject
  */
 class PostCreatorTest extends TestCase
 {

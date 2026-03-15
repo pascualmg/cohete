@@ -1,9 +1,10 @@
 <?php
 
 namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
+use Cohete\HttpServer\HttpRequestHandler;
 
-use pascualmg\cohete\ddd\Domain\Bus\Message;
-use pascualmg\cohete\ddd\Domain\Bus\MessageBus;
+use Cohete\Bus\Message;
+use Cohete\Bus\MessageBus;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use pascualmg\cohete\ddd\Infrastructure\Repository\Post\AsyncMysqlPostRepository;
 use Psr\Http\Message\ServerRequestInterface;

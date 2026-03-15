@@ -3,10 +3,11 @@
 declare(strict_types=1);
 
 namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
+use Cohete\HttpServer\HttpRequestHandler;
 
 use pascualmg\cohete\ddd\Application\Post\ImportFromFile\ImportPostFromFileCommand;
 use pascualmg\cohete\ddd\Application\Post\ImportFromFile\ImportPostFromFileCommandHandler;
-use pascualmg\cohete\ddd\Infrastructure\HttpServer\JsonResponse;
+use Cohete\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 

@@ -1,13 +1,14 @@
 <?php
 
 namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
+use Cohete\HttpServer\HttpRequestHandler;
 
 use pascualmg\cohete\ddd\Application\Post\CreatePostCommand;
 use pascualmg\cohete\ddd\Application\Post\CreatePostCommandHandler;
 use pascualmg\cohete\ddd\Domain\Entity\Author\Author;
 use pascualmg\cohete\ddd\Domain\Service\AuthorAuthenticator;
-use pascualmg\cohete\ddd\Domain\ValueObject\UuidValueObject;
-use pascualmg\cohete\ddd\Infrastructure\HttpServer\JsonResponse;
+use Cohete\DDD\ValueObject\UuidValueObject;
+use Cohete\HttpServer\JsonResponse;
 use pascualmg\cohete\ddd\Infrastructure\Service\OrgToHtmlConverter;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

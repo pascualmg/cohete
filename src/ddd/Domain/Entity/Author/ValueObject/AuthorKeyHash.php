@@ -2,7 +2,7 @@
 
 namespace pascualmg\cohete\ddd\Domain\Entity\Author\ValueObject;
 
-use pascualmg\cohete\ddd\Domain\ValueObject\StringValueObject;
+use Cohete\DDD\ValueObject\StringValueObject;
 
 class AuthorKeyHash extends StringValueObject
 {

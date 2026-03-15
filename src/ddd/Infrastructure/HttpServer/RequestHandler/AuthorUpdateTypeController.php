@@ -1,11 +1,12 @@
 <?php
 
 namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
+use Cohete\HttpServer\HttpRequestHandler;
 
 use pascualmg\cohete\ddd\Domain\Entity\Author\Author;
 use pascualmg\cohete\ddd\Domain\Entity\Author\ValueObject\AuthorName;
 use pascualmg\cohete\ddd\Domain\Entity\AuthorRepository;
-use pascualmg\cohete\ddd\Infrastructure\HttpServer\JsonResponse;
+use Cohete\HttpServer\JsonResponse;
 use pascualmg\cohete\ddd\Infrastructure\Repository\Author\ObservableMysqlAuthorRepository;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

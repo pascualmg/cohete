@@ -2,7 +2,7 @@
 
 namespace pascualmg\cohete\ddd\Infrastructure\WebSocket;
 
-use pascualmg\cohete\ddd\Infrastructure\HelperFunctions\ExceptionTo;
+use Cohete\Helper\ExceptionTo;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 

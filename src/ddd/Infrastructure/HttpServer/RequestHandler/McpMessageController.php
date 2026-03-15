@@ -1,6 +1,7 @@
 <?php
 
 namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
+use Cohete\HttpServer\HttpRequestHandler;
 
 use pascualmg\cohete\ddd\Infrastructure\MCP\CoheteTransport;
 use PhpMcp\Schema\JsonRpc\Error;

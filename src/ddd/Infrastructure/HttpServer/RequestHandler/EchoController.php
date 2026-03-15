@@ -1,10 +1,11 @@
 <?php
 
 namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
+use Cohete\HttpServer\HttpRequestHandler;
 
-use pascualmg\cohete\ddd\Domain\Bus\Message;
-use pascualmg\cohete\ddd\Domain\Bus\MessageBus;
-use pascualmg\cohete\ddd\Infrastructure\HttpServer\JsonResponse;
+use Cohete\Bus\Message;
+use Cohete\Bus\MessageBus;
+use Cohete\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 

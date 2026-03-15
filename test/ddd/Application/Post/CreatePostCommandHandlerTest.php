@@ -3,7 +3,7 @@
 namespace pascualmg\cohete\ddd\Application\Post;
 
 use pascualmg\cohete\ddd\Domain\Service\PostCreator;
-use pascualmg\cohete\ddd\Domain\ValueObject\UuidValueObject;
+use Cohete\DDD\ValueObject\UuidValueObject;
 use PHPUnit\Framework\TestCase;
 
 class CreatePostCommandHandlerTest  extends TestCase
@@ -25,7 +25,7 @@ class CreatePostCommandHandlerTest  extends TestCase
      *
      * @covers \pascualmg\cohete\ddd\Application\Post\CreatePostCommandHandler
      * @covers \pascualmg\cohete\ddd\Application\Post\CreatePostCommand
-     * @covers \pascualmg\cohete\ddd\Domain\ValueObject\UuidValueObject
+     * @covers \Cohete\DDD\ValueObject\UuidValueObject
      */
     public function test_given_valid_command_when_create_then_service_is_invoked() : void
     {

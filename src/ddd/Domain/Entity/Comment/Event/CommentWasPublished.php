@@ -2,7 +2,7 @@
 
 namespace pascualmg\cohete\ddd\Domain\Entity\Comment\Event;
 
-use pascualmg\cohete\ddd\Domain\Bus\Message;
+use Cohete\Bus\Message;
 
 readonly class CommentWasPublished extends Message
 {

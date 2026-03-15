@@ -1,6 +1,7 @@
 <?php
 
 namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
+use Cohete\HttpServer\HttpRequestHandler;
 
 use pascualmg\cohete\ddd\Domain\Entity\Comment\Comment;
 use pascualmg\cohete\ddd\Domain\Entity\CommentRepository;

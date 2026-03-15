@@ -2,7 +2,7 @@
 
 namespace pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject;
 
-use pascualmg\cohete\ddd\Domain\ValueObject\AtomDateValueObject;
+use Cohete\DDD\ValueObject\AtomDateValueObject;
 
 class DatePublished extends AtomDateValueObject
 {

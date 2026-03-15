@@ -2,8 +2,8 @@
 
 namespace pascualmg\cohete\ddd\Domain\Service;
 
-use pascualmg\cohete\ddd\Domain\Bus\Message;
-use pascualmg\cohete\ddd\Domain\Bus\MessageBus;
+use Cohete\Bus\Message;
+use Cohete\Bus\MessageBus;
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
 use Psr\Log\LoggerInterface;

@@ -6,8 +6,8 @@ use Bunny\Async\Client;
 use Bunny\Channel;
 use Bunny\Message as BunnieMessage;
 use Bunny\Protocol\MethodQueueDeclareOkFrame;
-use pascualmg\cohete\ddd\Domain\Bus\Message;
-use pascualmg\cohete\ddd\Domain\Bus\MessageBus;
+use Cohete\Bus\Message;
+use Cohete\Bus\MessageBus;
 use React\Promise\PromiseInterface;
 use Rx\Observable;
 

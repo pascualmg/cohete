@@ -2,16 +2,16 @@
 
 namespace pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject;
 
-use pascualmg\cohete\ddd\Domain\ValueObject\StringValueObject;
+use Cohete\DDD\ValueObject\StringValueObject;
 
 class Author extends StringValueObject
 {
     public const MAXLENGTH = 100;
 
-    public function __construct(string $value)
+    public static function from(?string $value = null): static
     {
+        $value = $value ?? "";
         self::assertMaxLength(self::MAXLENGTH, $value);
-        parent::__construct($value);
+        return new static($value);
     }
-
 }

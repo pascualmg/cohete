@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Slug
- * @covers \pascualmg\cohete\ddd\Domain\ValueObject\StringValueObject
+ * @covers \Cohete\DDD\ValueObject\StringValueObject
  */
 class SlugTest extends TestCase
 {

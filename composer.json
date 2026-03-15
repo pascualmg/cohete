@@ -1,6 +1,14 @@
 {
     "name": "pascualmg/cohete",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {"type": "vcs", "url": "https://github.com/pascualmg/cohete-framework.git"},
+        {"type": "vcs", "url": "https://github.com/pascualmg/cohete-ddd.git"}
+    ],
     "require": {
+        "cohete/framework": "dev-main",
+        "cohete/ddd": "dev-main",
         "ext-fileinfo": "*",
         "ext-ftp": "*",
         "ext-iconv": "*",

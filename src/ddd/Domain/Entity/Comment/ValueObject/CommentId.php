@@ -2,7 +2,7 @@
 
 namespace pascualmg\cohete\ddd\Domain\Entity\Comment\ValueObject;
 
-use pascualmg\cohete\ddd\Domain\ValueObject\UuidValueObject;
+use Cohete\DDD\ValueObject\UuidValueObject;
 
 class CommentId extends UuidValueObject
 {

@@ -1,10 +1,11 @@
 <?php
 
 namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
+use Cohete\HttpServer\HttpRequestHandler;
 
 use pascualmg\cohete\ddd\Application\Comment\CreateCommentCommand;
 use pascualmg\cohete\ddd\Application\Comment\CreateCommentCommandHandler;
-use pascualmg\cohete\ddd\Infrastructure\HttpServer\JsonResponse;
+use Cohete\HttpServer\JsonResponse;
 use pascualmg\cohete\ddd\Infrastructure\Service\InMemoryRateLimiter;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

@@ -2,7 +2,7 @@
 
 namespace pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject;
 
-use pascualmg\cohete\ddd\Domain\ValueObject\StringValueObject;
+use Cohete\DDD\ValueObject\StringValueObject;
 
 class HeadLine extends StringValueObject
 {

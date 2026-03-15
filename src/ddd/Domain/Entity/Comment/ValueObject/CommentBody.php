@@ -2,7 +2,7 @@
 
 namespace pascualmg\cohete\ddd\Domain\Entity\Comment\ValueObject;
 
-use pascualmg\cohete\ddd\Domain\ValueObject\StringValueObject;
+use Cohete\DDD\ValueObject\StringValueObject;
 
 class CommentBody extends StringValueObject
 {

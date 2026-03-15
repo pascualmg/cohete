@@ -3,7 +3,7 @@
 require dirname(__DIR__, 5) . '/vendor/autoload.php';
 
 use Bunny\Async\Client;
-use pascualmg\cohete\ddd\Domain\Bus\Message;
+use Cohete\Bus\Message;
 use pascualmg\cohete\ddd\Infrastructure\Bus\BunnieMessageBus;
 use React\EventLoop\Loop;
 use Rx\Scheduler;

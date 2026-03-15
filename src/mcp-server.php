@@ -5,9 +5,9 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
+use Cohete\Container\ContainerFactory;
 use Dotenv\Dotenv;
 use pascualmg\cohete\ddd\Infrastructure\MCP\BlogToolHandlers;
-use pascualmg\cohete\ddd\Infrastructure\PSR11\ContainerFactory;
 use PhpMcp\Server\Server;
 use PhpMcp\Server\Transports\StdioServerTransport;
 use Psr\Log\AbstractLogger;
@@ -24,7 +24,8 @@ try {
     $dotenv = Dotenv::createImmutable(dirname(__DIR__));
     $dotenv->load();
 
-    $container = ContainerFactory::create();
+    $definitions = require __DIR__ . '/../config/definitions.php';
+    $container = ContainerFactory::create($definitions);
 
     $server = Server::make()
         ->withServerInfo('cohete-blog', '2.0.0')
