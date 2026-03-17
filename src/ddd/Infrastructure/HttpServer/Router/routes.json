@@ -98,5 +98,10 @@
     "method": "PUT",
     "path": "/author/type",
     "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\AuthorUpdateTypeController"
+  },
+  {
+    "method": "GET",
+    "path": "/rss",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\RssFeedController"
   }
 ]
