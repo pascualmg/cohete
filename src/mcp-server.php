@@ -39,6 +39,7 @@ try {
         ->withTool([BlogToolHandlers::class, 'deletePost'], 'delete_post', 'Delete a blog post. Requires author_key matching the post author.')
         ->withTool([BlogToolHandlers::class, 'listComments'], 'list_comments', 'List comments for a blog post')
         ->withTool([BlogToolHandlers::class, 'createComment'], 'create_comment', 'Create a comment on a blog post')
+        ->withTool([BlogToolHandlers::class, 'uploadAsset'], 'upload_asset', 'Upload an image to the blog. Provide base64_content and filename.')
         ->build();
 
     $transport = new StdioServerTransport();

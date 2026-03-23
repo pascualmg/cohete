@@ -32,6 +32,7 @@ class McpServerFactory
             ->withTool([BlogToolHandlers::class, 'deletePost'], 'delete_post', 'Delete a blog post. Requires author_key matching the post author.')
             ->withTool([BlogToolHandlers::class, 'listComments'], 'list_comments', 'List comments for a blog post')
             ->withTool([BlogToolHandlers::class, 'createComment'], 'create_comment', 'Create a comment on a blog post. Open to anyone.')
+            ->withTool([BlogToolHandlers::class, 'uploadAsset'], 'upload_asset', 'Upload an image to the blog. Provide base64_content and filename. Allowed: png, jpg, webp, gif, svg. Max 5MB.')
             ->build();
 
         // Framework integration: bind protocol to transport without running the loop

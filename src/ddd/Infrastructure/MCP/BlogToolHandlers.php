@@ -244,4 +244,62 @@ class BlogToolHandlers
             $body,
         )));
     }
+
+    /**
+     * Upload a binary asset (image) to the blog's static directory.
+     * Accepts base64 encoded content. Returns the public URL.
+     * Async write via ReactPHP stream — does NOT block the event loop.
+     */
+    #[McpTool(name: 'upload_asset', description: 'Upload an image to the blog. Provide base64_content and filename. Allowed: png, jpg, jpeg, webp, gif, svg. Max 5MB.')]
+    public function uploadAsset(string $base64_content, string $filename): array
+    {
+        $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'];
+        $maxSize = 5 * 1024 * 1024; // 5MB
+
+        // Sanitize filename
+        $filename = basename($filename);
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+
+        if (!in_array($ext, $allowedExtensions, true)) {
+            return ['error' => "Extension not allowed: $ext. Allowed: " . implode(', ', $allowedExtensions)];
+        }
+
+        $data = base64_decode($base64_content, true);
+        if ($data === false) {
+            return ['error' => 'Invalid base64 content'];
+        }
+
+        if (strlen($data) > $maxSize) {
+            return ['error' => 'File too large. Max: 5MB, got: ' . round(strlen($data) / 1024 / 1024, 1) . 'MB'];
+        }
+
+        $targetDir = __DIR__ . '/../webserver/html/img';
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
+
+        $targetPath = $targetDir . '/' . $filename;
+
+        // Async write via ReactPHP WritableResourceStream
+        $deferred = new \React\Promise\Deferred();
+        $fh = fopen($targetPath, 'wb');
+        if ($fh === false) {
+            return ['error' => 'Failed to open file for writing'];
+        }
+
+        $stream = new \React\Stream\WritableResourceStream($fh);
+        $stream->end($data);
+        $stream->on('close', function () use ($deferred, $filename, $data) {
+            $deferred->resolve([
+                'url' => '/img/' . $filename,
+                'size' => strlen($data),
+                'success' => true,
+            ]);
+        });
+        $stream->on('error', function (\Exception $e) use ($deferred) {
+            $deferred->resolve(['error' => 'Write failed: ' . $e->getMessage()]);
+        });
+
+        return await($deferred->promise());
+    }
 }
