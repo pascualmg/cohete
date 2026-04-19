@@ -3,7 +3,7 @@ class ChatBox extends HTMLElement {
         super();
         this.attachShadow({mode: 'open'});
         this.webSocket = null;
-        this.minimized = false;
+        this.minimized = true;
         this.dragging = false;
         this.dragOffset = {x: 0, y: 0};
     }
@@ -341,7 +341,7 @@ class ChatBox extends HTMLElement {
             }
         </style>
 
-        <div class="chat-container">
+        <div class="chat-container hidden">
             <div class="chat-box-bar">
                 <div style="display:flex;align-items:center;gap:8px">
                     <button class="button-round left" disabled></button>
@@ -357,7 +357,7 @@ class ChatBox extends HTMLElement {
                 <input class="message-input" type="text" placeholder="Escribe un mensaje..."/>
             </div>
         </div>
-        <div class="minimized-bubble hidden" title="Abrir chat">&#128172;</div>
+        <div class="minimized-bubble" title="Abrir chat">&#128172;</div>
         `;
     }
 

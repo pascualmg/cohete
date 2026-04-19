@@ -25,6 +25,16 @@ class McpSseController implements HttpRequestHandler
 
         $this->transport->registerClient($clientId, $stream);
 
+        // SSE keepalive: send comment every 15s to prevent Cloudflare/proxy timeout
+        $keepalive = Loop::addPeriodicTimer(15.0, function () use ($stream) {
+            if ($stream->isWritable()) {
+                $stream->write(": keepalive\n\n");
+            }
+        });
+        $stream->on('close', function () use ($keepalive) {
+            Loop::cancelTimer($keepalive);
+        });
+
         // Defer the initial endpoint event to next tick so the Response
         // with the ThroughStream body is sent first by ReactPHP
         Loop::futureTick(function () use ($clientId, $request, $stream) {
