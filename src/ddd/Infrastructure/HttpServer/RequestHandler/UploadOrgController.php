@@ -51,7 +51,9 @@ class UploadOrgController implements HttpRequestHandler
                     return JsonResponse::withError($e);
                 }
 
-                $datePublished = $this->normalizeDate($metadata['date']);
+                // datePublished lo pone siempre el servidor, no el cliente.
+                // El #+DATE del org es informativo, no autoritativo.
+                $datePublished = (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM);
                 $postId = UuidValueObject::v4();
 
                 // Authenticated author overrides #+AUTHOR: from org
@@ -78,13 +80,4 @@ class UploadOrgController implements HttpRequestHandler
         );
     }
 
-    private function normalizeDate(string $date): string
-    {
-        try {
-            $dt = new \DateTimeImmutable($date);
-            return $dt->format(\DateTimeInterface::ATOM);
-        } catch (\Exception) {
-            return (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM);
-        }
-    }
 }

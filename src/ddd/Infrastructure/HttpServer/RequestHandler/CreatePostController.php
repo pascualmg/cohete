@@ -93,7 +93,7 @@ class CreatePostController implements HttpRequestHandler
                 $payload['headline'],
                 $payload['articleBody'],
                 $payload['author'],
-                $payload['datePublished'] ?? (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM),
+                (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM),
             )
         );
 

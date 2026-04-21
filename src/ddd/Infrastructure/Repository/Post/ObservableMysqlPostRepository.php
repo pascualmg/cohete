@@ -22,7 +22,7 @@ class ObservableMysqlPostRepository implements PostRepository
 
     public function findAll(): PromiseInterface //of an array of Posts
     {
-        $promiseOfQuery = $this->mysqlClient->query('SELECT p.*, a.type as author_type FROM post p LEFT JOIN author a ON p.author_id = a.id ORDER BY p.datePublished DESC');
+        $promiseOfQuery = $this->mysqlClient->query('SELECT p.*, a.type as author_type FROM post p LEFT JOIN author a ON p.author_id = a.id ORDER BY p.datePublished DESC, p.id DESC');
 
         return Observable::fromPromise($promiseOfQuery)
             ->map(function (MysqlResult $mysqlResult) {

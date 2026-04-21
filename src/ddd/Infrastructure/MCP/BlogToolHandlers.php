@@ -132,12 +132,10 @@ class BlogToolHandlers
 
         $postId = (string)UuidValueObject::v4();
 
-        try {
-            $dt = new \DateTimeImmutable($metadata['date']);
-            $datePublished = $dt->format(\DateTimeInterface::ATOM);
-        } catch (\Exception) {
-            $datePublished = (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM);
-        }
+        // datePublished lo pone siempre el servidor, al momento de creacion.
+        // El #+DATE del org es informativo para el autor, no autoritativo.
+        // Asi garantizamos orden real de publicacion.
+        $datePublished = (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM);
 
         $authorName = isset($author) ? (string)$author->name : $metadata['author'];
 
