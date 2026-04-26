@@ -5,25 +5,35 @@ declare(strict_types=1);
 namespace pascualmg\cohete\ddd\Domain\Entity\Media;
 
 use Psr\Http\Message\StreamInterface;
+use React\Promise\PromiseInterface;
 
 /**
- * Interface de dominio. NO sabe si los bytes viven en MinIO, S3, filesystem.
+ * Interface de dominio para object storage.
+ *
+ * Async-first: TODOS los metodos devuelven PromiseInterface (React/Promise).
+ * Esto es bloqueante-prohibido: cohete corre single-process en ReactPHP
+ * event loop. Una llamada sync bloquearia el servidor entero.
  *
  * Implementaciones:
- *   Infrastructure/Media/MinioMediaRepository.php   (prod)
- *   Infrastructure/Media/InMemoryMediaRepository.php (tests)
+ *   Infrastructure/Media/AsyncMinioMediaRepository.php  (prod, React\Http)
+ *   Infrastructure/Media/InMemoryMediaRepository.php    (tests)
  */
 interface MediaRepository
 {
-    /** Sube los bytes y persiste la metadata. */
-    public function put(Media $media, StreamInterface|string $body): void;
+    /** @return PromiseInterface<void> resolve cuando los bytes estan en el bucket */
+    public function put(Media $media, StreamInterface|string $body): PromiseInterface;
 
-    /** Devuelve la metadata si existe. */
-    public function find(MediaId $id): ?Media;
+    /** @return PromiseInterface<?Media> resolve con la metadata o null si no existe */
+    public function find(MediaId $id): PromiseInterface;
 
-    /** Borra metadata + bytes. */
-    public function delete(MediaId $id): void;
+    /** @return PromiseInterface<void> resolve cuando se borro */
+    public function delete(MediaId $id): PromiseInterface;
 
-    /** URL firmada con expiracion (para servir directo al cliente). */
-    public function presignedUrl(MediaId $id, int $ttlSeconds = 3600): string;
+    /**
+     * URL firmada con expiracion. La firma se genera localmente (no IO),
+     * pero devuelve PromiseInterface por consistencia con el resto.
+     *
+     * @return PromiseInterface<string>
+     */
+    public function presignedUrl(MediaId $id, int $ttlSeconds = 3600): PromiseInterface;
 }

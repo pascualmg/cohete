@@ -8,45 +8,50 @@ use pascualmg\cohete\ddd\Domain\Entity\Media\Media;
 use pascualmg\cohete\ddd\Domain\Entity\Media\MediaId;
 use pascualmg\cohete\ddd\Domain\Entity\Media\MediaRepository;
 use Psr\Http\Message\StreamInterface;
+use React\Promise\PromiseInterface;
+use function React\Promise\resolve;
 
 /**
- * Implementacion in-memory para tests. NO persiste entre instancias.
+ * Implementacion in-memory para tests. Resuelve promises sincronas
+ * (resolve() inmediato) pero respetando la firma async del interface.
  */
 final class InMemoryMediaRepository implements MediaRepository
 {
     /** @var array<string, Media> */
     private array $metadata = [];
 
-    /** @var array<string, string> bytes en memoria */
+    /** @var array<string, string> */
     private array $bytes = [];
 
-    public function put(Media $media, StreamInterface|string $body): void
+    public function put(Media $media, StreamInterface|string $body): PromiseInterface
     {
         $id = (string) $media->id;
         $this->metadata[$id] = $media;
         $this->bytes[$id] = is_string($body) ? $body : (string) $body;
+        return resolve(null);
     }
 
-    public function find(MediaId $id): ?Media
+    public function find(MediaId $id): PromiseInterface
     {
-        return $this->metadata[(string) $id] ?? null;
+        return resolve($this->metadata[(string) $id] ?? null);
     }
 
-    public function delete(MediaId $id): void
+    public function delete(MediaId $id): PromiseInterface
     {
         $key = (string) $id;
         unset($this->metadata[$key], $this->bytes[$key]);
+        return resolve(null);
     }
 
-    public function presignedUrl(MediaId $id, int $ttlSeconds = 3600): string
+    public function presignedUrl(MediaId $id, int $ttlSeconds = 3600): PromiseInterface
     {
         if (!isset($this->metadata[(string) $id])) {
-            throw new \RuntimeException("media not found: $id");
+            return resolve("memory://test/missing/{$id}");
         }
-        return "memory://test/{$id}?expires={$ttlSeconds}";
+        return resolve("memory://test/{$id}?expires={$ttlSeconds}");
     }
 
-    /** Helper de tests: leer los bytes guardados. */
+    /** Helper de tests (sync). */
     public function bytesOf(MediaId $id): ?string
     {
         return $this->bytes[(string) $id] ?? null;
