@@ -31,7 +31,8 @@
         "react/promise-stream": "^1.7",
         "reactivex/rxphp": "^2.0",
         "robmorgan/phinx": "^0.15.5",
-        "vlucas/phpdotenv": "^5.6"
+        "vlucas/phpdotenv": "^5.6",
+        "aws/aws-sdk-php": "^3.379"
     },
     "require-dev": {
         "ext-xdebug": "*",
