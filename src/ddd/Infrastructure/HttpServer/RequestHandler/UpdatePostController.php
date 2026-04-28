@@ -56,13 +56,17 @@ class UpdatePostController implements HttpRequestHandler
                             return JsonResponse::create(403, ['error' => "Invalid token for author '$authorName'"]);
                         }
 
+                        // datePublished lo pone SIEMPRE el servidor al editar,
+                        // igual que al crear. Asi la lista refleja la ultima edicion.
+                        $datePublished = (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM);
+
                         ($this->updatePostCommandHandler)(
                             new UpdatePostCommand(
                                 $postId,
                                 $payload['headline'],
                                 $payload['articleBody'],
                                 $payload['author'] ?? $authorName,
-                                $payload['datePublished'],
+                                $datePublished,
                                 $payload['orgSource'] ?? null,
                             )
                         );

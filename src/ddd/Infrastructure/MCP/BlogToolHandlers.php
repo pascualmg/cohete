@@ -161,13 +161,12 @@ class BlogToolHandlers
     /**
      * Update an existing blog post. articleBody MUST be valid HTML. Requires author_key matching the post's author.
      */
-    #[McpTool(name: 'update_post', description: 'Update a blog post. articleBody MUST be HTML. Requires author_key matching the post author.')]
+    #[McpTool(name: 'update_post', description: 'Update a blog post. articleBody MUST be HTML. Requires author_key matching the post author. datePublished is set server-side automatically.')]
     public function updatePost(
         string $id,
         string $headline,
         string $articleBody,
         string $author,
-        string $datePublished,
         string $author_key,
         ?string $orgSource = null,
     ): array {
@@ -182,6 +181,10 @@ class BlogToolHandlers
         if ($existingAuthor === null || !$existingAuthor->verifyKey($author_key)) {
             return ['error' => "Invalid author_key for author '$postAuthorName'"];
         }
+
+        // datePublished lo pone SIEMPRE el servidor al editar, igual que al crear.
+        // Asi la lista refleja la ultima edicion.
+        $datePublished = (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM);
 
         $post = Post::fromPrimitives($id, $headline, $articleBody, $author, $datePublished, $orgSource);
         $updated = await($this->postRepository->update($post));
