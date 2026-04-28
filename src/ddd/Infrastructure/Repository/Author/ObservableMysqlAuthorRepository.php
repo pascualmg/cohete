@@ -48,8 +48,21 @@ class ObservableMysqlAuthorRepository implements AuthorRepository
     public function save(Author $author): PromiseInterface
     {
         return $this->mysqlClient->query(
-            'INSERT INTO author (id, name, key_hash) VALUES (?, ?, ?)',
-            [(string)$author->id, (string)$author->name, (string)$author->keyHash]
+            'INSERT INTO author (id, name, key_hash, type) VALUES (?, ?, ?, ?)',
+            [(string)$author->id, (string)$author->name, (string)$author->keyHash, $author->type]
+        )->then(
+            fn (MysqlResult $result): bool => $result->affectedRows > 0,
+            function (\Exception $e) { throw $e; }
+        );
+    }
+
+    public function update(Author $author): PromiseInterface
+    {
+        $linksJson = $author->links === null ? null : json_encode($author->links, JSON_THROW_ON_ERROR);
+
+        return $this->mysqlClient->query(
+            'UPDATE author SET type = ?, bio = ?, links = ? WHERE id = ?',
+            [$author->type, $author->bio, $linksJson, (string)$author->id]
         )->then(
             fn (MysqlResult $result): bool => $result->affectedRows > 0,
             function (\Exception $e) { throw $e; }
@@ -66,7 +79,19 @@ class ObservableMysqlAuthorRepository implements AuthorRepository
 
     private static function hydrate(array $row): Author
     {
-        return Author::fromPrimitives($row['id'], $row['name'], $row['key_hash'], $row['type'] ?? null);
+        $links = null;
+        if (!empty($row['links'])) {
+            $decoded = json_decode($row['links'], true);
+            $links = is_array($decoded) ? $decoded : null;
+        }
+        return Author::fromPrimitives(
+            $row['id'],
+            $row['name'],
+            $row['key_hash'],
+            $row['type'] ?? null,
+            $row['bio'] ?? null,
+            $links,
+        );
     }
 
     private static function hydrateOrNull(?array $row): ?Author

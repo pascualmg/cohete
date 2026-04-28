@@ -100,6 +100,21 @@
     "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\AuthorUpdateTypeController"
   },
   {
+    "method": "POST",
+    "path": "/author/register",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\RegisterAuthorController"
+  },
+  {
+    "method": "GET",
+    "path": "/author/{id}",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\GetAuthorController"
+  },
+  {
+    "method": "PUT",
+    "path": "/author/{id}",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\UpdateAuthorProfileController"
+  },
+  {
     "method": "GET",
     "path": "/rss",
     "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\RssFeedController"

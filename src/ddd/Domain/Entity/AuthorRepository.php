@@ -16,4 +16,6 @@ interface AuthorRepository
     public function findByName(AuthorName $name): PromiseInterface; //of Author|null
 
     public function save(Author $author): PromiseInterface; //of bool
+
+    public function update(Author $author): PromiseInterface; //of bool, persists profile fields (type, bio, links)
 }
