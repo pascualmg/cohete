@@ -105,6 +105,11 @@
     "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\UploadMediaController"
   },
   {
+    "method": "GET",
+    "path": "/media/{id}",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\GetMediaController"
+  },
+  {
     "method": "POST",
     "path": "/author/register",
     "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\RegisterAuthorController"
