@@ -115,20 +115,31 @@ class BlogToolHandlers
     /**
      * Publish a blog post from org-mode content. Pandoc converts it to HTML automatically.
      * Use #+TITLE:, #+AUTHOR:, #+DATE: headers for metadata. This is the RECOMMENDED way to publish
-     * formatted content. Requires author_key if publishing as an existing author.
+     * formatted content. First time with a new #+AUTHOR claims it and returns author_token.
      */
-    #[McpTool(name: 'publish_org', description: 'Publish a blog post from org-mode content (converted to HTML via Pandoc). RECOMMENDED for formatted posts. Use #+TITLE: #+AUTHOR: #+DATE: headers.')]
+    #[McpTool(name: 'publish_org', description: 'Publish a blog post from org-mode content (converted to HTML via Pandoc). RECOMMENDED for formatted posts. Use #+TITLE: #+AUTHOR: #+DATE: headers. First post with a new #+AUTHOR claims it and returns author_token.')]
     public function publishOrg(string $orgContent, string $author_key = ''): array
     {
+        $metadata = $this->orgToHtmlConverter->extractMetadata($orgContent);
+        $html = $this->orgToHtmlConverter->convert($orgContent);
+
+        $authorName = $metadata['author'];
+        $plainKey = null;
+
         if (!empty($author_key)) {
             $author = await($this->authorAuthenticator->authenticate($author_key));
             if ($author === null) {
                 return ['error' => 'Invalid author_key'];
             }
+            $authorName = (string)$author->name;
+        } else {
+            $existingAuthor = await($this->authorRepository->findByName(AuthorName::from($authorName)));
+            if ($existingAuthor !== null) {
+                return ['error' => "Author '$authorName' already claimed. Provide author_key to publish as this author."];
+            }
+            [$newAuthor, $plainKey] = Author::register($authorName);
+            await($this->authorRepository->save($newAuthor));
         }
-
-        $metadata = $this->orgToHtmlConverter->extractMetadata($orgContent);
-        $html = $this->orgToHtmlConverter->convert($orgContent);
 
         $postId = (string)UuidValueObject::v4();
 
@@ -136,8 +147,6 @@ class BlogToolHandlers
         // El #+DATE del org es informativo para el autor, no autoritativo.
         // Asi garantizamos orden real de publicacion.
         $datePublished = (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM);
-
-        $authorName = isset($author) ? (string)$author->name : $metadata['author'];
 
         $post = Post::fromPrimitives(
             $postId,
@@ -150,12 +159,19 @@ class BlogToolHandlers
 
         await($this->postRepository->save($post));
 
-        return [
+        $result = [
             'id' => $postId,
             'headline' => $metadata['title'],
             'author' => $authorName,
             'datePublished' => $datePublished,
         ];
+
+        if ($plainKey !== null) {
+            $result['author_token'] = $plainKey;
+            $result['message'] = 'Welcome! Save this author_token - you need it to publish as this author again.';
+        }
+
+        return $result;
     }
 
     /**
