@@ -590,12 +590,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pascualmg/cohete-framework.git",
-                "reference": "eb0ba6a68cdee13f331f5e6656f025e040e326a2"
+                "reference": "713c7ba6a2c12fc7f5d71557e0967a7317587b02"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pascualmg/cohete-framework/zipball/eb0ba6a68cdee13f331f5e6656f025e040e326a2",
-                "reference": "eb0ba6a68cdee13f331f5e6656f025e040e326a2",
+                "url": "https://api.github.com/repos/pascualmg/cohete-framework/zipball/713c7ba6a2c12fc7f5d71557e0967a7317587b02",
+                "reference": "713c7ba6a2c12fc7f5d71557e0967a7317587b02",
                 "shasum": ""
             },
             "require": {
@@ -649,7 +649,7 @@
                 "source": "https://github.com/pascualmg/cohete-framework/tree/main",
                 "issues": "https://github.com/pascualmg/cohete-framework/issues"
             },
-            "time": "2026-03-12T18:26:59+00:00"
+            "time": "2026-05-02T22:30:21+00:00"
         },
         {
             "name": "doctrine/deprecations",

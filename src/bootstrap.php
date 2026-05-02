@@ -68,6 +68,7 @@ ReactHttpServer::init(
     loop: $loop,
     staticRoot: $staticRoot,
     isDevelopment: $isDevelopment,
+    maxBodySize: 50 * 1024 * 1024,  // 50MB para audios y otros media (#184)
 );
 
 // WebSocket server (same loop, port 8001)
