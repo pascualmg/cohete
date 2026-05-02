@@ -4,6 +4,8 @@ namespace pascualmg\cohete\ddd\Infrastructure\MCP;
 
 use pascualmg\cohete\ddd\Domain\Entity\Author\Author;
 use pascualmg\cohete\ddd\Domain\Entity\Author\ValueObject\AuthorName;
+use pascualmg\cohete\ddd\Application\Media\UploadMediaCommand;
+use pascualmg\cohete\ddd\Application\Media\UploadMediaCommandHandler;
 use pascualmg\cohete\ddd\Domain\Entity\AuthorRepository;
 use pascualmg\cohete\ddd\Domain\Entity\Comment\Comment;
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
@@ -28,6 +30,7 @@ class BlogToolHandlers
         private readonly AuthorAuthenticator $authorAuthenticator,
         private readonly CreateCommentCommandHandler $createCommentHandler,
         private readonly AuthorRepository $authorRepository,
+        private readonly UploadMediaCommandHandler $uploadMedia,
     ) {
     }
 
@@ -263,11 +266,11 @@ class BlogToolHandlers
     }
 
     /**
-     * Upload a binary asset (image) to the blog's static directory.
-     * Accepts base64 encoded content. Returns the public URL.
-     * Async write via ReactPHP stream — does NOT block the event loop.
+     * DEPRECATED: usar upload_media. Este sube a /img/ del filesystem local
+     * del blog (no a Garage). Se mantiene para compatibilidad con posts ya
+     * publicados que referencian /img/{filename}.
      */
-    #[McpTool(name: 'upload_asset', description: 'Upload an image to the blog. Provide base64_content and filename. Allowed: png, jpg, jpeg, webp, gif, svg. Max 5MB.')]
+    #[McpTool(name: 'upload_asset', description: 'DEPRECATED: usar upload_media. Sube imagenes al filesystem local del blog (no a Garage S3). Se mantiene por compatibilidad. Provide base64_content and filename. Allowed: png, jpg, jpeg, webp, gif, svg. Max 5MB.')]
     public function uploadAsset(string $base64_content, string $filename): array
     {
         $allowedExtensions = ['png', 'jpg', 'jpeg', 'webp', 'gif', 'svg'];
@@ -318,5 +321,48 @@ class BlogToolHandlers
         });
 
         return await($deferred->promise());
+    }
+
+    /**
+     * Upload de cualquier media a Garage S3 (audios, imagenes, lo que sea).
+     * Recibe base64_content + content_type. Devuelve URL publica /media/{id}
+     * que se puede embeber en posts (audio, img, video).
+     *
+     * Limite 50MB. Persiste en bucket Garage replicado, accesible mientras
+     * aurin este vivo (Garage corre alli). Si aurin se duerme, los media
+     * vuelven cuando despierta.
+     */
+    #[McpTool(name: 'upload_media', description: 'Upload binary media (audio, image, video) to Garage S3. Provide base64_content and content_type (e.g. audio/wav, image/png). Returns id and url. Embed in posts as <audio src="/media/{id}"> o <img src="/media/{id}">. Max 50MB. Requires author_key.')]
+    public function uploadMedia(string $base64_content, string $content_type, string $author_key): array
+    {
+        $author = await($this->authorAuthenticator->authenticate($author_key));
+        if ($author === null) {
+            return ['error' => 'Invalid author_key'];
+        }
+
+        $body = base64_decode($base64_content, true);
+        if ($body === false) {
+            return ['error' => 'Invalid base64 content'];
+        }
+
+        $maxSize = 50 * 1024 * 1024;
+        if (strlen($body) > $maxSize) {
+            return ['error' => 'Payload too large (max 50MB), got ' . round(strlen($body) / 1024 / 1024, 1) . 'MB'];
+        }
+
+        // Strip charset / params del content_type
+        if (str_contains($content_type, ';')) {
+            $content_type = trim(strstr($content_type, ';', true));
+        }
+
+        $result = await(($this->uploadMedia)(new UploadMediaCommand(
+            contentType: $content_type,
+            body:        $body,
+            authorName:  (string)$author->name,
+        )));
+
+        return array_merge($result, [
+            'url' => '/media/' . $result['id'],
+        ]);
     }
 }
