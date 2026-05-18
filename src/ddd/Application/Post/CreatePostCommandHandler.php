@@ -20,6 +20,7 @@ class CreatePostCommandHandler
             $createPostCommand->author,
             $createPostCommand->datePublished,
             $createPostCommand->orgSource,
+            $createPostCommand->slug,
         );
     }
 }

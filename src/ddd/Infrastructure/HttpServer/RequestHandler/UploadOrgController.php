@@ -59,6 +59,9 @@ class UploadOrgController implements HttpRequestHandler
                 // Authenticated author overrides #+AUTHOR: from org
                 $authorName = (string)$author->name;
 
+                // #+SLUG: opcional. Si no esta, el Post lo deriva del headline.
+                $slug = $metadata['slug'] ?? null;
+
                 ($this->createPostCommandHandler)(
                     new CreatePostCommand(
                         (string)$postId,
@@ -67,6 +70,7 @@ class UploadOrgController implements HttpRequestHandler
                         $authorName,
                         $datePublished,
                         $orgContent,
+                        $slug,
                     )
                 );
 

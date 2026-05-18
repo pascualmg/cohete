@@ -51,6 +51,7 @@ class OrgToHtmlConverter
         $title = '';
         $author = '';
         $date = '';
+        $slug = '';
 
         foreach (explode("\n", $orgContent) as $line) {
             if (preg_match('/^#\+TITLE:\s*(.+)$/i', $line, $m)) {
@@ -59,6 +60,8 @@ class OrgToHtmlConverter
                 $author = trim($m[1]);
             } elseif (preg_match('/^#\+DATE:\s*(.+)$/i', $line, $m)) {
                 $date = trim($m[1]);
+            } elseif (preg_match('/^#\+SLUG:\s*(.+)$/i', $line, $m)) {
+                $slug = trim($m[1]);
             }
         }
 
@@ -66,6 +69,7 @@ class OrgToHtmlConverter
             'title' => $title ?: 'Untitled',
             'author' => $author ?: 'pascualmg',
             'date' => $date ?: (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM),
+            'slug' => $slug !== '' ? $slug : null,
         ];
     }
 }

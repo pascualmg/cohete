@@ -22,8 +22,12 @@ class Post implements \JsonSerializable
         public readonly Author $author,
         public readonly DatePublished $datePublished,
         public readonly ?string $orgSource = null,
+        ?string $slug = null,
     ) {
-        $this->slug = Slug::from((string)$this->headline);
+        // Si el cliente pasa un slug explicito (ej. via #+SLUG del frontmatter
+        // org), lo respetamos. En otro caso lo derivamos del headline como
+        // siempre. Slug::from() normaliza en ambos casos.
+        $this->slug = Slug::from($slug ?? (string)$this->headline);
     }
 
     public static function fromPrimitives(
@@ -33,6 +37,7 @@ class Post implements \JsonSerializable
         string $author,
         string $datePublished,
         ?string $orgSource = null,
+        ?string $slug = null,
         ?string $authorType = null,
     ): Post {
         $post = new Post(
@@ -42,6 +47,7 @@ class Post implements \JsonSerializable
             Author::from($author),
             DatePublished::from($datePublished),
             $orgSource,
+            $slug,
         );
         $post->authorType = $authorType;
         return $post;

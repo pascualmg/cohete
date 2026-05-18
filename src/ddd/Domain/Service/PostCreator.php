@@ -24,6 +24,7 @@ readonly class PostCreator
         string $author,
         string $datePublished,
         ?string $orgSource = null,
+        ?string $slug = null,
     ): void {
         $post = Post::fromPrimitives(
             $postId,
@@ -32,6 +33,7 @@ readonly class PostCreator
             $author,
             $datePublished,
             $orgSource,
+            $slug,
         );
 
         $this->postRepository->save($post)->then(
@@ -39,5 +41,4 @@ readonly class PostCreator
             fn (\Exception $exception) => $this->logger->error("Cant create the new post", [$post, $exception])
         );
     }
-
 }
