@@ -20,6 +20,7 @@ class UpdatePostCommandHandler
             $updatePostCommand->author,
             $updatePostCommand->datePublished,
             $updatePostCommand->orgSource,
+            $updatePostCommand->slug,
         );
     }
 }

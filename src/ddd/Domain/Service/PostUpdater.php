@@ -24,6 +24,7 @@ readonly class PostUpdater
         string $author,
         string $datePublished,
         ?string $orgSource = null,
+        ?string $slug = null,
     ): void {
         $post = Post::fromPrimitives(
             $postId,
@@ -32,6 +33,7 @@ readonly class PostUpdater
             $author,
             $datePublished,
             $orgSource,
+            $slug,
         );
 
         $this->postRepository->update($post)->then(

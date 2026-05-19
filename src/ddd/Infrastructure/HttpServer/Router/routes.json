@@ -46,6 +46,11 @@
   },
   {
     "method": "PUT",
+    "path": "/post/org/{id}",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\UpdatePostFromOrgController"
+  },
+  {
+    "method": "PUT",
     "path": "/post/{id}",
     "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\UpdatePostController"
   },

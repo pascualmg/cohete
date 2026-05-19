@@ -11,6 +11,7 @@ readonly class UpdatePostCommand
         public string $author,
         public string $datePublished,
         public ?string $orgSource = null,
+        public ?string $slug = null,
     ) {
     }
 }
