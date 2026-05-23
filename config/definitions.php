@@ -64,7 +64,9 @@ return [
         region:    $_ENV['S3_REGION']    ?? 'us-east-1',
     ),
     MediaRepository::class => static fn (ContainerInterface $c) => new ObservableS3MediaRepository(
-        http:          new Browser(),
+        // S3 uploads de audio pueden tardar minutos con upstream lento (WiMAX, 4G).
+        // Default Browser timeout (60s) era muy corto para >1MB. Subido a 300s.
+        http:          (new Browser())->withTimeout((float) ($_ENV['S3_HTTP_TIMEOUT'] ?? 300)),
         signer:        $c->get(Aws4Signer::class),
         endpoint:      $_ENV['S3_ENDPOINT'] ?? 'http://localhost:9000',
         defaultBucket: Bucket::from($_ENV['S3_BUCKET'] ?? 'cohete-media'),
