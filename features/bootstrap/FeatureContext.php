@@ -7,7 +7,7 @@ use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Exception\ClientException;
 use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
-use pascualmg\cohete\ddd\Infrastructure\PSR11\ContainerFactory;
+use Cohete\Container\ContainerFactory;
 use Phinx\Migration\Manager as PhinxManager;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -38,7 +38,9 @@ class FeatureContext implements Context
     {
         $dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
         $dotenv->load();
-        $this->container = ContainerFactory::create();
+        $this->container = ContainerFactory::create(
+            require dirname(__DIR__, 2) . '/config/definitions.php'
+        );
         $this->phinxManager = $this->getPhinxManager();
     }
 
@@ -238,5 +240,41 @@ class FeatureContext implements Context
         }
 
         throw new \Exception("No post found with author: {$author}");
+    }
+
+    /**
+     * @When /^I publish org to "([^"]*)" with bearer "([^"]*)" and body:$/
+     */
+    public function iPublishOrgToWithBearerAndBody(string $url, string $bearer, PyStringNode $org): void
+    {
+        $this->response = $this->client->request('POST', $url, [
+            'headers' => [
+                'Authorization' => 'Bearer ' . $bearer,
+                'Content-Type' => 'text/plain',
+            ],
+            'body' => $org->getRaw(),
+        ]);
+    }
+
+    /**
+     * @Then /^exactly (\d+) posts? exists? with slug "([^"]*)"$/
+     */
+    public function exactlyPostsExistWithSlug(int $expectedCount, string $slug): void
+    {
+        usleep(500000); // 500ms: dar tiempo al save/update async
+
+        $postRepository = $this->container->get(PostRepository::class);
+        $posts = \React\Async\await($postRepository->findAll());
+
+        $count = 0;
+        foreach ($posts as $post) {
+            if ((string)$post->slug === $slug) {
+                $count++;
+            }
+        }
+
+        if ($count !== $expectedCount) {
+            throw new \Exception("Expected exactly {$expectedCount} post(s) with slug '{$slug}', found {$count}");
+        }
     }
 }
