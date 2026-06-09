@@ -57,6 +57,17 @@ class PortfolioElement extends HTMLElement {
          ]'>
   </social-links>
 
+  <div style="display:flex; justify-content:center; width:100%;">
+    <a href="/cv" target="_blank" rel="noopener"
+       style="display:inline-flex; align-items:center; gap:8px;
+              padding:10px 22px; border-radius:999px;
+              font-weight:600; font-size:15px; text-decoration:none;
+              color:#fff; background:#2f6f9f;
+              box-shadow:0 2px 10px rgba(0,0,0,.2);">
+      Descargar mi CV (PDF)
+    </a>
+  </div>
+
 <experience-timeline  data='[
   {
     "company": "UST (para Vocento)",
