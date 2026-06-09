@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pascual Muñoz Galián — CV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1f2328;
+      --ink-soft: #4a5159;
+      --ink-faint: #6e7781;
+      --line: #e3e6ea;
+      --sidebar-bg: #20262e;
+      --sidebar-ink: #e8ecf1;
+      --sidebar-soft: #aab4c0;
+      --accent: #2f6f9f;
+      --chip-bg: #eef1f4;
+      --chip-ink: #3a4149;
+      --page-w: 210mm;
+      --page-h: 297mm;
+      --pad: 14mm;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #6b7280;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Toolbar (no se imprime) */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 14px;
+      background: #2b3138;
+    }
+    .toolbar button {
+      font: inherit;
+      font-weight: 600;
+      font-size: 14px;
+      color: #fff;
+      background: var(--accent);
+      border: 0;
+      border-radius: 8px;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    .toolbar button:hover { filter: brightness(1.08); }
+    .toolbar .hint { color: #aab4c0; font-size: 13px; align-self: center; }
+
+    /* Hoja A4 */
+    .page {
+      width: var(--page-w);
+      min-height: var(--page-h);
+      margin: 18px auto;
+      background: #fff;
+      display: grid;
+      grid-template-columns: 64mm 1fr;
+      box-shadow: 0 6px 30px rgba(0,0,0,.25);
+      overflow: hidden;
+    }
+
+    /* ---------- Sidebar ---------- */
+    .sidebar {
+      background: var(--sidebar-bg);
+      color: var(--sidebar-ink);
+      padding: var(--pad) 11mm;
+    }
+    .photo {
+      width: 42mm;
+      height: 42mm;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto 10mm;
+      border: 3px solid rgba(255,255,255,.12);
+    }
+    .side-section { margin-bottom: 9mm; }
+    .side-section h2 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #fff;
+      margin: 0 0 4mm;
+      padding-bottom: 2mm;
+      border-bottom: 1px solid rgba(255,255,255,.16);
+    }
+    .contact-item {
+      display: flex;
+      gap: 8px;
+      align-items: baseline;
+      font-size: 11.5px;
+      color: var(--sidebar-soft);
+      margin-bottom: 3mm;
+      word-break: break-word;
+    }
+    .contact-item .ico { color: var(--sidebar-ink); flex: 0 0 14px; }
+    .contact-item a { color: var(--sidebar-soft); text-decoration: none; }
+
+    .side-list { list-style: none; margin: 0; padding: 0; }
+    .side-list li {
+      font-size: 11.5px;
+      line-height: 1.5;
+      color: var(--sidebar-soft);
+      margin-bottom: 3mm;
+      padding-left: 10px;
+      position: relative;
+    }
+    .side-list li::before {
+      content: "";
+      position: absolute;
+      left: 0; top: 7px;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .edu-item, .lang-item { margin-bottom: 4mm; }
+    .edu-item .t, .lang-item .t { font-size: 12px; font-weight: 600; color: var(--sidebar-ink); }
+    .edu-item .d, .lang-item .d { font-size: 11px; color: var(--sidebar-soft); }
+    .edu-item .p { font-size: 10.5px; color: var(--ink-faint); }
+
+    /* ---------- Main ---------- */
+    .main { padding: var(--pad) 14mm; }
+    .name {
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: -.01em;
+      line-height: 1.05;
+      margin: 0;
+      color: var(--ink);
+    }
+    .role {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 4mm 0 5mm;
+    }
+    .summary {
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: var(--ink-soft);
+      margin: 0 0 8mm;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin: 0 0 5mm;
+      padding-bottom: 2mm;
+      border-bottom: 2px solid var(--line);
+    }
+
+    .job { margin-bottom: 7mm; break-inside: avoid; }
+    .job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+    .job-company { font-size: 14px; font-weight: 700; color: var(--ink); }
+    .job-dates { font-size: 11px; font-weight: 600; color: var(--ink-faint); white-space: nowrap; }
+    .job-position { font-size: 12px; font-weight: 500; color: var(--accent); margin-top: 1mm; }
+
+    .project { margin: 4mm 0 0 0; break-inside: avoid; }
+    .project-name { font-size: 12px; font-weight: 600; color: var(--ink); }
+    .project-role { font-size: 10.5px; font-weight: 500; color: var(--ink-faint); }
+    .project ul { margin: 2mm 0 0; padding-left: 5mm; }
+    .project li { font-size: 11px; line-height: 1.5; color: var(--ink-soft); margin-bottom: 1.5mm; }
+
+    .tags { margin-top: 2.5mm; display: flex; flex-wrap: wrap; gap: 4px; }
+    .tag {
+      font-size: 9.5px;
+      font-weight: 500;
+      color: var(--chip-ink);
+      background: var(--chip-bg);
+      border-radius: 4px;
+      padding: 2px 7px;
+    }
+
+    .tech-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
+    .tech-cloud .tag { font-size: 10.5px; padding: 3px 9px; }
+
+    /* ---------- Print ---------- */
+    @page { size: A4; margin: 0; }
+    @media print {
+      html, body { background: #fff; }
+      .toolbar { display: none !important; }
+      .page {
+        margin: 0;
+        box-shadow: none;
+        width: auto;
+        min-height: auto;
+      }
+      .sidebar, .tag, .role, .side-list li::before {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      .job, .project, .edu-item { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button id="print-btn">Descargar / Imprimir PDF</button>
+    <span class="hint">Consejo: en el diálogo, desactiva "Encabezados y pies de página" y deja márgenes "Ninguno".</span>
+  </div>
+
+  <article class="page" id="cv">
+    <aside class="sidebar">
+      <img class="photo" id="photo" src="/html/img/pascual-cv.jpg" alt="Foto">
+      <div class="side-section" id="contact-section">
+        <h2>Contacto</h2>
+        <div id="contact"></div>
+      </div>
+      <div class="side-section">
+        <h2>Competencias</h2>
+        <ul class="side-list" id="soft-skills"></ul>
+      </div>
+      <div class="side-section">
+        <h2>Formación</h2>
+        <div id="education"></div>
+      </div>
+      <div class="side-section">
+        <h2>Idiomas</h2>
+        <div id="languages"></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <h1 class="name" id="name"></h1>
+      <div class="role" id="title"></div>
+      <p class="summary" id="summary"></p>
+
+      <section>
+        <h2 class="section-title">Experiencia</h2>
+        <div id="experience"></div>
+      </section>
+
+      <section style="margin-top:7mm">
+        <h2 class="section-title">Stack técnico</h2>
+        <div class="tech-cloud" id="tech-cloud"></div>
+      </section>
+    </main>
+  </article>
+
+  <script>
+    const ICONS = {
+      email: "✉", phone: "☎", website: "🌐",
+      LinkedIn: "in", GitHub: "GH", Twitter: "X"
+    };
+    const MONTHS = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+
+    function fmtDate(iso) {
+      if (!iso) return "Actualidad";
+      const [y, m] = iso.split("-");
+      return `${MONTHS[parseInt(m,10)-1]} ${y}`;
+    }
+    function el(tag, cls, text) {
+      const e = document.createElement(tag);
+      if (cls) e.className = cls;
+      if (text != null) e.textContent = text;
+      return e;
+    }
+    function tags(list) {
+      const wrap = el("div", "tags");
+      (list || []).forEach(t => wrap.appendChild(el("span", "tag", t)));
+      return wrap;
+    }
+
+    async function load() {
+      const [contact, skills, timeline] = await Promise.all([
+        fetch("/html/cv-data/contact.json").then(r => r.json()),
+        fetch("/html/cv-data/skills.json").then(r => r.json()),
+        fetch("/html/cv-data/timeline.json").then(r => r.json()),
+      ]);
+
+      document.getElementById("name").textContent = contact.name;
+      document.getElementById("title").textContent = contact.title;
+      document.getElementById("summary").textContent = contact.summary;
+      document.title = `${contact.name} — CV`;
+
+      // Contacto
+      const c = document.getElementById("contact");
+      const row = (ico, text, href) => {
+        const d = el("div", "contact-item");
+        d.appendChild(el("span", "ico", ico));
+        if (href) { const a = el("a", null, text); a.href = href; d.appendChild(a); }
+        else d.appendChild(el("span", null, text));
+        return d;
+      };
+      c.appendChild(row(ICONS.email, contact.email, "mailto:" + contact.email));
+      if (contact.phone) c.appendChild(row(ICONS.phone, contact.phone, "tel:" + contact.phone.replace(/\s/g,"")));
+      c.appendChild(row(ICONS.website, contact.website, "https://" + contact.website));
+      (contact.links || []).forEach(l => c.appendChild(row(ICONS[l.name] || "·", l.name, l.url)));
+      if (contact.location) c.appendChild(row("⌖", contact.location));
+
+      // Soft skills
+      const ss = document.getElementById("soft-skills");
+      (skills.softSkills || []).forEach(s => ss.appendChild(el("li", null, s)));
+
+      // Educación
+      const edu = document.getElementById("education");
+      (skills.education || []).forEach(e => {
+        const box = el("div", "edu-item");
+        box.appendChild(el("div", "t", e.title));
+        if (e.detail) box.appendChild(el("div", "d", e.detail));
+        box.appendChild(el("div", "p", e.period));
+        edu.appendChild(box);
+      });
+
+      // Idiomas
+      const langs = document.getElementById("languages");
+      (skills.languages || []).forEach(l => {
+        const box = el("div", "lang-item");
+        box.appendChild(el("div", "t", l.name));
+        box.appendChild(el("div", "d", l.level));
+        langs.appendChild(box);
+      });
+
+      // Experiencia
+      const exp = document.getElementById("experience");
+      timeline.forEach(job => {
+        const j = el("div", "job");
+        const head = el("div", "job-head");
+        head.appendChild(el("span", "job-company", job.company));
+        head.appendChild(el("span", "job-dates", `${fmtDate(job.startDate)} — ${fmtDate(job.endDate)}`));
+        j.appendChild(head);
+        j.appendChild(el("div", "job-position", job.position));
+        (job.projects || []).forEach(p => {
+          const pr = el("div", "project");
+          const pname = el("div", "project-name", p.name);
+          if (p.role) { const r = el("span", "project-role", "  ·  " + p.role); pname.appendChild(r); }
+          pr.appendChild(pname);
+          if (p.highlights && p.highlights.length) {
+            const ul = el("ul");
+            p.highlights.forEach(h => ul.appendChild(el("li", null, h)));
+            (p.achievements || []).forEach(a => { const li = el("li", null, a); li.style.fontWeight = "500"; ul.appendChild(li); });
+            pr.appendChild(ul);
+          }
+          if (p.technologies) pr.appendChild(tags(p.technologies));
+          j.appendChild(pr);
+        });
+        exp.appendChild(j);
+      });
+
+      // Stack técnico
+      const tc = document.getElementById("tech-cloud");
+      (skills.technologies || []).forEach(t => tc.appendChild(el("span", "tag", t)));
+    }
+
+    document.getElementById("print-btn").addEventListener("click", () => window.print());
+    load().catch(err => {
+      document.getElementById("summary").textContent = "Error cargando datos del CV: " + err;
+    });
+  </script>
+</body>
+</html>

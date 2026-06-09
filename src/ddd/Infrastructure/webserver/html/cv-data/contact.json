@@ -1,0 +1,14 @@
+{
+  "name": "Pascual Muñoz Galián",
+  "title": "PHP Software Engineer",
+  "summary": "Especializado en backend con más de 10 años de experiencia, gran parte en el sector del Ecommerce. Apasionado del Domain-Driven Design, el Extreme Programming y el Clean Code. Creador de un framework PHP asíncrono propio sobre ReactPHP.",
+  "location": "Alhama de Murcia, Murcia (España)",
+  "email": "info@pascualmg.dev",
+  "phone": "+34 693 000 983",
+  "website": "pascualmg.dev",
+  "links": [
+    { "name": "LinkedIn", "url": "https://www.linkedin.com/in/pascual-mu%C3%B1oz-gali%C3%A1n-7b4b3896/" },
+    { "name": "GitHub", "url": "https://github.com/pascualmg" },
+    { "name": "Twitter", "url": "https://twitter.com/pascualmg" }
+  ]
+}

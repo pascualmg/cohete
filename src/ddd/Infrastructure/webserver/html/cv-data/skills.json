@@ -1,0 +1,32 @@
+{
+  "softSkills": [
+    "Trabajo muy bien en equipo",
+    "Alta disposición para aprender nuevos lenguajes y tecnologías",
+    "Buen comunicador con compañeros y clientes no técnicos",
+    "Resolución creativa de problemas técnicos y adaptación a nuevos desafíos",
+    "Autodidacta y entusiasta de la programación",
+    "Creador de mi propio framework para APIs RESTful asíncronas con ReactPHP"
+  ],
+  "technologies": [
+    "PHP", "ReactPHP", "RxPHP", "Symfony", "JavaScript", "TypeScript", "React",
+    "DDD", "CQRS", "TDD", "Event-Driven", "MySQL", "MongoDB", "RabbitMQ",
+    "Docker", "Kubernetes", "Nix Flakes", "Linux", "Git", "Behat", "PHPUnit",
+    "MCP", "Haskell", "NixOS"
+  ],
+  "education": [
+    {
+      "title": "Mastering Domain-Driven Design",
+      "detail": "con Carlos Buenos Vinos",
+      "period": "2020 - 2021"
+    },
+    {
+      "title": "Network and Computer Systems Administrator",
+      "detail": "",
+      "period": "2003 - 2005"
+    }
+  ],
+  "languages": [
+    { "name": "Español", "level": "Nativo" },
+    { "name": "Inglés", "level": "Técnico" }
+  ]
+}

@@ -9,3 +9,6 @@ phinx.php
 /.phpunit.cache/
 /.phpunit.result.cache
 /src/ddd/Infrastructure/var/log/cohete.log
+
+# CV: datos sensibles locales (no publicar)
+src/ddd/Infrastructure/webserver/html/cv-data/*.local.json
