@@ -1,10 +1,20 @@
 [
   {
     "company": "UST (para Vocento)",
-    "position": "Backend PHP/Symfony Engineer - Identity Team",
+    "position": "Backend PHP/Symfony Engineer · AI Ambassador — Identity Team",
     "startDate": "2024-07-01",
     "endDate": null,
     "projects": [
+      {
+        "name": "AI Ambassador del equipo",
+        "role": "Referente IA",
+        "highlights": [
+          "Adopción práctica de IA en el día a día del equipo: agentes Claude Code en CI, pair-programming asistido y automatización de flujos repetitivos",
+          "Evangelización interna de patrones útiles (MCP, prompt-as-code, evaluación de modelos) y descarte honesto de lo que no aporta",
+          "Mentor de adopción para desarrolladores que entran al ecosistema IA sin perderse"
+        ],
+        "technologies": ["Claude Code", "MCP", "LLM agents", "Prompt Engineering"]
+      },
       {
         "name": "Webhooks 2.0 - Data Hub Event-Driven",
         "role": "Backend Developer / Arquitecto",
@@ -32,6 +42,30 @@
         "achievements": [
           "Deprecación completa de servicios legacy, 6+ releases en 3 meses",
           "Entornos de desarrollo reproducibles con Nix Flakes para proyectos PHP 7.1 y 8.1"
+        ]
+      }
+    ]
+  },
+  {
+    "company": "Proyecto Open Source",
+    "position": "Creador de symfony-command-ui",
+    "startDate": "2026-04-14",
+    "endDate": null,
+    "projects": [
+      {
+        "name": "symfony-command-ui — Console + API para agentes IA",
+        "role": "Creador y Mantenedor",
+        "highlights": [
+          "Bundle Symfony que convierte los comandos bin/console en UI web + API HTTP, para humanos y para agentes IA",
+          "Streaming en tiempo real via NDJSON (fetch + ReadableStream), sin WebSocket ni SSE",
+          "Auto-discovery desde InputDefinition: añadir un comando es una línea en la configuración",
+          "Compatible Symfony 3.4 a 8.x, PHP 7.1+"
+        ],
+        "technologies": ["PHP", "Symfony Bundle", "Web Components", "NDJSON", "Process Component"],
+        "achievements": [
+          "Recipe oficial mergeado en symfony/recipes-contrib (PR #1972, mayo 2026): instalación con un solo composer require",
+          "Diseñado como endpoint MCP-compatible para que cualquier agente IA opere la lógica de negocio del proyecto",
+          "Distribuido en Packagist: pascualmg/symfony-command-ui"
         ]
       }
     ]
