@@ -65,7 +65,12 @@
       width: var(--page-w);
       min-height: var(--page-h);
       margin: 18px auto;
-      background: #fff;
+      /* La franja oscura se pinta en el contenedor para que cubra TODA la
+         altura, también en la 2ª página (un sidebar de color no rellena el
+         alto de página en impresión multipágina). */
+      background: linear-gradient(to right, var(--sidebar-bg) 0 64mm, #fff 64mm 100%);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
       display: grid;
       grid-template-columns: 64mm 1fr;
       box-shadow: 0 6px 30px rgba(0,0,0,.25);
@@ -74,7 +79,7 @@
 
     /* ---------- Sidebar ---------- */
     .sidebar {
-      background: var(--sidebar-bg);
+      background: transparent;
       color: var(--sidebar-ink);
       padding: var(--pad) 11mm;
     }
@@ -107,7 +112,7 @@
       margin-bottom: 3mm;
       word-break: break-word;
     }
-    .contact-item .ico { color: var(--sidebar-ink); flex: 0 0 14px; }
+    .contact-item .ico { color: var(--sidebar-ink); flex: 0 0 auto; min-width: 14px; }
     .contact-item a { color: var(--sidebar-soft); text-decoration: none; }
 
     .side-list { list-style: none; margin: 0; padding: 0; }
@@ -168,13 +173,13 @@
       border-bottom: 2px solid var(--line);
     }
 
-    .job { margin-bottom: 7mm; break-inside: avoid; }
-    .job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+    .job { margin-bottom: 5mm; }
+    .job-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; break-inside: avoid; break-after: avoid; }
     .job-company { font-size: 14px; font-weight: 700; color: var(--ink); }
     .job-dates { font-size: 11px; font-weight: 600; color: var(--ink-faint); white-space: nowrap; }
     .job-position { font-size: 12px; font-weight: 500; color: var(--accent); margin-top: 1mm; }
 
-    .project { margin: 4mm 0 0 0; break-inside: avoid; }
+    .project { margin: 3mm 0 0 0; break-inside: avoid; }
     .project-name { font-size: 12px; font-weight: 600; color: var(--ink); }
     .project-role { font-size: 10.5px; font-weight: 500; color: var(--ink-faint); }
     .project ul { margin: 2mm 0 0; padding-left: 5mm; }
@@ -208,7 +213,8 @@
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
       }
-      .job, .project, .edu-item { break-inside: avoid; }
+      .project, .edu-item { break-inside: avoid; }
+      .job-head { break-inside: avoid; break-after: avoid; }
     }
   </style>
 </head>
