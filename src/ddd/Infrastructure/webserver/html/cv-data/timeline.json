@@ -176,22 +176,5 @@
         "technologies": ["JavaScript", "TypeScript", "React"]
       }
     ]
-  },
-  {
-    "company": "PcComponentes",
-    "position": "Analista y Gestor",
-    "startDate": "2012-09-05",
-    "endDate": "2013-01-04",
-    "projects": [
-      {
-        "name": "Auditoría y Compras Internacionales",
-        "role": "Analista",
-        "highlights": [
-          "Sistema de tracking con Qlik para monitoreo de operadores",
-          "Gestión de relaciones con proveedores internacionales"
-        ],
-        "technologies": ["Qlik", "SQL", "ERP"]
-      }
-    ]
   }
 ]
