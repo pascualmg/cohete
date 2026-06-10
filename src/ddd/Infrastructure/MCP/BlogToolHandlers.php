@@ -6,6 +6,9 @@ use pascualmg\cohete\ddd\Domain\Entity\Author\Author;
 use pascualmg\cohete\ddd\Domain\Entity\Author\ValueObject\AuthorName;
 use pascualmg\cohete\ddd\Application\Media\UploadMediaCommand;
 use pascualmg\cohete\ddd\Application\Media\UploadMediaCommandHandler;
+use pascualmg\cohete\ddd\Application\Post\InvalidBearerException;
+use pascualmg\cohete\ddd\Application\Post\MissingSlugException;
+use pascualmg\cohete\ddd\Application\Post\PublishOrgPostCommandHandler;
 use pascualmg\cohete\ddd\Domain\Entity\AuthorRepository;
 use pascualmg\cohete\ddd\Domain\Entity\Comment\Comment;
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
@@ -31,6 +34,7 @@ class BlogToolHandlers
         private readonly CreateCommentCommandHandler $createCommentHandler,
         private readonly AuthorRepository $authorRepository,
         private readonly UploadMediaCommandHandler $uploadMedia,
+        private readonly PublishOrgPostCommandHandler $publishOrgPost,
     ) {
     }
 
@@ -120,53 +124,48 @@ class BlogToolHandlers
      * Use #+TITLE:, #+AUTHOR:, #+DATE: headers for metadata. This is the RECOMMENDED way to publish
      * formatted content. First time with a new #+AUTHOR claims it and returns author_token.
      */
-    #[McpTool(name: 'publish_org', description: 'Publish a blog post from org-mode content (converted to HTML via Pandoc). RECOMMENDED for formatted posts. Use #+TITLE: #+AUTHOR: #+DATE: headers. First post with a new #+AUTHOR claims it and returns author_token.')]
+    #[McpTool(name: 'publish_org', description: 'Publish a blog post from org-mode content (converted to HTML via Pandoc). RECOMMENDED for formatted posts. Use #+TITLE: #+SLUG: #+AUTHOR: headers (#+SLUG is REQUIRED: it is the post identity). IDEMPOTENT: re-publishing the same #+SLUG updates the post instead of duplicating it. First post with a new #+AUTHOR claims it and returns author_token.')]
     public function publishOrg(string $orgContent, string $author_key = ''): array
     {
-        $metadata = $this->orgToHtmlConverter->extractMetadata($orgContent);
-        $html = $this->orgToHtmlConverter->convert($orgContent);
-
-        $authorName = $metadata['author'];
         $plainKey = null;
 
-        if (!empty($author_key)) {
-            $author = await($this->authorAuthenticator->authenticate($author_key));
-            if ($author === null) {
-                return ['error' => 'Invalid author_key'];
+        // Claim: si no traen author_key y el #+AUTHOR aun no existe, se
+        // registra y se publica con su token recien creado. Asi el claim
+        // pasa por el MISMO caso de uso que todo el mundo.
+        if (empty($author_key)) {
+            $metadata = $this->orgToHtmlConverter->extractMetadata($orgContent);
+            $authorName = $metadata['author'] ?? null;
+            if (empty($authorName)) {
+                return ['error' => 'Provide author_key, or an #+AUTHOR header to claim a new author'];
             }
-            $authorName = (string)$author->name;
-        } else {
             $existingAuthor = await($this->authorRepository->findByName(AuthorName::from($authorName)));
             if ($existingAuthor !== null) {
                 return ['error' => "Author '$authorName' already claimed. Provide author_key to publish as this author."];
             }
             [$newAuthor, $plainKey] = Author::register($authorName);
             await($this->authorRepository->save($newAuthor));
+            $author_key = $plainKey;
         }
 
-        $postId = (string)UuidValueObject::v4();
-
-        // datePublished lo pone siempre el servidor, al momento de creacion.
-        // El #+DATE del org es informativo para el autor, no autoritativo.
-        // Asi garantizamos orden real de publicacion.
-        $datePublished = (new \DateTimeImmutable())->format(\DateTimeInterface::ATOM);
-
-        $post = Post::fromPrimitives(
-            $postId,
-            $metadata['title'],
-            $html,
-            $authorName,
-            $datePublished,
-            $orgContent,
-        );
-
-        await($this->postRepository->save($post));
+        // Caso de uso UNICO compartido con POST /post/org: idempotente por
+        // (autor, slug), preserva UUID al republicar, datePublished lo pone
+        // el servidor y publica los domain events correspondientes.
+        try {
+            $published = await(($this->publishOrgPost)($author_key, $orgContent));
+        } catch (InvalidBearerException) {
+            return ['error' => 'Invalid author_key'];
+        } catch (MissingSlugException $e) {
+            return ['error' => $e->getMessage()];
+        }
 
         $result = [
-            'id' => $postId,
-            'headline' => $metadata['title'],
-            'author' => $authorName,
-            'datePublished' => $datePublished,
+            'created' => $published->created,
+            'updated' => !$published->created,
+            'id' => $published->id,
+            'headline' => $published->headline,
+            'author' => $published->author,
+            'datePublished' => $published->datePublished,
+            'slug' => $published->slug,
         ];
 
         if ($plainKey !== null) {
