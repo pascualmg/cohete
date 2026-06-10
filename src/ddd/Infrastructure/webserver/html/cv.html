@@ -198,6 +198,17 @@
     .tech-cloud { display: flex; flex-wrap: wrap; gap: 5px; }
     .tech-cloud .tag { font-size: 10.5px; padding: 3px 9px; }
 
+    /* Enlaces de "prueba" por proyecto (GitHub, Packagist...). Discretos;
+       en el PDF del navegador siguen siendo clicables. */
+    .proj-links { margin-top: 1.5mm; display: flex; flex-wrap: wrap; gap: 4px 10px; }
+    .proj-links a {
+      font-size: 9.5px;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .proj-links a::before { content: "\2197 "; }
+
     /* ---------- Print ---------- */
     @page { size: A4; margin: 0; }
     @media print {
@@ -357,6 +368,11 @@
             pr.appendChild(ul);
           }
           if (p.technologies) pr.appendChild(tags(p.technologies));
+          if (p.links && p.links.length) {
+            const lr = el("div", "proj-links");
+            p.links.forEach(l => { const a = el("a", null, l.label); a.href = l.url; lr.appendChild(a); });
+            pr.appendChild(lr);
+          }
           j.appendChild(pr);
         });
         exp.appendChild(j);

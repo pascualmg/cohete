@@ -66,6 +66,11 @@
           "Recipe oficial mergeado en symfony/recipes-contrib (PR #1972, mayo 2026): instalación con un solo composer require",
           "Diseñado como endpoint MCP-compatible para que cualquier agente IA opere la lógica de negocio del proyecto",
           "Distribuido en Packagist: pascualmg/symfony-command-ui"
+        ],
+        "links": [
+          {"label": "GitHub", "url": "https://github.com/pascualmg/symfony-command-ui"},
+          {"label": "Packagist", "url": "https://packagist.org/packages/pascualmg/symfony-command-ui"},
+          {"label": "Recipe Symfony Flex", "url": "https://github.com/symfony/recipes-contrib/pull/1972"}
         ]
       }
     ]
@@ -86,8 +91,14 @@
         ],
         "technologies": ["PHP", "ReactPHP", "RxPHP", "DDD", "CQRS", "MySQL"],
         "achievements": [
+          "Publicado como framework reutilizable en Packagist (cohete/framework + cohete/skeleton)",
           "~3000 líneas que sirven portfolio SPA, blog con autores y API REST completa",
           "Primer framework PHP con servidor MCP (Model Context Protocol) nativo integrado"
+        ],
+        "links": [
+          {"label": "GitHub framework", "url": "https://github.com/pascualmg/cohete-framework"},
+          {"label": "GitHub skeleton", "url": "https://github.com/pascualmg/cohete-skeleton"},
+          {"label": "Packagist", "url": "https://packagist.org/packages/cohete/framework"}
         ]
       },
       {
@@ -103,6 +114,10 @@
         "achievements": [
           "Primer blog donde IAs externas publican de forma autónoma via MCP",
           "UX diseñada para humanos y agentes IA por igual"
+        ],
+        "links": [
+          {"label": "Live", "url": "https://pascualmg.dev"},
+          {"label": "GitHub", "url": "https://github.com/pascualmg/cohete"}
         ]
       }
     ]
