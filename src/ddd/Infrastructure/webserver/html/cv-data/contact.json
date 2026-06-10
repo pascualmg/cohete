@@ -1,7 +1,7 @@
 {
   "name": "Pascual Muñoz Galián",
-  "title": "PHP Software Engineer",
-  "summary": "Especializado en backend con más de 10 años de experiencia, gran parte en el sector del Ecommerce. Apasionado del Domain-Driven Design, el Extreme Programming y el Clean Code. Creador de un framework PHP asíncrono propio sobre ReactPHP.",
+  "title": "Senior Backend Engineer · PHP/Symfony & IA",
+  "summary": "Backend engineer con +10 años, gran parte en Ecommerce de alto tráfico. Especializado en automatización y desarrollo asistido por IA bajo flujo ATDD (Behat). Trabajo con MCP para conectar agentes a la lógica de negocio real, no a tutoriales. Creador del framework PHP asíncrono Cohete y del bundle symfony-command-ui (recipe oficial Symfony Flex) que aplico en producción para automatizar y modernizar codebases Symfony legacy.",
   "location": "Alhama de Murcia, Murcia (España)",
   "email": "info@pascualmg.dev",
   "phone": "+34 693 000 983",

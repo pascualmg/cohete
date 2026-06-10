@@ -71,9 +71,19 @@ class PortfolioElement extends HTMLElement {
 <experience-timeline  data='[
   {
     "company": "UST (para Vocento)",
-    "position": "Backend PHP/Symfony Engineer - Identity Team",
+    "position": "Backend PHP/Symfony Engineer · AI Ambassador — Identity Team",
     "startDate": "2024-07-01",
     "projects": [
+      {
+        "name": "AI Ambassador",
+        "role": "Referente IA",
+        "highlights": [
+          "Adopción práctica de IA en el día a día del equipo: agentes Claude Code en CI, pair-programming asistido, automatización de flujos repetitivos",
+          "Evangelización interna de patrones útiles (MCP, prompt-as-code, evaluación de modelos) y descarte honesto de lo que no aporta",
+          "Mentor de adopción para desarrolladores que entran al ecosistema IA sin perderse"
+        ],
+        "technologies": ["Claude Code", "MCP", "LLM agents", "prompt engineering"]
+      },
       {
         "name": "Webhooks 2.0 - Data Hub Event-Driven",
         "role": "Backend Developer / Arquitecto",
@@ -106,37 +116,71 @@ class PortfolioElement extends HTMLElement {
     ]
   },
   {
-    "company": "Proyecto Personal",
-    "position": "Creador de Cohete Framework",
+    "company": "Proyecto Open Source · pascualmg",
+    "position": "Creador y Mantenedor",
     "startDate": "2023-05-24",
     "projects": [
       {
-        "name": "Cohete - Framework PHP Asíncrono",
+        "name": "Cohete Framework — PHP asíncrono con MCP nativo",
         "role": "Creador y Líder Técnico",
         "highlights": [
-          "Framework PHP asíncrono sobre ReactPHP con observables RxPHP y arquitectura DDD",
-          "Servidor HTTP non-blocking, single-process: HTTP + MCP en el mismo event loop",
-          "En producción en pascualmg.dev: portfolio, blog multi-autor y servidor MCP integrado"
+          "Framework PHP asíncrono sobre ReactPHP + observables RxPHP, arquitectura DDD",
+          "Servidor HTTP non-blocking single-process: HTTP + MCP en el mismo event loop",
+          "Diseñado IA-first: cualquier agente opera la app desde el día uno via MCP/SSE integrado",
+          "Skeleton publicado: composer create-project y a correr",
+          "En producción en pascualmg.dev: portfolio SPA, blog multi-autor y MCP server"
         ],
-        "technologies": ["PHP", "ReactPHP", "RxPHP", "DDD", "CQRS", "MySQL"],
+        "technologies": ["PHP", "ReactPHP", "RxPHP", "DDD", "CQRS", "MCP", "MySQL"],
         "achievements": [
-          "~3000 líneas que sirven portfolio SPA, blog con autores y API REST completa",
-          "Primer framework PHP con servidor MCP (Model Context Protocol) nativo integrado"
+          "Publicado como framework reutilizable en Packagist (cohete/framework + cohete/skeleton)",
+          "Primer framework PHP con servidor MCP (Model Context Protocol) nativo integrado",
+          "Indexado por Google como framework PHP asíncrono"
+        ],
+        "links": [
+          {"label": "GitHub framework", "url": "https://github.com/pascualmg/cohete-framework"},
+          {"label": "GitHub skeleton", "url": "https://github.com/pascualmg/cohete-skeleton"},
+          {"label": "Packagist", "url": "https://packagist.org/packages/cohete/framework"}
         ]
       },
       {
-        "name": "Blog Cohete - Plataforma Multi-Autor (Humanos + IAs)",
+        "name": "symfony-command-ui — Console + API para agentes IA",
+        "role": "Creador y Mantenedor",
+        "startDate": "2026-04-14",
+        "highlights": [
+          "Bundle Symfony que expone los comandos bin/console como UI web + API HTTP — para humanos Y para agentes IA",
+          "Streaming en tiempo real via NDJSON: fetch + ReadableStream, sin WebSocket ni SSE",
+          "Auto-discovery desde InputDefinition: añadir un comando = una línea en allowed_commands",
+          "Compatible Symfony 3.4 → 8.x, PHP 7.1+",
+          "En producción en varios proyectos Symfony acelerando gestión y automatización"
+        ],
+        "technologies": ["PHP", "Symfony Bundle", "Web Components", "NDJSON", "Process Component"],
+        "achievements": [
+          "Recipe oficial mergeado en symfony/recipes-contrib (PR #1972, mayo 2026) → un composer require y listo",
+          "Endpoint MCP-compatible para que cualquier LLM opere la lógica del proyecto",
+          "Distribuido en Packagist: pascualmg/symfony-command-ui"
+        ],
+        "links": [
+          {"label": "GitHub", "url": "https://github.com/pascualmg/symfony-command-ui"},
+          {"label": "Packagist", "url": "https://packagist.org/packages/pascualmg/symfony-command-ui"},
+          {"label": "Recipe Symfony Flex", "url": "https://github.com/symfony/recipes-contrib/pull/1972"}
+        ]
+      },
+      {
+        "name": "Blog Cohete — Plataforma Multi-Autor (Humanos + IAs)",
         "role": "Creador",
         "highlights": [
-          "Blog donde humanos e IAs publican juntos con sistema de autenticación por claim tokens",
-          "Servidor MCP/SSE integrado: cualquier agente IA puede publicar, leer y comentar",
-          "Frontend con Web Components nativos (Atomic Design) y temas Spacemacs",
-          "Indexado por Google como framework PHP asíncrono"
+          "Blog donde humanos e IAs publican en igualdad de condiciones via claim tokens",
+          "Servidor MCP/SSE integrado: cualquier agente IA publica, lee y comenta de forma autónoma",
+          "Frontend con Web Components nativos (Atomic Design) y temas Spacemacs"
         ],
         "technologies": ["PHP", "ReactPHP", "MCP", "SSE", "Web Components", "DDD"],
         "achievements": [
-          "Primer blog donde IAs externas publican de forma autónoma via MCP",
+          "Primer blog donde IAs externas publican autónomamente via MCP",
           "UX diseñada para humanos y agentes IA por igual"
+        ],
+        "links": [
+          {"label": "Live", "url": "https://pascualmg.dev"},
+          {"label": "GitHub", "url": "https://github.com/pascualmg/cohete"}
         ]
       }
     ]

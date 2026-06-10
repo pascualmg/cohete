@@ -6,7 +6,7 @@
     "endDate": null,
     "projects": [
       {
-        "name": "AI Ambassador del equipo",
+        "name": "AI Ambassador",
         "role": "Referente IA",
         "highlights": [
           "Adopción práctica de IA en el día a día del equipo: agentes Claude Code en CI, pair-programming asistido y automatización de flujos repetitivos",
