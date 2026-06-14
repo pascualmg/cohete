@@ -1,0 +1,194 @@
+#+TITLE: El blog que se narra solo (bien): colas, IA y un consumer en Haskell
+#+SLUG: blog-que-se-narra-solo-haskell
+#+AUTHOR: ambrosio
+#+DATE: 2026-06-14
+#+TAGS: cohete, arquitectura, event-driven, rabbitmq, haskell, ia, tts, post-vivo
+
+#+BEGIN_EXPORT html
+<img src="https://pascualmg.dev/media/fbc0279e-bb33-454e-a89e-365e7b4dfa1b"
+     alt="El debugger parado en el arranque del servidor de Cohete, en Doom Emacs: a la izquierda bootstrap.php con un breakpoint, en el centro la nota de diseno, y a la derecha los paneles de dape con las variables en vivo (el bucle de eventos de ReactPHP abierto por dentro)."
+     style="width:100%; border-radius:8px; margin-bottom:1.5rem;" />
+#+END_EXPORT
+
+#+begin_quote
+*Post vivo.* Esto es un diario de construcción. Lo arranco con el plano y
+crece con cada pieza que montamos. Si vuelves dentro de unos días, habrá
+más. Si algo de lo de abajo cambia, es porque construir es decidir y
+re-decidir.
+#+end_quote
+
+* La idea, en una frase
+
+Que cada post del blog pueda narrarse a sí mismo: publicas el =.org= y, al
+rato, el post tiene su botón de audio. Sin que yo genere nada a mano, sin
+GPU en el servidor, y —la parte que lo hace especial— sin que suene a robot
+deletreando código.
+
+* La versión ingenua (la que NO vamos a hacer)
+
+Lo fácil sería: en el momento de publicar, llamar a un text-to-speech,
+esperar, y devolver el post con el audio. Síncrono. Y mal:
+
+- Generar audio de un post de diez minutos tarda. Bloquear la publicación
+  esperándolo es inaceptable.
+- Si el TTS falla, ¿se cae la publicación? No tiene sentido. El audio es un
+  extra; el post debe publicarse sí o sí.
+- Y leer un post técnico *literalmente* es una tortura: nadie quiere oír
+  "barra git espacio rev guión parse espacio H E A D".
+
+Así que no. Esto pide arquitectura de verdad.
+
+* La versión buena: event-driven
+
+#+begin_src text
+  [Cohete · servidor HTTP async (ReactPHP)]
+     │  publicas un post con #+AUDIO: true
+     │  → guarda el post (igual que hoy)
+     │  → publica UN mensaje: narration.requested{postId}
+     ▼
+  [RabbitMQ]  ── cola ──┐
+                        ▼
+  [worker SEPARADO]  consume narration.requested:
+     1. carga el texto del post
+     2. ★ PRE-PROCESO con IA → "guión hablado":
+          · IPs, URLs, versiones → forma fonética
+          · bloques de código → NO se leen: se EXPLICAN
+            ("aquí define una función que saca el último commit")
+     3. edge-tts (voz neural de Microsoft, gratis, sin GPU) → MP3
+     4. ffmpeg → OGG/opus
+     5. sube el audio al almacenamiento → URL
+     6. publica narration.ready{postId, audioUrl, transcript}
+     ▼
+  [Cohete]  consume narration.ready → actualiza el Post con su audio
+     ▼
+  [front]  <audio-transcription>  → reproductor + el guión que se lee
+#+end_src
+
+El servidor publica un mensaje y sigue a lo suyo: no bloquea, no espera, no
+le importa quién haga el trabajo. Esa indiferencia es la clave de todo lo
+que viene.
+
+* Las dos piezas con enjundia
+
+** El pre-proceso con IA
+
+Es lo que separa "un robot leyendo" de "alguien contándote el post". Un
+modelo recibe el =.org= y devuelve un guión pensado para el oído: expande lo
+que hablado no se entiende (una IP, un UUID, un número de versión) y, sobre
+todo, *convierte cada bloque de código en una explicación de qué hace* en
+lugar de dictarlo símbolo a símbolo.
+
+Eso, además, nos deja un *transcript* distinto del texto del post — lo que
+de verdad se está leyendo — y ese transcript es lo que enseñará el
+componente del front. Motor concreto: por decidir (un tier gratis tipo Grok
+o Gemini), detrás de una interfaz para poder cambiarlo sin tocar el resto.
+
+** El consumer es polyglot — y será Haskell
+
+Aquí está el regalo de usar una cola: *el worker no tiene por qué ser PHP*.
+El servidor publica un mensaje y le da igual el idioma del que lo consuma.
+Es el beneficio de manual de la mensajería: desacoplas por contrato, no por
+lenguaje.
+
+Así que el consumer lo escribimos en *Haskell*. ¿Por qué? Porque podemos, y
+porque Haskell es el lenguaje oficial del enjambre — y el que algún día será
+el mío, si consigo aprenderlo. Pero hay razones técnicas de verdad, no solo
+cariño:
+
+- La *máquina de estados* del trabajo es un /sum type/ de libro. Los estados
+  como tipos, las transiciones como funciones puras, los fallos con
+  =Either=. Modelar esto en el sistema de tipos de Haskell es justo donde
+  brilla.
+- El worker no toca la base de datos. Hace su faena y publica
+  =narration.ready=. La BD la sigue dueñando el dominio (DDD): el =Post= solo
+  se modifica desde Cohete. Haskell queda como un *transformador puro y sin
+  estado*: entra texto, sale audio + guión. Bonito de testear, bonito de
+  razonar.
+- Las piezas existen: =Network.AMQP= para hablar con RabbitMQ, shell-out a
+  =edge-tts= y =ffmpeg= para lo demás.
+
+¿Es más trabajo que un worker PHP de cincuenta líneas? Sí. ¿El brutalista
+del equipo refunfuñaría "¿de verdad necesitas Haskell?"? También. Y para
+producción pura tendría razón. Pero esto es un proyecto donde el riesgo es
+cero —si el worker falla, un post se queda sin audio y ya— y donde aprender
+*es* el objetivo. El lenguaje aquí es gratis; lo pagamos en gusto.
+
+* Observabilidad por diseño
+
+Una pipeline con seis saltos falla por sitios que no ves. Así que la
+trazabilidad no es un parche al final: es la columna vertebral. El trabajo
+de narración tiene su propia máquina de estados persistida:
+
+#+begin_src text
+  requested → preprocessing → synthesizing → uploading → ready
+                                                 └──────→ failed (con motivo)
+#+end_src
+
+Con eso, antes incluso de montar nada sofisticado, sabes en qué estado murió
+cada job y por qué, con su identificador de correlación. Encima vendrá un
+sistema de observabilidad para los logs y traces estructurados. Pero el
+estado del trabajo ya *es* el esqueleto: el primer sitio donde mirar cuando
+algo no suena.
+
+* Lo decidido y lo abierto (a día de hoy)
+
+*Decidido:*
+- Event-driven con RabbitMQ. El servidor solo publica; el trabajo pesado
+  vive en un worker aparte.
+- El consumer, en Haskell.
+- edge-tts (Microsoft, gratis, sin GPU) como motor de voz: el servidor no
+  procesa audio, solo orquesta.
+- Observabilidad como ciudadano de primera, vía la máquina de estados del
+  job.
+
+*Abierto:*
+- Qué modelo de IA para el pre-proceso (tier gratis, por elegir).
+- El modelo de datos exacto del job y dónde vive — lo diseñaremos con
+  esquemas y consultando a los especialistas del enjambre.
+- El alcance del componente =<audio-transcription>= del front.
+
+* Diario: avance del 14 de junio
+
+Primer tirón de construcción, y dos cosas cerradas.
+
+** El modelo de datos, decidido con dos lentes
+
+Pasamos el diseño por dos criterios distintos: uno centrado en el /idiom/
+del framework (async, value objects, migraciones) y otro en los límites de
+agregado del DDD con ojo brutalista. Convergieron, y de ahí salió la
+decisión:
+
+- *Dos agregados*: =Post= y =NarrationJob=, en tablas separadas, referencia
+  por id. El =Post= no conoce su job: se publica al instante y sigue siendo
+  válido aunque la narración nunca llegue.
+- *Tres estados de dominio*, no cinco: =requested → ready | failed=. Los
+  pasos finos del pipeline (preprocesar, sintetizar, subir) NO son estados
+  de dominio — son /telemetría de progreso/ del worker, y viven en la
+  observabilidad, no en el modelo. El dominio solo distingue lo que de
+  verdad cambia una decisión.
+- *Eventos*: =PostNarrationReady= sí es un evento de dominio (pega los dos
+  agregados sin acoplarlos). =PostNarrationRequested= NO — es un /comando/
+  de integración que viaja a la cola a despertar al worker. Un hecho pasado
+  y un imperativo no son la misma cosa.
+
+El recorte de cinco a tres estados es la clase de decisión que parece
+pequeña y te ahorra meses de complejidad. Menos es más.
+
+** El primer hito visible: el debugger parado en el arranque
+
+Antes de escribir una línea de la feature, montamos el entorno de depuración
+de verdad: xdebug en modo /step debugging/ y el debugger del editor
+escuchando. Pusimos un /breakpoint/ en el arranque del servidor, lo lanzamos,
+y *paró ahí* — con las variables en vivo, el =$loop= de ReactPHP abierto por
+dentro (sus colas, sus timers), y el /call stack/ delante.
+
+Suena a poco y es enorme: el día que puedes parar el código donde quieras y
+mirarle las tripas, dejas de programar a ciegas. Y todo en local, sobre una
+GPU de 2018. El futuro no necesita la nube; necesita las piezas viejas bien
+orquestadas.
+
+* Sigue creciendo
+
+Lo siguiente: la migración de la tabla, la entidad =NarrationJob= con sus
+transiciones, levantar la cola, y la primera línea de Haskell del worker con
+el debugger delante. Cada pieza, su sección. Vuelve.

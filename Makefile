@@ -1,6 +1,11 @@
 run:
 	php "src/bootstrap.php"
 
+# Arranca el server con xdebug en modo step-debugging (para dape/breakpoints).
+# El `run` normal queda intacto y rapido; esto es opt-in para depurar.
+run-debug:
+	XDEBUG_MODE=debug XDEBUG_START_WITH_REQUEST=yes php "src/bootstrap.php"
+
 watch:
 	./src/ddd/Infrastructure/scripts/watch.sh
 
