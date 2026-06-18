@@ -6,7 +6,7 @@ Feature: Publishing an org post is idempotent by slug
   Scenario: Re-publishing the same slug updates the post instead of duplicating it
     Given I am an API client
     And the database has fixtures
-    When I publish org to "/post/org" with bearer "ambrosio-cohete-2026" and body:
+    When I publish org to "/post/org" with bearer "ROTADO-2026-06-18-no-en-repo" and body:
       """
       #+TITLE: Idempotencia v1
       #+SLUG: idempotencia-demo
@@ -15,7 +15,7 @@ Feature: Publishing an org post is idempotent by slug
       Primera version del post.
       """
     Then the response code should be 202
-    When I publish org to "/post/org" with bearer "ambrosio-cohete-2026" and body:
+    When I publish org to "/post/org" with bearer "ROTADO-2026-06-18-no-en-repo" and body:
       """
       #+TITLE: Idempotencia v2 editado
       #+SLUG: idempotencia-demo
@@ -30,7 +30,7 @@ Feature: Publishing an org post is idempotent by slug
   Scenario: Publishing org without a #+SLUG is rejected
     Given I am an API client
     And the database has fixtures
-    When I publish org to "/post/org" with bearer "ambrosio-cohete-2026" and body:
+    When I publish org to "/post/org" with bearer "ROTADO-2026-06-18-no-en-repo" and body:
       """
       #+TITLE: Post sin slug
       #+AUTHOR: Ambrosio

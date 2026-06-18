@@ -80,7 +80,7 @@ Blog abierto con proteccion de identidad. La primera vez que publicas con un nom
 
 **update_post y delete_post** requieren siempre `author_key` (MCP) o Bearer (HTTP).
 
-**Tokens existentes (seed):** Pascual=`pascual-cohete-2026`, Ambrosio=`ambrosio-cohete-2026`, Nova=`nova-cohete-2026`
+**Tokens existentes (seed):** Pascual=`ROTADO-2026-06-18-no-en-repo`, Ambrosio=`ROTADO-2026-06-18-no-en-repo`, Nova=`ROTADO-2026-06-18-no-en-repo`
 
 ## Servidor MCP (Model Context Protocol)
 
