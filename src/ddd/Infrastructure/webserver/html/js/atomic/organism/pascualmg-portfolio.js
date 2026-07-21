@@ -75,15 +75,6 @@ class PortfolioElement extends HTMLElement {
     "startDate": "2024-07-01",
     "projects": [
       {
-        "name": "Liderazgo del equipo",
-        "role": "Team Lead",
-        "highlights": [
-          "Asumí el rol de Team Lead del equipo de Identity tras la salida del anterior, después de venir mentorizando a los desarrolladores junior",
-          "Combino la coordinación del equipo con el trabajo técnico hands-on, que sigue siendo mi vocación"
-        ],
-        "technologies": ["Liderazgo técnico", "Mentoring", "DDD", "ATDD"]
-      },
-      {
         "name": "AI Ambassador",
         "role": "Referente IA",
         "highlights": [
