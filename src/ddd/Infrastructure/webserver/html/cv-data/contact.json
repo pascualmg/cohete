@@ -1,14 +1,23 @@
 {
   "name": "Pascual Muñoz Galián",
   "title": "Senior Backend Engineer · PHP/Symfony & IA",
-  "summary": "Backend engineer con +10 años, gran parte en Ecommerce de alto tráfico. Especializado en automatización y desarrollo asistido por IA bajo flujo ATDD (Behat). Trabajo con MCP para conectar agentes a la lógica de negocio real, no a tutoriales. Creador del framework PHP asíncrono Cohete y del bundle symfony-command-ui (recipe oficial Symfony Flex) que aplico en producción para automatizar y modernizar codebases Symfony legacy.",
+  "summary": "Senior Backend Engineer con +10 años en PHP/Symfony, gran parte en Ecommerce de alto tráfico, especializado en DDD, arquitectura hexagonal y sistemas orientados a eventos. No soy consumidor de IA, construyo las herramientas: creador del framework PHP asíncrono Cohete —en producción como blog multi-autor donde humanos e IAs publican de verdad, mi laboratorio vivo— y del bundle symfony-command-ui (recipe oficial de Symfony Flex, en Packagist), que audita y automatiza codebases Symfony legacy y las deja operables por agentes. Mi propuesta: cojo un Symfony heredado, lo audito, lo automatizo, lo dejo reproducible con Nix e IA-ready, y enseño a trabajar así. Modernización, metodología y formación, bajo flujo ATDD desde antes de que la IA se pusiera de moda.",
   "location": "Alhama de Murcia, Murcia (España)",
   "email": "info@pascualmg.dev",
   "phone": "+34 693 000 983",
   "website": "pascualmg.dev",
   "links": [
-    { "name": "LinkedIn", "url": "https://www.linkedin.com/in/pascual-mu%C3%B1oz-gali%C3%A1n-7b4b3896/" },
-    { "name": "GitHub", "url": "https://github.com/pascualmg" },
-    { "name": "Twitter", "url": "https://twitter.com/pascualmg" }
+    {
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/in/pascual-mu%C3%B1oz-gali%C3%A1n-7b4b3896/"
+    },
+    {
+      "name": "GitHub",
+      "url": "https://github.com/pascualmg"
+    },
+    {
+      "name": "Twitter",
+      "url": "https://twitter.com/pascualmg"
+    }
   ]
 }

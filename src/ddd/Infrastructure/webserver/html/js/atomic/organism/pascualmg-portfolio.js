@@ -71,9 +71,18 @@ class PortfolioElement extends HTMLElement {
 <experience-timeline  data='[
   {
     "company": "UST (para Vocento)",
-    "position": "Backend PHP/Symfony Engineer · AI Ambassador — Identity Team",
+    "position": "Team Lead · Backend PHP/Symfony Engineer · AI Ambassador — Identity Team",
     "startDate": "2024-07-01",
     "projects": [
+      {
+        "name": "Liderazgo del equipo",
+        "role": "Team Lead",
+        "highlights": [
+          "Asumí el rol de Team Lead del equipo de Identity tras la salida del anterior, después de venir mentorizando a los desarrolladores junior",
+          "Combino la coordinación del equipo con el trabajo técnico hands-on, que sigue siendo mi vocación"
+        ],
+        "technologies": ["Liderazgo técnico", "Mentoring", "DDD", "ATDD"]
+      },
       {
         "name": "AI Ambassador",
         "role": "Referente IA",
@@ -104,13 +113,13 @@ class PortfolioElement extends HTMLElement {
         "role": "Backend Developer",
         "highlights": [
           "Migración de endpoints legacy al nuevo core de identidad con paridad 100% validada por ATDD cruzado (Behat)",
-          "Documentación API auto-generada con Swagger para +100 servidores",
+          "Documentación API auto-generada (Swagger/OpenAPI)",
           "Sistema de distribución de conocimiento técnico via ficheros MD unificados en repo agnóstico como best practice para el equipo"
         ],
         "technologies": ["PHP", "Symfony", "Kubernetes", "Swagger", "Nix Flakes", "Behat"],
         "achievements": [
           "Deprecación completa de servicios legacy, 6+ releases en 3 meses",
-          "Entornos de desarrollo reproducibles con Nix Flakes para proyectos PHP 7.1 y 8.1"
+          "Entornos de desarrollo reproducibles con Nix asistido por IA: +30 proyectos nixificados, acelerando el arranque de cada uno"
         ]
       }
     ]
