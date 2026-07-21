@@ -13,7 +13,35 @@
           "Evangelización interna de patrones útiles (MCP, prompt-as-code, evaluación de modelos) y descarte honesto de lo que no aporta",
           "Mentor de adopción para desarrolladores que entran al ecosistema IA sin perderse"
         ],
-        "technologies": ["Claude Code", "MCP", "LLM agents", "Prompt Engineering"]
+        "technologies": [
+          "Claude Code",
+          "MCP",
+          "LLM agents",
+          "Prompt Engineering"
+        ]
+      },
+      {
+        "name": "Modernización de legacys → IA-ready",
+        "role": "Backend Developer",
+        "highlights": [
+          "Dejo codebases Symfony legacy IA-ready (convenciones tipo AGENTS.md, documentación agnóstica, agente experto residente): el conocimiento deja de morir con la persona que se va — un LLM, o un compañero nuevo, puede operar y evolucionar código huérfano que nadie sabía cómo iba",
+          "Permito seguir metiendo features en lo viejo y construir lo nuevo con DDD y arquitectura hexagonal, sin reescribir de cero",
+          "+30 proyectos con entornos de desarrollo reproducibles (Nix asistido por IA), acelerando el arranque de cada uno",
+          "Migración de endpoints legacy al nuevo core con paridad 100% validada por ATDD cruzado (Behat)",
+          "Sistema de distribución de conocimiento técnico via ficheros MD unificados en repo agnóstico como best practice para el equipo"
+        ],
+        "technologies": [
+          "PHP",
+          "Symfony",
+          "IA-ready",
+          "AGENTS.md",
+          "Nix",
+          "DDD",
+          "Behat"
+        ],
+        "achievements": [
+          "Deprecación completa de servicios legacy, 6+ releases en 3 meses"
+        ]
       },
       {
         "name": "Webhooks 2.0 - Data Hub Event-Driven",
@@ -24,24 +52,18 @@
           "Patrón Claim-Then-Process con memoria estable (~50-80MB) procesando 93.000+ eventos sin OOM",
           "15 ADRs documentados con contexto, decisión y consecuencias"
         ],
-        "technologies": ["PHP 8.1", "Symfony 6", "MongoDB 6", "DDD", "Domain Events", "RabbitMQ", "Behat ATDD"],
+        "technologies": [
+          "PHP 8.1",
+          "Symfony 6",
+          "MongoDB 6",
+          "DDD",
+          "Domain Events",
+          "RabbitMQ",
+          "Behat ATDD"
+        ],
         "achievements": [
           "Validado con 490.000+ eventos en integración, en camino a producción",
           "Migración coordinada de MongoDB 3.6 a 6"
-        ]
-      },
-      {
-        "name": "Migración Legacy + Developer Experience",
-        "role": "Backend Developer",
-        "highlights": [
-          "Migración de endpoints legacy al nuevo core de identidad con paridad 100% validada por ATDD cruzado (Behat)",
-          "Documentación API auto-generada (Swagger/OpenAPI)",
-          "Sistema de distribución de conocimiento técnico via ficheros MD unificados en repo agnóstico como best practice para el equipo"
-        ],
-        "technologies": ["PHP", "Symfony", "Kubernetes", "Swagger", "Nix Flakes", "Behat"],
-        "achievements": [
-          "Deprecación completa de servicios legacy, 6+ releases en 3 meses",
-          "Entornos de desarrollo reproducibles con Nix asistido por IA: +30 proyectos nixificados, acelerando el arranque de cada uno"
         ]
       }
     ]
@@ -61,16 +83,31 @@
           "Auto-discovery desde InputDefinition: añadir un comando es una línea en la configuración",
           "Compatible Symfony 3.4 a 8.x, PHP 7.1+"
         ],
-        "technologies": ["PHP", "Symfony Bundle", "Web Components", "NDJSON", "Process Component"],
+        "technologies": [
+          "PHP",
+          "Symfony Bundle",
+          "Web Components",
+          "NDJSON",
+          "Process Component"
+        ],
         "achievements": [
           "Recipe oficial mergeado en symfony/recipes-contrib (PR #1972, mayo 2026): instalación con un solo composer require",
           "Diseñado como endpoint MCP-compatible para que cualquier agente IA opere la lógica de negocio del proyecto",
           "Distribuido en Packagist: pascualmg/symfony-command-ui"
         ],
         "links": [
-          {"label": "GitHub", "url": "https://github.com/pascualmg/symfony-command-ui"},
-          {"label": "Packagist", "url": "https://packagist.org/packages/pascualmg/symfony-command-ui"},
-          {"label": "Recipe Symfony Flex", "url": "https://github.com/symfony/recipes-contrib/pull/1972"}
+          {
+            "label": "GitHub",
+            "url": "https://github.com/pascualmg/symfony-command-ui"
+          },
+          {
+            "label": "Packagist",
+            "url": "https://packagist.org/packages/pascualmg/symfony-command-ui"
+          },
+          {
+            "label": "Recipe Symfony Flex",
+            "url": "https://github.com/symfony/recipes-contrib/pull/1972"
+          }
         ]
       }
     ]
@@ -89,16 +126,32 @@
           "Servidor HTTP non-blocking, single-process: HTTP + MCP en el mismo event loop",
           "En producción en pascualmg.dev: portfolio, blog multi-autor y servidor MCP integrado"
         ],
-        "technologies": ["PHP", "ReactPHP", "RxPHP", "DDD", "CQRS", "MySQL"],
+        "technologies": [
+          "PHP",
+          "ReactPHP",
+          "RxPHP",
+          "DDD",
+          "CQRS",
+          "MySQL"
+        ],
         "achievements": [
           "Publicado como framework reutilizable en Packagist (cohete/framework + cohete/skeleton)",
           "~3000 líneas que sirven portfolio SPA, blog con autores y API REST completa",
           "Primer framework PHP con servidor MCP (Model Context Protocol) nativo integrado"
         ],
         "links": [
-          {"label": "GitHub framework", "url": "https://github.com/pascualmg/cohete-framework"},
-          {"label": "GitHub skeleton", "url": "https://github.com/pascualmg/cohete-skeleton"},
-          {"label": "Packagist", "url": "https://packagist.org/packages/cohete/framework"}
+          {
+            "label": "GitHub framework",
+            "url": "https://github.com/pascualmg/cohete-framework"
+          },
+          {
+            "label": "GitHub skeleton",
+            "url": "https://github.com/pascualmg/cohete-skeleton"
+          },
+          {
+            "label": "Packagist",
+            "url": "https://packagist.org/packages/cohete/framework"
+          }
         ]
       },
       {
@@ -110,14 +163,27 @@
           "Frontend con Web Components nativos (Atomic Design) y temas Spacemacs",
           "Indexado por Google como framework PHP asíncrono"
         ],
-        "technologies": ["PHP", "ReactPHP", "MCP", "SSE", "Web Components", "DDD"],
+        "technologies": [
+          "PHP",
+          "ReactPHP",
+          "MCP",
+          "SSE",
+          "Web Components",
+          "DDD"
+        ],
         "achievements": [
           "Primer blog donde IAs externas publican de forma autónoma via MCP",
           "UX diseñada para humanos y agentes IA por igual"
         ],
         "links": [
-          {"label": "Live", "url": "https://pascualmg.dev"},
-          {"label": "GitHub", "url": "https://github.com/pascualmg/cohete"}
+          {
+            "label": "Live",
+            "url": "https://pascualmg.dev"
+          },
+          {
+            "label": "GitHub",
+            "url": "https://github.com/pascualmg/cohete"
+          }
         ]
       }
     ]
@@ -134,7 +200,12 @@
         "highlights": [
           "Formación en PHP, JavaScript, HTML5 y CSS a profesionales del sector"
         ],
-        "technologies": ["PHP", "JavaScript", "HTML5", "CSS"]
+        "technologies": [
+          "PHP",
+          "JavaScript",
+          "HTML5",
+          "CSS"
+        ]
       }
     ]
   },
@@ -153,7 +224,12 @@
           "Integración de APIs de terceros (Swogo, Connectif, Salesmanago)",
           "Automatización de procesos de Postventa y Atención al Cliente con RabbitMQ"
         ],
-        "technologies": ["Symfony", "DDD", "RabbitMQ", "API REST"]
+        "technologies": [
+          "Symfony",
+          "DDD",
+          "RabbitMQ",
+          "API REST"
+        ]
       },
       {
         "name": "Modernización de Legacy y ERP",
@@ -163,7 +239,13 @@
           "Implementación de tests con PHPUnit y Behat",
           "Optimización del buscador con Doofinder"
         ],
-        "technologies": ["PHPUnit", "Behat", "DDD", "TDD", "Doofinder"]
+        "technologies": [
+          "PHPUnit",
+          "Behat",
+          "DDD",
+          "TDD",
+          "Doofinder"
+        ]
       },
       {
         "name": "Frontend y Configurador de Equipos",
@@ -173,7 +255,11 @@
           "Configurador de equipos a medida con sistema de reglas de compatibilidad",
           "Campañas de Black Friday con lógica de negocio compleja"
         ],
-        "technologies": ["JavaScript", "TypeScript", "React"]
+        "technologies": [
+          "JavaScript",
+          "TypeScript",
+          "React"
+        ]
       }
     ]
   }

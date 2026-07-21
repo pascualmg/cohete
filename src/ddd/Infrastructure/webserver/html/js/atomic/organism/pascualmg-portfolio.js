@@ -85,6 +85,21 @@ class PortfolioElement extends HTMLElement {
         "technologies": ["Claude Code", "MCP", "LLM agents", "prompt engineering"]
       },
       {
+        "name": "Modernización de legacys → IA-ready",
+        "role": "Backend Developer",
+        "highlights": [
+          "Dejo codebases Symfony legacy IA-ready (convenciones tipo AGENTS.md, documentación agnóstica, agente experto residente): el conocimiento deja de morir con la persona que se va — un LLM, o un compañero nuevo, puede operar y evolucionar código huérfano que nadie sabía cómo iba",
+          "Permito seguir metiendo features en lo viejo y construir lo nuevo con DDD y arquitectura hexagonal, sin reescribir de cero",
+          "+30 proyectos con entornos de desarrollo reproducibles (Nix asistido por IA), acelerando el arranque de cada uno",
+          "Migración de endpoints legacy al nuevo core con paridad 100% validada por ATDD cruzado (Behat)",
+          "Sistema de distribución de conocimiento técnico via ficheros MD unificados en repo agnóstico como best practice para el equipo"
+        ],
+        "technologies": ["PHP", "Symfony", "IA-ready", "AGENTS.md", "Nix", "DDD", "Behat"],
+        "achievements": [
+          "Deprecación completa de servicios legacy, 6+ releases en 3 meses"
+        ]
+      },
+      {
         "name": "Webhooks 2.0 - Data Hub Event-Driven",
         "role": "Backend Developer / Arquitecto",
         "highlights": [
@@ -97,20 +112,6 @@ class PortfolioElement extends HTMLElement {
         "achievements": [
           "Validado con 490.000+ eventos en integración, en camino a producción",
           "Migración coordinada de MongoDB 3.6 a 6"
-        ]
-      },
-      {
-        "name": "Migración Legacy + Developer Experience",
-        "role": "Backend Developer",
-        "highlights": [
-          "Migración de endpoints legacy al nuevo core de identidad con paridad 100% validada por ATDD cruzado (Behat)",
-          "Documentación API auto-generada (Swagger/OpenAPI)",
-          "Sistema de distribución de conocimiento técnico via ficheros MD unificados en repo agnóstico como best practice para el equipo"
-        ],
-        "technologies": ["PHP", "Symfony", "Kubernetes", "Swagger", "Nix Flakes", "Behat"],
-        "achievements": [
-          "Deprecación completa de servicios legacy, 6+ releases en 3 meses",
-          "Entornos de desarrollo reproducibles con Nix asistido por IA: +30 proyectos nixificados, acelerando el arranque de cada uno"
         ]
       }
     ]
