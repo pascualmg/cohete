@@ -28,9 +28,15 @@ class BlogAuthorPostController implements HttpRequestHandler
         $slugParam = $routeParams['slug'] ?? '';
         $lang = $this->detectLang($request);
 
-        return $this->postRepository->findByAuthorAndSlug($authorParam, Slug::from($slugParam))->then(
+        return $this->postRepository->findBySlug(Slug::from($slugParam))->then(
             function (?Post $post) use ($request, $authorParam, $lang): ResponseInterface|PromiseInterface {
-                if ($post === null) {
+                // El slug de autor de la URL se deriva con Slug::generateSlug(autor).
+                // Validamos aqui el autor real del post para no resolver posts via
+                // una URL con autor erroneo y no romper autores con nombre compuesto.
+                $authorValid = $post !== null
+                    && Slug::generateSlug((string)$post->author) === Slug::generateSlug($authorParam);
+
+                if ($post === null || !$authorValid) {
                     $notFound = $lang === 'en' ? 'Post not found' : 'Post no encontrado';
                     $back = $lang === 'en' ? 'Back to blog' : 'Volver al blog';
                     return new Response(404, ['Content-Type' => 'text/html; charset=utf-8'],
