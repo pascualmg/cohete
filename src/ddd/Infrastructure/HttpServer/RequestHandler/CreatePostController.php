@@ -7,7 +7,9 @@ use pascualmg\cohete\ddd\Application\Post\CreatePostCommand;
 use pascualmg\cohete\ddd\Application\Post\CreatePostCommandHandler;
 use pascualmg\cohete\ddd\Domain\Entity\Author\Author;
 use pascualmg\cohete\ddd\Domain\Entity\Author\ValueObject\AuthorName;
+use pascualmg\cohete\ddd\Domain\Entity\Author\ValueObject\AuthorSlug;
 use pascualmg\cohete\ddd\Domain\Entity\AuthorRepository;
+use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Slug;
 use Cohete\DDD\ValueObject\UuidValueObject;
 use Cohete\HttpServer\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
@@ -97,10 +99,15 @@ class CreatePostController implements HttpRequestHandler
             )
         );
 
+        // slug/authorSlug van en la respuesta para que el cliente no tenga
+        // que reinventar el algoritmo de slugificacion (JS aparte, con sus
+        // propias reglas, es la fuente #2 de URLs /blog/{author}/{slug} rotas).
         return JsonResponse::create(201, [
             'id' => $postId,
             'headline' => $payload['headline'],
             'author' => $payload['author'],
+            'slug' => (string) Slug::from($payload['headline']),
+            'authorSlug' => (string) AuthorSlug::from($payload['author']),
         ]);
     }
 }

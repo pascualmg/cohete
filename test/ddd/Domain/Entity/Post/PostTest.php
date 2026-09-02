@@ -21,6 +21,7 @@ class PostTest extends TestCase
             'articleBody' => $post->articleBody->value,
             'author' => $post->author->value,
             'datePublished' => $post->datePublished->value,
+            'orgSource' => $post->orgSource,
         );
 
         $this->assertEquals(

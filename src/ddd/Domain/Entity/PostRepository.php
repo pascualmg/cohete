@@ -2,6 +2,7 @@
 
 namespace pascualmg\cohete\ddd\Domain\Entity;
 
+use pascualmg\cohete\ddd\Domain\Entity\Author\ValueObject\AuthorSlug;
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
 use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
 use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Slug;
@@ -15,7 +16,7 @@ interface PostRepository
 
     public function findBySlug(Slug $slug): PromiseInterface; //of a post or null
 
-    public function findByAuthorAndSlug(string $authorName, Slug $slug): PromiseInterface; //of a post or null
+    public function findByAuthorAndSlug(AuthorSlug $authorSlug, Slug $slug): PromiseInterface; //of a post or null
 
     public function save(Post $postToCreate): PromiseInterface;
 

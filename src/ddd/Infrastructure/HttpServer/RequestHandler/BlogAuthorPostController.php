@@ -3,6 +3,7 @@
 namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
 use Cohete\HttpServer\HttpRequestHandler;
 
+use pascualmg\cohete\ddd\Domain\Entity\Author\ValueObject\AuthorSlug;
 use pascualmg\cohete\ddd\Domain\Entity\Comment\Comment;
 use pascualmg\cohete\ddd\Domain\Entity\CommentRepository;
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
@@ -28,7 +29,7 @@ class BlogAuthorPostController implements HttpRequestHandler
         $slugParam = $routeParams['slug'] ?? '';
         $lang = $this->detectLang($request);
 
-        return $this->postRepository->findByAuthorAndSlug($authorParam, Slug::from($slugParam))->then(
+        return $this->postRepository->findByAuthorAndSlug(AuthorSlug::from($authorParam), Slug::from($slugParam))->then(
             function (?Post $post) use ($request, $authorParam, $lang): ResponseInterface|PromiseInterface {
                 if ($post === null) {
                     $notFound = $lang === 'en' ? 'Post not found' : 'Post no encontrado';
@@ -332,7 +333,7 @@ class BlogAuthorPostController implements HttpRequestHandler
         (function() {
             const box = document.getElementById('author-actions');
             const author = box.dataset.author;
-            const token = localStorage.getItem('cohete_token_' + author.toLowerCase().split(' ')[0]);
+            const token = localStorage.getItem('cohete_token_' + author.toLowerCase().trim());
             if (token) box.classList.add('show');
         })();
 
@@ -349,7 +350,7 @@ class BlogAuthorPostController implements HttpRequestHandler
 
         function getAuthorToken() {
             const author = document.getElementById('author-actions').dataset.author;
-            return localStorage.getItem('cohete_token_' + author.toLowerCase().split(' ')[0]);
+            return localStorage.getItem('cohete_token_' + author.toLowerCase().trim());
         }
 
         function submitEdit() {

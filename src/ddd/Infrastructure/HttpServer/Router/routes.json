@@ -82,7 +82,7 @@
   {
     "method": "GET",
     "path": "/blog/{slug}",
-    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\BlogSlugRedirectController"
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\BlogSlugOrAuthorController"
   },
   {
     "method": "POST",

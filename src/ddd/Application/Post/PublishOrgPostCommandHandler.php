@@ -4,6 +4,7 @@ namespace pascualmg\cohete\ddd\Application\Post;
 
 use Cohete\DDD\ValueObject\UuidValueObject;
 use pascualmg\cohete\ddd\Domain\Entity\Author\Author;
+use pascualmg\cohete\ddd\Domain\Entity\Author\ValueObject\AuthorSlug;
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
 use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Slug;
 use pascualmg\cohete\ddd\Domain\Entity\PostRepository;
@@ -50,7 +51,7 @@ readonly class PublishOrgPostCommandHandler
                 ?? throw new InvalidBearerException('Invalid bearer key'))
             ->map(fn (Author $author): array => $this->draftFrom($author, $orgContent))
             ->flatMap(fn (array $draft): Observable => Observable::fromPromise(
-                $this->postRepository->findByAuthorAndSlug($draft['authorName'], $draft['slug'])
+                $this->postRepository->findByAuthorAndSlug(AuthorSlug::from($draft['authorName']), $draft['slug'])
             )->map(fn (?Post $existing): PublishOrgPostResult => $this->upsert($draft, $existing)))
             ->toPromise();
     }

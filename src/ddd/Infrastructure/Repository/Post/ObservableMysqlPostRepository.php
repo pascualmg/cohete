@@ -2,6 +2,7 @@
 
 namespace pascualmg\cohete\ddd\Infrastructure\Repository\Post;
 
+use pascualmg\cohete\ddd\Domain\Entity\Author\ValueObject\AuthorSlug;
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
 use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\PostId;
 use pascualmg\cohete\ddd\Domain\Entity\Post\ValueObject\Slug;
@@ -55,15 +56,26 @@ class ObservableMysqlPostRepository implements PostRepository
             ->toPromise();
     }
 
-    public function findByAuthorAndSlug(string $authorName, Slug $slug): PromiseInterface //of Post or Null
+    public function findByAuthorAndSlug(AuthorSlug $authorSlug, Slug $slug): PromiseInterface //of Post or Null
     {
+        // El slug de post es unico en toda la tabla (idx_post_slug), asi que
+        // basta con buscarlo por slug. El autor no se filtra en SQL (nada de
+        // mangling ad-hoc de strings): se compara en PHP contra el
+        // AuthorSlug canonico, la misma unica fuente de verdad que usan el
+        // resto de sitios que construyen /blog/{author}/{slug}.
         $promiseOfQuery = $this->mysqlClient->query(
-            "SELECT p.*, a.type as author_type FROM post p LEFT JOIN author a ON p.author_id = a.id WHERE (LOWER(REPLACE(REPLACE(COALESCE(a.name, p.author), ' ', '-'), '''', '')) = LOWER(?) OR LOWER(COALESCE(a.name, p.author)) = LOWER(?) OR LOWER(REPLACE(REPLACE(p.author, ' ', '-'), '''', '')) = LOWER(?) OR LOWER(p.author) = LOWER(?)) AND p.slug = ?",
-            [$authorName, $authorName, $authorName, $authorName, (string)$slug]
+            'SELECT p.*, a.type as author_type FROM post p LEFT JOIN author a ON p.author_id = a.id WHERE p.slug = ?',
+            [(string)$slug]
         );
 
         return Observable::fromPromise($promiseOfQuery)
             ->map(fn (MysqlResult $mysqlResult) => self::hydrateOrNull($mysqlResult->resultRows[0] ?? null))
+            ->map(function (?Post $post) use ($authorSlug): ?Post {
+                if ($post === null || !AuthorSlug::from((string)$post->author)->equals($authorSlug)) {
+                    return null;
+                }
+                return $post;
+            })
             ->toPromise();
     }
 
@@ -91,10 +103,15 @@ class ObservableMysqlPostRepository implements PostRepository
 
     public function save(Post $postToCreate): PromiseInterface
     {
+        // author_id se resuelve por el nombre COMPLETO del autor, no por su
+        // primera palabra: con SUBSTRING_INDEX(?, ' ', 1), "Ambrosio del
+        // Santuario" quedaba enlazado al autor homonimo "Ambrosio" y sus
+        // URLs /blog/{author}/{slug} daban 404 (el join devolvia el nombre
+        // corto, que no casaba con el slug real del autor).
         $insertPostQuery = "
 INSERT INTO post
 (id, headline, slug, articleBody, author, datePublished, orgSource, author_id)
-VALUES (?,?,?,?,?,?,?, (SELECT id FROM author WHERE LOWER(name) = LOWER(SUBSTRING_INDEX(?, ' ', 1)) LIMIT 1))
+VALUES (?,?,?,?,?,?,?, (SELECT id FROM author WHERE LOWER(name) = LOWER(?) LIMIT 1))
 ";
         $authorStr = (string)$postToCreate->author;
         return $this->mysqlClient->query($insertPostQuery, [
@@ -123,7 +140,7 @@ VALUES (?,?,?,?,?,?,?, (SELECT id FROM author WHERE LOWER(name) = LOWER(SUBSTRIN
     public function update(Post $post): PromiseInterface
     {
         $updateQuery = "
-UPDATE post SET headline=?, slug=?, articleBody=?, author=?, datePublished=?, orgSource=?, author_id=(SELECT id FROM author WHERE LOWER(name) = LOWER(SUBSTRING_INDEX(?, ' ', 1)) LIMIT 1) WHERE id=?
+UPDATE post SET headline=?, slug=?, articleBody=?, author=?, datePublished=?, orgSource=?, author_id=(SELECT id FROM author WHERE LOWER(name) = LOWER(?) LIMIT 1) WHERE id=?
 ";
         return $this->mysqlClient->query($updateQuery, [
             (string)$post->headline,

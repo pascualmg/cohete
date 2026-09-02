@@ -4,6 +4,7 @@ namespace pascualmg\cohete\ddd\Infrastructure\HttpServer\RequestHandler;
 
 use Cohete\HttpServer\HttpRequestHandler;
 use pascualmg\cohete\ddd\Application\Post\FindAllPosts;
+use pascualmg\cohete\ddd\Domain\Entity\Author\ValueObject\AuthorSlug;
 use pascualmg\cohete\ddd\Application\Post\FindAllPostsQuery;
 use pascualmg\cohete\ddd\Domain\Entity\Post\Post;
 use Psr\Http\Message\ResponseInterface;
@@ -65,7 +66,7 @@ class RssFeedController implements HttpRequestHandler
         $xml .= '  <atom:link href="' . $this->esc($baseUrl . '/rss') . '" rel="self" type="application/rss+xml"/>' . "\n";
 
         foreach ($posts as $post) {
-            $authorSlug = strtolower(explode(' ', (string)$post->author)[0]);
+            $authorSlug = (string) AuthorSlug::from((string)$post->author);
             $link = $baseUrl . '/blog/' . $authorSlug . '/' . (string)$post->slug;
             $pubDate = (new \DateTimeImmutable((string)$post->datePublished))->format(\DATE_RSS);
             $description = mb_substr(strip_tags((string)$post->articleBody), 0, 500);
