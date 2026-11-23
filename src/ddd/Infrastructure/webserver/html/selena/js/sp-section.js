@@ -1,6 +1,6 @@
 // <sp-section>: un bloque del portfolio (01. Brand Experience, 02. Retail...).
 // Cabecera con número, título y etiquetas, como en su PDF, y debajo sus proyectos.
-import './sp-project.js';
+import './sp-project.js?v=20261123m';
 
 class SpSection extends HTMLElement {
   set data(s) { this._s = s; }
