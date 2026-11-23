@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Selena Pascual · Graphic Designer</title>
+  <meta name="description" content="Portfolio de Selena Pascual, diseñadora gráfica: brand, retail, digital, editorial, contenido y dirección de arte.">
+  <meta property="og:title" content="Selena Pascual · Graphic Designer">
+  <meta property="og:description" content="Brand · Retail · Digital · Art Direction">
+  <meta property="og:image" content="https://pascualmg.dev/html/selena/img/p02-m.webp">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#a9b8a0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,600;6..12,800;6..12,900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #1d1d1b;
+      --ink-soft: #55554f;
+      --paper: #ffffff;
+      --sage: #a9b8a0;
+      --cream: #f1efe6;
+      --blush: #ecd9d8;
+      --line: #c9c9c2;
+      --link: #3d6fa5;
+      --font: "Nunito Sans", "Avenir Next", "Avenir", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+    }
+    sp-portfolio:not(:defined) { display: block; min-height: 100vh; background: var(--sage); }
+  </style>
+  <script type="module" src="/html/selena/js/sp-portfolio.js"></script>
+</head>
+<body>
+  <sp-portfolio src="/html/selena/portfolio.json"></sp-portfolio>
+</body>
+</html>

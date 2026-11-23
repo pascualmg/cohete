@@ -1,0 +1,157 @@
+{
+  "profile": {
+    "name": "Selena Pascual",
+    "role": "Graphic Designer",
+    "areas": ["Brand", "Retail", "Digital", "Editorial", "Content", "Art Direction"],
+    "heroAreas": ["Brand", "Retail", "Digital", "Art Direction"],
+    "tools": ["Adobe CC", "Figma", "Wordpress", "Shopify", "ChatGPT", "Adobe Firefly", "Nano Banana"],
+    "email": "s.pascualelias@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/selena-pascual-el%C3%ADas-04949421b/"
+  },
+  "sections": [
+    {
+      "num": "01",
+      "title": "Brand Experience",
+      "tags": ["Diseño gráfico", "Dirección visual", "Comunicación expositiva", "Aplicación en espacio"],
+      "client": "Museo de la Ciencia y el Agua · Murcia",
+      "intro": [
+        "Desarrollo y aplicación de la comunicación gráfica para una exposición sobre la reutilización de redes de pesca del Mediterráneo, aplicadas en este caso a la fabricación de mobiliario e iluminación para la marca y empresa Newgarden.",
+        "El proyecto abarcó el diseño y aplicación de diferentes elementos gráficos dentro del espacio expositivo, creando una experiencia visual coherente y vinculada al concepto de sostenibilidad."
+      ],
+      "projects": [
+        { "image": "p02", "alt": "Montaje de la exposición en el Museo de la Ciencia y el Agua: vinilos de redes de pesca, suelo de mar y mobiliario Newgarden" },
+        { "title": "Visual System", "image": "p03", "alt": "Sistema visual de la exposición: cartel informativo, tótem triangular, vinilos de pared y suelo y panel mural" }
+      ]
+    },
+    {
+      "num": "02",
+      "title": "Retail / Point of Sale",
+      "tags": ["Cartelería", "PLV", "Displays", "Vinilos", "Lonas", "Adaptación de formatos"],
+      "client": "Newgarden · Comunicación de producto",
+      "intro": [
+        "Selección de trabajos desarrollados para diferentes mercados y puntos de venta, desde cartelería y PLV hasta vinilos, lonas y displays. Una muestra de las diferentes aplicaciones y adaptaciones realizadas para comunicar producto en espacios físicos."
+      ],
+      "projects": [
+        { "kicker": "Selected work", "title": "Brand / Stock", "image": "p04", "alt": "Tótems Tribeca de cartón para iluminación, garden y guirnaldas, display de mesa y tótem triangular" },
+        { "image": "p05", "alt": "Panel de aluminio y lonas Garden e Iluminación en distintos formatos" },
+        { "kicker": "Selected work", "title": "Market / Client Adaptations", "image": "p06", "alt": "Secuencia de lonas Garden Fronda, catálogo flyer y vinilo expositor metálico para Leroy Merlin Francia" }
+      ]
+    },
+    {
+      "num": "03",
+      "title": "Campaigns / Art Direction",
+      "tags": ["Concepto", "Dirección de arte", "Fotografía", "Producción", "Desarrollo audiovisual"],
+      "client": "Newgarden · Campañas y contenido visual",
+      "intro": [
+        "Participación en el desarrollo conceptual y visual de campañas de producto, colaborando con el equipo en la definición de estilo, puesta en escena y producción de contenidos para redes sociales."
+      ],
+      "projects": [
+        {
+          "kicker": "Campaign 01",
+          "title": "Outdoor Living That Inspires",
+          "subtitle": "A Newgarden Story · Concepto & desarrollo visual · Contenido para RRSS · Producción",
+          "image": "p07",
+          "alt": "Campaña Outdoor Living That Inspires: piscina nocturna con luces y making of",
+          "links": [{ "label": "Ver campaña", "youtube": "dt-VDNkEn5k" }]
+        },
+        {
+          "kicker": "Campaign 02",
+          "title": "La Dolce Allegria",
+          "subtitle": "A Newgarden Story · Concepto & desarrollo visual · Contenido para RRSS · Producción",
+          "image": "p08",
+          "alt": "Campaña La Dolce Allegria: terraza con mobiliario blanco y making of",
+          "links": [{ "label": "Ver campaña", "youtube": "51JK6YX3MbE" }]
+        }
+      ]
+    },
+    {
+      "num": "04",
+      "title": "Editorial / Publications",
+      "tags": ["Diseño editorial", "Maquetación", "Dirección visual", "Publicaciones", "Adaptación de formatos"],
+      "client": "Newgarden · Diseño editorial y publicaciones",
+      "intro": [
+        "Diseño y maquetación de catálogos, publicaciones comerciales y materiales editoriales para diferentes mercados. Desarrollo de portadas, sistemas gráficos, composición de contenidos y adaptación de piezas para distintos formatos y canales."
+      ],
+      "projects": [
+        { "kicker": "Selected work", "title": "Catalogue", "subtitle": "Newgarden 2026/2027", "image": "p09", "alt": "Catálogos Garden y Lighting 2026/2027 fotografiados sobre roca" },
+        {
+          "kicker": "Press / Print",
+          "title": "Newgarden 2026",
+          "text": "Desarrollo y adaptación de piezas de comunicación para medios especializados y publicaciones lifestyle en diferentes mercados, coordinando contenidos y entregables con agencias de comunicación externas.",
+          "image": "p10",
+          "alt": "Anuncios en prensa: Hola! Living Spain, Fuera de Serie, IDEAT Francia y Nuevo Estilo"
+        },
+        {
+          "kicker": "Press / Digital",
+          "title": "Newgarden 2026",
+          "text": "Banners en formato GIF adaptados para publicidad en artículos digitales. Digital media: Côte Maison, Elle Decor FR.",
+          "image": "p11",
+          "alt": "Banners digitales en formatos grand angle, masthead y pavé"
+        }
+      ]
+    },
+    {
+      "num": "05",
+      "title": "Digital",
+      "tags": ["Diseño digital", "Contenido", "Social Media", "Audiovisual", "Web"],
+      "client": "Newgarden · Contenido y comunicación digital",
+      "intro": [
+        "Desarrollo y gestión de contenidos digitales para redes sociales y canales web, combinando diseño gráfico, creación audiovisual y coordinación de contenidos para mantener una comunicación visual coherente y dinámica."
+      ],
+      "projects": [
+        {
+          "kicker": "Social Media",
+          "title": "Organic Content · Social Media Design · Digital Advertising",
+          "text": "Diseño y desarrollo de contenidos para redes sociales y campañas publicitarias digitales, desde la conceptualización y creación de piezas hasta su adaptación a diferentes formatos y plataformas.",
+          "image": "p12",
+          "alt": "Carrusel de producto y piezas lifestyle para redes sociales"
+        },
+        {
+          "image": "p13",
+          "alt": "Carrusel de producto con identidad de marca y piezas lifestyle",
+          "links": [{ "label": "Do you wanna see more?", "url": "https://www.instagram.com/newgardenbehappy/" }]
+        },
+        {
+          "kicker": "Content Creation / UGC",
+          "title": "Content Strategy · UGC · Photography · Script · Creative Direction · Performance",
+          "text": "Desarrollo y producción de contenido visual para producto y redes sociales, desde la conceptualización y creación de guiones hasta la planificación y realización de sesiones fotográficas y grabaciones.",
+          "image": "p14",
+          "alt": "Sesiones de fotografía y vídeo de producto con maceteros y mobiliario",
+          "links": [
+            { "label": "Vídeo 1", "url": "https://www.instagram.com/p/DVL3kjGCCbo/" },
+            { "label": "Vídeo 2", "url": "https://www.instagram.com/p/DTsiZPkiAbD/" },
+            { "label": "Vídeo 3", "url": "https://www.instagram.com/p/DT2xIDyjd3b/" },
+            { "label": "Vídeo 4", "youtube": "pIa5ahH4t4w" }
+          ]
+        },
+        {
+          "kicker": "Web Design / Landing Page",
+          "title": "Newgarden · Club de fidelización",
+          "subtitle": "UI Design · Frontend Design · Content",
+          "text": "Diseño y maquetación visual de interfaces web y landing pages, desarrollando propuestas de frontend alineadas con la identidad de marca y los objetivos de comunicación para su posterior desarrollo e implementación.",
+          "image": "p15",
+          "alt": "Diseño de la landing del club de fidelización: vistas para usuario no logueado y logueado",
+          "links": [{ "label": "Do you wanna be part of the club?", "url": "https://newgardenshop.es/pages/rewards" }]
+        }
+      ]
+    },
+    {
+      "num": "06",
+      "title": "Packaging / Product",
+      "tags": ["Packaging Design", "Rebranding", "Print Production"],
+      "client": "Newgarden · Comunicación de producto",
+      "intro": [
+        "Experiencia en el desarrollo de packaging, displays y soluciones gráficas aplicadas a producto y punto de venta."
+      ],
+      "projects": [
+        {
+          "kicker": "Selected work",
+          "title": "Master Box · Packaging Rebranding",
+          "text": "Rediseño de la identidad gráfica aplicada a packaging, alineando la pieza con la evolución visual y los valores actuales de la marca.",
+          "image": "p16",
+          "alt": "Caja master: diseño anterior frente al diseño actualizado con la nueva identidad"
+        }
+      ]
+    }
+  ]
+}

@@ -36,6 +36,11 @@
   },
   {
     "method": "GET",
+    "path": "/selena",
+    "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\SelenaController"
+  },
+  {
+    "method": "GET",
     "path": "/post/{id}",
     "handler": "\\pascualmg\\cohete\\ddd\\Infrastructure\\HttpServer\\RequestHandler\\FindPostByIdController"
   },
