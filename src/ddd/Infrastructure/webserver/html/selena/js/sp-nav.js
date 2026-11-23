@@ -21,10 +21,12 @@ class SpNav extends HTMLElement {
         a.s.on { background: var(--ink); color: #fff; }
         .t { display: inline; }
         @media (max-width: 1100px) { .t { display: none; } a.s b { margin: 0; } }
-        @media (max-width: 420px) { .me { font-size: .9rem; } }
+        .short { display: none; }
+        @media (max-width: 760px) { nav { gap: 12px; padding: 10px 12px; } .full { display: none; } .short { display: inline; }
+          ul { gap: 2px; } a.s { padding: 7px 10px; font-size: .85rem; } }
       </style>
       <nav>
-        <a class="me" href="#">SELENA PASCUAL</a>
+        <a class="me" href="#"><span class="full">SELENA PASCUAL</span><span class="short">SP</span></a>
         <ul>
           ${s.map((x) => `<li><a class="s" href="#s${x.num}" data-id="s${x.num}"><b>${x.num}</b><span class="t">${x.title}</span></a></li>`).join('')}
           <li><a class="s" href="#contacto" data-id="contacto"><b>✉</b><span class="t">Contacto</span></a></li>

@@ -21,6 +21,7 @@ class SpContact extends HTMLElement {
         .cta a.alt { background: transparent; color: var(--ink); border: 1.5px solid var(--ink); }
         .cta a:hover { transform: translateY(-2px); }
         .cta a.alt:hover { background: var(--ink); color: #fff; }
+        @media (max-width: 760px) { .in { padding: 88px 24px; } h3 { margin-top: 34px; } .cta { flex-direction: column; } .cta a { justify-content: center; } }
         footer { position: relative; padding: 18px clamp(24px, 17.5vw, 260px); font-size: .75rem; color: var(--ink-soft);
                  border-top: 1px dotted rgba(29,29,27,.25); }
       </style>

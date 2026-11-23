@@ -21,6 +21,8 @@ class SpSection extends HTMLElement {
         .intro p { margin: 16px 0 0; max-width: 68ch; line-height: 1.6; font-size: 1.02rem; }
         .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s, transform .9s cubic-bezier(.2,.7,.2,1); }
         .reveal.in { opacity: 1; transform: none; }
+        @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+        @media (max-width: 760px) { :host { padding-top: 88px; } header { flex-direction: column; gap: 10px; } .tags { font-size: .78rem; line-height: 1.7; } .client { margin-top: 20px; } .intro p { font-size: .98rem; } }
       </style>
       <header class="reveal">
         <h2>${s.num}. ${s.title}</h2>

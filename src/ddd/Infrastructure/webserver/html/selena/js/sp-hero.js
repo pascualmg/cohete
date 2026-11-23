@@ -7,7 +7,7 @@ class SpHero extends HTMLElement {
     const [first, ...rest] = p.name.toUpperCase().split(' ');
     this.attachShadow({ mode: 'open' }).innerHTML = `
       <style>
-        :host { display: block; position: relative; height: 100svh; min-height: 520px; overflow: hidden; background: var(--sage); }
+        :host { display: block; position: relative; height: 100svh; min-height: 520px; max-height: 1100px; overflow: hidden; background: var(--sage); }
         .bg { position: absolute; inset: -8%; background: url(/html/selena/img/fondo.webp) center / cover;
               animation: drift 26s ease-in-out infinite alternate; }
         .blob { position: absolute; border-radius: 50%; filter: blur(70px); opacity: .55; mix-blend-mode: soft-light; }
@@ -30,7 +30,7 @@ class SpHero extends HTMLElement {
                  align-items: center; gap: 10px; opacity: 0; animation: up 1s 1s forwards; }
         a.down::after { content: ""; width: 1px; height: 38px; background: var(--ink); animation: line 2.2s ease-in-out infinite; transform-origin: top; }
         @keyframes line { 0% { transform: scaleY(0) } 50% { transform: scaleY(1) } 100% { transform: scaleY(1); opacity: 0 } }
-        @media (prefers-reduced-motion: reduce) { .bg, .blob { animation: none } }
+        @media (prefers-reduced-motion: reduce) { .bg, .blob { animation: none } h1 span, .role, .areas, a.down { animation: none; opacity: 1; transform: none } }
       </style>
       <div class="bg"></div><div class="blob b1"></div><div class="blob b2"></div>
       <div class="txt">

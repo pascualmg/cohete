@@ -11,6 +11,9 @@ class SpPortfolio extends HTMLElement {
   async connectedCallback() {
     const res = await fetch(this.getAttribute('src'), { cache: 'no-cache' });
     const data = await res.json();
+    // tiles.json lo genera un script: las piezas sueltas de cada composición para el móvil.
+    const tiles = await fetch('/html/selena/tiles.json').then((r) => r.json()).catch(() => ({}));
+    for (const s of data.sections) for (const p of s.projects) p.tiles = tiles[p.image] || [];
 
     this.innerHTML = '';
     const hero = document.createElement('sp-hero');
