@@ -94,7 +94,7 @@ class PortfolioElement extends HTMLElement {
         "role": "Backend Developer",
         "highlights": [
           "+30 proyectos con entornos de desarrollo reproducibles con Nix, montados con ayuda de IA: arrancar un proyecto deja de costar días",
-          "Siguiente vuelta de tuerca a la nixificación: entorno de desarrollo completo en un solo comando (nix run .#dev, orquestado con process-compose). Levanta por perfiles los servicios que hacen falta, con su certificado local y comprobaciones de salud, y los tiene listos en unos 10 segundos: lo que antes era montar a mano media mañana",
+          "Subo el estándar de cómo se trabaja en local: el entorno de desarrollo pasa a ser código. Un solo comando (nix run .#dev) levanta todo lo que un proyecto necesita, igual en cualquier máquina, y el desarrollador se olvida de montar entornos para dedicarse a construir. Es la misma filosofía declarativa que los contenedores, así que desarrollo y DevOps comparten una única definición del entorno en vez de mantener dos mundos",
           "Dejo codebases Symfony legacy IA-ready (AGENTS.md, documentación agnóstica, agente experto residente): el conocimiento deja de morir con quien se va, y un compañero nuevo o un agente puede operar código que nadie sabía cómo iba",
           "Se siguen metiendo features en lo viejo mientras lo nuevo nace con DDD y arquitectura hexagonal, sin reescribir de cero",
           "Migración de endpoints legacy al nuevo core con paridad 100% validada por ATDD cruzado (Behat)",
