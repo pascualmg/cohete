@@ -1,0 +1,16 @@
+#+TITLE: Portfolio de Selena: del PDF a las imágenes de la web
+
+El contenido (textos, enlaces) vive en =webserver/html/selena/portfolio.json= y
+se edita a mano. Estos scripts solo sacan las *imágenes* del PDF.
+
+| Script        | Qué hace                                                            |
+|---------------+---------------------------------------------------------------------|
+| =lines.py=    | Diagnóstico: lista las líneas de texto de cada página con posición  |
+| =boards.py=   | Decide qué cabeceras tapar (pasan a HTML) y saca los enlaces        |
+| =fixline.py=  | Tapa la línea punteada de las páginas de inicio de sección          |
+| =render.py=   | Blanquea, recorta y exporta =pNN.webp= y =pNN-m.webp= (1200 px)     |
+| =tiles.py=    | Trocea cada composición en piezas para el móvil + =tiles.json=      |
+| =pw_shots.py= | Capturas con Playwright (escritorio y móvil) para verificar         |
+
+Todo de una: =tools/selena/regenerar.sh portfolio.pdf=. Después, subir la
+versión =?v== (caché de Cloudflare) y desplegar.
