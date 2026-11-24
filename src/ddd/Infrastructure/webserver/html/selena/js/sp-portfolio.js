@@ -1,18 +1,18 @@
 // <sp-portfolio src="portfolio.json">: el organismo raíz.
 // Lee los datos (un JSON) y monta la página con el resto de piezas.
 // Para cambiar el contenido del portfolio se edita SOLO el JSON.
-import './sp-hero.js?v=20261124b';
-import './sp-nav.js?v=20261124b';
-import './sp-section.js?v=20261124b';
-import './sp-contact.js?v=20261124b';
-import './sp-lightbox.js?v=20261124b';
+import './sp-hero.js?v=20261124c';
+import './sp-nav.js?v=20261124c';
+import './sp-section.js?v=20261124c';
+import './sp-contact.js?v=20261124c';
+import './sp-lightbox.js?v=20261124c';
 
 class SpPortfolio extends HTMLElement {
   async connectedCallback() {
     const res = await fetch(this.getAttribute('src'), { cache: 'no-cache' });
     const data = await res.json();
     // tiles.json lo genera un script: las piezas sueltas de cada composición para el móvil.
-    const tiles = await fetch('/html/selena/tiles.json?v=20261124b').then((r) => r.json()).catch(() => ({}));
+    const tiles = await fetch('/html/selena/tiles.json?v=20261124c').then((r) => r.json()).catch(() => ({}));
     for (const s of data.sections) for (const p of s.projects) p.tiles = tiles[p.image] || [];
 
     this.innerHTML = '';
