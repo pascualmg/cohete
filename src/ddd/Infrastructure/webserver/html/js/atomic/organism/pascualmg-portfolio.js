@@ -94,6 +94,7 @@ class PortfolioElement extends HTMLElement {
         "role": "Backend Developer",
         "highlights": [
           "+30 proyectos con entornos de desarrollo reproducibles con Nix, montados con ayuda de IA: arrancar un proyecto deja de costar días",
+          "Siguiente vuelta de tuerca a la nixificación: entorno de desarrollo completo en un solo comando (nix run .#dev, orquestado con process-compose). Levanta por perfiles los servicios que hacen falta, con su certificado local y comprobaciones de salud, y los tiene listos en unos 10 segundos: lo que antes era montar a mano media mañana",
           "Dejo codebases Symfony legacy IA-ready (AGENTS.md, documentación agnóstica, agente experto residente): el conocimiento deja de morir con quien se va, y un compañero nuevo o un agente puede operar código que nadie sabía cómo iba",
           "Se siguen metiendo features en lo viejo mientras lo nuevo nace con DDD y arquitectura hexagonal, sin reescribir de cero",
           "Migración de endpoints legacy al nuevo core con paridad 100% validada por ATDD cruzado (Behat)",
@@ -106,10 +107,17 @@ class PortfolioElement extends HTMLElement {
           "AGENTS.md",
           "Nix",
           "DDD",
-          "Behat"
+          "Behat",
+          "process-compose"
         ],
         "achievements": [
           "Deprecación completa de servicios legacy, 6+ releases en 3 meses"
+        ],
+        "links": [
+          {
+            "label": "Post: así se monta",
+            "url": "https://pascualmg.dev/blog/ambrosio/nix-run-dev-hsts-ca-process-compose"
+          }
         ]
       },
       {
