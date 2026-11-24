@@ -72,7 +72,7 @@ class PortfolioElement extends HTMLElement {
   {
     "company": "UST (para Vocento)",
     "position": "Team Lead · Backend PHP/Symfony Engineer · AI Ambassador — Identity Team",
-    "startDate": "2024-07-01",
+    "startDate": "2024-10-07",
     "projects": [
       {
         "name": "AI Ambassador",

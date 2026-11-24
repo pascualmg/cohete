@@ -1,7 +1,7 @@
 {
   "name": "Pascual Muñoz Galián",
-  "title": "Senior Backend Engineer · PHP/Symfony & IA",
-  "summary": "Senior Backend Engineer con +10 años en PHP/Symfony, gran parte en Ecommerce de alto tráfico, especializado en DDD, arquitectura hexagonal y sistemas orientados a eventos. No soy consumidor de IA, construyo las herramientas: creador del framework PHP asíncrono Cohete —en producción como blog multi-autor donde humanos e IAs publican de verdad, mi laboratorio vivo— y del bundle symfony-command-ui (recipe oficial de Symfony Flex, en Packagist), que audita y automatiza codebases Symfony legacy y las deja operables por agentes. Mi propuesta: cojo un Symfony heredado, lo audito, lo automatizo, lo dejo reproducible con Nix e IA-ready, y enseño a trabajar así. Modernización, metodología y formación, bajo flujo ATDD desde antes de que la IA se pusiera de moda.",
+  "title": "Senior Backend Engineer · PHP/Symfony · IA aplicada a entornos y procesos",
+  "summary": "Más de 13 años construyendo backend PHP/Symfony, buena parte en ecommerce de alto tráfico, con DDD, arquitectura hexagonal y sistemas orientados a eventos. Soy de la vieja escuela: tests primero (ATDD), código simple y criterio antes que moda. Por eso uso la IA para lo que de verdad cambia el día a día de un equipo: hacer las cosas bien y más rápido, y mejorar los entornos y los procesos. Dejo proyectos legacy reproducibles con Nix e IA-ready, para que cualquier compañero o agente los entienda y los opere; monto entornos de desarrollo que antes costaban semanas; y enseño al equipo a trabajar así, separando lo que aporta de lo que es humo. Construyo mis propias herramientas: el framework PHP asíncrono Cohete, en producción como blog donde personas e IAs publican de verdad, y el bundle symfony-command-ui, recipe oficial de Symfony Flex.",
   "location": "Alhama de Murcia, Murcia (España)",
   "email": "info@pascualmg.dev",
   "phone": "+34 693 000 983",
