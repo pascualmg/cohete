@@ -9,9 +9,9 @@
         "name": "AI Ambassador",
         "role": "Referente IA",
         "highlights": [
-          "Adopción práctica de IA en el día a día del equipo: agentes Claude Code en CI, pair-programming asistido y automatización de flujos repetitivos",
-          "Evangelización interna de patrones útiles (MCP, prompt-as-code, evaluación de modelos) y descarte honesto de lo que no aporta",
-          "Mentor de adopción para desarrolladores que entran al ecosistema IA sin perderse"
+          "Llevo la IA al día a día del equipo con criterio de veterano: agentes Claude Code en CI, pair-programming asistido y automatización de lo repetitivo, para hacer las cosas mejor, no solo más rápido",
+          "Separo lo que aporta de lo que es humo: patrones útiles (MCP, prompt-as-code, evaluación de modelos) y descarte honesto del resto",
+          "Acompaño a los compañeros que entran al ecosistema IA para que lo adopten sin perderse"
         ],
         "technologies": [
           "Claude Code",
@@ -24,11 +24,11 @@
         "name": "Modernización de legacys → IA-ready",
         "role": "Backend Developer",
         "highlights": [
-          "Dejo codebases Symfony legacy IA-ready (convenciones tipo AGENTS.md, documentación agnóstica, agente experto residente): el conocimiento deja de morir con la persona que se va — un LLM, o un compañero nuevo, puede operar y evolucionar código huérfano que nadie sabía cómo iba",
-          "Permito seguir metiendo features en lo viejo y construir lo nuevo con DDD y arquitectura hexagonal, sin reescribir de cero",
-          "+30 proyectos con entornos de desarrollo reproducibles (Nix asistido por IA), acelerando el arranque de cada uno",
+          "+30 proyectos con entornos de desarrollo reproducibles con Nix, montados con ayuda de IA: arrancar un proyecto deja de costar días",
+          "Dejo codebases Symfony legacy IA-ready (AGENTS.md, documentación agnóstica, agente experto residente): el conocimiento deja de morir con quien se va, y un compañero nuevo o un agente puede operar código que nadie sabía cómo iba",
+          "Se siguen metiendo features en lo viejo mientras lo nuevo nace con DDD y arquitectura hexagonal, sin reescribir de cero",
           "Migración de endpoints legacy al nuevo core con paridad 100% validada por ATDD cruzado (Behat)",
-          "Sistema de distribución de conocimiento técnico via ficheros MD unificados en repo agnóstico como best practice para el equipo"
+          "Conocimiento técnico del equipo unificado en ficheros MD de un repo agnóstico, como buena práctica compartida"
         ],
         "technologies": [
           "PHP",

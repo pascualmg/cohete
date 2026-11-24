@@ -78,23 +78,36 @@ class PortfolioElement extends HTMLElement {
         "name": "AI Ambassador",
         "role": "Referente IA",
         "highlights": [
-          "Adopción práctica de IA en el día a día del equipo: agentes Claude Code en CI, pair-programming asistido, automatización de flujos repetitivos",
-          "Evangelización interna de patrones útiles (MCP, prompt-as-code, evaluación de modelos) y descarte honesto de lo que no aporta",
-          "Mentor de adopción para desarrolladores que entran al ecosistema IA sin perderse"
+          "Llevo la IA al día a día del equipo con criterio de veterano: agentes Claude Code en CI, pair-programming asistido y automatización de lo repetitivo, para hacer las cosas mejor, no solo más rápido",
+          "Separo lo que aporta de lo que es humo: patrones útiles (MCP, prompt-as-code, evaluación de modelos) y descarte honesto del resto",
+          "Acompaño a los compañeros que entran al ecosistema IA para que lo adopten sin perderse"
         ],
-        "technologies": ["Claude Code", "MCP", "LLM agents", "prompt engineering"]
+        "technologies": [
+          "Claude Code",
+          "MCP",
+          "LLM agents",
+          "prompt engineering"
+        ]
       },
       {
         "name": "Modernización de legacys → IA-ready",
         "role": "Backend Developer",
         "highlights": [
-          "Dejo codebases Symfony legacy IA-ready (convenciones tipo AGENTS.md, documentación agnóstica, agente experto residente): el conocimiento deja de morir con la persona que se va — un LLM, o un compañero nuevo, puede operar y evolucionar código huérfano que nadie sabía cómo iba",
-          "Permito seguir metiendo features en lo viejo y construir lo nuevo con DDD y arquitectura hexagonal, sin reescribir de cero",
-          "+30 proyectos con entornos de desarrollo reproducibles (Nix asistido por IA), acelerando el arranque de cada uno",
+          "+30 proyectos con entornos de desarrollo reproducibles con Nix, montados con ayuda de IA: arrancar un proyecto deja de costar días",
+          "Dejo codebases Symfony legacy IA-ready (AGENTS.md, documentación agnóstica, agente experto residente): el conocimiento deja de morir con quien se va, y un compañero nuevo o un agente puede operar código que nadie sabía cómo iba",
+          "Se siguen metiendo features en lo viejo mientras lo nuevo nace con DDD y arquitectura hexagonal, sin reescribir de cero",
           "Migración de endpoints legacy al nuevo core con paridad 100% validada por ATDD cruzado (Behat)",
-          "Sistema de distribución de conocimiento técnico via ficheros MD unificados en repo agnóstico como best practice para el equipo"
+          "Conocimiento técnico del equipo unificado en ficheros MD de un repo agnóstico, como buena práctica compartida"
         ],
-        "technologies": ["PHP", "Symfony", "IA-ready", "AGENTS.md", "Nix", "DDD", "Behat"],
+        "technologies": [
+          "PHP",
+          "Symfony",
+          "IA-ready",
+          "AGENTS.md",
+          "Nix",
+          "DDD",
+          "Behat"
+        ],
         "achievements": [
           "Deprecación completa de servicios legacy, 6+ releases en 3 meses"
         ]
@@ -108,7 +121,15 @@ class PortfolioElement extends HTMLElement {
           "Patrón Claim-Then-Process con memoria estable (~50-80MB) procesando 93.000+ eventos sin OOM",
           "15 ADRs documentados con contexto, decisión y consecuencias"
         ],
-        "technologies": ["PHP 8.1", "Symfony 6", "MongoDB 6", "DDD", "Domain Events", "RabbitMQ", "Behat ATDD"],
+        "technologies": [
+          "PHP 8.1",
+          "Symfony 6",
+          "MongoDB 6",
+          "DDD",
+          "Domain Events",
+          "RabbitMQ",
+          "Behat ATDD"
+        ],
         "achievements": [
           "Validado con 490.000+ eventos en integración, en camino a producción",
           "Migración coordinada de MongoDB 3.6 a 6"
@@ -131,16 +152,33 @@ class PortfolioElement extends HTMLElement {
           "Skeleton publicado: composer create-project y a correr",
           "En producción en pascualmg.dev: portfolio SPA, blog multi-autor y MCP server"
         ],
-        "technologies": ["PHP", "ReactPHP", "RxPHP", "DDD", "CQRS", "MCP", "MySQL"],
+        "technologies": [
+          "PHP",
+          "ReactPHP",
+          "RxPHP",
+          "DDD",
+          "CQRS",
+          "MCP",
+          "MySQL"
+        ],
         "achievements": [
           "Publicado como framework reutilizable en Packagist (cohete/framework + cohete/skeleton)",
           "Primer framework PHP con servidor MCP (Model Context Protocol) nativo integrado",
           "Indexado por Google como framework PHP asíncrono"
         ],
         "links": [
-          {"label": "GitHub framework", "url": "https://github.com/pascualmg/cohete-framework"},
-          {"label": "GitHub skeleton", "url": "https://github.com/pascualmg/cohete-skeleton"},
-          {"label": "Packagist", "url": "https://packagist.org/packages/cohete/framework"}
+          {
+            "label": "GitHub framework",
+            "url": "https://github.com/pascualmg/cohete-framework"
+          },
+          {
+            "label": "GitHub skeleton",
+            "url": "https://github.com/pascualmg/cohete-skeleton"
+          },
+          {
+            "label": "Packagist",
+            "url": "https://packagist.org/packages/cohete/framework"
+          }
         ]
       },
       {
@@ -154,16 +192,31 @@ class PortfolioElement extends HTMLElement {
           "Compatible Symfony 3.4 → 8.x, PHP 7.1+",
           "En producción en varios proyectos Symfony acelerando gestión y automatización"
         ],
-        "technologies": ["PHP", "Symfony Bundle", "Web Components", "NDJSON", "Process Component"],
+        "technologies": [
+          "PHP",
+          "Symfony Bundle",
+          "Web Components",
+          "NDJSON",
+          "Process Component"
+        ],
         "achievements": [
           "Recipe oficial mergeado en symfony/recipes-contrib (PR #1972, mayo 2026) → un composer require y listo",
           "Endpoint MCP-compatible para que cualquier LLM opere la lógica del proyecto",
           "Distribuido en Packagist: pascualmg/symfony-command-ui"
         ],
         "links": [
-          {"label": "GitHub", "url": "https://github.com/pascualmg/symfony-command-ui"},
-          {"label": "Packagist", "url": "https://packagist.org/packages/pascualmg/symfony-command-ui"},
-          {"label": "Recipe Symfony Flex", "url": "https://github.com/symfony/recipes-contrib/pull/1972"}
+          {
+            "label": "GitHub",
+            "url": "https://github.com/pascualmg/symfony-command-ui"
+          },
+          {
+            "label": "Packagist",
+            "url": "https://packagist.org/packages/pascualmg/symfony-command-ui"
+          },
+          {
+            "label": "Recipe Symfony Flex",
+            "url": "https://github.com/symfony/recipes-contrib/pull/1972"
+          }
         ]
       },
       {
@@ -174,14 +227,27 @@ class PortfolioElement extends HTMLElement {
           "Servidor MCP/SSE integrado: cualquier agente IA publica, lee y comenta de forma autónoma",
           "Frontend con Web Components nativos (Atomic Design) y temas Spacemacs"
         ],
-        "technologies": ["PHP", "ReactPHP", "MCP", "SSE", "Web Components", "DDD"],
+        "technologies": [
+          "PHP",
+          "ReactPHP",
+          "MCP",
+          "SSE",
+          "Web Components",
+          "DDD"
+        ],
         "achievements": [
           "Primer blog donde IAs externas publican autónomamente via MCP",
           "UX diseñada para humanos y agentes IA por igual"
         ],
         "links": [
-          {"label": "Live", "url": "https://pascualmg.dev"},
-          {"label": "GitHub", "url": "https://github.com/pascualmg/cohete"}
+          {
+            "label": "Live",
+            "url": "https://pascualmg.dev"
+          },
+          {
+            "label": "GitHub",
+            "url": "https://github.com/pascualmg/cohete"
+          }
         ]
       }
     ]
@@ -198,7 +264,12 @@ class PortfolioElement extends HTMLElement {
         "highlights": [
           "Formación en PHP, JavaScript, HTML5 y CSS a profesionales del sector"
         ],
-        "technologies": ["PHP", "JavaScript", "HTML5", "CSS"]
+        "technologies": [
+          "PHP",
+          "JavaScript",
+          "HTML5",
+          "CSS"
+        ]
       }
     ]
   },
@@ -217,7 +288,12 @@ class PortfolioElement extends HTMLElement {
           "Integración de APIs de terceros (Swogo, Connectif, Salesmanago)",
           "Automatización de procesos de Postventa y Atención al Cliente con RabbitMQ"
         ],
-        "technologies": ["Symfony", "DDD", "RabbitMQ", "API REST"]
+        "technologies": [
+          "Symfony",
+          "DDD",
+          "RabbitMQ",
+          "API REST"
+        ]
       },
       {
         "name": "Modernización de Legacy y ERP",
@@ -227,7 +303,13 @@ class PortfolioElement extends HTMLElement {
           "Implementación de tests con PHPUnit y Behat",
           "Optimización del buscador con Doofinder"
         ],
-        "technologies": ["PHPUnit", "Behat", "DDD", "TDD", "Doofinder"]
+        "technologies": [
+          "PHPUnit",
+          "Behat",
+          "DDD",
+          "TDD",
+          "Doofinder"
+        ]
       },
       {
         "name": "Frontend y Configurador de Equipos",
@@ -237,7 +319,11 @@ class PortfolioElement extends HTMLElement {
           "Configurador de equipos a medida con sistema de reglas de compatibilidad",
           "Campañas de Black Friday con lógica de negocio compleja"
         ],
-        "technologies": ["JavaScript", "TypeScript", "React"]
+        "technologies": [
+          "JavaScript",
+          "TypeScript",
+          "React"
+        ]
       }
     ]
   },
@@ -254,7 +340,11 @@ class PortfolioElement extends HTMLElement {
           "Sistema de tracking con Qlik para monitoreo de operadores",
           "Gestión de relaciones con proveedores internacionales"
         ],
-        "technologies": ["Qlik", "SQL", "ERP"]
+        "technologies": [
+          "Qlik",
+          "SQL",
+          "ERP"
+        ]
       }
     ]
   }
