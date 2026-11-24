@@ -182,15 +182,15 @@ class PortfolioElement extends HTMLElement {
         ]
       },
       {
-        "name": "symfony-command-ui — Console + API para agentes IA",
+        "name": "symfony-command-ui — tus comandos de Symfony, listos para personas y agentes IA",
         "role": "Creador y Mantenedor",
         "startDate": "2026-04-14",
         "highlights": [
-          "Bundle Symfony que expone los comandos bin/console como UI web + API HTTP — para humanos Y para agentes IA",
-          "Streaming en tiempo real via NDJSON: fetch + ReadableStream, sin WebSocket ni SSE",
-          "Auto-discovery desde InputDefinition: añadir un comando = una línea en allowed_commands",
-          "Compatible Symfony 3.4 → 8.x, PHP 7.1+",
-          "En producción en varios proyectos Symfony acelerando gestión y automatización"
+          "Mi propia librería, con recipe OFICIAL de Symfony Flex: un composer require y los comandos bin/console del proyecto pasan a tener interfaz web y API HTTP",
+          "Sin montar un servidor MCP por proyecto: la lógica de negocio que ya existe en comandos queda operable por cualquier agente IA",
+          "Una metodología de automatización: cada tarea repetitiva se convierte en un comando, y ese comando lo puede lanzar una persona desde el navegador, un script o un agente",
+          "Salida en tiempo real por NDJSON (fetch + ReadableStream), sin WebSocket ni SSE",
+          "Descubre solo los comandos y sus opciones: añadir uno es una línea de configuración. Compatible de Symfony 3.4 a 8.x (PHP 7.1+), así que entra también en legacy"
         ],
         "technologies": [
           "PHP",
@@ -200,9 +200,9 @@ class PortfolioElement extends HTMLElement {
           "Process Component"
         ],
         "achievements": [
-          "Recipe oficial mergeado en symfony/recipes-contrib (PR #1972, mayo 2026) → un composer require y listo",
-          "Endpoint MCP-compatible para que cualquier LLM opere la lógica del proyecto",
-          "Distribuido en Packagist: pascualmg/symfony-command-ui"
+          "Recipe oficial mergeado en symfony/recipes-contrib (PR #1972, mayo 2026)",
+          "Publicado en Packagist (pascualmg/symfony-command-ui), con más de 600 instalaciones",
+          "Pensado como endpoint compatible con MCP para que un agente opere el proyecto"
         ],
         "links": [
           {

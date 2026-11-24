@@ -75,13 +75,14 @@
     "endDate": null,
     "projects": [
       {
-        "name": "symfony-command-ui — Console + API para agentes IA",
+        "name": "symfony-command-ui — tus comandos de Symfony, listos para personas y agentes IA",
         "role": "Creador y Mantenedor",
         "highlights": [
-          "Bundle Symfony que convierte los comandos bin/console en UI web + API HTTP, para humanos y para agentes IA",
-          "Streaming en tiempo real via NDJSON (fetch + ReadableStream), sin WebSocket ni SSE",
-          "Auto-discovery desde InputDefinition: añadir un comando es una línea en la configuración",
-          "Compatible Symfony 3.4 a 8.x, PHP 7.1+"
+          "Mi propia librería, con recipe OFICIAL de Symfony Flex: un composer require y los comandos bin/console del proyecto pasan a tener interfaz web y API HTTP",
+          "Sin montar un servidor MCP por proyecto: la lógica de negocio que ya existe en comandos queda operable por cualquier agente IA",
+          "Una metodología de automatización: cada tarea repetitiva se convierte en un comando, y ese comando lo puede lanzar una persona desde el navegador, un script o un agente",
+          "Salida en tiempo real por NDJSON (fetch + ReadableStream), sin WebSocket ni SSE",
+          "Descubre solo los comandos y sus opciones: añadir uno es una línea de configuración. Compatible de Symfony 3.4 a 8.x (PHP 7.1+), así que entra también en legacy"
         ],
         "technologies": [
           "PHP",
@@ -91,9 +92,9 @@
           "Process Component"
         ],
         "achievements": [
-          "Recipe oficial mergeado en symfony/recipes-contrib (PR #1972, mayo 2026): instalación con un solo composer require",
-          "Diseñado como endpoint MCP-compatible para que cualquier agente IA opere la lógica de negocio del proyecto",
-          "Distribuido en Packagist: pascualmg/symfony-command-ui"
+          "Recipe oficial mergeado en symfony/recipes-contrib (PR #1972, mayo 2026)",
+          "Publicado en Packagist (pascualmg/symfony-command-ui), con más de 600 instalaciones",
+          "Pensado como endpoint compatible con MCP para que un agente opere el proyecto"
         ],
         "links": [
           {
