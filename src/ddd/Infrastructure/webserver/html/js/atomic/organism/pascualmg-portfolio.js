@@ -115,6 +115,10 @@ class PortfolioElement extends HTMLElement {
         ],
         "links": [
           {
+            "label": "Post: el entorno es código",
+            "url": "https://pascualmg.dev/blog/ambrosio/el-entorno-de-desarrollo-es-codigo"
+          },
+          {
             "label": "Post: así se monta",
             "url": "https://pascualmg.dev/blog/ambrosio/nix-run-dev-hsts-ca-process-compose"
           }
