@@ -120,12 +120,13 @@
     "endDate": null,
     "projects": [
       {
-        "name": "Cohete - Framework PHP Asíncrono",
+        "name": "Cohete — mi framework PHP asíncrono, publicado y en producción",
         "role": "Creador y Líder Técnico",
         "highlights": [
-          "Framework PHP asíncrono sobre ReactPHP con observables RxPHP y arquitectura DDD",
-          "Servidor HTTP non-blocking, single-process: HTTP + MCP en el mismo event loop",
-          "En producción en pascualmg.dev: portfolio, blog multi-autor y servidor MCP integrado"
+          "Framework PHP asíncrono propio sobre ReactPHP, con observables RxPHP y arquitectura DDD: un solo proceso, sin bloqueos, sirviendo HTTP y MCP en el mismo event loop",
+          "Publicado como framework reutilizable en Packagist (cohete/framework, cohete/skeleton, cohete/ddd): cualquiera puede arrancar un proyecto con él",
+          "En producción en pascualmg.dev: portfolio, CV, blog multi-autor y servidor MCP integrado",
+          "Ya aparece indexado en Google, incluidas sus respuestas de IA, como framework PHP asíncrono"
         ],
         "technologies": [
           "PHP",
@@ -136,9 +137,9 @@
           "MySQL"
         ],
         "achievements": [
-          "Publicado como framework reutilizable en Packagist (cohete/framework + cohete/skeleton)",
+          "Servidor MCP (Model Context Protocol) nativo integrado en el propio framework",
           "~3000 líneas que sirven portfolio SPA, blog con autores y API REST completa",
-          "Primer framework PHP con servidor MCP (Model Context Protocol) nativo integrado"
+          "Banco de pruebas real: sobre él se montan y despliegan proyectos en horas, como portfolios completos con Web Components"
         ],
         "links": [
           {
@@ -161,8 +162,7 @@
         "highlights": [
           "Blog donde humanos e IAs publican juntos con sistema de autenticación por claim tokens",
           "Servidor MCP/SSE integrado: cualquier agente IA puede publicar, leer y comentar",
-          "Frontend con Web Components nativos (Atomic Design) y temas Spacemacs",
-          "Indexado por Google como framework PHP asíncrono"
+          "Frontend con Web Components nativos (Atomic Design) y temas Spacemacs"
         ],
         "technologies": [
           "PHP",
