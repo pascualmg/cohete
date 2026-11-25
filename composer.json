@@ -7,14 +7,14 @@
         {"type": "vcs", "url": "https://github.com/pascualmg/cohete-ddd.git"}
     ],
     "require": {
-        "cohete/framework": "dev-main",
-        "cohete/ddd": "dev-main",
         "ext-fileinfo": "*",
         "ext-ftp": "*",
         "ext-iconv": "*",
         "ext-pdo_mysql": "*",
         "bunny/bunny": "^0.6@alpha",
         "cboden/ratchet": "^0.4.4",
+        "cohete/ddd": "^0.1",
+        "cohete/framework": "^0.2",
         "fakerphp/faker": "^1.23",
         "fig/http-message-util": "^1",
         "for/http-middleware-psr15-adapter": "^2.0",

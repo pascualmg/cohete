@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "80eb08fd54b305bc044d60ed97f57dac",
+    "content-hash": "de34e52640f412521a99b29a8ecf4303",
     "packages": [
         {
             "name": "brick/math",
@@ -528,10 +528,10 @@
         },
         {
             "name": "cohete/ddd",
-            "version": "dev-main",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pascualmg/cohete-ddd.git",
+                "url": "git@github.com:pascualmg/cohete-ddd.git",
                 "reference": "9ed46b087a776c09e9f9a151b90b35b0df6e91e6"
             },
             "dist": {
@@ -548,7 +548,6 @@
                 "phpstan/phpstan": "^2.1",
                 "phpunit/phpunit": "^11.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -578,24 +577,20 @@
                 }
             ],
             "description": "Opinionated DDD building blocks for Cohete",
-            "support": {
-                "source": "https://github.com/pascualmg/cohete-ddd/tree/main",
-                "issues": "https://github.com/pascualmg/cohete-ddd/issues"
-            },
             "time": "2026-03-12T18:14:11+00:00"
         },
         {
             "name": "cohete/framework",
-            "version": "dev-main",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/pascualmg/cohete-framework.git",
-                "reference": "713c7ba6a2c12fc7f5d71557e0967a7317587b02"
+                "url": "git@github.com:pascualmg/cohete-framework.git",
+                "reference": "d96c5a339a4c429d51ebfcf185e73d3f7f76a708"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pascualmg/cohete-framework/zipball/713c7ba6a2c12fc7f5d71557e0967a7317587b02",
-                "reference": "713c7ba6a2c12fc7f5d71557e0967a7317587b02",
+                "url": "https://api.github.com/repos/pascualmg/cohete-framework/zipball/d96c5a339a4c429d51ebfcf185e73d3f7f76a708",
+                "reference": "d96c5a339a4c429d51ebfcf185e73d3f7f76a708",
                 "shasum": ""
             },
             "require": {
@@ -605,7 +600,7 @@
                 "middlewares/client-ip": "^2.0",
                 "monolog/monolog": "^3.5",
                 "nikic/fast-route": "^1.3",
-                "php": ">=8.2",
+                "php": "^8.2",
                 "php-di/php-di": "^7.0",
                 "react/event-loop": "^1.5",
                 "react/http": "^1.9",
@@ -615,7 +610,6 @@
                 "phpstan/phpstan": "^2.1",
                 "phpunit/phpunit": "^11.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -644,12 +638,23 @@
                     "homepage": "https://pascualmg.dev"
                 }
             ],
-            "description": "Async PHP framework built on ReactPHP and RxPHP",
+            "description": "Async PHP micro-framework on ReactPHP: HTTP server, JSON routing, DI container and message bus",
+            "homepage": "https://github.com/pascualmg/cohete-framework",
+            "keywords": [
+                "async",
+                "ddd",
+                "event-loop",
+                "framework",
+                "http-server",
+                "non-blocking",
+                "psr-15",
+                "reactphp"
+            ],
             "support": {
-                "source": "https://github.com/pascualmg/cohete-framework/tree/main",
-                "issues": "https://github.com/pascualmg/cohete-framework/issues"
+                "issues": "https://github.com/pascualmg/cohete-framework/issues",
+                "source": "https://github.com/pascualmg/cohete-framework"
             },
-            "time": "2026-05-02T22:30:21+00:00"
+            "time": "2026-11-25T17:26:01+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -9192,8 +9197,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "bunny/bunny": 15,
-        "cohete/ddd": 20,
-        "cohete/framework": 20,
         "react/mysql": 20,
         "roave/security-advisories": 20
     },
@@ -9208,5 +9211,5 @@
     "platform-dev": {
         "ext-xdebug": "*"
     },
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

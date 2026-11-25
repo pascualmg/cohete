@@ -1,8 +1,6 @@
 <?php
 
 ini_set('memory_limit', '256M');
-ini_set('xdebug.mode', 'debug');
-ini_set('xdebug.start_with_request', 'yes');
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -58,7 +56,7 @@ $bus->subscribe(
 
 // HTTP server
 $routesPath = $_ENV['ROUTES_PATH'];
-$kernel = new Kernel($container, $routesPath);
+$kernel = new Kernel($container, $routesPath, debug: $isDevelopment);
 $staticRoot = __DIR__ . '/ddd/Infrastructure/webserver/html';
 
 ReactHttpServer::init(
