@@ -8,15 +8,35 @@
     "Creador de mi propio framework para APIs RESTful asíncronas con ReactPHP"
   ],
   "technologies": [
-    "PHP", "ReactPHP", "RxPHP", "Symfony", "JavaScript", "TypeScript", "React",
-    "DDD", "CQRS", "TDD", "Event-Driven", "MySQL", "MongoDB", "RabbitMQ",
-    "Docker", "Kubernetes", "Nix Flakes", "Linux", "Git", "Behat", "PHPUnit",
-    "MCP", "Haskell", "NixOS"
+    "PHP",
+    "ReactPHP",
+    "RxPHP",
+    "Symfony",
+    "JavaScript",
+    "TypeScript",
+    "React",
+    "DDD",
+    "CQRS",
+    "TDD",
+    "Event-Driven",
+    "MySQL",
+    "MongoDB",
+    "RabbitMQ",
+    "Docker",
+    "Kubernetes",
+    "Nix Flakes",
+    "Linux",
+    "Git",
+    "Behat",
+    "PHPUnit",
+    "MCP",
+    "Haskell",
+    "NixOS"
   ],
   "education": [
     {
       "title": "Mastering Domain-Driven Design",
-      "detail": "con Carlos Buenos Vinos",
+      "detail": "con Carlos Buenosvinos, en PcComponentes (con diploma)",
       "period": "2020 - 2021"
     },
     {
@@ -26,7 +46,13 @@
     }
   ],
   "languages": [
-    { "name": "Español", "level": "Nativo" },
-    { "name": "Inglés", "level": "Técnico" }
+    {
+      "name": "Español",
+      "level": "Nativo"
+    },
+    {
+      "name": "Inglés",
+      "level": "Técnico"
+    }
   ]
 }
