@@ -80,7 +80,7 @@ class PortfolioElement extends HTMLElement {
         "highlights": [
           "Llevo la IA al día a día del equipo con criterio de veterano: agentes Claude Code en CI, pair-programming asistido y automatización de lo repetitivo, para hacer las cosas mejor, no solo más rápido",
           "Separo lo que aporta de lo que es humo: patrones útiles (MCP, prompt-as-code, evaluación de modelos) y descarte honesto del resto",
-          "Acompaño a los compañeros que entran al ecosistema IA para que lo adopten sin perderse"
+          "Acompaño a los compañeros que entran al ecosistema IA para que lo adopten sin perderse", "Impulso en el equipo las tecnologías que considero clave antes de que sean estándar: Nix para los entornos, Web Components nativos en el front (piloto del buzón de notificaciones) y agentes de IA en el día a día"
         ],
         "technologies": [
           "Claude Code",
