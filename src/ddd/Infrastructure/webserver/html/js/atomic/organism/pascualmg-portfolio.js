@@ -93,8 +93,8 @@ class PortfolioElement extends HTMLElement {
         "name": "Modernización de legacys → IA-ready",
         "role": "Backend Developer",
         "highlights": [
-          "+30 proyectos con entornos de desarrollo reproducibles con Nix, montados con ayuda de IA: arrancar un proyecto deja de costar días",
-          "Subo el estándar de cómo se trabaja en local: el entorno de desarrollo pasa a ser código. Un solo comando (nix run .#dev) levanta todo lo que un proyecto necesita, igual en cualquier máquina, y el desarrollador se olvida de montar entornos para dedicarse a construir. Es la misma filosofía declarativa que los contenedores, así que desarrollo y DevOps comparten una única definición del entorno en vez de mantener dos mundos",
+          "20 proyectos con entornos de desarrollo reproducibles con Nix, montados con ayuda de IA: arrancar un proyecto deja de costar días",
+          "Entornos de desarrollo como código: diseño entornos declarativos (Nix) que cualquier persona o agente de IA levanta con un comando (nix run .#dev) y encuentra completos: servicios enlazados, tests listos para lanzar, depurador y logs a mano. Quitar la fricción del montaje hace que lo que marque la diferencia sea el criterio del desarrollador y el buen uso de la IA. Adoptado por el equipo de Identity",
           "Dejo codebases Symfony legacy IA-ready (AGENTS.md, documentación agnóstica, agente experto residente): el conocimiento deja de morir con quien se va, y un compañero nuevo o un agente puede operar código que nadie sabía cómo iba",
           "Se siguen metiendo features en lo viejo mientras lo nuevo nace con DDD y arquitectura hexagonal, sin reescribir de cero",
           "Migración de endpoints legacy al nuevo core con paridad 100% validada por ATDD cruzado (Behat)",
