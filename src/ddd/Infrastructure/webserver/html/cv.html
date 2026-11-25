@@ -266,6 +266,11 @@
       </section>
 
       <section style="margin-top:7mm">
+        <h2 class="section-title">Proyectos propios</h2>
+        <div id="own-projects"></div>
+      </section>
+
+      <section style="margin-top:7mm">
         <h2 class="section-title">Stack técnico</h2>
         <div class="tech-cloud" id="tech-cloud"></div>
       </section>
@@ -347,12 +352,15 @@
       });
 
       // Experiencia
+      // Lo que es trabajo va con fechas; lo propio (framework, librerías) no es un empleo y va sin duración.
       const exp = document.getElementById("experience");
+      const own = document.getElementById("own-projects");
       timeline.forEach(job => {
+        const propio = job.tipo === "propio";
         const j = el("div", "job");
         const head = el("div", "job-head");
         head.appendChild(el("span", "job-company", job.company));
-        head.appendChild(el("span", "job-dates", `${fmtDate(job.startDate)} — ${fmtDate(job.endDate)}`));
+        if (!propio) head.appendChild(el("span", "job-dates", `${fmtDate(job.startDate)} — ${fmtDate(job.endDate)}`));
         j.appendChild(head);
         j.appendChild(el("div", "job-position", job.position));
         (job.projects || []).forEach(p => {
@@ -374,7 +382,7 @@
           }
           j.appendChild(pr);
         });
-        exp.appendChild(j);
+        (propio ? own : exp).appendChild(j);
       });
 
       // Stack técnico

@@ -90,7 +90,7 @@
     ]
   },
   {
-    "company": "Proyecto Open Source",
+    "company": "Open source",
     "position": "Creador de symfony-command-ui",
     "startDate": "2026-04-14",
     "endDate": null,
@@ -132,10 +132,11 @@
           }
         ]
       }
-    ]
+    ],
+    "tipo": "propio"
   },
   {
-    "company": "Proyecto Personal",
+    "company": "Proyecto propio",
     "position": "Creador de Cohete Framework",
     "startDate": "2023-05-24",
     "endDate": null,
@@ -207,7 +208,8 @@
           }
         ]
       }
-    ]
+    ],
+    "tipo": "propio"
   },
   {
     "company": "Grupo Euroformac",

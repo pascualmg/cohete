@@ -80,7 +80,8 @@ class PortfolioElement extends HTMLElement {
         "highlights": [
           "Llevo la IA al día a día del equipo con criterio de veterano: agentes Claude Code en CI, pair-programming asistido y automatización de lo repetitivo, para hacer las cosas mejor, no solo más rápido",
           "Separo lo que aporta de lo que es humo: patrones útiles (MCP, prompt-as-code, evaluación de modelos) y descarte honesto del resto",
-          "Acompaño a los compañeros que entran al ecosistema IA para que lo adopten sin perderse", "Impulso en el equipo las tecnologías que considero clave antes de que sean estándar: Nix para los entornos, Web Components nativos en el front (piloto del buzón de notificaciones) y agentes de IA en el día a día"
+          "Acompaño a los compañeros que entran al ecosistema IA para que lo adopten sin perderse",
+          "Impulso en el equipo las tecnologías que considero clave antes de que sean estándar: Nix para los entornos, Web Components nativos en el front (piloto del buzón de notificaciones) y agentes de IA en el día a día"
         ],
         "technologies": [
           "Claude Code",
@@ -121,8 +122,16 @@ class PortfolioElement extends HTMLElement {
           {
             "label": "Post: así se monta",
             "url": "https://pascualmg.dev/blog/ambrosio/nix-run-dev-hsts-ca-process-compose"
-          }, {"label": "Post: process-compose a fondo", "url": "https://pascualmg.dev/blog/ambrosio/process-compose-a-fondo"}
-        ], "demo": {"cast": "/casts/entorno-dev.cast", "titulo": "Grabación real: nix run .#check y el panel con todo en Ready (nombres internos sustituidos)"}
+          },
+          {
+            "label": "Post: process-compose a fondo",
+            "url": "https://pascualmg.dev/blog/ambrosio/process-compose-a-fondo"
+          }
+        ],
+        "demo": {
+          "cast": "/casts/entorno-dev.cast",
+          "titulo": "Grabación real: nix run .#check y el panel con todo en Ready (nombres internos sustituidos)"
+        }
       },
       {
         "name": "Webhooks 2.0 - Data Hub Event-Driven",
@@ -150,7 +159,7 @@ class PortfolioElement extends HTMLElement {
     ]
   },
   {
-    "company": "Proyecto Open Source · pascualmg",
+    "company": "Open source · pascualmg",
     "position": "Creador y Mantenedor",
     "startDate": "2023-05-24",
     "projects": [
@@ -262,7 +271,8 @@ class PortfolioElement extends HTMLElement {
           }
         ]
       }
-    ]
+    ],
+    "tipo": "propio"
   },
   {
     "company": "Grupo Euroformac",

@@ -387,11 +387,19 @@ class ExperienceTimeline extends HTMLElement {
                         padding: 6px 14px;
                     }
                 }
+                .own-title {
+                    font-size: 1.4em;
+                    font-weight: bold;
+                    margin: 30px 0 10px;
+                    opacity: .9;
+                }
             </style>
 
             <div class="timeline-container">
                 <div class="timeline">
-                    ${data.map(exp => this.renderExperience(exp)).join('')}
+                    ${data.filter(e => e.tipo !== 'propio').map(exp => this.renderExperience(exp)).join('')}
+                    ${data.some(e => e.tipo === 'propio') ? `<div class="own-title">Proyectos propios</div>` : ''}
+                    ${data.filter(e => e.tipo === 'propio').map(exp => this.renderExperience(exp)).join('')}
                 </div>
             </div>
         `;
@@ -424,14 +432,16 @@ class ExperienceTimeline extends HTMLElement {
     }
 
     renderExperience(exp) {
-        const dateString = this.formatDateRange(exp.startDate, exp.endDate);
-        const duration = this.calculateDuration(exp.startDate, exp.endDate);
+        // Lo propio (framework, librerías) no es un empleo: sin fechas ni duración.
+        const propio = exp.tipo === 'propio';
+        const dateString = propio ? '' : this.formatDateRange(exp.startDate, exp.endDate);
+        const duration = propio ? '' : this.calculateDuration(exp.startDate, exp.endDate);
 
         return `
             <div class="experience">
                 <div class="company">${exp.company}</div>
                 <div class="position">${exp.position}</div>
-                <div class="date">${dateString} ${duration}</div>
+                ${propio ? '' : `<div class="date">${dateString} ${duration}</div>`}
                 <div class="projects">
                     ${exp.projects.map(proj => this.renderProject(proj)).join('')}
                 </div>
