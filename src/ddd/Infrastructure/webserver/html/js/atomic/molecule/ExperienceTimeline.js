@@ -1,3 +1,4 @@
+import "../atom/TerminalCast.js";
 class ExperienceTimeline extends HTMLElement {
     constructor() {
         super();
@@ -474,6 +475,7 @@ class ExperienceTimeline extends HTMLElement {
         <div class="highlights">
           ${proj.highlights.map(highlight => `<div class="item">${highlight}</div>`).join('')}
         </div>
+        ${proj.demo && proj.demo.cast ? `<terminal-cast src="${proj.demo.cast}" titulo="${proj.demo.titulo || ''}" ${proj.demo.linkedin ? `linkedin="${proj.demo.linkedin}"` : ''}></terminal-cast>` : ''}
         <div class="technologies">
           ${proj.technologies.map(tech => `<span class="tech-item">${tech}</span>`).join('')}
         </div>

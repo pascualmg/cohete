@@ -122,7 +122,7 @@ class PortfolioElement extends HTMLElement {
             "label": "Post: así se monta",
             "url": "https://pascualmg.dev/blog/ambrosio/nix-run-dev-hsts-ca-process-compose"
           }
-        ]
+        ], "demo": {"cast": "/casts/entorno-dev.cast", "titulo": "Grabación real: nix run .#check y el panel con todo en Ready (nombres internos sustituidos)"}
       },
       {
         "name": "Webhooks 2.0 - Data Hub Event-Driven",
