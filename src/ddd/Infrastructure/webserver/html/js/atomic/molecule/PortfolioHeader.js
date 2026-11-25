@@ -179,9 +179,6 @@ class PortfolioHeader extends HTMLElement {
             </style>
 
             <section class="portfolio-header">
-                <div class="header-photo">
-                    <img src="https://raw.githubusercontent.com/pascualmg/cdn/main/me.png" alt="Profile picture">
-                </div>
                 <h1 class="header-title">
                     <changing-text texts='[
                         "¡Hola! Soy ",
