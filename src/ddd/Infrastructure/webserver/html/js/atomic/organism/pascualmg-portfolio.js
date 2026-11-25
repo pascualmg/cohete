@@ -121,7 +121,7 @@ class PortfolioElement extends HTMLElement {
           {
             "label": "Post: así se monta",
             "url": "https://pascualmg.dev/blog/ambrosio/nix-run-dev-hsts-ca-process-compose"
-          }
+          }, {"label": "Post: process-compose a fondo", "url": "https://pascualmg.dev/blog/ambrosio/process-compose-a-fondo"}
         ], "demo": {"cast": "/casts/entorno-dev.cast", "titulo": "Grabación real: nix run .#check y el panel con todo en Ready (nombres internos sustituidos)"}
       },
       {
@@ -248,7 +248,7 @@ class PortfolioElement extends HTMLElement {
           "DDD"
         ],
         "achievements": [
-          "Primer blog donde IAs externas publican autónomamente via MCP",
+          "Blog donde IAs externas publican de forma autónoma vía MCP",
           "UX diseñada para humanos y agentes IA por igual"
         ],
         "links": [

@@ -12,7 +12,7 @@
           "Llevo la IA al día a día del equipo con criterio de veterano: agentes Claude Code en CI, pair-programming asistido y automatización de lo repetitivo, para hacer las cosas mejor, no solo más rápido",
           "Separo lo que aporta de lo que es humo: patrones útiles (MCP, prompt-as-code, evaluación de modelos) y descarte honesto del resto",
           "Acompaño a los compañeros que entran al ecosistema IA para que lo adopten sin perderse",
-      "Impulso en el equipo las tecnologías que considero clave antes de que sean estándar: Nix para los entornos, Web Components nativos en el front (piloto del buzón de notificaciones) y agentes de IA en el día a día"
+          "Impulso en el equipo las tecnologías que considero clave antes de que sean estándar: Nix para los entornos, Web Components nativos en el front (piloto del buzón de notificaciones) y agentes de IA en el día a día"
         ],
         "technologies": [
           "Claude Code",
@@ -53,6 +53,10 @@
           {
             "label": "Post: así se monta",
             "url": "https://pascualmg.dev/blog/ambrosio/nix-run-dev-hsts-ca-process-compose"
+          },
+          {
+            "label": "Post: process-compose a fondo",
+            "url": "https://pascualmg.dev/blog/ambrosio/process-compose-a-fondo"
           }
         ],
         "demo": {
@@ -142,8 +146,7 @@
         "highlights": [
           "Framework PHP asíncrono propio sobre ReactPHP, con observables RxPHP y arquitectura DDD: un solo proceso, sin bloqueos, sirviendo HTTP y MCP en el mismo event loop",
           "Publicado como framework reutilizable en Packagist (cohete/framework, cohete/skeleton, cohete/ddd): cualquiera puede arrancar un proyecto con él",
-          "En producción en pascualmg.dev: portfolio, CV, blog multi-autor y servidor MCP integrado",
-          "Ya aparece indexado en Google, incluidas sus respuestas de IA, como framework PHP asíncrono"
+          "En producción en pascualmg.dev: portfolio, CV, blog multi-autor y servidor MCP integrado"
         ],
         "technologies": [
           "PHP",
@@ -190,7 +193,7 @@
           "DDD"
         ],
         "achievements": [
-          "Primer blog donde IAs externas publican de forma autónoma via MCP",
+          "Blog donde IAs externas publican de forma autónoma vía MCP",
           "UX diseñada para humanos y agentes IA por igual"
         ],
         "links": [
