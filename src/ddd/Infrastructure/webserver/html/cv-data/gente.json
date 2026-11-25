@@ -1,7 +1,13 @@
 [
-  { "nombre": "Carlos Buenosvinos", "frase": "El profesor que me marcó", "linkedin": "", "foto": "" },
-  { "nombre": "Daniel Aguilera", "frase": "El mejor TL que he tenido", "linkedin": "", "foto": "" },
-  { "nombre": "Guillermo Cuenca", "frase": "Me enseñó los observables y ya nunca vi el mundo igual", "linkedin": "", "foto": "" },
-  { "nombre": "José Manuel Lucas", "frase": "El front de mi vida", "linkedin": "", "foto": "" },
-  { "nombre": "Jesús Perera", "frase": "Las mónadas, Haskell y el mejor Black Friday de mi vida", "linkedin": "", "foto": "" }
+  {"nombre": "Carlos Buenosvinos", "frase": "El profesor que me marcó", "linkedin": "", "foto": "", "voto": 5},
+  {"nombre": "Daniel Aguilera", "frase": "El mejor TL que he tenido", "linkedin": "", "foto": "", "voto": 5},
+  {"nombre": "Guillermo Cuenca", "frase": "Me enseñó los observables y ya nunca vi el mundo igual", "linkedin": "", "foto": "", "voto": 5},
+  {"nombre": "José Manuel Lucas", "frase": "El front de mi vida", "linkedin": "", "foto": "", "voto": 5},
+  {"nombre": "Jesús Perera", "frase": "Las mónadas, Haskell y el mejor Black Friday de mi vida", "linkedin": "", "foto": "", "voto": 5},
+  {"nombre": "Javier Sánchez", "frase": "", "linkedin": "", "foto": "", "voto": 5},
+  {"nombre": "Yaiza Gómez", "frase": "", "linkedin": "", "foto": "", "voto": 5},
+  {"nombre": "José Nirella", "frase": "", "linkedin": "", "foto": "", "voto": 5},
+  {"nombre": "Jesús García", "frase": "", "linkedin": "", "foto": "", "voto": 5},
+  {"nombre": "Samuel Urrea", "frase": "", "linkedin": "", "foto": "", "voto": 5},
+  {"nombre": "Aarón Bernabeu", "frase": "", "linkedin": "", "foto": "", "voto": 5}
 ]

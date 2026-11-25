@@ -7,7 +7,7 @@ import SocialLinks from "../molecule/SocialLinks.js"
 import AboutThisPortfolio from "../molecule/AboutThisPortfolio.js";
 import YastModal from "../atom/YastModal.js";
 import SoftSkills from "../molecule/SoftSkills.js";
-import GenteFlotante from "../molecule/GenteFlotante.js";
+import HallOfTheFame from "../molecule/HallOfTheFame.js";
 
 class PortfolioElement extends HTMLElement {
   constructor() {
@@ -397,7 +397,7 @@ class PortfolioElement extends HTMLElement {
 
       ></soft-skills>
 
-<gente-flotante src="/cv-data/gente.json"></gente-flotante>
+<hall-of-the-fame src="/cv-data/gente.json"></hall-of-the-fame>
 
 <div class="about-this-portfolio-container">
 <yast-modal button-text="Que tiene de especial este Portfolio" class="custom-button">
