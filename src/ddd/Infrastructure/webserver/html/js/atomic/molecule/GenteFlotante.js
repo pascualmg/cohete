@@ -94,9 +94,9 @@ class GenteFlotante extends HTMLElement {
                     top: 88px; left: 50%;
                     transform: translateX(-50%);
                     width: max-content; max-width: 220px;
-                    background: var(--bg, #fff);
+                    background: var(--head2-bg);
                     color: var(--base);
-                    border: 1px solid var(--border);
+                    border: 2px solid var(--c);
                     border-radius: 10px;
                     padding: 8px 12px;
                     font-size: .9em;
