@@ -198,7 +198,7 @@ class PortfolioHeader extends HTMLElement {
                     Pascual Muñoz Galián
                 </h1>
                 <h2 class="header-title-2">
-                    Backend Engineer · <changing-text texts='["PHP/Symfony", "ReactPHP async", "MCP servers", "AI tooling"]'></changing-text>
+                    Fullstack Engineer · <changing-text texts='["PHP/Symfony", "ReactPHP async", "Web Components + RxJS", "MCP servers", "AI tooling"]'></changing-text>
                 </h2>
                 <h3 class="header-title-3">
                     <changing-text

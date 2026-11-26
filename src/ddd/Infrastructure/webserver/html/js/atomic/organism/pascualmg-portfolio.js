@@ -255,6 +255,7 @@ class PortfolioElement extends HTMLElement {
           "MCP",
           "SSE",
           "Web Components",
+          "RxJS",
           "DDD"
         ],
         "achievements": [
