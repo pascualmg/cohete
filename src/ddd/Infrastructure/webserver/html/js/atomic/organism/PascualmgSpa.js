@@ -1,4 +1,4 @@
-import './pascualmg-portfolio.js';
+import './pascualmg-portfolio.js?v=20261127';
 import './ThemeToogler.js';
 import '../molecule/SocialLinks.js';
 
