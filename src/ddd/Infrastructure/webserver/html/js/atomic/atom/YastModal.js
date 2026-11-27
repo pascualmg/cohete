@@ -13,7 +13,9 @@ class YastModal extends HTMLElement {
         this.buttonText = this.getAttribute('button-text') || 'Pulsa aquí';
         this.render();
         this.shadowRoot.querySelector('button').addEventListener('click', () => this.toggleModal());
-        this.shadowRoot.querySelector('.modal-background').addEventListener('click', () => this.toggleModal());
+        // Clic en el fondo (fuera del contenido) cierra el modal
+        const container = this.shadowRoot.querySelector('.modal-container');
+        container.addEventListener('click', (e) => { if (e.target === container) this.toggleModal(); });
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
