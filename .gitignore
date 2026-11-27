@@ -12,3 +12,6 @@ phinx.php
 
 # CV: datos sensibles locales (no publicar)
 src/ddd/Infrastructure/webserver/html/cv-data/*.local.json
+
+# Borradores privados (no al repo público): se suben a mano al servidor
+src/ddd/Infrastructure/webserver/html/borradores/
